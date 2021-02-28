@@ -1,0 +1,87 @@
+﻿<!-- 
+//*********************************************************
+// Copyright (c) Jeff Kubitz - hot3dx. All rights reserved,
+// This code is licensed under the MIT License (MIT).
+// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
+// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
+// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
+// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
+//
+//*********************************************************
+-->
+
+<Page x:ConnectionId='1'
+    x:Class="Hot3dxRotoDraw.Scenario6_ColorPicker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Hot3dxRotoDraw"
+    xmlns:controls="Windows.UI.Xaml.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid x:ConnectionId='2' x:Name="RootGrid" Margin="0,0,0,0">
+
+        <StackPanel x:ConnectionId='3' x:Name="panel" HorizontalAlignment="Left" Height="600" Width="500" Margin="0,-150,0,0">
+            <StackPanel HorizontalAlignment="Left" Margin="0,0,0,0" Height="650" Width="420" Grid.RowSpan="2" Background="LightGreen">
+                <ColorPicker x:ConnectionId='17' x:Name="colorPicker" 
+                HorizontalAlignment="Left"
+                                                                                             
+                                                                                                             
+                                                                                       
+                                                                                 
+                                                                                             
+                                                                                                   
+                Width="300" Height="650" 
+                RenderTransformOrigin="0,0" />
+                <Rectangle x:ConnectionId='18' x:Name="previewRect" Height="50" Width="140" Margin="200,-130,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                           StrokeThickness="1"
+                           Stroke="{ThemeResource TextControlBorderBrush}" RadiusX="0" RadiusY="0">
+                    <Rectangle.Fill>
+                        <SolidColorBrush x:ConnectionId='19'                                                      />
+                    </Rectangle.Fill>
+                </Rectangle>
+                <TextBlock Text="Color on a Rectangle" IsColorFontEnabled="True" Width="131" Height="20" Margin="200,-130,0,0" 
+                HorizontalAlignment="Left"/>
+            </StackPanel>
+            <StackPanel Width="105" Height="455" Margin="80,-668" Background="LightGreen" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <StackPanel Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" >
+                    <CheckBox x:ConnectionId='14' Content="IsMoreButtonVisible" x:Name="moreBtn" FontSize="8" IsChecked="True" />
+                    <CheckBox x:ConnectionId='15' Content="IsColorSliderVisible" x:Name="colorSlider"  FontSize="8" Height="2" IsChecked="True" />
+                    <CheckBox x:ConnectionId='16' Content="IsColorChannelTextInputVisible" x:Name="colorChannelInput"  FontSize="8" IsChecked="True" />
+                </StackPanel>
+                <StackPanel Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Height="100" >
+                    <CheckBox x:ConnectionId='11' Content="IsHexInputVisible" x:Name="hexInput" FontSize="8"  IsChecked="True" />
+                    <CheckBox x:ConnectionId='12' Content="IsAlphaTextInputVisible" x:Name="alphaTextInput"  FontSize="8" 
+                                                                                                 IsChecked="True" />
+                    <CheckBox x:ConnectionId='13' Content="IsAlphaSliderVisible" x:Name="alphaSlider" FontSize="8" IsChecked="True"
+                                                                                                 />
+                </StackPanel>
+                <StackPanel Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <CheckBox x:ConnectionId='4' Content="Alpha Enabled" x:Name="alpha"  FontSize="8" IsChecked="True" />
+                    <TextBlock Text="Materials" />
+                    <CheckBox x:ConnectionId='5' x:Name="m_frontColor" Content="IsFrontColor" FontSize="8"  IsChecked="False" Height="32" Width="50"                             />
+                    <Rectangle x:ConnectionId='6' x:Name="ColorFrontRect" Height="64" Width="64" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                           StrokeThickness="1"
+                           Stroke="{ThemeResource TextControlBorderBrush}" RadiusX="0" RadiusY="0">
+                        <Rectangle.Fill>
+                            <SolidColorBrush x:ConnectionId='10'                                                      />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <CheckBox x:ConnectionId='7' x:Name="m_backColor" Content="IsBackColor" FontSize="8"  Margin="10,0,0,0"  IsChecked="False" Width="50"                            />
+                    <Rectangle x:ConnectionId='8' x:Name="ColorBackRect" Height="64" Width="64" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                           StrokeThickness="1"
+                           Stroke="{ThemeResource TextControlBorderBrush}" RadiusX="0" RadiusY="0">
+                        <Rectangle.Fill>
+                            <SolidColorBrush x:ConnectionId='9'                                                      />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                 </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>
+
+
