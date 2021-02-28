@@ -1,0 +1,31 @@
+﻿<Page
+    x:Class="Hot3dxRotoDraw.Scenario10_Sculpt"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Hot3dxRotoDraw"
+    xmlns:controls="Windows.UI.Xaml.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid x:Name="RootGrid" Margin="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="HeaderPanel" HorizontalAlignment="Left" Height="550" Width="400" Margin="0,0,0,0" VerticalAlignment="Top" Background="Green">
+            <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
+            <TextBlock x:Name="IDC_DESCRIPTION_STATIC" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Sculpt Data Area" VerticalAlignment="Top" RenderTransformOrigin="0.667,-11.258" TextDecorations="Underline"/>
+
+            <TextBlock x:Name="m_sculptText" HorizontalAlignment="Left" Margin="0,5,0,0" TextWrapping="Wrap" Text="Sculpt Topics"/>
+            <TextBox x:Name="m_sculptTextBox" Text="Sculpt Topics" TextWrapping="Wrap" RenderTransformOrigin="0.455,-1.562" TextChanged="SculptTextBox_TextChanged" Height="90"/>
+            <TextBlock x:Name="m_sculptFilesText" HorizontalAlignment="Left" Margin="0,5,0,0" TextWrapping="Wrap" Text="Sculpt Files"/>
+            <TextBox x:Name="m_sculptFilesTextBox" Text="Sculpt Files" TextWrapping="Wrap" RenderTransformOrigin="0.455,-1.562" TextChanged="SculptFilesTextBox_TextChanged" Height="460"/>
+
+        </StackPanel>
+    </Grid>
+</Page>
+
