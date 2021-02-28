@@ -28,7 +28,7 @@ Currently only uses, ,dds files for textures
 Setup for pen, mouse, or touchpad. a pen is best
 
 
-![Image49](https://github.com/hot3dx/RotoDraw3D-DirectX-12/ScreenShot/Screenshot49.png)
-![Image50](https://github.com/hot3dx/RotoDraw3D-DirectX-12/ScreenShot/Screenshot50.png)
-![Image51](https://github.com/hot3dx/RotoDraw3D-DirectX-12/ScreenShot/Screenshot51.png)
-![Image52](https://github.com/hot3dx/RotoDraw3D-DirectX-12/ScreenShot/Screenshot52.png)
+![Step 1: Set Colors](https://github.com/hot3dx/RotoDraw3D-DirectX-12/blob/main/ScreenShot/Screenshot49.png)
+![Step 2: Set Textures](https://github.com/hot3dx/RotoDraw3D-DirectX-12/blob/main/ScreenShot/Screenshot50.png)
+![Step 3: Set Point Color and Draw](https://github.com/hot3dx/RotoDraw3D-DirectX-12/blob/main/ScreenShot/Screenshot51.png)
+![Step 4: Set PointsButton](https://github.com/hot3dx/RotoDraw3D-DirectX-12/blob/main/ScreenShot/Screenshot52.png)
