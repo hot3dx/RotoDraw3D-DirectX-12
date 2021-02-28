@@ -13,7 +13,7 @@ and whatever else we can think up like XBox
 
 Oh yes there are no help files yet but everything is numbered by steps
 
-only draws one single object!  /which would be meant to transfer to a scene editor
+only draws one single object! Which would be meant to transfer to a scene editor
 
 Currently only uses, ,dds files for textures
 
