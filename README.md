@@ -27,6 +27,6 @@ Setup for pen, mouse, or touchpad. a pen is best
 
 
 ![](https://github.com/hot3dx/RotoDraw3D-DirectX-12/ScreenShot/Screenshot49.png)
-![](https://github.com/hot3dx/RotoDraw3D-DirectX-12/Screenshot/Screenshot50.png)
-![](https://github.com/hot3dx/RotoDraw3D-DirectX-12/Screenshot/Screenshot51.png)
-![](https://github.com/hot3dx/RotoDraw3D-DirectX-12/Screenshot/Screenshot52.png)
+![](https://github.com/hot3dx/RotoDraw3D-DirectX-12/ScreenShot/Screenshot50.png)
+![](https://github.com/hot3dx/RotoDraw3D-DirectX-12/ScreenShot/Screenshot51.png)
+![](https://github.com/hot3dx/RotoDraw3D-DirectX-12/ScreenShot/Screenshot52.png)
