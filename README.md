@@ -1,3 +1,5 @@
+# - uploading is not yet finished - expected finish 2/27/21- #
+
 # RotoDraw3D-DirectX-12 #
 RotoDraw3d DX 12 is a freehand symmetrical object drawer for DirectX 12
 
@@ -17,7 +19,7 @@ only draws one single object! Which would be meant to transfer to a scene editor
 
 Currently only uses, ,dds files for textures
 
-# This project requires: #
+# This project requires: My DirectXToolkitXaml12 # 
 ## 1) at least 8 gb ram ##
 ## 2)intel hd graphics or a DirectX 12 capable graphics card ##
 ## 3) WinPixEventRuntime version=1.0.210209001 nuget package ##
@@ -26,7 +28,7 @@ Currently only uses, ,dds files for textures
 Setup for pen, mouse, or touchpad. a pen is best
 
 
-![](https://github.com/hot3dx/RotoDraw3D-DirectX-12/ScreenShot/Screenshot49.png)
-![](https://github.com/hot3dx/RotoDraw3D-DirectX-12/ScreenShot/Screenshot50.png)
-![](https://github.com/hot3dx/RotoDraw3D-DirectX-12/ScreenShot/Screenshot51.png)
-![](https://github.com/hot3dx/RotoDraw3D-DirectX-12/ScreenShot/Screenshot52.png)
+![Image49](https://github.com/hot3dx/RotoDraw3D-DirectX-12/ScreenShot/Screenshot49.png)
+![Image50](https://github.com/hot3dx/RotoDraw3D-DirectX-12/ScreenShot/Screenshot50.png)
+![Image51](https://github.com/hot3dx/RotoDraw3D-DirectX-12/ScreenShot/Screenshot51.png)
+![Image52](https://github.com/hot3dx/RotoDraw3D-DirectX-12/ScreenShot/Screenshot52.png)
