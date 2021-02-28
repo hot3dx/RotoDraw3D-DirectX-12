@@ -26,4 +26,7 @@ Currently only uses, ,dds files for textures
 Setup for pen, mouse, or touchpad. a pen is best
 
 
-![](https://github.com/hot3dx/RotoDraw3D-DirectX-12/Screenshot (49).png)
+![](https://github.com/hot3dx/RotoDraw3D-DirectX-12/Screenshot49.png)
+![](https://github.com/hot3dx/RotoDraw3D-DirectX-12/Screenshot50.png)
+![](https://github.com/hot3dx/RotoDraw3D-DirectX-12/Screenshot51.png)
+![](https://github.com/hot3dx/RotoDraw3D-DirectX-12/Screenshot52.png)
