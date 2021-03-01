@@ -1,10 +1,10 @@
-# - uploading is not yet finished - expected finish 2/27/21- #
+# - uploading is finished - 3/1/21- #
 
 # RotoDraw3D-DirectX-12 #
 RotoDraw3d DX 12 is a freehand symmetrical object drawer for DirectX 12
 
 ## Visual Studio 2019 C++ 17 build 19041 tools 142 Windows 10 v 20H2 ##
-
+## supported Win32 Debug/Release - x64 Debug/Release
 #Draw One Line! Press the Button!
 
 # by: Hot3dx, Jeff Kubitz #
@@ -19,7 +19,7 @@ only draws one single object! Which would be meant to transfer to a scene editor
 
 Currently only uses, ,dds files for textures
 
-# This project requires: My DirectXToolkitXaml12 # 
+# This project requires: My DirectXToolkitXaml12 - also finished # 
 ## 1) at least 8 gb ram ##
 ## 2)intel hd graphics or a DirectX 12 capable graphics card ##
 ## 3) WinPixEventRuntime version=1.0.210209001 nuget package ##
@@ -32,3 +32,5 @@ Setup for pen, mouse, or touchpad. a pen is best
 ![Step 2: Set Textures](https://github.com/hot3dx/RotoDraw3D-DirectX-12/blob/main/ScreenShot/Screenshot50.png)
 ![Step 3: Set Point Color and Draw](https://github.com/hot3dx/RotoDraw3D-DirectX-12/blob/main/ScreenShot/Screenshot51.png)
 ![Step 4: Set PointsButton](https://github.com/hot3dx/RotoDraw3D-DirectX-12/blob/main/ScreenShot/Screenshot52.png)
+
+200 point MAXIMUM on Single First LINE! @360 lines!
