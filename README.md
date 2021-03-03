@@ -33,4 +33,6 @@ Setup for pen, mouse, or touchpad. a pen is best
 ![Step 3: Set Point Color and Draw](https://github.com/hot3dx/RotoDraw3D-DirectX-12/blob/main/ScreenShot/Screenshot51.png)
 ![Step 4: Set PointsButton](https://github.com/hot3dx/RotoDraw3D-DirectX-12/blob/main/ScreenShot/Screenshot52.png)
 
+## KNOWN ISSUES ##
 200 point MAXIMUM on Single First LINE! @360 lines!
+Failure of all necessary files to copy into AppX\Assets\ or AppX\Assets\Textures\ manually copy if that happens
