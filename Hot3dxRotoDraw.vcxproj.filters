@@ -50,6 +50,12 @@
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
+    <Filter Include="Assets\Models">
+      <UniqueIdentifier>{9a5af407-1181-4193-a926-8302a2bff548}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Textures">
+      <UniqueIdentifier>{32cb827e-a070-4e90-b272-7fa055a7ac02}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -222,6 +228,54 @@
     </Image>
     <Image Include="Assets\Hot3dxRotoDraw-DirectXToolKitXaml12-Sample-App.png">
       <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Textures\Marble.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\MarbleClouds.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\metal_texture.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\nightceiling.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\nightfloor.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\nightwall.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\noise.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\normal.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\normal_offline_bc5.DDS">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\normal_offline_bc7.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\opaque_512.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\opaque_512_offline_bc1.DDS">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\opaque_512_offline_bc7.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\Pillar.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\scanner.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\seafloor.dds">
+      <Filter>Assets\Textures</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
