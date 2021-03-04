@@ -34,5 +34,6 @@ Setup for pen, mouse, or touchpad. a pen is best
 ![Step 4: Set PointsButton](https://github.com/hot3dx/RotoDraw3D-DirectX-12/blob/main/ScreenShot/Screenshot52.png)
 
 ## KNOWN ISSUES ##
-200 point MAXIMUM on Single First LINE! @360 lines!
-Failure of all necessary files to copy into AppX\Assets\ or AppX\Assets\Textures\ manually copy if that happens
+- 200 point MAXIMUM on Single First LINE! @360 lines!
+- Failure of all necessary files to copy into AppX\Assets\ or AppX\Assets\Textures\ manually copy if that happens
+- SegoeUI_18.spritefont does not copy from assets to AppX/Assets and must be manually copied or an invokewatson exception results in vccorlib
