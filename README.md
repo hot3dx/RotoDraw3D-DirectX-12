@@ -7,7 +7,9 @@ RotoDraw3d DX 12 is a freehand symmetrical object drawer for DirectX 12
 ## supported Win32 Debug/Release - x64 Debug/Release
 #Draw One Line! Press the Button!
 
-# by: Hot3dx, Jeff Kubitz #
+# 
+By:
+![Ico](https://github.com/hot3dx/AppXamlDX12/blob/master/Assets/AutoDraw2.ico) Jeff Kubitz #
 
 This really is close to finished the only things left to go are to hook up a few 
 of the UI Xaml features, finish adding the Sculpt Feature, Save Files to other formats like fbx, dae, obj, sdkmesh2,
