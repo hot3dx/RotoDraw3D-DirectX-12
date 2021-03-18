@@ -103,8 +103,6 @@ namespace Hot3dxRotoDraw
 		void XM_CALLCONV ClearDrawnObject();
 		void ScreenMouse3DWorldAlignment();
 		void XM_CALLCONV PointDataValues(unsigned int number, float x, float y, float z);
-		Platform::String^ XM_CALLCONV PointDataValuesReturn(unsigned int number, float x, float y, float z, float nx, float ny, float nz, float tu, float tv);
-		Platform::String^ XM_CALLCONV IndicesDataValuesReturn(unsigned int number, uint16_t a, uint16_t b, uint16_t c);
 		Platform::String^ XM_CALLCONV PointCountString(Platform::String^ m_fontString, Platform::String^ objectString, unsigned int cnt);
 		Platform::String^ XM_CALLCONV ObjectXYZPositionString(Platform::String^ m_fontString, Platform::String^ objectString, float x, float y, float z);
 
@@ -189,10 +187,24 @@ namespace Hot3dxRotoDraw
 			StringCbPrintf(dest, 100, str, GetMouseWidthRatio(), GetMouseHeightRatio());
 			//OutputDebugString(dest);
 		}
-
+		// .txt and .hbin file readers
 		Platform::String^ DrawnObjectOpenText();
 		Platform::String^ DrawnObjectOpenBinary();
-		Platform::String^ DrawnObjectSaveText();
+
+		// .mtl file writer
+		Platform::String^ DrawnObjectSaveObj3DandMtl(
+			Platform::String^ effectName,
+			unsigned int illumType,
+			Platform::String^ mtlObjFilename,
+			Platform::String^ textureFilename );
+		// .obj file writer
+		Platform::String^ DrawnObjectSaveObjFile(
+			Platform::String^ mtlObjFilename, 
+			Platform::String^ nodeName,
+			Platform::String^ effectName);
+
+		// .txt and .hbin file writers
+		Platform::String^ DrawnObjectSaveText(Platform::String^ fileName, unsigned int objectCount);
 		Platform::String^ DrawnObjectSaveBinary();
 
 		// Texture Filename Accessors
