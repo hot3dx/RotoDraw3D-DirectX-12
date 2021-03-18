@@ -35,12 +35,13 @@ namespace Hot3dxRotoDraw
 
         DirectXPage^ _rootPage;
         bool                            _initialized = false;
-        
+        Windows::Storage::StorageFile^ mtlFilename;
         
         void New_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void Open_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         Windows::Storage::Streams::IBuffer^ GetBufferFromString(Platform::String^ str);
         void Save_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void Save_Obj_Material_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void SaveAs_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void SaveAll_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void Save_Texture_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
