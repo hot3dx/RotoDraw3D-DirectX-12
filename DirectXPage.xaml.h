@@ -226,8 +226,23 @@ namespace Hot3dxRotoDraw
 		Platform::String^ GetSceneRenderDrawnObjectOpenBinary() {
 			return m_main->GetSceneRenderer()->DrawnObjectOpenBinary();
 		}
-		Platform::String^ GetSceneRenderDrawnObjectSaveText() {
-			return m_main->GetSceneRenderer()->DrawnObjectSaveText();
+		Platform::String^ GetSceneRenderDrawnObjectSaveText(Platform::String^ fileName, unsigned int objectCount) {
+			return m_main->GetSceneRenderer()->DrawnObjectSaveText(fileName, objectCount);
+		}
+		Platform::String^ GetSceneRenderDrawnObjectSaveObj3DandMtl(Platform::String^ effectName,
+			unsigned int illumType,
+			Platform::String^ mtlObjFilename,
+			Platform::String^ textureFilename)
+		{
+			return m_main->GetSceneRenderer()->DrawnObjectSaveObj3DandMtl(effectName, 2, mtlObjFilename, textureFilename);
+		}
+		Platform::String^ GetSceneRenderDrawnObjectSaveObj3DFile(Platform::String^ mtlObjFilename,
+			Platform::String^ nodeName,
+			Platform::String^ effectName)
+		{
+			return m_main->GetSceneRenderer()->DrawnObjectSaveObjFile(mtlObjFilename,
+				nodeName,
+				effectName);
 		}
 		Platform::String^ GetSceneRenderDrawnObjectSaveBinary() {
 			return m_main->GetSceneRenderer()->DrawnObjectSaveBinary();
