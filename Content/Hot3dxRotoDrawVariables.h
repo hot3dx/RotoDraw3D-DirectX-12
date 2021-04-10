@@ -145,7 +145,7 @@ namespace Hot3dxRotoDraw
 			float ar[14] = { 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 
 			// initialize materials with ar[] values
-			for (int i = 0; i < 14; i++)
+			for (unsigned int i = 0; i < 14; i++)
 			{
 				args1->set(i, ar[i]);
 				args2->set(i, ar[1]);
@@ -155,7 +155,7 @@ namespace Hot3dxRotoDraw
 			fCount2 = 0;
 
 			wchar_t* fn = L"NONE1";
-			for (int i = 0; i < 10; i++)
+			for (unsigned int i = 0; i < 10; i++)
 			{
 				wcfileName1->set(i, fn[i]);
 			}
@@ -170,12 +170,12 @@ namespace Hot3dxRotoDraw
 			nCount2 = 0;
 
 			wchar_t* fn1 = L"NONE1";
-			for (int i = 0; i < 10; i++)
+			for (unsigned int i = 0; i < 10; i++)
 			{
 				matName1->set(i, fn1[i]);
 			}
 			fn1 = L"NONE2";
-			for (int i = 0; i < 10; i++)
+			for (unsigned int i = 0; i < 10; i++)
 			{
 				matName2->set(i, fn1[i]);
 			}
