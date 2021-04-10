@@ -63,7 +63,7 @@ namespace Hot3dxRotoDraw
 	{
 	public:
 		Hot3dxRotoDrawMain(const std::shared_ptr<DX::DeviceResources>& deviceResources);
-		~Hot3dxRotoDrawMain();
+		virtual ~Hot3dxRotoDrawMain();
 		void CreateWindowSizeDependentResources();
 		void CreateDeviceDependentResources();
 		void Update();
