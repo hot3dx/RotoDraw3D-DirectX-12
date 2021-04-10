@@ -68,7 +68,7 @@ namespace Hot3dxRotoDraw
         void LoadDefaultImage2();
         void LoadChosenImage2();
 
-        void Hot3dxRotoDraw::Scenario5_MatsTexs::SetMaterialTypesStrings();
+        void SetMaterialTypesStrings();
         void SetSingleMaterialTypesStringListboxItem(Platform::Object^ sender, unsigned int i,
             MaterialList const& s, MaterialTypes m,
             Windows::UI::Xaml::Controls::TextBlock^ textBlock);
