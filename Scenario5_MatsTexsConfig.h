@@ -6,6 +6,7 @@
 namespace Hot3dxRotoDraw
 {
     value struct MaterialList;
+    value struct MaterialType;
 
     partial ref class Scenario5_MatsTexs
     {
