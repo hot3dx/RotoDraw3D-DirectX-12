@@ -30,7 +30,7 @@ namespace DX
 			}
 
 			// Initialize max delta to 1/10 of a second.
-			m_qpcMaxDelta = m_qpcFrequency.QuadPart / 10;
+			m_qpcMaxDelta = (unsigned long long)m_qpcFrequency.QuadPart / 10;
 		}
 
 		// Get elapsed time since the previous Update call.
@@ -139,7 +139,7 @@ namespace DX
 			}
 			m_currentTime = currentTime;
 
-			m_deltaTime = (m_currentTime.QuadPart - m_previousTime.QuadPart) * m_secondsPerCount;
+			m_deltaTime = (float)(m_currentTime.QuadPart - m_previousTime.QuadPart) * m_secondsPerCount;
 			m_previousTime = m_currentTime;
 
 			if (m_deltaTime < 0.0)

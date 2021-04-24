@@ -3,6 +3,7 @@
 #include "pch.h"
 #include <ppltasks.h>	// For create_task
 #include <strsafe.h>
+#include <corecrt_math.h>
 
 typedef unsigned char mybyte;
 
@@ -53,7 +54,7 @@ namespace DX
 	// Converts a length in device-independent pixels (DIPs) to a length in physical pixels.
 	inline float ConvertDipsToPixels(float dips, float dpi)
 	{
-		static const float dipsPerInch = 96.0f;
+		static const float dipsPerInch = dpi;
 		return floorf(dips * dpi / dipsPerInch + 0.5f); // Round to nearest integer.
 	}
 

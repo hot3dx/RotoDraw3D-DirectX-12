@@ -102,32 +102,30 @@ DX::DeviceResources::DeviceResources(DXGI_FORMAT backBufferFormat,
 	unsigned int flags) noexcept(false) :
 	m_isSwapPanelVisible(false),
 	m_backBufferIndex(0),
-	//m_currentFrame(0),
-	m_screenViewport(),
-	m_scissorRect{},
-	m_rtvDescriptorSize(0),
-	m_fenceEvent(0),
 	m_backBufferFormat(backBufferFormat),
 	m_depthBufferFormat(depthBufferFormat),
 	m_backBufferCount(backBufferCount),
-	m_fenceValues{},
-	m_d3dRenderTargetSize(),
-	m_d3dFeatureLevel(minFeatureLevel),
-	m_window(nullptr),
-	m_d3dMinFeatureLevel(D3D_FEATURE_LEVEL_11_0),
-	m_rotation(DXGI_MODE_ROTATION_IDENTITY),
+	m_screenViewport(),
+	m_scissorRect{},
+	m_rtvDescriptorSize(0),
+	m_deviceRemoved(false),
 	m_dxgiFactoryFlags(0),
+	m_fenceValues{},
+	m_window(nullptr),
+	m_d3dRenderTargetSize(),
 	m_outputSize(),
-	m_outputSizeRect{ 0,0,1,1 },
 	m_logicalSize(),
 	m_nativeOrientation(DisplayOrientations::None),
 	m_currentOrientation(DisplayOrientations::None),
-	m_orientationTransform3D(ScreenRotation::Rotation0),
 	m_dpi(-1.0f),
-	m_effectiveDpi(-1.0f),
+	m_d3dMinFeatureLevel(D3D_FEATURE_LEVEL_11_0),
+	m_d3dFeatureLevel(minFeatureLevel),
+	m_rotation(DXGI_MODE_ROTATION_IDENTITY),
+	m_outputSizeRect{ 0,0,1,1 },
 	m_colorSpace(DXGI_COLOR_SPACE_RGB_FULL_G22_NONE_P709),
 	m_options(flags),
-	m_deviceRemoved(false)
+	m_effectiveDpi(-1.0f), 
+	m_orientationTransform3D(ScreenRotation::Rotation0)
 {
 	if (backBufferCount > MAX_BACK_BUFFER_COUNT)
 	{
@@ -397,8 +395,8 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 	m_d3dRenderTargetSize.Width = swapDimensions ? m_outputSize.Height : m_outputSize.Width;
 	m_d3dRenderTargetSize.Height = swapDimensions ? m_outputSize.Width : m_outputSize.Height;
 
-	UINT backBufferWidth = lround(m_d3dRenderTargetSize.Width);
-	UINT backBufferHeight = lround(m_d3dRenderTargetSize.Height);
+	UINT backBufferWidth = (UINT)lround(m_d3dRenderTargetSize.Width);
+	UINT backBufferHeight = (UINT)lround(m_d3dRenderTargetSize.Height);
 
 	if (m_swapChain != nullptr)
 	{
@@ -680,6 +678,7 @@ void DX::DeviceResources::HandleDeviceLost()
 	}
 #endif
 
+	//CreateWindowSizeDependentResources(); // added 4/23/21 16:57 
 	CreateDeviceResources();
 	CreateWindowSizeDependentResources();
 
@@ -888,7 +887,7 @@ void DX::DeviceResources::Present(D3D12_RESOURCE_STATES beforeState)
 }
 
 // Wait for pending GPU work to complete.
-void DX::DeviceResources::WaitForGpu()
+void DX::DeviceResources::WaitForGpu() noexcept
 {
 
 	if (m_commandQueue && m_fence && m_fenceEvent != nullptr)//;.IsValid())
@@ -896,16 +895,18 @@ void DX::DeviceResources::WaitForGpu()
 		// Schedule a Signal command in the GPU queue.
 		UINT64 fenceValue = m_fenceValues[m_backBufferIndex];
 		m_fenceValue = fenceValue;
-		DX::ThrowIfFailed(m_commandQueue->Signal(m_fence.Get(), m_fenceValues[m_backBufferIndex]));
-
-		// Wait until the Signal has been processed.
-		DX::ThrowIfFailed(m_fence->SetEventOnCompletion(m_fenceValues[m_backBufferIndex], m_fenceEvent));
-		WaitForSingleObjectEx(m_fenceEvent, INFINITE, FALSE);
-
-		// Increment the fence value for the current frame.
-		m_fenceValues[m_backBufferIndex]++;
-
-
+		//DX::ThrowIfFailed(m_commandQueue->Signal(m_fence.Get(), m_fenceValues[m_backBufferIndex]));
+		if (SUCCEEDED(m_commandQueue->Signal(m_fence.Get(), m_fenceValues[m_backBufferIndex])))
+		{
+			// Wait until the Signal has been processed.
+			//DX::ThrowIfFailed(m_fence->SetEventOnCompletion(m_fenceValues[m_backBufferIndex], m_fenceEvent));
+			if (SUCCEEDED(m_fence->SetEventOnCompletion(m_fenceValues[m_backBufferIndex], m_fenceEvent)))
+			{
+				WaitForSingleObjectEx(m_fenceEvent, INFINITE, FALSE);
+				// Increment the fence value for the current frame.
+				m_fenceValues[m_backBufferIndex]++;
+			}
+		}
 	}
 }
 
@@ -1007,7 +1008,7 @@ DXGI_MODE_ROTATION DX::DeviceResources::ComputeDisplayRotation()
 			rotation = DXGI_MODE_ROTATION_ROTATE180;
 			break;
 		}
-		break;
+	    break;
 	}
 	return rotation;
 }

@@ -19,6 +19,9 @@ namespace DX
 	{
 		virtual void OnDeviceLost() = 0;
 		virtual void OnDeviceRestored() = 0;
+	protected:
+		~IDeviceNotify() = default;
+
 	};
 
 	//static const UINT c_frameCount = 3;		// Use triple buffering.
@@ -48,7 +51,7 @@ namespace DX
 		void HandleDeviceLost();
 		void Prepare(D3D12_RESOURCE_STATES beforeState = D3D12_RESOURCE_STATE_PRESENT);
 		void Present(D3D12_RESOURCE_STATES beforeState = D3D12_RESOURCE_STATE_RENDER_TARGET);
-		void WaitForGpu();
+		void WaitForGpu() noexcept;
 		void SetCompositionScale(float compositionScaleX, float compositionScaleY);
 		void Trim();
 		void RegisterDeviceNotify(IDeviceNotify* deviceNotify);
@@ -182,8 +185,8 @@ namespace DX
 		Microsoft::WRL::ComPtr<IDWriteTextFormat>       m_textFormat;
 		Microsoft::WRL::ComPtr<IDWriteTextFormat>       m_smallTextFormat;
 
-		D3D_FEATURE_LEVEL                                   m_d3dFeatureLevel;
 		D3D_FEATURE_LEVEL                                   m_d3dMinFeatureLevel;
+		D3D_FEATURE_LEVEL                                   m_d3dFeatureLevel;
 		DXGI_MODE_ROTATION                                  m_rotation;
 		RECT                                                m_outputSizeRect;
 
