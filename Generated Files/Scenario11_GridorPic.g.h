@@ -13,8 +13,11 @@ namespace Windows {
             namespace Controls {
                 ref class Grid;
                 ref class StackPanel;
-                ref class Button;
                 ref class TextBlock;
+                ref class TextBox;
+                ref class CheckBox;
+                ref class Image;
+                ref class Button;
             }
         }
     }
@@ -23,7 +26,7 @@ namespace Windows {
 namespace Hot3dxRotoDraw
 {
     [::Windows::Foundation::Metadata::WebHostHidden]
-    partial ref class Scenario3_FileIO : public ::Windows::UI::Xaml::Controls::Page, 
+    partial ref class Scenario11_GridorPic : public ::Windows::UI::Xaml::Controls::Page, 
         public ::Windows::UI::Xaml::Markup::IComponentConnector,
         public ::Windows::UI::Xaml::Markup::IComponentConnector2
     {
@@ -39,19 +42,19 @@ namespace Hot3dxRotoDraw
     private:
         bool _contentLoaded;
     
-        class Scenario3_FileIO_obj1_Bindings;
+        class Scenario11_GridorPic_obj1_Bindings;
     
         private: ::Windows::UI::Xaml::Controls::Grid^ RootGrid;
-        private: ::Windows::UI::Xaml::Controls::StackPanel^ panel;
-        private: ::Windows::UI::Xaml::Controls::StackPanel^ panel1;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_New_BUTTON3;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_OPEN_BUTTON3;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_SAVE_BUTTON3;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_SAVE_OBJ_MTL_BUTTON3;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_SAVEAS_BUTTON3;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_SAVEALL_BUTTON3;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_SAVE_TEXTURE_BUTTON3;
+        private: ::Windows::UI::Xaml::Controls::StackPanel^ HeaderPanel;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ IDC_DESCRIPTION_STATIC;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ m_gridorPicText;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ m_gridorPicTextBox;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ m_gridorPicFilesText;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ m_gridorPicFilesTextBox;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_GRID_OR_PIC_CHECKBOX;
+        private: ::Windows::UI::Xaml::Controls::Image^ PicTextureImage1;
+        private: ::Windows::UI::Xaml::Controls::Button^ IDC_PIC_TEXTURE_IMAGE1_BUTTON;
+        private: ::Windows::UI::Xaml::Controls::Button^ IDC_SHOW_BACKGROUND_PIC_BUTTON;
     };
 }
 

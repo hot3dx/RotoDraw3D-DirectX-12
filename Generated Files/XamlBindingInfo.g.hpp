@@ -101,6 +101,10 @@ void ::XamlBindingInfo::XamlBindings::Recycle()
     this->_pBindings->Recycle();
 }
 
+void ::XamlBindingInfo::XamlBindings::Disable(int lineNumber, int columnNumber)
+{
+    this->_pBindings->Disable(lineNumber, columnNumber);
+}
 
 ::Windows::UI::Xaml::Markup::IComponentConnector^ ::XamlBindingInfo::XamlBindings::GetBindingConnector(int connectionId, ::Platform::Object^ target)
 {

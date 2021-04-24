@@ -52,30 +52,88 @@ public:
     {
         switch(__connectionId)
         {
-            case 9: // Scenario6_ColorPicker.xaml line 78
+            case 9: // Scenario6_ColorPicker.xaml line 89
                 this->obj9 = safe_cast<::Windows::UI::Xaml::Media::SolidColorBrush^>(__target);
                 break;
-            case 10: // Scenario6_ColorPicker.xaml line 70
+            case 10: // Scenario6_ColorPicker.xaml line 81
                 this->obj10 = safe_cast<::Windows::UI::Xaml::Media::SolidColorBrush^>(__target);
                 break;
-            case 12: // Scenario6_ColorPicker.xaml line 57
+            case 12: // Scenario6_ColorPicker.xaml line 68
                 this->obj12 = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
                 break;
-            case 13: // Scenario6_ColorPicker.xaml line 59
+            case 13: // Scenario6_ColorPicker.xaml line 70
                 this->obj13 = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
                 break;
-            case 17: // Scenario6_ColorPicker.xaml line 29
+            case 17: // Scenario6_ColorPicker.xaml line 39
                 this->obj17 = safe_cast<::Windows::UI::Xaml::Controls::ColorPicker^>(__target);
                 break;
-            case 19: // Scenario6_ColorPicker.xaml line 43
+            case 19: // Scenario6_ColorPicker.xaml line 55
                 this->obj19 = safe_cast<::Windows::UI::Xaml::Media::SolidColorBrush^>(__target);
                 break;
+        }
+    }
+
+    void Disable(int lineNumber, int columnNumber)
+    {
+        if (lineNumber == 89 && columnNumber == 46)
+        {
+            isobj9ColorDisabled = true;
+        }
+        else if (lineNumber == 81 && columnNumber == 46)
+        {
+            isobj10ColorDisabled = true;
+        }
+        else if (lineNumber == 69 && columnNumber == 37)
+        {
+            isobj12IsEnabledDisabled = true;
+        }
+        else if (lineNumber == 71 && columnNumber == 37)
+        {
+            isobj13IsEnabledDisabled = true;
+        }
+        else if (lineNumber == 41 && columnNumber == 17)
+        {
+            isobj17IsColorSliderVisibleDisabled = true;
+        }
+        else if (lineNumber == 42 && columnNumber == 17)
+        {
+            isobj17IsColorChannelTextInputVisibleDisabled = true;
+        }
+        else if (lineNumber == 43 && columnNumber == 17)
+        {
+            isobj17IsHexInputVisibleDisabled = true;
+        }
+        else if (lineNumber == 44 && columnNumber == 17)
+        {
+            isobj17IsAlphaEnabledDisabled = true;
+        }
+        else if (lineNumber == 45 && columnNumber == 17)
+        {
+            isobj17IsAlphaSliderVisibleDisabled = true;
+        }
+        else if (lineNumber == 46 && columnNumber == 17)
+        {
+            isobj17IsAlphaTextInputVisibleDisabled = true;
+        }
+        else if (lineNumber == 55 && columnNumber == 42)
+        {
+            isobj19ColorDisabled = true;
         }
     }
 
     void DisconnectUnloadedObject(int connectionId)
     {
         throw ref new ::Platform::InvalidArgumentException("No unloadable elements to disconnect.");
+    }
+
+    void Recycle()
+    {
+        return;
+    }
+
+    void ProcessBindings(::Platform::Object^ item, int itemIndex, int phase, int* nextPhase)
+    {
+        *nextPhase = -1;
     }
 
 private:
@@ -86,6 +144,19 @@ private:
     ::Windows::UI::Xaml::Controls::CheckBox^ obj13;
     ::Windows::UI::Xaml::Controls::ColorPicker^ obj17;
     ::Windows::UI::Xaml::Media::SolidColorBrush^ obj19;
+
+    // Static fields for each binding's enabled/disabled state
+    static bool isobj9ColorDisabled;
+    static bool isobj10ColorDisabled;
+    static bool isobj12IsEnabledDisabled;
+    static bool isobj13IsEnabledDisabled;
+    static bool isobj17IsColorSliderVisibleDisabled;
+    static bool isobj17IsColorChannelTextInputVisibleDisabled;
+    static bool isobj17IsHexInputVisibleDisabled;
+    static bool isobj17IsAlphaEnabledDisabled;
+    static bool isobj17IsAlphaSliderVisibleDisabled;
+    static bool isobj17IsAlphaTextInputVisibleDisabled;
+    static bool isobj19ColorDisabled;
     
     // Fields for binding tracking.
     ::Windows::UI::Xaml::DependencyObject^ cacheDPC_colorPicker_Color = nullptr;
@@ -135,12 +206,21 @@ private:
     {
         if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
         {
-            // Scenario6_ColorPicker.xaml line 78
-            Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this->obj9, obj);
-            // Scenario6_ColorPicker.xaml line 70
-            Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this->obj10, obj);
-            // Scenario6_ColorPicker.xaml line 43
-            Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this->obj19, obj);
+            // Scenario6_ColorPicker.xaml line 89
+            if (!isobj9ColorDisabled)
+            {
+                Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this->obj9, obj);
+            }
+            // Scenario6_ColorPicker.xaml line 81
+            if (!isobj10ColorDisabled)
+            {
+                Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this->obj10, obj);
+            }
+            // Scenario6_ColorPicker.xaml line 55
+            if (!isobj19ColorDisabled)
+            {
+                Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this->obj19, obj);
+            }
         }
     }
     void Update_alpha(::Windows::UI::Xaml::Controls::CheckBox^ obj, int phase)
@@ -168,12 +248,21 @@ private:
     {
         if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
         {
-            // Scenario6_ColorPicker.xaml line 57
-            Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this->obj12, obj);
-            // Scenario6_ColorPicker.xaml line 59
-            Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this->obj13, obj);
-            // Scenario6_ColorPicker.xaml line 29
-            Set_Windows_UI_Xaml_Controls_ColorPicker_IsAlphaEnabled(this->obj17, obj);
+            // Scenario6_ColorPicker.xaml line 68
+            if (!isobj12IsEnabledDisabled)
+            {
+                Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this->obj12, obj);
+            }
+            // Scenario6_ColorPicker.xaml line 70
+            if (!isobj13IsEnabledDisabled)
+            {
+                Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this->obj13, obj);
+            }
+            // Scenario6_ColorPicker.xaml line 39
+            if (!isobj17IsAlphaEnabledDisabled)
+            {
+                Set_Windows_UI_Xaml_Controls_ColorPicker_IsAlphaEnabled(this->obj17, obj);
+            }
         }
     }
     void Update_colorSlider(::Windows::UI::Xaml::Controls::CheckBox^ obj, int phase)
@@ -201,8 +290,11 @@ private:
     {
         if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
         {
-            // Scenario6_ColorPicker.xaml line 29
-            Set_Windows_UI_Xaml_Controls_ColorPicker_IsColorSliderVisible(this->obj17, obj);
+            // Scenario6_ColorPicker.xaml line 39
+            if (!isobj17IsColorSliderVisibleDisabled)
+            {
+                Set_Windows_UI_Xaml_Controls_ColorPicker_IsColorSliderVisible(this->obj17, obj);
+            }
         }
     }
     void Update_colorChannelInput(::Windows::UI::Xaml::Controls::CheckBox^ obj, int phase)
@@ -230,8 +322,11 @@ private:
     {
         if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
         {
-            // Scenario6_ColorPicker.xaml line 29
-            Set_Windows_UI_Xaml_Controls_ColorPicker_IsColorChannelTextInputVisible(this->obj17, obj);
+            // Scenario6_ColorPicker.xaml line 39
+            if (!isobj17IsColorChannelTextInputVisibleDisabled)
+            {
+                Set_Windows_UI_Xaml_Controls_ColorPicker_IsColorChannelTextInputVisible(this->obj17, obj);
+            }
         }
     }
     void Update_hexInput(::Windows::UI::Xaml::Controls::CheckBox^ obj, int phase)
@@ -259,8 +354,11 @@ private:
     {
         if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
         {
-            // Scenario6_ColorPicker.xaml line 29
-            Set_Windows_UI_Xaml_Controls_ColorPicker_IsHexInputVisible(this->obj17, obj);
+            // Scenario6_ColorPicker.xaml line 39
+            if (!isobj17IsHexInputVisibleDisabled)
+            {
+                Set_Windows_UI_Xaml_Controls_ColorPicker_IsHexInputVisible(this->obj17, obj);
+            }
         }
     }
     void Update_alphaSlider(::Windows::UI::Xaml::Controls::CheckBox^ obj, int phase)
@@ -288,8 +386,11 @@ private:
     {
         if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
         {
-            // Scenario6_ColorPicker.xaml line 29
-            Set_Windows_UI_Xaml_Controls_ColorPicker_IsAlphaSliderVisible(this->obj17, obj);
+            // Scenario6_ColorPicker.xaml line 39
+            if (!isobj17IsAlphaSliderVisibleDisabled)
+            {
+                Set_Windows_UI_Xaml_Controls_ColorPicker_IsAlphaSliderVisible(this->obj17, obj);
+            }
         }
     }
     void Update_alphaTextInput(::Windows::UI::Xaml::Controls::CheckBox^ obj, int phase)
@@ -317,8 +418,11 @@ private:
     {
         if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
         {
-            // Scenario6_ColorPicker.xaml line 29
-            Set_Windows_UI_Xaml_Controls_ColorPicker_IsAlphaTextInputVisible(this->obj17, obj);
+            // Scenario6_ColorPicker.xaml line 39
+            if (!isobj17IsAlphaTextInputVisibleDisabled)
+            {
+                Set_Windows_UI_Xaml_Controls_ColorPicker_IsAlphaTextInputVisible(this->obj17, obj);
+            }
         }
     }
 
@@ -446,6 +550,19 @@ private:
     }
 };
 
+    // Initializing static fields for each binding's enabled/disabled state
+bool Hot3dxRotoDraw::Scenario6_ColorPicker::Scenario6_ColorPicker_obj1_Bindings::isobj9ColorDisabled = false;
+bool Hot3dxRotoDraw::Scenario6_ColorPicker::Scenario6_ColorPicker_obj1_Bindings::isobj10ColorDisabled = false;
+bool Hot3dxRotoDraw::Scenario6_ColorPicker::Scenario6_ColorPicker_obj1_Bindings::isobj12IsEnabledDisabled = false;
+bool Hot3dxRotoDraw::Scenario6_ColorPicker::Scenario6_ColorPicker_obj1_Bindings::isobj13IsEnabledDisabled = false;
+bool Hot3dxRotoDraw::Scenario6_ColorPicker::Scenario6_ColorPicker_obj1_Bindings::isobj17IsColorSliderVisibleDisabled = false;
+bool Hot3dxRotoDraw::Scenario6_ColorPicker::Scenario6_ColorPicker_obj1_Bindings::isobj17IsColorChannelTextInputVisibleDisabled = false;
+bool Hot3dxRotoDraw::Scenario6_ColorPicker::Scenario6_ColorPicker_obj1_Bindings::isobj17IsHexInputVisibleDisabled = false;
+bool Hot3dxRotoDraw::Scenario6_ColorPicker::Scenario6_ColorPicker_obj1_Bindings::isobj17IsAlphaEnabledDisabled = false;
+bool Hot3dxRotoDraw::Scenario6_ColorPicker::Scenario6_ColorPicker_obj1_Bindings::isobj17IsAlphaSliderVisibleDisabled = false;
+bool Hot3dxRotoDraw::Scenario6_ColorPicker::Scenario6_ColorPicker_obj1_Bindings::isobj17IsAlphaTextInputVisibleDisabled = false;
+bool Hot3dxRotoDraw::Scenario6_ColorPicker::Scenario6_ColorPicker_obj1_Bindings::isobj19ColorDisabled = false;
+
 void ::Hot3dxRotoDraw::Scenario6_ColorPicker::Connect(int __connectionId, ::Platform::Object^ __target)
 {
     switch (__connectionId)
@@ -546,6 +663,7 @@ void ::Hot3dxRotoDraw::Scenario6_ColorPicker::Connect(int __connectionId, ::Plat
                 bindings = ref new ::XamlBindingInfo::XamlBindings(objBindings);
                 this->Bindings = bindings;
                 element1->Loading += ref new ::Windows::Foundation::TypedEventHandler<::Windows::UI::Xaml::FrameworkElement^, ::Platform::Object^>(bindings, &::XamlBindingInfo::XamlBindings::Loading);
+                ::Windows::UI::Xaml::Markup::XamlBindingHelper::SetDataTemplateComponent(element1, bindings);
             }
             break;
     }

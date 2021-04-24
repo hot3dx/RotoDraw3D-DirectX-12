@@ -191,54 +191,44 @@ void ::Hot3dxRotoDraw::Scenario5_MatsTexs::Connect(int __connectionId, ::Platfor
         break;
     case 33:
         {
-            this->IDC_OTHERS_SLIDER = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
+            this->ID_COLOR_ADD_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
         }
         break;
     case 34:
         {
-            this->IDC_D3DMATERIAL_DISPLAY = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+            this->scrollBar = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
         }
         break;
     case 35:
         {
-            this->ID_COLOR_ADD_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
-        }
-        break;
-    case 36:
-        {
-            this->scrollBar = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
-        }
-        break;
-    case 37:
-        {
             this->TextureImage1 = safe_cast<::Windows::UI::Xaml::Controls::Image^>(__target);
         }
         break;
-    case 38:
+    case 36:
         {
             this->IDC_TEXTURE_IMAGE1_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_TEXTURE_IMAGE1_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario5_MatsTexs::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario5_MatsTexs::IDC_TEXTURE_IMAGE1_BUTTON_Click);
         }
         break;
-    case 39:
+    case 37:
         {
             this->IDC_TEXTURE_IMAGE2_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_TEXTURE_IMAGE2_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario5_MatsTexs::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario5_MatsTexs::IDC_TEXTURE_IMAGE2_BUTTON_Click);
         }
         break;
-    case 40:
+    case 38:
         {
             this->TextureImage2 = safe_cast<::Windows::UI::Xaml::Controls::Image^>(__target);
         }
         break;
-    case 41:
+    case 39:
         {
             this->matName = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
         }
         break;
-    case 42:
+    case 40:
         {
             this->rgba_A = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
         }

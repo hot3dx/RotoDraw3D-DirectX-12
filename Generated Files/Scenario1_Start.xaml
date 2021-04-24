@@ -21,26 +21,20 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid x:ConnectionId='2' x:Name="RootGrid" Margin="0,-20,0,0">
+    <Grid x:ConnectionId='2' x:Name="RootGrid" Margin="0,0,0,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="500" MinHeight="521"/>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"  MaxHeight="50"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel x:ConnectionId='3' x:Name="HeaderPanel" Margin="0,20,0,0" HorizontalAlignment="Left" Height="500" Width="400" VerticalAlignment="Center" Background="Green">
+        <StackPanel x:ConnectionId='3' x:Name="HeaderPanel" Margin="0,0,0,0" HorizontalAlignment="Left" Height="600" Width="500" VerticalAlignment="Center" Background="Green">
             <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
             <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap" Text="Settings to Initialize Sound and the 3D World" FontSize="13.333"/>
 
-            <!-- Status Block for providing messages to the user.  Use the
-             NotifyUser() method to populate the message -->
-            <Border x:ConnectionId='4' x:Name="ErrorBorder" Background="Red" Grid.Row="2"/>
-            <TextBlock x:ConnectionId='5' x:Name="StatusBlock" Grid.Row="2" Margin="12, 0, 12, 0" Visibility="Visible"/>
-
+           
             <!-- Always give ComboBoxes and Sliders names that are accessible to a screen reader.
              In this case, reference the labeling TextBlocks to have the accessible names set 
              on the ComboBoxes and Sliders. -->
             <!--StackPanel Height="500"  Grid.Row ="1"-->
-            <StackPanel HorizontalAlignment="Left" Height="440" Margin="0,0,0,0" Width="300" RequestedTheme="Default" Background="Green" Grid.Row="1">
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Height="440" Margin="0,-0,0,0" Width="300" RequestedTheme="Default" Background="Green" Grid.Row="1">
                 <TextBlock x:ConnectionId='9' x:Name="SwitchMenuSidesTextBlock" HorizontalAlignment="Left" Margin="185,20,0,0" TextWrapping="Wrap" Text="Reverse theMenu/Drawing Side by pressing:" Width="111" Height="75"/>
                 <TextBlock x:ConnectionId='10' x:Name="textBlock2" TextWrapping="Wrap" Text="Speed of Orbit in Seconds" Margin="10,0,0,0"/>
                 <Button x:ConnectionId='11' Content="Left Menus"                               Margin="185,10,0,0" Width="90" VerticalAlignment="Top"/>
@@ -72,6 +66,11 @@
                 <TextBlock x:ConnectionId='7' Text="2" x:Name="text6Block2" />
                 <TextBlock x:ConnectionId='8' Text="3" x:Name="text6Block3" />
             </StackPanel>
+            <!-- Status Block for providing messages to the user.  Use the
+             NotifyUser() method to populate the message -->
+            <Border x:ConnectionId='4' x:Name="ErrorBorder" Background="Red" Grid.Row="1"/>
+            <TextBlock x:ConnectionId='5' x:Name="StatusBlock" Text="Hello" Grid.Row="1" Margin="0,0,0,0" Visibility="Visible" VerticalAlignment="Bottom"/>
+
         </StackPanel>
     </Grid>
 </Page>

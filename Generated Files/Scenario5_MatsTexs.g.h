@@ -76,8 +76,6 @@ namespace Hot3dxRotoDraw
         private: ::Windows::UI::Xaml::Controls::TextBlock^ textBlock13;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ textBlock14;
         private: ::Windows::UI::Xaml::Controls::Slider^ IDC_POWER_SLIDER;
-        private: ::Windows::UI::Xaml::Controls::Slider^ IDC_OTHERS_SLIDER;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ IDC_D3DMATERIAL_DISPLAY;
         private: ::Windows::UI::Xaml::Controls::Button^ ID_COLOR_ADD_BUTTON;
         private: ::Windows::UI::Xaml::Controls::Slider^ scrollBar;
         private: ::Windows::UI::Xaml::Controls::Image^ TextureImage1;

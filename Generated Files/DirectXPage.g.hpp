@@ -64,7 +64,7 @@ void ::Hot3dxRotoDraw::DirectXPage::Connect(int __connectionId, ::Platform::Obje
         {
             ::Windows::UI::Xaml::Controls::Primitives::ToggleButton^ element8 = safe_cast<::Windows::UI::Xaml::Controls::Primitives::ToggleButton^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Primitives::ToggleButton^>(element8))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::DirectXPage::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&DirectXPage::Button_Click);
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&DirectXPage::Toggle_Button_Click);
         }
         break;
     case 9:
@@ -75,6 +75,8 @@ void ::Hot3dxRotoDraw::DirectXPage::Connect(int __connectionId, ::Platform::Obje
     case 10:
         {
             this->Hot3dxRotoDraw3DX12 = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(this->Hot3dxRotoDraw3DX12))->SelectionChanged += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::DirectXPage::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&DirectXPage::Hot3dxRotoDraw3DX12_SelectionChanged);
         }
         break;
     case 11:

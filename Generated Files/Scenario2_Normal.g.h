@@ -15,9 +15,9 @@ namespace Windows {
                 ref class StackPanel;
                 ref class Border;
                 ref class TextBlock;
+                ref class CheckBox;
                 ref class TextBox;
                 ref class Slider;
-                ref class CheckBox;
                 ref class Button;
             }
         }
@@ -59,6 +59,7 @@ namespace Hot3dxRotoDraw
         private: ::Windows::UI::Xaml::Controls::Border^ ErrorBorder;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ StatusBlock;
         private: ::Windows::UI::Xaml::Controls::StackPanel^ left;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_BACKGROUND_DRAW_CHECKBOX;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ IDC_POINT_SPACE_STATIC;
         private: ::Windows::UI::Xaml::Controls::TextBox^ PointSpacingTextBox;
         private: ::Windows::UI::Xaml::Controls::Slider^ IDC_SLIDER;

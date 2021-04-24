@@ -19,14 +19,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,0,0" Height="570" Width="500">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid x:ConnectionId='2' x:Name="RootGrid" Margin="0,-150,0,0" CanBeScrollAnchor="True" Height="570" Width="500" HorizontalAlignment="Left" Background="Green">
+    <Grid x:ConnectionId='2' x:Name="RootGrid" Margin="0,0,0,0" Background="#FF0B8D0B">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MinHeight="570"/>
-            <RowDefinition/>
             <RowDefinition Height="Auto"/>
+            
         </Grid.RowDefinitions>
+
         <TextBox x:ConnectionId='3' x:Name="IDC_PALETTE_FILE_NAME_EDIT" HorizontalAlignment="Left" Margin="1,5,0,0" Text="Palette FileName" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="115" FontSize="9"/>
         <TextBox x:ConnectionId='4' x:Name="textBox" HorizontalAlignment="Left" Margin="118,5,0,0" Text="Sample Edit Filename Box" VerticalAlignment="Top" Width="380" Height="25" FontSize="9"/>
         <TextBlock x:ConnectionId='5' x:Name="filePath1TextBlock" HorizontalAlignment="Left" Margin="1,38,0,0" Text="FilePath:1" VerticalAlignment="Top" Height="34" Width="80" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"/>
@@ -51,8 +51,8 @@
                  SelectionMode="Single" HorizontalAlignment="Left" Background="Transparent" BorderThickness="0"
                  VerticalAlignment="Top" Margin="1,310,0,0" Width="59" Height="252" SingleSelectionFollowsFocus="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Hidden" CanBeScrollAnchor="True">
 
-            <ListBoxItem x:ConnectionId='41' x:Name="matName" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="59"/>
-            <ListBoxItem x:ConnectionId='42' x:Name="rgba_A" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="59"/>
+            <ListBoxItem x:ConnectionId='39' x:Name="matName" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="59"/>
+            <ListBoxItem x:ConnectionId='40' x:Name="rgba_A" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="59"/>
             <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
             <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
             <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
@@ -95,7 +95,7 @@
             <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
             <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
         </ListBox>
-        <TextBlock x:ConnectionId='25' x:Name="textBlock12" HorizontalAlignment="Center" Margin="0,426,0,0" Text="FileName" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="132"/>
+        <TextBlock x:ConnectionId='25' x:Name="textBlock12" Margin="180,433,0,0" Text="FileName" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Height="19" Width="127"/>
         <Button x:ConnectionId='26' x:Name="IDC_NAME_SET_BUTTON" Content="==Set Name" Margin="182,280,0,0" VerticalAlignment="Top" Height="32" Width="100"/>
         <TextBox x:ConnectionId='27' x:Name="IDC_NAME_SET_EDIT" HorizontalAlignment="Left" Margin="180,320,0,0" Text="Enter Name" VerticalAlignment="Top" Width="100" Height="32"/>
         <Button x:ConnectionId='28' x:Name="IDC_TEXTURE_FILENAME_BUTTON" Content="Texture Name" Margin="182,360,0,0" VerticalAlignment="Top" Height="25" Width="100" FontSize="10"/>
@@ -103,14 +103,12 @@
         <TextBlock x:ConnectionId='30' x:Name="textBlock13" HorizontalAlignment="Left" Margin="180,495,0,0" Text="Power" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="38"/>
         <TextBlock x:ConnectionId='31' x:Name="textBlock14" HorizontalAlignment="Left" Margin="321,495,0,0" Text="Others" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="41"/>
         <Slider x:ConnectionId='32' x:Name="IDC_POWER_SLIDER" HorizontalAlignment="Left" Margin="227,490,0,0" VerticalAlignment="Top" Width="82" Height="25" Background="Yellow"/>
-        <Slider x:ConnectionId='33' x:Name="IDC_OTHERS_SLIDER" HorizontalAlignment="Left" Margin="371,490,0,0" VerticalAlignment="Top" Width="82" Height="25" Background="Yellow"/>
-        <TextBlock x:ConnectionId='34' x:Name="IDC_D3DMATERIAL_DISPLAY" HorizontalAlignment="Left" Margin="458,705,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="256" Width="256" FocusVisualPrimaryBrush="White" Foreground="White"/>
-        <Button x:ConnectionId='35' x:Name="ID_COLOR_ADD_BUTTON" Content="Add Custom Colors" Margin="181,460,0,0" VerticalAlignment="Top" Height="25" Width="115" FontSize="10"/>
-        <Slider x:ConnectionId='36'  x:Name="scrollBar" HorizontalAlignment="Left" Margin="180,520,0,0" VerticalAlignment="Top" Width="300" Height="25" Background="Yellow" Orientation="Horizontal"/>
-        <Image x:ConnectionId='37' x:Name="TextureImage1" HorizontalAlignment="Left" Height="150" Margin="318,114,0,0" VerticalAlignment="Top" Width="150"/>
-        <Button x:ConnectionId='38' x:Name="IDC_TEXTURE_IMAGE1_BUTTON" Content="Add Texture 1" Margin="318,270,0,0" VerticalAlignment="Top" Height="30" Width="135"                                        />
-        <Button x:ConnectionId='39' x:Name="IDC_TEXTURE_IMAGE2_BUTTON" Content="Add Texture 2" Margin="318,305,0,0" VerticalAlignment="Top" Height="30" Width="135"                                        />
-        <Image x:ConnectionId='40' x:Name="TextureImage2" HorizontalAlignment="Left" Height="150" Margin="318,338,0,0" VerticalAlignment="Top" Width="150"/>
+        <Button x:ConnectionId='33' x:Name="ID_COLOR_ADD_BUTTON" Content="Add Custom Colors" Margin="181,460,0,0" VerticalAlignment="Top" Height="25" Width="115" FontSize="10"/>
+        <Slider x:ConnectionId='34'  x:Name="scrollBar" HorizontalAlignment="Left" Margin="180,520,0,0" VerticalAlignment="Top" Width="300" Height="25" Background="Yellow" Orientation="Horizontal"/>
+        <Image x:ConnectionId='35' x:Name="TextureImage1" HorizontalAlignment="Left" Height="100" Margin="318,114,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:ConnectionId='36' x:Name="IDC_TEXTURE_IMAGE1_BUTTON" Content="Add-Texture 1" Margin="318,220,0,0" VerticalAlignment="Top" Height="30" Width="103"                                        />
+        <Button x:ConnectionId='37' x:Name="IDC_TEXTURE_IMAGE2_BUTTON" Content="Add-Texture 2" Margin="318,251,0,0" VerticalAlignment="Top" Height="30" Width="103"                                        />
+        <Image x:ConnectionId='38' x:Name="TextureImage2" HorizontalAlignment="Left" Height="100" Margin="318,288,0,0" VerticalAlignment="Top" Width="100"/>
 
     </Grid>
 </Page>
