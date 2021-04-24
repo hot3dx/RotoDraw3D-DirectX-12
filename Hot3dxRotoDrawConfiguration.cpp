@@ -17,6 +17,6 @@ Platform::Array<Scenario>^ DirectXPage::scenariosInner = ref new Platform::Array
     { "SphereDraw", "Hot3dxRotoDraw.Scenario7_SphereDraw" },
     { "Sculpt", "Hot3dxRotoDraw.Scenario10_Sculpt" },
     { "Help", "Hot3dxRotoDraw.Scenario8_Help" },
-    { "Something2", "Hot3dxRotoDraw.Scenario_Something2" },
+    { "Grid or Pic", "Hot3dxRotoDraw.Scenario11_GridorPic" },
     { "Something3", "Hot3dxRotoDraw.Scenario_Something3" }
 };

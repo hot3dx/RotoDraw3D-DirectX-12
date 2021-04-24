@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel x:Name="HeaderPanel" HorizontalAlignment="Left" Height="550" Width="400" Margin="0,0,0,0" VerticalAlignment="Top" Background="Green">
+        <StackPanel x:Name="HeaderPanel" HorizontalAlignment="Left" Height="600" Width="500" Margin="0,0,0,0" VerticalAlignment="Top" Background="Green">
             <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
             <TextBlock x:Name="IDC_DESCRIPTION_STATIC" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Sculpt Data Area" VerticalAlignment="Top" RenderTransformOrigin="0.667,-11.258" TextDecorations="Underline"/>
 

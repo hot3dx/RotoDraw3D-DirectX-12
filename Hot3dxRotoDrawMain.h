@@ -38,24 +38,6 @@
 #include <Audio\MediaReaderXaml12.h>
 #include <Graphics\Hot3dxGeometry.h>
 
-/* In Project > Hot3dxRotoDraw Properties > Configuration Properties > Linker > All Options > Additional Options
-// This line is for x64//Debug
-// /WHOLEARCHIVE:C://Users//hot3dx-home//Source//Repos//Xaml//DirectXToolKitXaml12//x64//Debug//DirectXToolKitXaml12//DirectXToolKitXaml12.lib %(AdditionalOptions)
-// This line is for x64//Release
-// /WHOLEARCHIVE:C://Users//hot3dx-home//Source//Repos//Xaml//DirectXToolKitXaml12//x64//Release//DirectXToolKitXaml12//DirectXToolKitXaml12.lib %(AdditionalOptions)
-// This line is for x86(Win32)//Debug
-// /WHOLEARCHIVE:C://Users//hot3dx-home//Source//Repos//Xaml//DirectXToolKitXaml12//Debug//DirectXToolKitXaml12//DirectXToolKitXaml12.lib %(AdditionalOptions)
-// This line is for x86(Win32)//Release
-// /WHOLEARCHIVE:C://Users//hot3dx-home//Source//Repos//Xaml//DirectXToolKitXaml12//Release//DirectXToolKitXaml12//DirectXToolKitXaml12.lib %(AdditionalOptions)
-// Each Path is different for each compiled and loinked library
-// This switch removes warning LNK4264 caused by 
-// In Project > Hot3dxRotoDraw Properties > Configuration Properties > C++ > All Options > Consume Windows Runtime Extensions 
-// Yes(/ZW) option
-*/
-
-
-//#include "Content\SampleFpsTextRenderer.h"
-
 // Renders Direct2D and 3D content on the screen.
 namespace Hot3dxRotoDraw
 {
@@ -111,7 +93,7 @@ namespace Hot3dxRotoDraw
 		void KeyUp(Windows::System::VirtualKey key);
 
 		DX::StepTimer GetTimer() { return m_timer; }
-
+				
 	private:
 		// Process all input from the user before updating game state
 		void ProcessInput();

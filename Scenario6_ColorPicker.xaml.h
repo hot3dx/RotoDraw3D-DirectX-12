@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "Scenario6_ColorPicker.g.h"
+#include "Generated Files\Scenario6_ColorPicker.g.h"
 #include "DirectXPage.xaml.h"
 #include "Hot3dxRotoDrawConfiguration.h"
 #include <Generated Files\Scenario6_ColorPicker.g.h>

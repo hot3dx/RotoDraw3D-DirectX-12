@@ -44,18 +44,19 @@ Scenario2_Normal::Scenario2_Normal() : _rootPage(DirectXPage::Current)
     InitializeComponent();
     Scenario2Vars^ vars = _rootPage->m_Scene2Vars;
     _rootPage->NotifyUser("Stopped", NotifyType::StatusMessage);
-    IDC_ROTATION_EDIT->Text = L"10";
+    IDC_ROTATION_EDIT->Text = L"70";
     m_pointColor = { 255,125,125,0 };
     IDC_POINT_SPACE_STATIC->Text = "0.300000f";
     PointSpacingTextBox->Text = "0.300000f";
-    PartialRotateTextBox->Text = "1.0f";
-    vars->SetPartialRotateAngle(1.0f);
+    PartialRotateTextBox->Text = "0.0f";
+    vars->SetPartialRotateAngle(0.0f);
     vars->SetOpenOrClosedChecked(true);
     m_bAxisChecked = true;
     vars->SetAxisChecked(m_bAxisChecked);
     m_bTopOrLeftChecked = false;
     vars->SetTopOrLeftChecked(m_bTopOrLeftChecked);
     m_bBottomOrRightChecked = false;
+    m_bBackgroundDrawChecked = false;
     vars->SetBottomOrRightChecked(false);
    Scenario2_Normal::Current = this;
    _rootPage->m_Scene2Vars->SetScenario2Page(this);
@@ -72,8 +73,10 @@ Scenario2_Normal::~Scenario2_Normal()
 void Hot3dxRotoDraw::Scenario2_Normal::OnNavigatedTo(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e)
 {
     Scenario2_Normal::Current = this;
-    IDC_TOP_OR_LEFT_CHECKBOX->IsChecked = false;// (nullptr, false);
-    IDC_BOTTOM_OR_RIGHT_CHECKBOX->IsChecked = false;
+    IDC_AXIS_CHECKBOX->IsChecked = m_bAxisChecked;
+    IDC_TOP_OR_LEFT_CHECKBOX->IsChecked = m_bTopOrLeftChecked;
+    IDC_BOTTOM_OR_RIGHT_CHECKBOX->IsChecked = m_bBottomOrRightChecked;
+    IDC_BACKGROUND_DRAW_CHECKBOX->IsChecked = m_bBackgroundDrawChecked;
     _rootPage->m_Scene2Vars->SetScenario2Page(this);
 }
 
@@ -125,17 +128,19 @@ void Scenario2_Normal::IDC_CLEAR_BUTTON_Click(Platform::Object^ sender, Windows:
 {
     Scenario2Vars^ vars = _rootPage->m_Scene2Vars;
     _rootPage->NotifyUser("New Page", NotifyType::StatusMessage);
-    IDC_ROTATION_EDIT->Text = L"10";
+    IDC_ROTATION_EDIT->Text = L"70";
     m_pointColor = { 255,125,125,0 };
     IDC_POINT_SPACE_STATIC->Text = "0.300000f";
     PointSpacingTextBox->Text = "0.300000f";
-    PartialRotateTextBox->Text = "1.0f";
+    PartialRotateTextBox->Text = "0.0f";
     m_bAxisChecked = true;
     vars->SetAxisChecked(m_bAxisChecked);
     m_bTopOrLeftChecked = false;
     vars->SetTopOrLeftChecked(m_bTopOrLeftChecked);
     m_bBottomOrRightChecked = false;
     vars->SetBottomOrRightChecked(false);
+    m_bBackgroundDrawChecked = false;
+    vars->SetGridPicChecked(false);
     _rootPage->IDC_CLEAR_BUTTON_Click(sender, e);
 
 }
@@ -157,14 +162,14 @@ void Hot3dxRotoDraw::Scenario2_Normal::IDC_EXTERIOR_FACES_CHECKBOX_Checked(Platf
     if (IDC_EXTERIOR_FACES_CHECKBOX->IsChecked->Value)
     {
         m_bDoFrontFaces = true;
+        _rootPage->NotifyUser("Exterior Faces Picked: TRUE disabled", NotifyType::StatusMessage);
     }
     else {
         m_bDoFrontFaces = false;
+        _rootPage->NotifyUser("Exterior Faces Picked: FALSE disabled", NotifyType::StatusMessage);
     }
     _rootPage->SetDoFrontFacesDXP(m_bDoFrontFaces);
     vars->SetDoFrontFaces(m_bDoFrontFaces);
-
-    _rootPage->NotifyUser("Exterior Faces Picked", NotifyType::StatusMessage);
 }
 
 void Hot3dxRotoDraw::Scenario2_Normal::IDC_INTERIOR_FACES_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
@@ -173,14 +178,14 @@ void Hot3dxRotoDraw::Scenario2_Normal::IDC_INTERIOR_FACES_CHECKBOX_Checked(Platf
     if (IDC_INTERIOR_FACES_CHECKBOX->IsChecked->Value)
     {
         m_bDoBackFaces = true;
+        _rootPage->NotifyUser("Interior Faces Picked: TRUE disabled", NotifyType::StatusMessage);
     }
     else {
         m_bDoBackFaces = false;
+        _rootPage->NotifyUser("Interior Faces Picked: FALSE disabled", NotifyType::StatusMessage);
     }
     _rootPage->SetDoBackFacesDXP(m_bDoBackFaces);
     vars->SetDoBackFaces(m_bDoBackFaces);
-
-    _rootPage->NotifyUser("Interior Faces Picked", NotifyType::StatusMessage);
 }
 
 void Hot3dxRotoDraw::Scenario2_Normal::IDC_FIRST_TO_LAST_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
@@ -189,13 +194,14 @@ void Hot3dxRotoDraw::Scenario2_Normal::IDC_FIRST_TO_LAST_CHECKBOX_Checked(Platfo
     if (IDC_FIRST_TO_LAST_CHECKBOX->IsChecked->Value)
     {
         m_bFirstToLast = true;
+        _rootPage->NotifyUser("First To Last Picked: TRUE disabled", NotifyType::StatusMessage);
     }
     else {
         m_bFirstToLast = false;
+        _rootPage->NotifyUser("First To Last Picked: FALSE disabled", NotifyType::StatusMessage);
     }
     _rootPage->SetFirstToLastDXP(m_bFirstToLast);
     vars->SetFirstToLast(m_bFirstToLast);
-    _rootPage->NotifyUser("First To Last Picked", NotifyType::StatusMessage);
 }
 
 void Hot3dxRotoDraw::Scenario2_Normal::IDC_AXIS_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
@@ -205,44 +211,80 @@ void Hot3dxRotoDraw::Scenario2_Normal::IDC_AXIS_CHECKBOX_Checked(Platform::Objec
     if (IDC_AXIS_CHECKBOX->IsChecked->Value)
     {
         m_bAxisChecked = true;
+        _rootPage->NotifyUser("Axis Change Picked: Y axis drawing vertical", NotifyType::StatusMessage);
     }
     else {
         m_bAxisChecked = false;
+        _rootPage->NotifyUser("Axis Change Picked: X axis drawing horizontal", NotifyType::StatusMessage);
     }
     _rootPage->SetAxisCheckedDXP(m_bAxisChecked);
     vars->SetAxisChecked(m_bAxisChecked);
-    _rootPage->NotifyUser("Axis Change Picked", NotifyType::StatusMessage);
 }
 
 void Hot3dxRotoDraw::Scenario2_Normal::IDC_TOP_OR_LEFT_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
-    Scenario2Vars^ vars = _rootPage->m_Scene2Vars;
-    if (IDC_TOP_OR_LEFT_CHECKBOX->IsChecked->Value)
+    if (_rootPage->GetPointsCountDXP() > 1)
     {
-        m_bTopOrLeftChecked = true;
+        Scenario2Vars^ vars = _rootPage->m_Scene2Vars;
+        if (IDC_TOP_OR_LEFT_CHECKBOX->IsChecked->Value)
+        {
+            m_bTopOrLeftChecked = true;
+            _rootPage->NotifyUser("Top or Left Change Picked: TRUE", NotifyType::StatusMessage);
+        }
+        else {
+            m_bTopOrLeftChecked = false;
+            _rootPage->NotifyUser("Top or Left Change Picked: FALSE", NotifyType::StatusMessage);
+        }
+        _rootPage->SetTopOrLeftCheckedDXP(m_bTopOrLeftChecked);
+        vars->SetTopOrLeftChecked(m_bTopOrLeftChecked);
+       
     }
-    else {
-        m_bTopOrLeftChecked = false;
+    else
+    {
+        _rootPage->NotifyUser("Error: Point Count Zero;\n Draw At Least Two Points First!", NotifyType::StatusMessage);
     }
-    _rootPage->SetTopOrLeftCheckedDXP(m_bTopOrLeftChecked);
-    vars->SetTopOrLeftChecked(m_bTopOrLeftChecked);
-    _rootPage->NotifyUser("Top or Left Change Picked", NotifyType::StatusMessage);
+
 
 }
 
 void Hot3dxRotoDraw::Scenario2_Normal::IDC_BOTTOM_OR_RIGHT_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
-    Scenario2Vars^ vars = _rootPage->m_Scene2Vars;
-    if (IDC_BOTTOM_OR_RIGHT_CHECKBOX->IsChecked->Value)
+    if (_rootPage->GetPointsCountDXP() > 1)
     {
-        m_bBottomOrRightChecked = true;
+        Scenario2Vars^ vars = _rootPage->m_Scene2Vars;
+        if (IDC_BOTTOM_OR_RIGHT_CHECKBOX->IsChecked->Value)
+        {
+            m_bBottomOrRightChecked = true;
+            _rootPage->NotifyUser("Bottom or Right Change Picked: TRUE", NotifyType::StatusMessage);
+        }
+        else {
+            m_bBottomOrRightChecked = false;
+            _rootPage->NotifyUser("Bottom or Right Change Picked: FALSE", NotifyType::StatusMessage);
+        }
+        _rootPage->SetBottomOrRightCheckedDXP(m_bBottomOrRightChecked);
+        vars->SetBottomOrRightChecked(m_bBottomOrRightChecked);
+    }
+    else
+    {
+        _rootPage->NotifyUser("Error: Point Count Zero;\n Draw At Least Two Points First!", NotifyType::StatusMessage);
+    }
+}
+
+void Hot3dxRotoDraw::Scenario2_Normal::IDC_BACKGROUND_DRAW_CHECKBOX_checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    Scenario2Vars^ vars = _rootPage->m_Scene2Vars;
+    if (IDC_BACKGROUND_DRAW_CHECKBOX->IsChecked->Value)
+    {
+        m_bBackgroundDrawChecked = true;
+        _rootPage->NotifyUser("Background Draw Photo Picked: TRUE", NotifyType::StatusMessage);
     }
     else {
-        m_bBottomOrRightChecked = false;
+        m_bBackgroundDrawChecked = false;
+        _rootPage->NotifyUser("Background Draw Photo Picked: FALSE", NotifyType::StatusMessage);
     }
-    _rootPage->SetBottomOrRightCheckedDXP(m_bBottomOrRightChecked);
-    vars->SetBottomOrRightChecked(m_bBottomOrRightChecked);
-    _rootPage->NotifyUser("Bottom or Right Change Picked", NotifyType::StatusMessage);
+    _rootPage->SetGridPicCheckedDXP(m_bBackgroundDrawChecked);
+    vars->SetGridPicChecked(m_bBackgroundDrawChecked);
+    _rootPage->SetDDS_WIC_FLAGGridPicFileDXP(m_bBackgroundDrawChecked);
 }
 
 VOID Hot3dxRotoDraw::Scenario2_Normal::IDC_ROTATION_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
@@ -272,66 +314,36 @@ void Hot3dxRotoDraw::Scenario2_Normal::IDC_COPY_FLIP_BUTTON_Click(Platform::Obje
 {
     if (m_bAxisChecked)
     {
-        _rootPage->CopyFlipPointsXAxisDXP();
+        if (_rootPage->GetPointsCountDXP() > 0)
+        {
+             _rootPage->CopyFlipPointsXAxisDXP();
+        }
+        else
+        {
+            _rootPage->NotifyUser("Error: Point Count Zero;\n Draw At Least One Points First!", NotifyType::StatusMessage);
+        }
     }
     else
     {
-        _rootPage->CopyFlipPointsYAxisDXP();
+            if (_rootPage->GetPointsCountDXP() > 0)
+            {
+                _rootPage->CopyFlipPointsYAxisDXP();
+            }
+            else
+            {
+                _rootPage->NotifyUser("Error: Point Count Zero;\n Draw At Least One Points First!", NotifyType::StatusMessage);
+            }
     }
 }
 
 void Hot3dxRotoDraw::Scenario2_Normal::IDC_SET_POINTS_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
-    _rootPage->SET_POINTS_BUTTON_Click(sender, e);
+    if (_rootPage->GetPointsCountDXP() > 1)
+    {
+        _rootPage->SET_POINTS_BUTTON_Click(sender, e);
+    }
+    else
+    {
+        _rootPage->NotifyUser("Error: Point Count Zero;\n Draw At Least Two Points First!", NotifyType::StatusMessage);
+    }
 }
-
-
-/*
-void Hot3dxRotoDraw::Scenario2_Normal::IDC_SAVE_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
-{
-    // Clear previous returned file name, if it exists, between iterations of this scenario
-    //IDC_WELCOME_STATIC->Text = "";//was used as a sample but needs to be changed; A writer function needs to be called with
-    //the file data to be saved.
-
-    FileSavePicker^ savePicker = ref new FileSavePicker();
-    savePicker->SuggestedStartLocation = PickerLocationId::DocumentsLibrary;
-
-    auto plainTextExtensions = ref new Platform::Collections::Vector<String^>();
-    plainTextExtensions->Append(".txt");
-    savePicker->FileTypeChoices->Insert("Plain Text", plainTextExtensions);
-    savePicker->SuggestedFileName = "New Document";
-
-
-    create_task(savePicker->PickSaveFileAsync()).then([this](StorageFile^ file)
-        {
-            if (file != nullptr)
-            {
-                Hot3dxRotoDraw::Scenario2_Normal^ _this = this;
-                // Prevent updates to the remote version of the file until we finish making changes and call CompleteUpdatesAsync.
-                CachedFileManager::DeferUpdates(file);
-                // write to file
-                create_task(FileIO::WriteTextAsync(file, file->Name)).then([_this, file]()
-                    {
-                        // Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
-                        // Completing updates may require Windows to ask for user input.
-                        create_task(CachedFileManager::CompleteUpdatesAsync(file)).then([_this, file](FileUpdateStatus status)
-                            {
-                                if (status == FileUpdateStatus::Complete)
-                                {
-                                    //IDC_WELCOME_STATIC->Text = "File " + file->Name + " was saved.";
-                                }
-                                else
-                                {
-                                    //this->IDC_WELCOME_STATIC->Text = "File " + file->Name + " couldn't be saved.";
-                                }
-                            });
-                    });
-            }
-            else
-            {
-                //this->IDC_WELCOME_STATIC->Text = "Operation cancelled.";
-            }
-        });
-
-}
-*/

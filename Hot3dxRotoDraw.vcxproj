@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="16.8.3" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="16.9.4" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -168,7 +168,7 @@
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
       <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4062;4263;4264;4265;4355;4365;4453;4555;4946;4986;4996;28204;4061;4820;4625;4626;5026;5027;5032;5219;5220;4668;5204;5045;5039;</DisableSpecificWarnings>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -184,7 +184,7 @@
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
       <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4062;4263;4264;4265;4355;4365;4453;4555;4946;4986;4996;28204;4061;4820;4625;4626;5026;5027;5032;5219;5220;4668;5204;5045;5039;</DisableSpecificWarnings>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -200,7 +200,7 @@
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
       <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4062;4263;4264;4265;4355;4365;4453;4555;4946;4986;4996;28204;4061;4820;4625;4626;5026;5027;5032;5219;5220;4668;5204;5045;5039;</DisableSpecificWarnings>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -216,7 +216,7 @@
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
       <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4062;4263;4264;4265;4355;4365;4453;4555;4946;4986;4996;28204;4061;4820;4625;4626;5026;5027;5032;5219;5220;4668;5204;5045;5039;</DisableSpecificWarnings>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -225,16 +225,16 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Link>
       <AdditionalDependencies>DirectXToolKitXaml12.lib; d3d12.lib;dxgi.lib;dxguid.lib;d2d1.lib;windowscodecs.lib; dwrite.lib;xaudio2.lib;xinput.lib;mfcore.lib;mfplat.lib;mfreadwrite.lib;mfuuid.lib;mincore.lib; %(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\DirectXToolKitXaml12\Debug\DirectXToolKitXaml12; %(AdditionalLibraryDirectories); $(VCInstallDir)\lib\store; $(VCInstallDir)\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>F:\DirectXToolKitXaml12\Debug\DirectXToolKitXaml12; %(AdditionalLibraryDirectories); $(VCInstallDir)\lib\store; $(VCInstallDir)\lib</AdditionalLibraryDirectories>
       <AdditionalOptions>
       </AdditionalOptions>
     </Link>
     <ClCompile>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>C:\DirectXToolKitXaml12; C:\DirectXToolKitXaml12\Audio; C:\DirectXToolKitXaml12\Graphics; $(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\DirectXToolKitXaml12; F:\DirectXToolKitXaml12\Audio; F:\DirectXToolKitXaml12\Graphics; $(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4062;4263;4264;4265;4355;4365;4453;4555;4946;4986;4996;28204;4061;4820;4625;4626;5026;5027;5032;5219;5220;4668;5204;5045;5039;</DisableSpecificWarnings>
       <PreprocessorDefinitions>_DEBUG;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -258,7 +258,7 @@
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
       <AdditionalIncludeDirectories>C:\DirectXToolKitXaml12; C:\DirectXToolKitXaml12\Audio; C:\DirectXToolKitXaml12\Graphics; $(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4062;4263;4264;4265;4355;4365;4453;4555;4946;4986;4996;28204;4061;4820;4625;4626;5026;5027;5032;5219;5220;4668;5204;5045;5039;</DisableSpecificWarnings>
       <PreprocessorDefinitions>NDEBUG;_WIN32; %(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -274,7 +274,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
       <AdditionalDependencies>DirectXToolKitXaml12.lib; d3d12.lib;dxgi.lib;dxguid.lib;d2d1.lib;windowscodecs.lib; dwrite.lib;xaudio2.lib;xinput.lib;mfcore.lib;mfplat.lib;mfreadwrite.lib;mfuuid.lib;mincore.lib; %(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\DirectXToolKitXaml12\x64\Debug\DirectXToolKitXaml12; %(AdditionalLibraryDirectories); $(VCInstallDir)\lib\store\amd64; $(VCInstallDir)\lib\amd64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(RootDir)\DirectXToolKitXaml12\x64\Debug\DirectXToolKitXaml12; %(AdditionalLibraryDirectories); $(VCInstallDir)\lib\store\amd64; $(VCInstallDir)\lib\amd64</AdditionalLibraryDirectories>
       <AdditionalOptions>
       </AdditionalOptions>
       <LinkTimeCodeGeneration>
@@ -284,20 +284,21 @@
     <ClCompile>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>C:\DirectXToolKitXaml12; C:\DirectXToolKitXaml12\Audio; C:\DirectXToolKitXaml12\Graphics; $(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(RootDir)\DirectXToolKitXaml12; $(RootDir)\DirectXToolKitXaml12\Audio; $(RootDir)\DirectXToolKitXaml12\Graphics; $(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4062;4263;4264;4265;4355;4365;4453;4555;4946;4986;4996;28204;4061;4820;4625;4626;5026;5027;5032;5219;5220;4668;5204;5045;5039;</DisableSpecificWarnings>
       <PreprocessorDefinitions>_DEBUG;_X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <SmallerTypeCheck>false</SmallerTypeCheck>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <ForcedUsingFiles>$(VCToolsInstallDir)lib\x86\store\references\platform.winmd;%(ForcedUsingFiles)</ForcedUsingFiles>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
       <AdditionalDependencies>DirectXToolKitXaml12.lib; d3d12.lib;dxgi.lib;dxguid.lib;d2d1.lib;windowscodecs.lib; dwrite.lib;xaudio2.lib;xinput.lib;mfcore.lib;mfplat.lib;mfreadwrite.lib;mfuuid.lib;mincore.lib; %(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\DirectXToolKitXaml12\x64\Release\DirectXToolKitXaml12; %(AdditionalLibraryDirectories); $(VCInstallDir)\lib\store\amd64; $(VCInstallDir)\lib\amd64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(RootDir)\DirectXToolKitXaml12\x64\Release\DirectXToolKitXaml12; %(AdditionalLibraryDirectories); $(VCInstallDir)\lib\store\amd64; $(VCInstallDir)\lib\amd64</AdditionalLibraryDirectories>
       <AdditionalOptions>
       </AdditionalOptions>
       <LinkTimeCodeGeneration />
@@ -311,9 +312,9 @@
     <ClCompile>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>C:\DirectXToolKitXaml12; C:\DirectXToolKitXaml12\Audio; C:\DirectXToolKitXaml12\Graphics; $(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(RootDir)\DirectXToolKitXaml12; $(RootDir)\DirectXToolKitXaml12\Audio; $(RootDir)\DirectXToolKitXaml12\Graphics; $(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4062;4263;4264;4265;4355;4365;4453;4555;4946;4986;4996;28204;4061;4820;4625;4626;5026;5027;5032;5219;5220;4668;5204;5045;5039;</DisableSpecificWarnings>
       <PreprocessorDefinitions>NDEBUG;_X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <IntrinsicFunctions>false</IntrinsicFunctions>
@@ -328,6 +329,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <SmallerTypeCheck>false</SmallerTypeCheck>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -375,6 +377,7 @@
     <Image Include="Assets\Square44x44Logo.targetsize-32.png" />
     <Image Include="Assets\Square44x44Logo.targetsize-48.png" />
     <Image Include="Assets\StoreLogo.png" />
+    <Image Include="Assets\Textures\CHARACTER_BABY_MARIO.PNG" />
     <Image Include="Assets\Textures\Marble.dds" />
     <Image Include="Assets\Textures\MarbleClouds.dds" />
     <Image Include="Assets\Textures\metal_texture.dds" />
@@ -407,6 +410,10 @@
     <ClInclude Include="Content\Hot3dxDrawnObject.h" />
     <ClInclude Include="Content\Hot3dxRotoDrawVariables.h" />
     <ClInclude Include="Content\Hot3dxRotoDrawSceneRender.h" />
+    <ClInclude Include="FilesSave\ColladaFileType.h" />
+    <ClInclude Include="FilesSave\Hot3dxTextFileSave.h" />
+    <ClInclude Include="FilesSave\Obj3DFile.h" />
+    <ClInclude Include="FilesSave\ObjMaterialFile.h" />
     <ClInclude Include="Hot3dxRotoDrawConfiguration.h" />
     <ClInclude Include="Hot3dxRotoDrawMain.h" />
     <ClInclude Include="CustomDecay.h" />
@@ -418,8 +425,12 @@
     <ClInclude Include="Content\ShaderStructures.h" />
     <ClInclude Include="OmnidirectionalSound.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scenario10_Sculpt.xaml.h">
       <DependentUpon>Scenario10_Sculpt.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="Scenario11_GridorPic.xaml.h">
+      <DependentUpon>Scenario11_GridorPic.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="Scenario1_Start.xaml.h">
       <DependentUpon>Scenario1_Start.xaml</DependentUpon>
@@ -459,6 +470,10 @@
     <ClCompile Include="Content\Hot3dxDrawnObject.cpp" />
     <ClCompile Include="Content\Hot3dxRotoDrawVariables.cpp" />
     <ClCompile Include="Content\Hot3dxRotoDrawSceneRender.cpp" />
+    <ClCompile Include="FilesSave\ColladaFileType.cpp" />
+    <ClCompile Include="FilesSave\Hot3dxTextFileSave.cpp" />
+    <ClCompile Include="FilesSave\Obj3DFile.cpp" />
+    <ClCompile Include="FilesSave\ObjMaterialFile.cpp" />
     <ClCompile Include="Hot3dxRotoDrawConfiguration.cpp" />
     <ClCompile Include="Hot3dxRotoDrawMain.cpp" />
     <ClCompile Include="CustomDecay.cpp" />
@@ -478,6 +493,9 @@
     </ClCompile>
     <ClCompile Include="Scenario10_Sculpt.xaml.cpp">
       <DependentUpon>Scenario10_Sculpt.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="Scenario11_GridorPic.xaml.cpp">
+      <DependentUpon>Scenario11_GridorPic.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="Scenario1_Start.xaml.cpp">
       <DependentUpon>Scenario1_Start.xaml</DependentUpon>
@@ -531,6 +549,9 @@
     <Page Include="Scenario10_Sculpt.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Scenario11_GridorPic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Scenario1_Start.xaml" />
     <Page Include="Scenario2_Normal.xaml" />
     <Page Include="Scenario3_FileIO.xaml" />
@@ -561,19 +582,22 @@
   <ItemGroup>
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Hot3dxRotoDraw.rc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ImageContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\MeshContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ShaderGraphContentTask.targets" />
-    <Import Project="packages\Microsoft.UI.Xaml.2.5.0\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('packages\Microsoft.UI.Xaml.2.5.0\build\native\Microsoft.UI.Xaml.targets')" />
     <Import Project="packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets" Condition="Exists('packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets')" />
+    <Import Project="packages\Microsoft.UI.Xaml.2.6.0-prerelease.210405001\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('packages\Microsoft.UI.Xaml.2.6.0-prerelease.210405001\build\native\Microsoft.UI.Xaml.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.5.0\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.5.0\build\native\Microsoft.UI.Xaml.targets'))" />
     <Error Condition="!Exists('packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.6.0-prerelease.210405001\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.6.0-prerelease.210405001\build\native\Microsoft.UI.Xaml.targets'))" />
   </Target>
 </Project>

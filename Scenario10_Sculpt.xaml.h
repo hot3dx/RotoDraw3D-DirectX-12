@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "Scenario10_Sculpt.g.h"
+#include "Generated Files\Scenario10_Sculpt.g.h"
 #include "DirectXPage.xaml.h"
 #include "Hot3dxRotoDrawConfiguration.h"
 

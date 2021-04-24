@@ -18,12 +18,15 @@
 
 using namespace Hot3dxRotoDraw;
 
+using namespace concurrency;
 using namespace Platform;
 using namespace Windows::ApplicationModel;
+using namespace Windows::ApplicationModel::Core;
 using namespace Windows::ApplicationModel::Activation;
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
 using namespace Windows::Storage;
+using namespace Windows::UI::Core;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Controls::Primitives;
@@ -47,9 +50,9 @@ static void Partial_LaunchCompleted(LaunchActivatedEventArgs ^ e) { }
 App::App()
 {
 	InitializeComponent();
-	Suspending += ref new SuspendingEventHandler(this, &App::OnSuspending);
-	Resuming += ref new EventHandler<Object^>(this, &App::OnResuming);
-
+	Suspending += ref new Windows::UI::Xaml::SuspendingEventHandler(this, &App::OnSuspending);
+	Resuming += ref new Windows::Foundation::EventHandler<Object^>(this, &App::OnResuming);
+	
 #if defined(_DEBUG)
 	UnhandledException += ref new UnhandledExceptionEventHandler([](Object^ /* sender */, UnhandledExceptionEventArgs^ args)
 		{
@@ -111,6 +114,7 @@ void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEvent
 	// Ensure the current window is active
 	Window::Current->Activate();
 }
+
 /// <summary>
 /// Invoked when application execution is being suspended.  Application state is saved
 /// without knowing whether the application will be terminated or resumed with the contents
@@ -118,7 +122,7 @@ void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEvent
 /// </summary>
 /// <param name="sender">The source of the suspend request.</param>
 /// <param name="e">Details about the suspend request.</param>
-void App::OnSuspending(Object^ sender, SuspendingEventArgs^ e)
+void App::OnSuspending(Platform::Object^ sender, Windows::ApplicationModel::SuspendingEventArgs^ e)
 {
 	(void) sender;	// Unused parameter
 	(void) e;	// Unused parameter
@@ -131,7 +135,7 @@ void App::OnSuspending(Object^ sender, SuspendingEventArgs^ e)
 /// </summary>
 /// <param name="sender">The source of the resume request.</param>
 /// <param name="args">Details about the resume request.</param>
-void App::OnResuming(Object ^sender, Object ^args)
+void App::OnResuming(Platform::Object ^sender, Platform::Object ^args)
 {
 	(void) sender; // Unused parameter
 	(void) args; // Unused parameter
@@ -146,7 +150,7 @@ void App::OnResuming(Object ^sender, Object ^args)
 /// <param name="e">Details about the navigation failure</param>
 void App::OnNavigationFailed(Platform::Object ^sender, Windows::UI::Xaml::Navigation::NavigationFailedEventArgs ^e)
 {
-	throw ref new FailureException("Failed to load Page " + e->SourcePageType.Name);
+	throw ref new Platform::FailureException("Failed to load Page " + e->SourcePageType.Name);
 }
 
 

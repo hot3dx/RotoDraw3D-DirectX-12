@@ -1,0 +1,41 @@
+﻿<Page
+    x:Class="Hot3dxRotoDraw.Scenario11_GridorPic"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Hot3dxRotoDraw"
+    xmlns:controls="Windows.UI.Xaml.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DesignWidth="400" d:DesignHeight="550">
+
+    <Grid x:Name="RootGrid" Margin="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="HeaderPanel" HorizontalAlignment="Left" Height="600" Width="500" Margin="0,0,0,0" VerticalAlignment="Top" Background="Green">
+            <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
+            <TextBlock x:Name="IDC_DESCRIPTION_STATIC" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Grid or Pic Draw" VerticalAlignment="Top" RenderTransformOrigin="0.667,-11.258" TextDecorations="Underline"/>
+
+            <TextBlock x:Name="m_gridorPicText" HorizontalAlignment="Left" Margin="0,5,0,0" TextWrapping="Wrap" Text="Grid or Pic Topics"/>
+            <TextBox x:Name="m_gridorPicTextBox" Text="Either the Grid can be used for the drawing surface or a Picture can be used for the drawing surface. The default is Grid. The photo used is not the texture" TextWrapping="Wrap" RenderTransformOrigin="0.455,-1.562" TextChanged="GridorPicTextBox_TextChanged" Height="65" IsReadOnly="True"/>
+            <TextBlock x:Name="m_gridorPicFilesText" HorizontalAlignment="Left" Margin="0,5,0,0" TextWrapping="Wrap" Text="Pic File name if used"/>
+            <TextBox x:Name="m_gridorPicFilesTextBox" Text="File Name:" TextWrapping="Wrap" RenderTransformOrigin="0.455,-1.562" TextChanged="GridorPicFilesTextBox_TextChanged" Height="51"/>
+            <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
+            <TextBlock Text="If Checked The Grid Will be" Style="{StaticResource SampleHeaderTextStyle}" Width="187" HorizontalAlignment="Left"/>
+            <TextBlock Text="the drawing surface" Style="{StaticResource SampleHeaderTextStyle}" Width="136" HorizontalAlignment="Left"/>
+            <TextBlock Text="If unChecked, A photo will" Style="{StaticResource SampleHeaderTextStyle}" Width="180" HorizontalAlignment="Left"/>
+            <TextBlock Text="be the drawing surface" Style="{StaticResource SampleHeaderTextStyle}" Width="158" HorizontalAlignment="Left"/>
+            <CheckBox x:Name="IDC_GRID_OR_PIC_CHECKBOX" IsChecked="False" Content="Grid or Pic Drawing Surface" HorizontalAlignment="Left" Margin="10,5,0,0" Click="IDC_GRID_OR_PIC_CHECKBOX_Checked" Background="#FFF36A0B" FocusVisualPrimaryBrush="#FFF36A0B" BorderBrush="#FFEAD504"/>
+            <Image x:Name="PicTextureImage1" HorizontalAlignment="Left" Height="150" Margin="245,-135,0,0" VerticalAlignment="Top" Width="150" FocusVisualPrimaryBrush="#FFEAD504" FocusVisualSecondaryBrush="#FFEAD504"/>
+            <Button x:Name="IDC_PIC_TEXTURE_IMAGE1_BUTTON" Content="1) Add Drawing Pic" Margin="245,5,0,0" VerticalAlignment="Top" Height="30" Width="135" Click="IDC_PIC_TEXTURE_IMAGE1_BUTTON_Click"/>
+            <Button x:Name="IDC_SHOW_BACKGROUND_PIC_BUTTON" Content="2) Show&#xD;&#xA; Background&#xA;Grid Pic" Height="72" Width="140" Click="IDC_SHOW_BACKGROUND_PIC_BUTTON_Click"/>
+
+        </StackPanel>
+    </Grid>
+</Page>
+
+

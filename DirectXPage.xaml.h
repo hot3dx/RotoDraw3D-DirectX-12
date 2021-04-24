@@ -14,9 +14,10 @@
 #pragma once
 
 #include "pch.h"
-#include "DirectXPage.g.h"
+#include "Generated Files\DirectXPage.g.h"
 
 #include "Common\DeviceResources.h"
+#include "Common\DirectXHelper.h"
 #include "Hot3dxRotoDrawMain.h"
 #include "Hot3dxRotoDrawConfiguration.h"
 #include "Content\Hot3dxRotoDrawVariables.h"
@@ -24,6 +25,11 @@
 #include <xapo.h>
 #include <hrtfapoapi.h>
 #include "OmnidirectionalSound.h"
+#include <Graphics\DDSTextureLoaderXaml12.h>
+#include <Graphics\LoaderHelpersXaml12.h>
+#include <Graphics\MyResourceUploadBatchXaml12.h>
+
+using namespace DirectX;
 
 namespace Hot3dxRotoDraw
 {
@@ -42,7 +48,7 @@ namespace Hot3dxRotoDraw
 		void AudioInitialize();
 		void AudioStop();
 		void IDC_CLEAR_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-		void Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void Toggle_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void TEXTURE_IMAGE1(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void TEXTURE_IMAGE2(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void SetLeftSwapChainPanel();
@@ -86,7 +92,7 @@ namespace Hot3dxRotoDraw
 		void SetAddTopFacesDXP(bool b) { m_bAddTopFacesDXP = b; }
 		bool GetAddBottomFacesDXP() { return m_bAddBottomFacesDXP; }
 		void SetAddBottomFacesDXP(bool b) { m_bAddBottomFacesDXP = b; }
-		
+
 		bool GetLastToFirstFacesDXP() { return m_bLastToFirstFacesDXP; }
 		void SetLastToFirstFacesDXP(bool b) { m_bLastToFirstFacesDXP = b; }
 		bool GetObjectDrawnDXP() { return m_bObjectDrawnDXP; }
@@ -96,18 +102,19 @@ namespace Hot3dxRotoDraw
 		bool GetAxisCheckedDXP() { return m_Scene2Vars->GetAxisChecked(); }
 		void SetAxisCheckedDXP(bool b) {
 			m_Scene2Vars->SetAxisChecked(b);
-		   m_main->GetSceneRenderer()->SetIsYAxis(m_Scene2Vars->GetAxisChecked());	}
+			m_main->GetSceneRenderer()->SetIsYAxis(m_Scene2Vars->GetAxisChecked());
+		}
 		bool GetTopOrLeftCheckedDXP() { return m_Scene2Vars->GetTopOrLeftChecked(); }
 		void SetTopOrLeftCheckedDXP(bool b) {
 			m_Scene2Vars->SetTopOrLeftChecked(b);
-		   if(m_main->GetSceneRenderer()->GetIsYAxis())
-		   {
-			   m_main->GetSceneRenderer()->EndTopPointYAxis();
-		   }
-		   else
-		   {
-			   m_main->GetSceneRenderer()->EndLeftPointsXAxis();
-		   }
+			if (m_main->GetSceneRenderer()->GetIsYAxis())
+			{
+				m_main->GetSceneRenderer()->EndTopPointYAxis();
+			}
+			else
+			{
+				m_main->GetSceneRenderer()->EndLeftPointsXAxis();
+			}
 		}
 		bool GetBottomOrRightCheckedDXP() { return m_Scene2Vars->GetBottomOrRightChecked(); }
 		void SetBottomOrRightCheckedDXP(bool b) {
@@ -121,47 +128,66 @@ namespace Hot3dxRotoDraw
 				m_main->GetSceneRenderer()->EndRightPointsXAxis();
 			}
 		}
+		bool GetGridPicCheckedDXP() { return m_Scene2Vars->GetGridPicChecked(); }
+		void SetGridPicCheckedDXP(bool b) { m_Scene2Vars->SetGridPicChecked(b); }
 		bool GetLinearAcrossDXP() { return m_bLinearAcrossDXP; }
 		void SetLinearAcrossDXP(bool val) { m_bLinearAcrossDXP = val; }
 		bool GetLinearUpDXP() { return m_bLinearUpDXP; }
 		void SetLinearUpDXP(bool val) { m_bLinearUpDXP = val; }
+		unsigned int GetPointsCountDXP() { return m_main->GetSceneRenderer()->GetPointCount(); }
 		void SET_POINTS_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+
 			IDC_SET_POINTS_BUTTON_Click(sender, e);
 		}
 		// Texture Filename Accessors
+		int TestTextureSubResources(Windows::Storage::StorageFile^ file) {
+			ID3D12Device* device = m_deviceResources->GetD3DDevice();
+			std::shared_ptr<ResourceUploadBatch> m_Object = std::make_unique<ResourceUploadBatch>(device);
+			Microsoft::WRL::ComPtr<ID3D12Resource> Texture1;
+
+			m_Object->BeginXaml();
+			// Create the command queue.
+			Microsoft::WRL::ComPtr<ID3D12CommandQueue> q;
+			D3D12_COMMAND_QUEUE_DESC queueDesc = {};
+			queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
+			queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+
+			DX::ThrowIfFailed(device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&q)));
+			DX::SetName(q.Get(), L"q");
+			int hr = DirectX::CreateDDSTextureFromFile(device, *m_Object, file->Path->Data(), &Texture1);
+			m_Object->EndXaml(q.Get());
+
+			//q->Release();
+			//Texture1->Release();
+			return hr;
+		}
+
+		void Setm_bDDS_WIC_FLAGDXP1(bool flag) { m_main->GetSceneRenderer()->Setm_bDDS_WIC_FLAG1(flag); }
+		void Setm_bDDS_WIC_FLAGDXP2(bool flag) { m_main->GetSceneRenderer()->Setm_bDDS_WIC_FLAG2(flag); }
+		void SetDDS_WIC_FLAGGridPicFileDXP(bool flag) { m_main->GetSceneRenderer()->SetDDS_WIC_FLAGGridPic(flag); }
+		void DrawGridPicRectangleDXP() { m_main->GetSceneRenderer()->DrawGridPicRectangle(); }
 		Platform::String^ GetTextureImage1FileDXP() { return m_main->GetSceneRenderer()->GetTextureImage1File(); }
 		Platform::String^ GetTextureImage2FileDXP() { return m_main->GetSceneRenderer()->GetTextureImage2File(); }
-		
+		Platform::String^ GetTextureImageGridPicFileDXP() { return m_main->GetSceneRenderer()->GetTextureImageGridPicFile(); }
 		void SetTextureImage1FileDXP(Platform::String^ fileName) {
 			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage1File();// = nullptr;
 			file = ref new Platform::String(fileName->Data());
 			m_main->GetSceneRenderer()->SetTextureImage1File(fileName);
-			/*
-			OutputDebugString(L"\n m_strTextureFileName \n");
-			OutputDebugString(L"SetTextureImage1File(Platform::String ^ fileName)");
-			OutputDebugString(L"\n m_textureImage1File \n");
-			OutputDebugString(file->Data());
-			OutputDebugString(L"\n \n");
-			*/
-			//m_loadingDrawnObjectComplete = true;
-			//InitDrawnObjectSingleTexture();
-			//fileName1 = fileName;
 		}
 		void SetTextureImage2FileDXP(Platform::String^ fileName) {
 			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage2File();// = nullptr;
 			file = ref new Platform::String(fileName->Data());
 			m_main->GetSceneRenderer()->SetTextureImage2File(fileName);
-			/*
-			OutputDebugString(L"\n m_strTextureFileName \n");
-			OutputDebugString(L"SetTextureImage2File(Platform::String ^ fileName)");
-			OutputDebugString(L"\n m_textureImage2File \n");
-			OutputDebugString(file->Data());
-			OutputDebugString(L"\n \n");
-			*/
-			//m_loadingDrawnObjectComplete = true;
-			//InitDrawnObjectSingleTexture();
-			//fileName1 = fileName;
 		}
+
+		// Scenario11_GridorPic
+		Platform::String^ GetGridPicTextureImageFileDXP() { return m_main->GetSceneRenderer()->GetTextureImageGridPicFile(); }
+		void SetGridPicTextureImageFileDXP(Platform::String^ fileName) {
+			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImageGridPicFile();// = nullptr;
+			file = ref new Platform::String(fileName->Data());
+			m_main->GetSceneRenderer()->SetTextureImageGridPicFile(fileName);
+		}
+
 		// Scale Variables
 		float Get_xScaleDrawnObject() { return m_xScaleDrawnObject; }
 		void Set_xScaleDrawnObject(float x) { m_xScaleDrawnObject = x; }
@@ -234,7 +260,8 @@ namespace Hot3dxRotoDraw
 			Platform::String^ mtlObjFilename,
 			Platform::String^ textureFilename)
 		{
-			return m_main->GetSceneRenderer()->DrawnObjectSaveObj3DandMtl(effectName, 2, mtlObjFilename, textureFilename);
+			illumType = 2;
+			return m_main->GetSceneRenderer()->DrawnObjectSaveObj3DandMtl(effectName, illumType, mtlObjFilename, textureFilename);
 		}
 		Platform::String^ GetSceneRenderDrawnObjectSaveObj3DFile(Platform::String^ mtlObjFilename,
 			Platform::String^ nodeName,
@@ -252,6 +279,7 @@ namespace Hot3dxRotoDraw
 
 		Scenario2Vars^ GetScene2Vars() { return m_Scene2Vars; }
 		Scenario5Vars^ GetScene5Vars() { return m_Scene5Vars; }
+		Scenario11Vars^ GetScene11Vars() { return m_Scene11Vars; }
 
 		// Symmetrical Copy of a flipped set of points
 		// on the other side of the X or Y axis
@@ -278,12 +306,16 @@ namespace Hot3dxRotoDraw
 
 
 		// Window event handlers.
+		void OnResizeStarted(Windows::UI::Core::CoreWindow^ sender, Platform::Object^ e);
+		void OnResizeCompleted(Windows::UI::Core::CoreWindow^ sender, Platform::Object^ e);
+		void OnWindowSizeChanged(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::WindowSizeChangedEventArgs^ args);
 		void OnVisibilityChanged(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::VisibilityChangedEventArgs^ args);
-
+		void OnWindowClosed(Windows::UI::Core::CoreWindow^, Windows::UI::Core::CoreWindowEventArgs^ args);
 		// DisplayInformation event handlers.
 		void OnDpiChanged(Windows::Graphics::Display::DisplayInformation^ sender, Platform::Object^ args);
 		void OnOrientationChanged(Windows::Graphics::Display::DisplayInformation^ sender, Platform::Object^ args);
 		void OnDisplayContentsInvalidated(Windows::Graphics::Display::DisplayInformation^ sender, Platform::Object^ args);
+		void OnInputEnabled(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::InputEnabledEventArgs^ args);
 
 		// Other event handlers.
 		void AppBarButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
@@ -317,6 +349,7 @@ namespace Hot3dxRotoDraw
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		std::unique_ptr<Hot3dxRotoDrawMain> m_main;
 
+		bool m_windowClosed;
 		bool m_windowVisible;
 		/*
 		void SphereRadiusTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
@@ -383,6 +416,7 @@ namespace Hot3dxRotoDraw
 		void NotifyUser(Platform::String^ strMessage, NotifyType type);
 		Scenario2Vars^ m_Scene2Vars = ref new Scenario2Vars();
 		Scenario5Vars^ m_Scene5Vars = ref new Scenario5Vars();
+		Scenario11Vars^ m_Scene11Vars = ref new Scenario11Vars();
 
 	private:
 		void ScenarioFrame_Navigated(Platform::Object^ sender, Windows::UI::Xaml::Navigation::NavigationEventArgs^ e);
@@ -396,5 +430,6 @@ namespace Hot3dxRotoDraw
 		float                           _radiusDXP = 2.0f;            // Radius of the orbit
 		float                           _heightDXP = 0;               // Height at which the sound is orbiting (0 for centered around listener's head, +ve for above and -ve for below)
 		float                           _angularVelocityDXP = 0;      // Speed of orbit, default is stationary
-	};
+		void Hot3dxRotoDraw3DX12_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+};
 }

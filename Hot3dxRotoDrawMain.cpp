@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "pch.h"
-#include "..\Common\DeviceResources.h"
+#include "Common\DeviceResources.h"
 #include "Hot3dxRotoDrawMain.h"
 #include "Content\Hot3dxRotoDrawSceneRender.h"
 #include "Common\DirectXHelper.h"
@@ -31,8 +31,6 @@ using namespace Windows::System::Threading;
 using namespace Windows::UI::Core;
 using namespace Windows::UI::Xaml; 
 using namespace Concurrency;
-
-//#pragma comment(lib, "C://Users//hot3dx-home//Source//Repos//Xaml//DirectXToolKitXaml12//x64//Release//DirectXToolKitXaml12//DirectXToolKitXaml12.lib")
 
 // Loads and initializes application assets when the application is loaded.
 Hot3dxRotoDrawMain::Hot3dxRotoDrawMain(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
@@ -193,16 +191,8 @@ void Hot3dxRotoDraw::Hot3dxRotoDrawMain::Clear()
 
 void Hot3dxRotoDraw::Hot3dxRotoDrawMain::OnWindowSizeChanged()
 {
-	Size size = m_deviceResources->GetOutputSize();
-	return;
-	if (!m_deviceResources->WindowSizeChanged(
-		(int)size.Width,
-		(int)size.Height,
-		m_deviceResources->GetRotation()))
-		return;
-	// TODO: Replace this with the size-dependent initialization of your app's content.
+	if (m_sceneRenderer->GetLoadingComplete() == false)return;
 	m_sceneRenderer->CreateWindowSizeDependentResources();
-
 }
 
 void Hot3dxRotoDraw::Hot3dxRotoDrawMain::ValidateDevice()

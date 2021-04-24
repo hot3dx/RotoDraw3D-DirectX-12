@@ -1,0 +1,263 @@
+m_TotalPointCountFont
+m_FaceCountFont
+m_SelectedPointNumberFont
+
+/*
+void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndPointSetPointValues(float r, float g, float b, float alpha)
+{
+	if (m_bIsYAxis)
+	{
+		// Y Axis Drawing
+		if (m_vars->GetDXPage()->GetScene2Vars()->GetTopOrLeftChecked())
+		{
+			EndTopPointYAxis();
+
+			XMFLOAT3 m_leftEndPoint = XMFLOAT3(posX[0], posY[0], posZ[0]);
+			DirectX::VertexPositionColor vpc = { XMFLOAT3(m_leftEndPoint.x, m_leftEndPoint.y, m_leftEndPoint.z), XMFLOAT4(r,g,b,alpha) };
+			vertices.push_back(vpc);
+			//m_PtGroupList.at(cnt)->SetPtList(m_iPointCount, k);
+
+		}
+		if (m_vars->GetDXPage()->GetScene2Vars()->GetBottomOrRightChecked())
+		{
+			EndBottomPointYAxis();
+
+			unsigned int c = m_iPointCount - 1;
+			XMFLOAT3 m_rightEndPoint = XMFLOAT3(posX[c], posY[c], posZ[c]);
+			DirectX::VertexPositionColor vpc = { XMFLOAT3(m_rightEndPoint.x, m_rightEndPoint.y, m_rightEndPoint.z), XMFLOAT4(r,g,b,alpha) };
+			vertices.push_back(vpc);
+			//m_PtGroupList.at(cnt)->SetPtList(m_iPointCount, k);
+
+		}
+	}
+	else
+	{
+		// X Axis Drawing
+		// End points for X axis Rotation
+		if (m_vars->GetDXPage()->GetScene2Vars()->GetTopOrLeftChecked())
+		{
+			EndLeftPointsXAxis();
+
+			XMFLOAT3 m_leftEndPoint = XMFLOAT3(posX[0], posY[0], posZ[0]);
+			DirectX::VertexPositionColor vpc = { XMFLOAT3(m_leftEndPoint.x, m_leftEndPoint.y, m_leftEndPoint.z), XMFLOAT4(r,g,b,alpha) };
+			vertices.push_back(vpc);
+			//m_PtGroupList.at(cnt)->SetPtList(m_iPointCount, k);
+
+		}
+		if (m_vars->GetDXPage()->GetScene2Vars()->GetBottomOrRightChecked())
+		{
+			EndRightPointsXAxis();
+
+			unsigned int c = m_iPointCount - 1;
+			XMFLOAT3 m_rightEndPoint = XMFLOAT3(posX[c], posY[c], posZ[c]);
+			DirectX::VertexPositionColor vpc = { XMFLOAT3(m_rightEndPoint.x, m_rightEndPoint.y, m_rightEndPoint.z), XMFLOAT4(r,g,b,alpha) };
+			vertices.push_back(vpc);
+			//m_PtGroupList.at(cnt)->SetPtList(m_iPointCount, k);
+
+		}
+	}
+}
+*/
+
+void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndPointSetFaceValues()
+{
+	if (m_bIsYAxis)
+	{
+		if (m_vars->GetDXPage()->GetScene2Vars()->GetTopOrLeftChecked() && m_iEndPointOneCount == 0)
+		{
+			EndpointFaces(vertices.size() - 1, 0);
+			m_iEndPointOneCount = 1;
+		}
+
+
+		if (m_vars->GetDXPage()->GetScene2Vars()->GetBottomOrRightChecked() && m_iEndPointTwoCount == 0)
+		{
+			if (m_iEndPointOneCount == 1 && m_iEndPointTwoCount == 0)
+			{
+				EndpointFaces(vertices.size() - 2, m_iPointCount - 1);
+			}
+			else if( m_iEndPointTwoCount == 0)
+			{
+				EndpointFaces(vertices.size() - 1, m_iPointCount - 1);
+			}
+			m_iEndPointTwoCount = 1;
+		}
+	}
+	else
+	{
+		if (m_vars->GetDXPage()->GetScene2Vars()->GetTopOrLeftChecked() && m_iEndPointOneCount == 0)
+		{
+			EndpointFaces(vertices.size() - 1, 0);
+			m_iEndPointOneCount = 1;
+		}
+		if (m_vars->GetDXPage()->GetScene2Vars()->GetBottomOrRightChecked() && m_iEndPointTwoCount == 0)
+		{
+			if (m_iEndPointOneCount == 1 && m_iEndPointTwoCount == 0)
+			{
+				EndpointFaces(vertices.size() - 2, m_iPointCount - 1);
+			}
+			else if (m_iEndPointTwoCount == 0)
+			{
+				EndpointFaces(vertices.size() - 1, m_iPointCount - 1);
+			}
+			m_iEndPointTwoCount = 1;
+		}
+	}
+}
+
+void Hot3dxRotoDraw::RotoDrawSceneRender::Initialize()
+{
+	//----------------------------------------------------------------------
+
+		//_In_ MoveLookController ^ controller,
+		//_In_ GraphicRenderer ^ renderer
+
+
+		// This method is expected to be called as an asynchronous task.
+		// Care should be taken to not call rendering methods on the
+		// m_renderer as this would result in the D3D Context being
+		// used in multiple threads, which is not allowed.
+
+		//m_controller = controller;
+		//m_renderer = renderer;
+
+	m_audioController = ref new Audio;
+	m_audioController->CreateDeviceIndependentResources();
+	Tetras tetras[1000] = {};
+	
+	// Create a sphere primitive to represent the player.
+	// The sphere will be used to handle collisions and constrain the player in the world.
+	// It is not rendered so it is not added to the list of render objects.
+	// It is added to the object list so it will be included in intersection calculations.
+	//m_artistCamera = GeometricPrimitive::CreateSphere(1.0f);// XMFLOAT3(0.0f, -1.3f, 4.0f), 0.2f);
+	//m_objects.push_back(m_artistDraw);
+	//m_artistCamera->Active(true);
+
+	m_camera = ref new Hot3dxCamera();
+	m_camera->SetProjParams(XM_PI / 2, 1.0f, 0.01f, 100.0f);
+	m_camera->SetViewParams(
+		//m_artistCamera->Position(),            // Eye point in world coordinates.
+		XMFLOAT3(m_EyeX, m_EyeY, m_EyeZ),
+		XMFLOAT3(m_LookAtX, m_LookAtY, m_LookAtZ),     // Look at point in world coordinates.
+		XMFLOAT3(m_UpX, m_UpY, m_UpZ)      // The Up vector for the camera.
+	);
+
+	//m_controller->Pitch(m_camera->Pitch());
+	//m_controller->Yaw(m_camera->Yaw());
+
+	// Instantiate a set of primitives to represent the containing world. These objects
+	// maintain the geometry and material properties of the walls, floor and ceiling.
+	// The TargetId is used to identify the world objects so that the right geometry
+	// and textures can be associated with them later after those resources have
+	// been created.
+	//GraphicObject^ world = ref new GraphicObject();
+	//world->TargetId(GraphicConstants::WorldFloorId);
+	//world->Active(true);
+	//m_renderObjects.push_back(world);
+
+	//world = ref new GraphicObject();
+	//world->TargetId(GraphicConstants::WorldCeilingId);
+	//world->Active(true);
+	//m_renderObjects.push_back(world);
+
+	//world = ref new GraphicObject();
+	//world->TargetId(GraphicConstants::WorldWallsId);
+	//world->Active(true);
+	//m_renderObjects.push_back(world);
+
+	// Min and max Bound are defining the world space of the Graphic.
+	// All camera motion and dynamics are confined to this space.
+	//m_minBound = XMFLOAT3(-4.0f, -3.0f, -6.0f);
+	//m_maxBound = XMFLOAT3(4.0f, 3.0f, 6.0f);
+
+	/* Instantiate the Cylinders for use in the various Graphic levels.
+	// Each cylinder has a different initial position, radius and direction vector,
+	// but share a common set of material properties.
+	for (int a = 0; a < GraphicConstants::MaxCylinders; a++)
+	{
+		Cylinder^ cylinder;
+		switch (a)
+		{
+		case 0:
+			cylinder = ref new Cylinder(XMFLOAT3(-2.0f, -3.0f, 0.0f), 0.25f, XMFLOAT3(0.0f, 6.0f, 0.0f));
+			break;
+		case 1:
+			cylinder = ref new Cylinder(XMFLOAT3(2.0f, -3.0f, 0.0f), 0.25f, XMFLOAT3(0.0f, 6.0f, 0.0f));
+			break;
+		case 2:
+			cylinder = ref new Cylinder(XMFLOAT3(0.0f, -3.0f, -2.0f), 0.25f, XMFLOAT3(0.0f, 6.0f, 0.0f));
+			break;
+		case 3:
+			cylinder = ref new Cylinder(XMFLOAT3(-1.5f, -3.0f, -4.0f), 0.25f, XMFLOAT3(0.0f, 6.0f, 0.0f));
+			break;
+		case 4:
+			cylinder = ref new Cylinder(XMFLOAT3(1.5f, -3.0f, -4.0f), 0.50f, XMFLOAT3(0.0f, 6.0f, 0.0f));
+			break;
+		}
+		cylinder->Active(true);
+		m_objects.push_back(cylinder);
+		m_renderObjects.push_back(cylinder);
+	}
+
+	MediaReader^ mediaReader = ref new MediaReader;
+	auto targetHitSound = mediaReader->LoadMedia("Assets\\hit.wav");
+	*/
+	// Instantiate the targets for use in the Graphic.
+	// Each target has a different initial position, size and orientation,
+	// but share a common set of material properties.
+	// The target is defined by a position and two vectors that define both
+	// the plane of the target in world space and the size of the parallelogram
+	// based on the lengths of the vectors.
+	// Each target is assigned a number for identification purposes.
+	// The Target ID number is 1 based.
+	/* All targets have the same material properties.
+	for (int a = 1; a < GraphicConstants::MaxTargets; a++)
+	{
+		m_^ target;
+		switch (a)
+		{
+		case 1:
+			target = ref new Face(XMFLOAT3(-2.5f, -1.0f, -1.5f), XMFLOAT3(-1.5f, -1.0f, -2.0f), XMFLOAT3(-2.5f, 1.0f, -1.5f));
+			break;
+
+	}
+
+		target->Target(true);
+		target->TargetId(a);
+		target->Active(true);
+		target->HitSound(ref new SoundEffect());
+		target->HitSound()->Initialize(
+			m_audioController->SoundEffectEngine(),
+			mediaReader->GetOutputWaveFormatEx(),
+			targetHitSound
+			);
+
+		m_objects.push_back(target);
+		m_renderObjects.push_back(target);
+	}
+	*/
+	// Instantiate a set of spheres to be used as ammunition for the Graphic
+	// and set the material properties of the spheres.
+	auto ammoHitSound = mediaReader->LoadMedia("Assets\\bounce.wav");
+
+	for (unsigned int a = 0; a < m_iPointCount; a++)
+	{
+		//m_tetraPoints[a]->Radius(1.0f);
+		//m_tetraPoints[a]->HitSound(ref new SoundEffect());
+		//m_tetraPoints[a]->HitSound()->Initialize(
+		m_audioController->SoundEffectEngine();		
+		mediaReader->GetOutputWaveFormatEx();
+		//	ammoHitSound
+		//	);
+		//m_ammo[a]->Active(false);
+		//m_renderObjects.push_back(m_ammo[a]);
+	}
+
+
+
+	// Load the currentScore for saved state if it exists.
+	LoadState();
+
+	//m_controller->Active(false);
+
+}

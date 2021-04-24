@@ -56,6 +56,9 @@
     <Filter Include="Assets\Textures">
       <UniqueIdentifier>{32cb827e-a070-4e90-b272-7fa055a7ac02}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FilesSave">
+      <UniqueIdentifier>{3198dbfc-6528-4d8d-817b-d643e9aa6cb1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -77,6 +80,18 @@
     </ClCompile>
     <ClCompile Include="Hot3dxRotoDrawConfiguration.cpp" />
     <ClCompile Include="Scenario5_MatsTexsConfig.cpp" />
+    <ClCompile Include="FilesSave\ColladaFileType.cpp">
+      <Filter>FilesSave</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesSave\ObjMaterialFile.cpp">
+      <Filter>FilesSave</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesSave\Obj3DFile.cpp">
+      <Filter>FilesSave</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesSave\Hot3dxTextFileSave.cpp">
+      <Filter>FilesSave</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hot3dxRotoDrawMain.h" />
@@ -98,6 +113,19 @@
     </ClInclude>
     <ClInclude Include="Hot3dxRotoDrawConfiguration.h" />
     <ClInclude Include="Scenario5_MatsTexsConfig.h" />
+    <ClInclude Include="FilesSave\ColladaFileType.h">
+      <Filter>FilesSave</Filter>
+    </ClInclude>
+    <ClInclude Include="FilesSave\ObjMaterialFile.h">
+      <Filter>FilesSave</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="FilesSave\Obj3DFile.h">
+      <Filter>FilesSave</Filter>
+    </ClInclude>
+    <ClInclude Include="FilesSave\Hot3dxTextFileSave.h">
+      <Filter>FilesSave</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\StoreLogo.png">
@@ -277,6 +305,9 @@
     <Image Include="Assets\Textures\seafloor.dds">
       <Filter>Assets\Textures</Filter>
     </Image>
+    <Image Include="Assets\Textures\CHARACTER_BABY_MARIO.PNG">
+      <Filter>Assets\Textures</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
@@ -294,6 +325,7 @@
     <Page Include="Scenario9_Rotate.xaml" />
     <Page Include="Styles.xaml" />
     <Page Include="Scenario10_Sculpt.xaml" />
+    <Page Include="Scenario11_GridorPic.xaml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\ADPCMdroid.xwb">
@@ -329,5 +361,8 @@
     <Font Include="Assets\segoeui.ttf">
       <Filter>Assets</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Hot3dxRotoDraw.rc" />
   </ItemGroup>
 </Project>

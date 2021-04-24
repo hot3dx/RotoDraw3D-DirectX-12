@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "Scenario5_MatsTexs.g.h"
+#include "Generated Files\Scenario5_MatsTexs.g.h"
 #include "DirectXPage.xaml.h"
 #include "Scenario5_MatsTexsConfig.h"
 #include "Content\Hot3dxRotoDrawVariables.h"
@@ -62,7 +62,6 @@ namespace Hot3dxRotoDraw
         void scrollBar_Scroll(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::ScrollEventArgs^ e);
         void IDC_TEXTURE_IMAGE1_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void IDC_TEXTURE_IMAGE2_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-
         void LoadDefaultImage1();
         void LoadChosenImage1();
         void LoadDefaultImage2();

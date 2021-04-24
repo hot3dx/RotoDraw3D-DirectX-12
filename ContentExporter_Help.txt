@@ -1,0 +1,109 @@
+Usage: ContentExporter [options] "filename1" "filename2" ... "filenameN"
+
+The following command line options can be used to modify scene parse and file output behavior.
+
+General & Macro Options:
+    -attach : Wait for debugger attach
+    -help : Display help
+    -? : Display help
+    -outputpath <path> : Sets the output root path; files will appear in scenes/ and textures/ subdirectories
+    -verbose : Displays more detailed output, equivalent to -loglevel 4
+    -xatg : Use the XATG output file format, equivalent to -fileformat xatg
+    -sdkmesh : Use the SDKMESH output file format, equivalent to -fileformat sdkmesh
+    -sdkmesh2 : Use the SDKMESH (version 2) output file format, equivalent to -fileformat sdkmesh2
+    -xbox360 : Sets export options for an Xbox 360 target
+    -xboxone : Sets export options for an Xbox One target
+    -windowsd3d9 : Sets export options for a Windows Direct3D 9 target
+    -windowsd3d10 : Sets export options for a Windows Direct3D 10 target
+    -windowsd3d11 : Sets export options for a Windows Direct3D 11 target
+    -collisionmesh : Sets export options for collision mesh export
+    -animation : Sets export options for animation track export
+    -character : Sets export options for character (mesh & skeleton) export
+    -lightmaps : Sets export options for light-mapped mesh export
+    -normalmaps : Sets export options for normal-mapped mesh export
+    -subd11 : Sets export options for subdivision surface processing for SubD11 sample
+    -subdxbox : Sets export options for subdivision surface processing for Xbox SubD sample
+    -savesettings <filename> : Saves all settings to the specified filename
+    -loadsettings <filename> : Loads settings from the specified filename
+    -filelist <filename> : Loads a list of input filenames from the specified filename
+    -loglevel <ranged value 1 - 10> : Sets the message logging level, higher values show more messages
+
+Target Platform Options:
+    -fileformat [ xatg | sdkmesh | sdkmesh2 ] : Output File Format
+    -endian [ ppc | intel ] : Data Endianness
+    -featurelevel [ 12.1 | 12.0 | 11.1 | 11.0 | 10.1 | 10.0 | 9.3 | 9.2 | 9.1 ] : Target Feature Level
+
+Scene Options:
+    -exporthiddenobjects[+|-] (default -) : Export Hidden Objects
+    -exportframes[+|-] (default +) : Export Frames
+    -exportlights[+|-] (default +) : Export Lights
+    -lightrangescale <ranged value 0.000 - 1000.000, default 1.000> : Light Range Scale
+    -exportcameras[+|-] (default +) : Export Cameras
+    -exportbindpose[+|-] (default +) : Export in Bind Pose
+    -exportscale <ranged value 0.000 - 1000000.000, default 1.000> : Export Scene Scale (1.0 = default)
+
+Meshes Options:
+    -exportmeshes[+|-] (default +) : Export Meshes
+    -compressvertexdata[+|-] (default -) : Compress Vertex Data
+    -computevertextangents[+|-] (default -) : Compute Vertex Tangent Space
+    -tangentsindex <ranged value 0 - 7, default 0> : Generate Tangents on Texture Coordinate Index
+    -exportbinormals[+|-] (default +) : Export Binormals
+    -compressednormaltype [ float3 | ubyte4n | short4n | float16_4 | rgba_10 | r11g11b10 | rgba_snorm | rgba_s10 ] : Compressed Type for Normals
+    -exportnormals[+|-] (default +) : Export Normals
+    -exportcolors[+|-] (default +) : Export Vertex Colors
+    -vertexcolortype [ bgra | rgba | float4 | float16_4 | rgba_10 | r11g11b10 ] : Type for Vertex Colors
+    -force32bitindices[+|-] (default -) : Force 32 Bit Index Buffers
+    -maxuvsetcount <ranged value 0 - 8, default 8> : Max UV Set Count
+    -exportboneweights[+|-] (default +) : Export Bone Weights & Indices for Skinned Meshes
+    -forceboneweights[+|-] (default -) : Always Export Bone Weights & Indices for Skinned Meshes (even if no data present)
+    -fliptriangles[+|-] (default +) : Flip Triangle Winding
+    -applyglobaltrans[+|-] (default -) : Apply global transformation (if not animated)
+    -invertvtexcoord[+|-] (default +) : Invert V Texture Coordinates
+    -flipz[+|-] (default +) : Invert Z Coordinates
+    -meshnamedecoration <string default: "Mesh"> : Mesh Name Decoration, applied as a prefix to mesh names
+
+Mesh optimization Options:
+    -gadjacency[+|-] (default -) : Use geometric rather than topographic adjacency
+    -optimizemeshes[+|-] (default -) : Perform vertex cache optimization of meshes
+    -vcache <ranged value 0 - 64, default 12> : Vertex cache size for optimizemesh
+    -restart <ranged value 0 - 64, default 7> : Strip restart length for optimizemesh
+    -cleanmeshes[+|-] (default -) : Clean up meshes (implied by optimizemeshes)
+    -optimization [ tvc | lru ] : Optimization algorithm
+
+UV Atlas Generation Options:
+    -generateuvatlas <ranged value -1 - 7, default -1> : Generate UV Atlas on Texture Coordinate Index
+    -uvatlasstretch <ranged value 0.000 - 1.000, default 0.750> : UV Atlas Max Stretch Factor
+    -uvatlasgutter <ranged value 0.000 - 10.000, default 2.500> : UV Atlas Gutter Size
+    -uvatlastexturesize <ranged value 64 - 4096, default 1024> : UV Atlas Texture Size
+
+Subdivision Surfaces Options:
+    -convertmeshtosubd[+|-] (default -) : Convert Poly Meshes to Subdivision Surfaces
+
+Materials Options:
+    -exportmaterials[+|-] (default +) : Export Materials
+    -defaultmaterialname <string default: "Default"> : Default Material Name
+    -materialcolors[+|-] (default +) : Export material colors
+    -texturecompression[+|-] (default +) : Use Texture Compression
+    -texturebgra[+|-] (default -) : Use BGRA texture format
+    -ignoresrgb[+|-] (default +) : Ignore sRGB metadata in source texture
+    -generatetexturemips[+|-] (default +) : Generate Texture Mip Maps
+    -forcetextureoverwrite[+|-] (default +) : Force Texture File Overwriting
+    -useemissivetexture[+|-] (default +) : Use emissive texture as specular texture
+    -defaultdiffusemap <string default: ""> : Default Diffuse Map Texture Filename
+    -defaultnormalmap <string default: ""> : Default Normal Map Texture Filename
+    -defaultspecmap <string default: ""> : Default Specular Map Texture Filename
+
+Animation Options:
+    -exportanimations[+|-] (default +) : Export Animations
+    -optimizeanimations[+|-] (default +) : Optimize Animations
+    -renameanimations[+|-] (default +) : Rename Animations To Match Output File Name
+    -animsamplecount <ranged value 1 - 10, default 1> : Animation Baking Sample Count Per Frame
+    -positioncurvequality <ranged value 0 - 100, default 50> : Position Curve Quality
+    -orientationcurvequality <ranged value 0 - 100, default 50> : Orientation Curve Quality
+    -animationrootnode <string default: ""> : Animation Root Node Name (default includes all nodes)
+
+XATG File Export Options:
+    -packmeshdata[+|-] (default +) : Write .pmem Fast Load File
+    -useexistingbundle[+|-] (default -) : Use Existing Bundle
+    -bundletextures[+|-] (default +) : Bundle Textures
+

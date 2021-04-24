@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "Scenario7_SphereDraw.g.h"
+#include "Generated Files\Scenario7_SphereDraw.g.h"
 #include "DirectXPage.xaml.h"
 #include "Hot3dxRotoDrawConfiguration.h"
 

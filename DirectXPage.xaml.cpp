@@ -14,6 +14,7 @@
 #include "DirectXPage.xaml.h"
 #include "OmnidirectionalSound.h"
 
+
 using namespace Hot3dxRotoDraw;
 
 using namespace Platform;
@@ -42,6 +43,7 @@ DirectXPage^ DirectXPage::Current = nullptr;
 
 DirectXPage::DirectXPage() :
 	m_fPointSpacingDXP(0.7f),
+	m_windowClosed(false),
 	m_windowVisible(true),
 	m_fullscreen(true),
 	m_xScaleDrawnObject(1.0f),
@@ -49,7 +51,7 @@ DirectXPage::DirectXPage() :
 	m_zScaleDrawnObject(1.0f),
 	m_xTranslateDrawnObject(0.0f),
 	m_yTranslateDrawnObject(0.0f),
-	m_zTranslateDrawnObject(20.0f),
+	m_zTranslateDrawnObject(0.0f),
 	m_xRotateDrawnObject(0.0f),
 	m_yRotateDrawnObject(0.0f),
 	m_zRotateDrawnObject(0.0f),
@@ -67,6 +69,7 @@ DirectXPage::DirectXPage() :
 	InitializeComponent();
 
 	DirectXPage::Current = this;
+	
 	Hot3dxRotoDrawVariables^ m_rVars = ref new Hot3dxRotoDrawVariables();
 
 	m_rVars->SetColor(true, 255, 0, 0, 255);
@@ -74,13 +77,25 @@ DirectXPage::DirectXPage() :
 
 	m_rVars->Setm_brushFrontFaceColorRV(m_rVars->SetColor(true, 255, 0, 0, 255));
 	m_rVars->Setm_brushBackFaceColorRV(m_rVars->SetColor(false, 0, 255, 0, 255));
-	m_fPointDrawGroupAngleDXP = 10;
+	m_fPointDrawGroupAngleDXP = 70;
 
 	// Register event handlers for page lifecycle.
 	CoreWindow^ window = Window::Current->CoreWindow;
+	Windows::Foundation::Rect rect = window->Bounds;
+	
+	window->ResizeStarted += 
+		ref new TypedEventHandler<Windows::UI::Core::CoreWindow^, Platform::Object^>(this, &DirectXPage::OnResizeStarted);
+
+	window->ResizeCompleted += 
+		ref new TypedEventHandler<Windows::UI::Core::CoreWindow^, Platform::Object^>(this, &DirectXPage::OnResizeCompleted);
+
+	window->SizeChanged += 
+		ref new TypedEventHandler<Windows::UI::Core::CoreWindow^, Windows::UI::Core::WindowSizeChangedEventArgs^>(this, &DirectXPage::OnWindowSizeChanged);
 
 	window->VisibilityChanged +=
 		ref new TypedEventHandler<CoreWindow^, VisibilityChangedEventArgs^>(this, &DirectXPage::OnVisibilityChanged);
+
+	window->Closed += ref new TypedEventHandler<CoreWindow^, CoreWindowEventArgs^>(this, &DirectXPage::OnWindowClosed);
 
 	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
 
@@ -98,6 +113,8 @@ DirectXPage::DirectXPage() :
 
 	swapChainPanel->SizeChanged +=
 		ref new SizeChangedEventHandler(this, &DirectXPage::OnSwapChainPanelSizeChanged);
+
+	window->InputEnabled += ref new TypedEventHandler<CoreWindow^, InputEnabledEventArgs^>(this, &DirectXPage::OnInputEnabled);
 
 	window->KeyDown += ref new TypedEventHandler<CoreWindow^, KeyEventArgs^>(this, &DirectXPage::OnKeyDown);
 
@@ -273,7 +290,7 @@ void Hot3dxRotoDraw::DirectXPage::FullScreen_Click(Platform::Object^ sender, Win
 	{
 		double Left = 0;
 		double Top = 0;
-		double Right = 500;
+		double Right = -500;
 		double Bottom = 0;
 		Windows::UI::Xaml::Thickness::Thickness(Left, Top, Right, Bottom);
 		swapChainPanel->Margin::set(Windows::UI::Xaml::Thickness::Thickness(Left, Top, Right, Bottom));
@@ -350,7 +367,7 @@ void DirectXPage::Footer_Click(Object^ sender, RoutedEventArgs^ e)
 	Windows::System::Launcher::LaunchUriAsync(uri);
 }
 
-void DirectXPage::Button_Click(Object^ sender, RoutedEventArgs^ e)
+void DirectXPage::Toggle_Button_Click(Object^ sender, RoutedEventArgs^ e)
 {
 	Splitter->IsPaneOpen = !Splitter->IsPaneOpen;
 }
@@ -402,6 +419,35 @@ void Hot3dxRotoDraw::DirectXPage::OnRendering(Platform::Object^ sender, Platform
 		peer->RaiseAutomationEvent(AutomationEvents::LiveRegionChanged);
 	}
 }
+
+void Hot3dxRotoDraw::DirectXPage::OnResizeStarted(Windows::UI::Core::CoreWindow^ sender, Platform::Object^ e)
+{
+	 // works on manual corner resize
+	// crash -> Platform::Type^ type = e->GetType();
+	// Does not crash -> Windows::Foundation::Rect rect;// =
+		
+	float Height = sender->Bounds.Height;
+	float Width = sender->Bounds.Height;
+	float Left = sender->Bounds.Height;
+	float Right = sender->Bounds.Height;
+	float Top = sender->Bounds.Height;
+	float Bottom = sender->Bounds.Height;
+}
+
+void Hot3dxRotoDraw::DirectXPage::OnResizeCompleted(Windows::UI::Core::CoreWindow^ sender, Platform::Object^ e)
+{
+	
+}
+
+void Hot3dxRotoDraw::DirectXPage::OnWindowSizeChanged(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::WindowSizeChangedEventArgs^ args)
+{
+
+	Windows::Foundation::Size sz = args->Size;
+	Windows::Foundation::Rect rect = sender->Bounds;
+	
+	
+}
+
 // DirectXPage::OnVisibilityChanged
 //
 // m_deviceResources->m_isSwapPanelVisible
@@ -421,6 +467,11 @@ void DirectXPage::OnVisibilityChanged(CoreWindow^ sender, VisibilityChangedEvent
 		m_deviceResources->m_isSwapPanelVisible = false;
 		m_main->StopRenderLoop();
 	}
+}
+
+void DirectXPage::OnWindowClosed(Windows::UI::Core::CoreWindow^, Windows::UI::Core::CoreWindowEventArgs^ args)
+{
+	m_windowClosed = true;
 }
 
 // DisplayInformation event handlers.
@@ -447,6 +498,11 @@ void DirectXPage::OnDisplayContentsInvalidated(DisplayInformation^ sender, Objec
 {
 	critical_section::scoped_lock lock(m_main->GetCriticalSection());
 	m_deviceResources->ValidateDevice();
+}
+
+void DirectXPage::OnInputEnabled(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::InputEnabledEventArgs^ args)
+{
+	//throw ref new Platform::NotImplementedException();
 }
 
 // Called when the app bar button is clicked.
@@ -711,9 +767,14 @@ void DirectXPage::OnCompositionScaleChanged(SwapChainPanel^ sender, Object^ args
 
 void DirectXPage::OnSwapChainPanelSizeChanged(Object^ sender, SizeChangedEventArgs^ e)
 {
-	critical_section::scoped_lock lock(m_main->GetCriticalSection());
-	m_deviceResources->SetLogicalSize(e->NewSize);
-	m_main->CreateWindowSizeDependentResources();
+	Size swapChainPanelPreviousSize = e->PreviousSize;
+	Size swapChainPanelSize = e->NewSize;
+	
+		critical_section::scoped_lock lock(m_main->GetCriticalSection());
+		m_deviceResources->SetLogicalSize(e->NewSize);
+		swapChainPanel->Width = e->NewSize.Width;
+		swapChainPanel->Height = e->NewSize.Height;
+		m_main->CreateWindowSizeDependentResources();
 }
 
 void Hot3dxRotoDraw::DirectXPage::IDC_WELCOME_STATIC_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
@@ -767,6 +828,12 @@ void Hot3dxRotoDraw::DirectXPage::TEXTURE_IMAGE1(Platform::Object^ sender, Windo
 
 
 void Hot3dxRotoDraw::DirectXPage::TEXTURE_IMAGE2(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+
+}
+
+
+void Hot3dxRotoDraw::DirectXPage::Hot3dxRotoDraw3DX12_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 
 }

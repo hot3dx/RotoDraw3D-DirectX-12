@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "Scenario4_MySettings.g.h"
+#include "Generated Files\Scenario4_MySettings.g.h"
 #include "DirectXPage.xaml.h"
 #include "Hot3dxRotoDrawConfiguration.h"
 

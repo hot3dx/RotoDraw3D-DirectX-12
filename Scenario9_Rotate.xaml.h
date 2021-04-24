@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "Scenario9_Rotate.g.h"
+#include "Generated Files\Scenario9_Rotate.g.h"
 #include "DirectXPage.xaml.h"
 #include "Hot3dxRotoDrawConfiguration.h"
 
