@@ -842,21 +842,21 @@ void DirectX::ComputeSphereColor(VertexCollectionColor& vertices, IndexCollectio
     float radius = diameter / 2;
 
     // Create rings of vertices at progressively higher latitudes.
-    for (size_t i = 0; i <= verticalSegments; i++)
+    for (float i = 0.0f; i <= (float)verticalSegments; i++)
     {
-        float v = 1 - float(i) / verticalSegments;
+        float v = 1 - float(i) / (float)verticalSegments;
 
-        float latitude = (i * XM_PI / verticalSegments) - XM_PIDIV2;
+        float latitude = (i * XM_PI / (float)verticalSegments) - XM_PIDIV2;
         float dy, dxz;
 
         XMScalarSinCos(&dy, &dxz, latitude);
 
         // Create a single ring of vertices at this latitude.
-        for (size_t j = 0; j <= horizontalSegments; j++)
+        for (float j = 0.0f; j <= (float)horizontalSegments; j++)
         {
-            float u = float(j) / horizontalSegments;
+            float u = float(j) / (float)horizontalSegments;
 
-            float longitude = j * XM_2PI / horizontalSegments;
+            float longitude = j * XM_2PI / (float)horizontalSegments;
             float dx, dz;
 
             XMScalarSinCos(&dx, &dz, longitude);
@@ -1225,7 +1225,7 @@ namespace
     // Helper computes a point on a unit circle, aligned to the x/z plane and centered on the origin.
     inline XMVECTOR GetCircleVectorColor(size_t i, size_t tessellation)
     {
-        float angle = i * XM_2PI / tessellation;
+        float angle = (float)i * XM_2PI / tessellation;
         float dx, dz;
 
         XMScalarSinCos(&dx, &dz, angle);
@@ -1316,7 +1316,7 @@ void DirectX::ComputeCylinderColor(VertexCollectionColor& vertices, IndexCollect
 
         XMVECTOR sideOffset = XMVectorScale(normal, radius);
 
-        float u = float(i) / tessellation;
+        float u = float(i) / (float)tessellation;
 
         XMVECTOR textureCoordinate = XMLoadFloat(&u);
 
@@ -1367,7 +1367,7 @@ void DirectX::ComputeConeColor(VertexCollectionColor& vertices, IndexCollectionC
 
         XMVECTOR sideOffset = XMVectorScale(circlevec, radius);
 
-        float u = float(i) / tessellation;
+        float u = float(i) / (float)tessellation;
 
         XMVECTOR textureCoordinate = XMLoadFloat(&u);
 
@@ -1410,9 +1410,9 @@ void DirectX::ComputeTorusColor(VertexCollectionColor& vertices, IndexCollection
     // First we loop around the main ring of the torus.
     for (size_t i = 0; i <= tessellation; i++)
     {
-        float u = float(i) / tessellation;
+        float u = float(i) / (float)tessellation;
 
-        float outerAngle = i * XM_2PI / tessellation - XM_PIDIV2;
+        float outerAngle = (float)i * XM_2PI / (float)tessellation - XM_PIDIV2;
 
         // Create a transform matrix that will align geometry to
         // slice perpendicularly though the current ring position.
@@ -1421,9 +1421,9 @@ void DirectX::ComputeTorusColor(VertexCollectionColor& vertices, IndexCollection
         // Now we loop along the other axis, around the side of the tube.
         for (size_t j = 0; j <= tessellation; j++)
         {
-            float v = 1 - float(j) / tessellation;
+            float v = 1 - float(j) / (float)tessellation;
 
-            float innerAngle = j * XM_2PI / tessellation + XM_PI;
+            float innerAngle = (float)j * XM_2PI / (float)tessellation + XM_PI;
             float dx, dy;
 
             XMScalarSinCos(&dy, &dx, innerAngle);

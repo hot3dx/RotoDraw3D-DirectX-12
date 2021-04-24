@@ -12,6 +12,7 @@
 #include <Graphics\GraphicsMemoryXaml12.h>
 #include <Graphics\DescriptorHeapXaml12.h>
 #include <Graphics\EffectCommonXaml12.h>
+#include <Graphics\DDSTextureLoaderXaml12.h>
 #include <Graphics\VertexTypesXaml12.h>
 #include <Graphics\SimpleMathXaml12.h>
 #include <Graphics\ModelXaml12.h>
@@ -94,8 +95,12 @@ namespace Hot3dxRotoDraw
 
 		void LoadState();
 		void Rotate(float radians);
-		void XM_CALLCONV Draw3DCursorXY(FXMVECTOR xAxis, FXMVECTOR yAxis, FXMVECTOR origin, XMFLOAT3 curPos);
-		void XM_CALLCONV DrawLineOnlyObject(FXMVECTOR xAxis, FXMVECTOR zAxis, FXMVECTOR origin, GXMVECTOR color);
+		//void XM_CALLCONV Draw3DCursorXY(FXMVECTOR xAxis, FXMVECTOR yAxis, FXMVECTOR origin, XMFLOAT3 curPos);
+		void XM_CALLCONV Draw3DCursorXY(XMFLOAT3 curPos);
+		void XM_CALLCONV ClearGridPicRectangle();
+		void XM_CALLCONV DrawGridPicRectangle();
+		//void XM_CALLCONV DrawLineOnlyObject(FXMVECTOR xAxis, FXMVECTOR zAxis, FXMVECTOR origin, GXMVECTOR color);
+		void XM_CALLCONV DrawLineOnlyObject(GXMVECTOR color);
 		void XM_CALLCONV DrawGridXY(FXMVECTOR xAxis, FXMVECTOR yAxis, FXMVECTOR origin, size_t xdivs, size_t ydivs, GXMVECTOR color);
 		void XM_CALLCONV DrawGridXZ(FXMVECTOR xAxis, FXMVECTOR zAxis, FXMVECTOR origin, size_t xdivs, size_t ydivs, GXMVECTOR color);
 		void XM_CALLCONV InitDrawnObjectSingleTexture();
@@ -117,6 +122,7 @@ namespace Hot3dxRotoDraw
 		void XM_CALLCONV MakeBox(XMFLOAT3* copier, int qCount, Platform::Array<float>^ b);
 
 		// Not Yet Used Draws Mesh Points 
+		unsigned int GetPointCount() { return m_iPointCount; }
 		void XM_CALLCONV SetPoints(); // RotoDraw3D old SetPintsButton Function
 
 		void ViewMatrix(XMFLOAT4X4 M, wchar_t* str);
@@ -170,7 +176,11 @@ namespace Hot3dxRotoDraw
 		void SetPointSpace(float dist) { m_fPointSpace = dist; }
 
 		// Draws the single line fro which the object is calculated
-		void XM_CALLCONV DrawObjectPoints();
+		void IncrementPtGroups(){
+			PtGroups^ ptGroups = ref new PtGroups();
+			m_PtGroupList.push_back(ptGroups);
+		}
+		uint16_t XM_CALLCONV DrawObjectPoints(uint16_t n);
 		void XM_CALLCONV DrawObjectPointsTop();
 		void XM_CALLCONV DrawObjectPointsBottom();
 		void XM_CALLCONV DrawObjectPointsTopBottom();
@@ -208,17 +218,24 @@ namespace Hot3dxRotoDraw
 		Platform::String^ DrawnObjectSaveBinary();
 
 		// Texture Filename Accessors
+		void Setm_bDDS_WIC_FLAG1(bool flag) { m_bDDS_WIC_FLAG1 = flag; }
+		void Setm_bDDS_WIC_FLAG2(bool flag) { m_bDDS_WIC_FLAG2 = flag; }
+		void SetDDS_WIC_FLAGGridPic(bool flag) { m_bDDS_WIC_FLAGGridPic = flag; }
 		Platform::String^ GetTextureImage1File() { return m_textureImage1File;  }
 		void SetTextureImage1File(Platform::String^ fileName) { 
 			m_textureImage1File = nullptr; 
 			m_textureImage1File = ref new Platform::String(fileName->Data()); 
-			//m_loadingDrawnObjectComplete = true;
-			//InitDrawnObjectSingleTexture();
 		}
 		Platform::String^ GetTextureImage2File() { return m_textureImage2File; }
 		void SetTextureImage2File(Platform::String^ fileName) { 
 			m_textureImage2File = nullptr; 
 			m_textureImage2File = ref new Platform::String(fileName->Data());
+		}
+		// Scenario111-GridPic Accessors
+		Platform::String^ GetTextureImageGridPicFile() { return m_textureImageGridPicFile; }
+		void SetTextureImageGridPicFile(Platform::String^ fileName) {
+			m_textureImageGridPicFile = nullptr;
+			m_textureImageGridPicFile = ref new Platform::String(fileName->Data());
 		}
 
 		bool GetIsYAxis() { return m_bIsYAxis; }
@@ -228,12 +245,13 @@ namespace Hot3dxRotoDraw
 		
 		// Calculates the faces of a mesh
 		void CalculateMeshFaces();
-		void CalculateMeshFacesBottom();
+		void CalculateMeshFacesTopBottom();
 		void XM_CALLCONV EndpointTopLeftFaces();
 		void XM_CALLCONV EndpointBottomRightFaces();
 
 		// Calculates Texture Coordinates for whole object
 		void XM_CALLCONV GetUVPercent();
+		//void XM_CALLCONV GetUVPercentTop();
 		float* XM_CALLCONV GetU(XMVECTOR v, Platform::Array<float>^ box);
 		// Needed to Get DirectXPage^
 		Hot3dxRotoDrawVariables^ m_vars;
@@ -328,12 +346,14 @@ namespace Hot3dxRotoDraw
 		std::unique_ptr<DirectX::BasicEffect>                                   m_shapeEffect;
 		std::unique_ptr<DirectX::BasicEffect>                                   m_artistCameraEffect;
 		std::unique_ptr<DirectX::BasicEffect>                                   m_shapeTetraEffect;
+		std::unique_ptr<DirectX::BasicEffect>                                   m_drawRectangleEffect;
 		std::unique_ptr<DirectX::Model>                                         m_model;
 		std::vector<std::shared_ptr<DirectX::IEffect>>                          m_modelEffects;
 		std::unique_ptr<DirectX::EffectTextureFactory>                          m_modelResources;
 		std::unique_ptr<DirectX::GeometricPrimitive>                            m_shape;
 		std::unique_ptr<DirectX::GeometricPrimitive>                            m_artistCamera;
 		std::unique_ptr<DirectX::GeometricPrimitive>                            m_shapeTetra;
+		std::unique_ptr<DirectX::GeometricPrimitive>                            m_shapeGridPic;
 		std::unique_ptr<DirectX::SpriteBatch>                                   m_sprites;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_CameraEyeFont;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_CameraAtFont;
@@ -347,19 +367,21 @@ namespace Hot3dxRotoDraw
 		std::unique_ptr<DirectX::DualTextureEffect>                             m_dualTextureEffect;
 		
 		std::unique_ptr<DirectX::BasicEffect>                                   m_shapeDrawnObjectEffect;
-		std::unique_ptr<DirectX::Hot3dxDrawnObject>                            m_shapeDrawnObject;
+		std::unique_ptr<DirectX::Hot3dxDrawnObject>                             m_shapeDrawnObject;
 		std::unique_ptr<DirectX::GeometricPrimitive>                            m_shapeDrawnObjectTex;
 		std::shared_ptr<DirectX::ResourceUploadBatch>                           mesourceUploadDrawnObject;
 		std::unique_ptr<DirectX::GraphicsMemory>                                m_graphicsMemoryDrawnObject;
 
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_texture1;
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_texture2;
+		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_textureGridPic;
 
 		Microsoft::WRL::ComPtr<ID3D12Resource> m_DrawnMeshTexture1;
 		Microsoft::WRL::ComPtr<ID3D12Resource> m_DrawnMeshTexture2;
 		Platform::String^ m_textureImage1File = ref new Platform::String();
 		Platform::String^ m_textureImage2File = ref new Platform::String();
-
+		Platform::String^ m_textureImageGridPicFile = ref new Platform::String();
+		
 		Platform::String^ m_selTexFrontPath;
 		Platform::String^ m_selTexBackPath;
 
@@ -381,6 +403,7 @@ namespace Hot3dxRotoDraw
 			SegoeFont,
 			FrontTexture,
 			BackTexture,
+			GridPicTexture,
 			DrawnObjectTexture1,
 			DrawnObjectTexture2,
 			Count = 256
@@ -404,12 +427,12 @@ namespace Hot3dxRotoDraw
 		// Screen Draw Variables
 		Hot3dx::CHot3dxD3D12Geometry^ m_hot3dxGeo = ref new Hot3dx::CHot3dxD3D12Geometry();
 		Hot3dx::Hot3dx12Rotate^ m_hot3dxRotate = ref new Hot3dx::Hot3dx12Rotate();
-
+		/*
 		struct Tetras
 		{
 			std::unique_ptr<DirectX::GeometricPrimitive>                   m_shapeTetra;
 		};
-		
+		*/
 		XMFLOAT4                                                           m_vMouse3dPos;
 		bool                                                               m_bMouse3dPosDist;
 		
@@ -444,6 +467,8 @@ namespace Hot3dxRotoDraw
 
 		// Camera vars
 		Hot3dxCamera^ m_camera;
+		float m_fCameraDistance;
+		float m_fCameraRotation;
 		float m_EyeX;
 		float m_EyeY;
 		float m_EyeZ;
@@ -475,19 +500,18 @@ namespace Hot3dxRotoDraw
 		DirectX::XMFLOAT4                                        m_at;
 		DirectX::XMFLOAT4                                        m_up;
 
-		float                                                    m_fCameraDistance;
-		float                                                    m_fCameraRotation;
-
 		Windows::UI::Xaml::Media::SolidColorBrush^ m_brushFrontFaceColorSR;
 		Windows::UI::Xaml::Media::SolidColorBrush^ m_brushBackFaceColorSR;
 		Windows::UI::Color m_frontColorSR;
 		Windows::UI::Color m_backColorSR;
 
-		int m_drawMode;
-		
+		int m_drawMode;	
 
+		bool m_bDDS_WIC_FLAG1;
+		bool m_bDDS_WIC_FLAG2;
+		bool m_bDDS_WIC_FLAGGridPic;
+		bool m_bDDS_WIC_FLAGGridPicComplete;
 	};          
-
 }
 
 
