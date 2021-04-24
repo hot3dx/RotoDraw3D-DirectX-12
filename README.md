@@ -3,7 +3,8 @@
 # RotoDraw3D-DirectX-12 #
 RotoDraw3d DX 12 is a freehand symmetrical object drawer for DirectX 12
 
-## Visual Studio 2019 C++ 17 build 19041 tools 142 Windows 10 v 20H2 ##
+Many bug fixes in GUI, Drawing algorithms, everywhere! 4/23/21
+## Visual Studio 2019 C++ 17 build 19041 tools 142 Windows 10 v 20H2 ## C++ 16.9.4
 ## supported Win32 Debug/Release - x64 Debug/Release
 #Draw One Line! Press the Button!
 
@@ -25,7 +26,7 @@ Currently only uses, ,dds files for textures
 ## 1) at least 8 gb ram ##
 ## 2)intel hd graphics or a DirectX 12 capable graphics card ##
 ## 3) WinPixEventRuntime version=1.0.210209001 nuget package ##
-## 4) Microsoft.UI.Xaml version 2.5.0 nuget package
+## 4) Microsoft.UI.Xaml 2.6.0-prerelease.210405001 (version 2.5.0 will work but the prerelease is so much better)nuget package
 
 Setup for pen, mouse, or touchpad. a pen is best
 
