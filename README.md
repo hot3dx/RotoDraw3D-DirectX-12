@@ -1,4 +1,4 @@
-# - uploading is finished - 3/1/21- #
+# - New Version 4/23/21- #
 
 # RotoDraw3D-DirectX-12 #
 RotoDraw3d DX 12 is a freehand symmetrical object drawer for DirectX 12
