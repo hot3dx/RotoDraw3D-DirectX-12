@@ -44,9 +44,9 @@ Scenario2_Normal::Scenario2_Normal() : _rootPage(DirectXPage::Current)
     InitializeComponent();
     Scenario2Vars^ vars = _rootPage->m_Scene2Vars;
     _rootPage->NotifyUser("Stopped", NotifyType::StatusMessage);
-    IDC_ROTATION_EDIT->Text = L"70";
+    IDC_ROTATION_EDIT->Text = (L"70");
     m_pointColor = { 255,125,125,0 };
-    IDC_POINT_SPACE_STATIC->Text = "0.300000f";
+    IDC_POINT_SPACE_STATIC->Text = ("0.300000f");
     PointSpacingTextBox->Text = "0.300000f";
     PartialRotateTextBox->Text = "0.0f";
     vars->SetPartialRotateAngle(0.0f);

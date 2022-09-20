@@ -77,6 +77,7 @@
 using namespace Microsoft::WRL;
 using namespace Windows::UI::Xaml;
 using namespace Windows::Foundation;
+using namespace DirectX::DXTKXAML12;
 
 #include <Audio/AudioFileReaderXaml12.h>
 #include <Audio/XAudio2HelpersXaml12.h>
