@@ -30,6 +30,7 @@
 #include <Graphics\MyResourceUploadBatchXaml12.h>
 
 using namespace DirectX;
+using namespace DirectX::DXTKXAML12;
 
 namespace Hot3dxRotoDraw
 {
@@ -142,7 +143,7 @@ namespace Hot3dxRotoDraw
 		// Texture Filename Accessors
 		int TestTextureSubResources(Windows::Storage::StorageFile^ file) {
 			ID3D12Device* device = m_deviceResources->GetD3DDevice();
-			std::shared_ptr<ResourceUploadBatch> m_Object = std::make_unique<ResourceUploadBatch>(device);
+			std::shared_ptr<DirectX::DXTKXAML12::ResourceUploadBatch> m_Object = std::make_unique<DirectX::DXTKXAML12::ResourceUploadBatch>(device);
 			Microsoft::WRL::ComPtr<ID3D12Resource> Texture1;
 
 			m_Object->BeginXaml();
@@ -154,7 +155,7 @@ namespace Hot3dxRotoDraw
 
 			DX::ThrowIfFailed(device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&q)));
 			DX::SetName(q.Get(), L"q");
-			int hr = DirectX::CreateDDSTextureFromFile(device, *m_Object, file->Path->Data(), &Texture1);
+			int hr = DirectX::DXTKXAML12::CreateDDSTextureFromFile(device, *m_Object, file->Path->Data(), &Texture1);
 			m_Object->EndXaml(q.Get());
 
 			//q->Release();

@@ -349,8 +349,8 @@
     <None Include="Assets\tiny.sdkmesh">
       <Filter>Assets</Filter>
     </None>
-    <None Include="Package.StoreAssociation.xml" />
     <None Include="packages.config" />
+    <None Include="Hot3dxRotoDraw_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\musicmono_adpcm.wav">
