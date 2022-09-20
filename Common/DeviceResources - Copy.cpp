@@ -230,15 +230,25 @@ void DX::DeviceResources::CreateDeviceResources()
 
 	ComPtr<IDXGIAdapter1> adapter;
 	GetHardwareAdapter(&adapter);
-	if (!adapter)
+	if (adapter)
 	{
+		DXGI_ADAPTER_DESC1 desc;
+		adapter->GetDesc1(&desc);
+		LUID m_DeviceLuid = desc.AdapterLuid;
+		SIZE_T m_DeviceDedicatedSystemMemory = desc.DedicatedSystemMemory;
+		SIZE_T m_DeviceDedicatedVideoMemory = desc.DedicatedVideoMemory;
+		WCHAR* m_DeviceDescrip = desc.Description;
+		UINT m_DeviceDevId = desc.DeviceId;
+		UINT m_DeviceFlags = desc.Flags;
+		UINT m_DeviceRevision = desc.Revision;
+		SIZE_T m_DeviceSharedSystemMemory = desc.SharedSystemMemory;
+		UINT m_DeviceDSubSysId = desc.SubSysId;
 		// Create the Direct3D 12 API device object
 		hr = D3D12CreateDevice(
 			adapter.Get(),					// The hardware adapter.
 			D3D_FEATURE_LEVEL_11_0,			// Minimum feature level this app can support.
 			IID_PPV_ARGS(&m_d3dDevice)		// Returns the Direct3D device created.
 		);
-		
 	}
 
 	//#if defined(_DEBUG)
@@ -648,45 +658,48 @@ void DX::DeviceResources::UpdateRenderTargetSize()
 
 void DX::DeviceResources::HandleDeviceLost()
 {
-	if (m_deviceNotify)
-	{
-		m_deviceNotify->OnDeviceLost();
-	}
+	m_swapChainPanel->Dispatcher->RunAsync(CoreDispatcherPriority::High, ref new DispatchedHandler([=]()
+		{
+			if (m_deviceNotify)
+			{
+				m_deviceNotify->OnDeviceLost();
+			}
 
-	for (UINT n = 0; n < m_backBufferCount; n++)
-	{
-		m_commandAllocators[n].Reset();
-		m_renderTargets[n].Reset();
-	}
+			for (UINT n = 0; n < m_backBufferCount; n++)
+			{
+				m_commandAllocators[n].Reset();
+				m_renderTargets[n].Reset();
+			}
 
-	m_depthStencil.Reset();
-	m_commandQueue.Reset();
-	m_commandList.Reset();
-	m_fence.Reset();
-	m_rtvHeap.Reset();
-	m_dsvHeap.Reset();
-	m_swapChain.Reset();
-	m_d3dDevice.Reset();
-	m_dxgiFactory.Reset();
+			m_depthStencil.Reset();
+			m_commandQueue.Reset();
+			m_commandList.Reset();
+			m_fence.Reset();
+			m_rtvHeap.Reset();
+			m_dsvHeap.Reset();
+			m_swapChain.Reset();
+			m_d3dDevice.Reset();
+			m_dxgiFactory.Reset();
 
 #ifdef _DEBUG
-	{
-		ComPtr<IDXGIDebug1> dxgiDebug;
-		if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&dxgiDebug))))
-		{
-			dxgiDebug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_FLAGS(DXGI_DEBUG_RLO_SUMMARY | DXGI_DEBUG_RLO_IGNORE_INTERNAL));
-		}
-	}
+			{
+				ComPtr<IDXGIDebug1> dxgiDebug;
+				if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(dxgiDebug.GetAddressOf()))))
+				{
+					dxgiDebug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_FLAGS(DXGI_DEBUG_RLO_SUMMARY | DXGI_DEBUG_RLO_IGNORE_INTERNAL));
+				}
+			}
 #endif
 
-	//CreateWindowSizeDependentResources(); // added 4/23/21 16:57 
-	CreateDeviceResources();
-	CreateWindowSizeDependentResources();
+			//CreateWindowSizeDependentResources(); // added 4/23/21 16:57 
+			CreateDeviceResources();
+			CreateWindowSizeDependentResources();
 
-	if (m_deviceNotify)
-	{
-		m_deviceNotify->OnDeviceRestored();
-	}
+			if (m_deviceNotify)
+			{
+				m_deviceNotify->OnDeviceRestored();
+			}
+		}, CallbackContext::Any));
 }
 
 bool DX::DeviceResources::WindowSizeChanged(int width, int height, DXGI_MODE_ROTATION rotation)
@@ -813,7 +826,6 @@ void DX::DeviceResources::Prepare(D3D12_RESOURCE_STATES beforeState)
 // Present the contents of the swap chain to the screen.
 void DX::DeviceResources::Present(D3D12_RESOURCE_STATES beforeState)
 {
-
 	/*
 	// The first argument instructs DXGI to block until VSync, putting the application
 	// to sleep until the next VSync. This ensures we don't waste any cycles rendering
@@ -864,12 +876,13 @@ void DX::DeviceResources::Present(D3D12_RESOURCE_STATES beforeState)
 	if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
 	{
 #ifdef _DEBUG
-
+		/*
 		String^ arg = ref new String(L"Device Lost on Present: Reason code ");
 		hr == DXGI_ERROR_DEVICE_REMOVED ? m_d3dDevice->GetDeviceRemovedReason() : hr;
 		String^ var = ref new String(std::to_wstring(hr).c_str());
 		arg = arg->Concat(arg, var);
 		OutputDebugStringA((LPCSTR)arg);
+		*/
 #endif
 		HandleDeviceLost();
 	}
@@ -1025,13 +1038,22 @@ void DX::DeviceResources::GetHardwareAdapter(IDXGIAdapter1** ppAdapter)
 	{
 		DXGI_ADAPTER_DESC1 desc;
 		adapter->GetDesc1(&desc);
-
+		LUID m_DeviceLuid = desc.AdapterLuid;
+		SIZE_T m_DeviceDedicatedSystemMemory = desc.DedicatedSystemMemory;
+		SIZE_T m_DeviceDedicatedVideoMemory = desc.DedicatedVideoMemory;
+		WCHAR* m_DeviceDescrip = desc.Description;
+		UINT m_DeviceDevId = desc.DeviceId;
+		UINT m_DeviceFlags = desc.Flags;
+		UINT m_DeviceRevision = desc.Revision;
+		SIZE_T m_DeviceSharedSystemMemory = desc.SharedSystemMemory;
+		UINT m_DeviceDSubSysId = desc.SubSysId;
+		
 		if (desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE)
 		{
 			// Don't select the Basic Render Driver adapter.
 			continue;
 		}
-
+		if(adapterIndex == 1)
 		// Check to see if the adapter supports Direct3D 12, but don't create the
 		// actual device yet.
 		if (SUCCEEDED(D3D12CreateDevice(adapter.Get(), D3D_FEATURE_LEVEL_11_0, _uuidof(ID3D12Device), nullptr)))
