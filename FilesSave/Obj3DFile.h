@@ -10,6 +10,7 @@
 #include "Content\Hot3dxRotoDrawSceneRender.h"
 
 using namespace Platform;
+using namespace DirectX::DXTKXAML12;
 
 namespace Hot3dxRotoDraw
 {
@@ -25,7 +26,7 @@ namespace Hot3dxRotoDraw
 		Platform::String^ DrawnObjectSaveObjFile(
 			unsigned int pointCount,
 			unsigned int groupCount,
-			std::vector<DirectX::VertexPositionNormalTexture> vertexes,
+			std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes,
 			std::vector<uint16_t> indices,
 			Platform::String^ mtlObjFilename,
 			Platform::String^ nodeName,
