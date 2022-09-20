@@ -41,6 +41,7 @@ using namespace Hot3dx;
 using namespace DX;
 using namespace Concurrency;
 using namespace DirectX;
+using namespace DirectX::DXTKXAML12;
 using namespace Microsoft::WRL;
 using namespace Windows::Foundation;
 using namespace Windows::Storage;
@@ -153,19 +154,19 @@ void RotoDrawSceneRender::CreateDeviceDependentResources()
 		auto targetHitSound = mediaReader->LoadMedia("Assets\\hit.wav");
 
 		m_vars = ref new Hot3dxRotoDrawVariables();
-		m_resourceUpload = std::make_unique<ResourceUploadBatch>(device);
-		m_graphicsMemory = std::make_unique<GraphicsMemory>(device);
+		m_resourceUpload = std::make_unique<DirectX::DXTKXAML12::ResourceUploadBatch>(device);
+		m_graphicsMemory = std::make_unique<DirectX::DXTKXAML12::GraphicsMemory>(device);
 
-		m_states = std::make_unique<CommonStates>(device);
+		m_states = std::make_unique<DirectX::DXTKXAML12::CommonStates>(device);
 
-		m_resourceDescriptors = std::make_unique<DescriptorHeap>(device,
+		m_resourceDescriptors = std::make_unique<DirectX::DXTKXAML12::DescriptorHeap>(device,
 			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
 			D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE,
 			size_t(Descriptors::Count));
 
-		m_batch = std::make_unique<PrimitiveBatch<DirectX::VertexPositionColor>>(device);
+		m_batch = std::make_unique<DirectX::DXTKXAML12::PrimitiveBatch<DirectX::DXTKXAML12::VertexPositionColor>>(device);
 
-		m_shapeTetra = GeometricPrimitive::CreateTetrahedron(0.5f);
+		m_shapeTetra = DirectX::DXTKXAML12::GeometricPrimitive::CreateTetrahedron(0.5f);
 
 		// SDKMESH has to use clockwise winding with right-handed coordinates, so textures are flipped in U
 		{
@@ -174,47 +175,47 @@ void RotoDrawSceneRender::CreateDeviceDependentResources()
 			m_resourceUpload->BeginXaml();
 			
 			DX::ThrowIfFailed(
-				DirectX::CreateDDSTextureFromFile(device, *m_resourceUpload, L"Assets\\seafloor.dds", &m_texture1)//.ReleaseAndGetAddressOf())
+				DirectX::DXTKXAML12::CreateDDSTextureFromFile(device, *m_resourceUpload, L"Assets\\seafloor.dds", &m_texture1)//.ReleaseAndGetAddressOf())
 			);
 
-			DirectX::CreateShaderResourceView(device, m_texture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SeaFloor)), false);
+			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_texture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SeaFloor)), false);
 			
 			RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());
 			// Each effect object must ne proceeded by its own 
 			// EffectPipelineStateDescription pd even if the EffectPipelineStateDescription pd is the same
 			{
 				EffectPipelineStateDescription pd(
-					&DirectX::VertexPositionColor::InputLayout,
-					CommonStates::Opaque,
-					CommonStates::DepthNone,
-					CommonStates::CullNone,
+					&DirectX::DXTKXAML12::VertexPositionColor::InputLayout,
+					DirectX::DXTKXAML12::CommonStates::Opaque,
+					DirectX::DXTKXAML12::CommonStates::DepthNone,
+					DirectX::DXTKXAML12::CommonStates::CullNone,
 					rtState,
 					D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE);
 
-				m_lineEffect = std::make_unique<BasicEffect>(device, EffectFlags::VertexColor, pd);
+				m_lineEffect = std::make_unique<DirectX::DXTKXAML12::BasicEffect>(device, EffectFlags::VertexColor, pd);
 			}
 			
 			{
 				EffectPipelineStateDescription cd(
-					&DirectX::VertexPositionColor::InputLayout,
-					CommonStates::Opaque,
-					CommonStates::DepthNone,
-					CommonStates::CullNone,
+					&DirectX::DXTKXAML12::VertexPositionColor::InputLayout,
+					DirectX::DXTKXAML12::CommonStates::Opaque,
+					DirectX::DXTKXAML12::CommonStates::DepthNone,
+					DirectX::DXTKXAML12::CommonStates::CullNone,
 					rtState,
 					D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE);
 
-				m_cursorEffect = std::make_unique<BasicEffect>(device, EffectFlags::VertexColor, cd);
+				m_cursorEffect = std::make_unique<DirectX::DXTKXAML12::BasicEffect>(device, EffectFlags::VertexColor, cd);
 			}
 			
 			{			
 				EffectPipelineStateDescription pd(
-					&GeometricPrimitive::VertexType::InputLayout,
-					CommonStates::Opaque,
-					CommonStates::DepthDefault,
-					CommonStates::CullNone,
+					&DirectX::DXTKXAML12::GeometricPrimitive::VertexType::InputLayout,
+					DirectX::DXTKXAML12::CommonStates::Opaque,
+					DirectX::DXTKXAML12::CommonStates::DepthDefault,
+					DirectX::DXTKXAML12::CommonStates::CullNone,
 					rtState);
 
-				m_shapeTetraEffect = std::make_unique<BasicEffect>(device, EffectFlags::PerPixelLighting | EffectFlags::Texture, pd);
+				m_shapeTetraEffect = std::make_unique<DirectX::DXTKXAML12::BasicEffect>(device, EffectFlags::PerPixelLighting | EffectFlags::Texture, pd);
 				m_shapeTetraEffect->EnableDefaultLighting();
 				m_shapeTetraEffect->SetTexture(m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SeaFloor)), m_states->AnisotropicWrap());
 			}
@@ -1002,7 +1003,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::Copy()
 	unsigned int i = 0;
 
 	m_GroupListSelectedIndex = i;
-	DirectX::VertexPositionColor vpc; vpc.position = XMFLOAT3(0, 0, 0); vpc.color = XMFLOAT4(0, 0, 0, 1);
+	DirectX::DXTKXAML12::VertexPositionColor vpc; vpc.position = XMFLOAT3(0, 0, 0); vpc.color = XMFLOAT4(0, 0, 0, 1);
 	unsigned int sz = m_iPointCount - 1;
 	//unsigned int len = m_PtGroupList.at(i)->GetPtList()->Length - 1;
 	XMFLOAT3* vs = (XMFLOAT3*)malloc(sz * sizeof(XMFLOAT3));
@@ -1394,20 +1395,20 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::Draw3DCursorXY(XMFLOAT3 cu
 
 	float len = 0.5f;
 			GXMVECTOR color = XMVectorSet(0.0f, 0.5f, 0.5f, 1.0f);
-			DirectX::VertexPositionColor v1(XMVectorSet(posCursor.x - len, posCursor.y, posCursor.z, 0.0f), color);
-			DirectX::VertexPositionColor v2(XMVectorSet(posCursor.x + len, posCursor.y, posCursor.z, 0.0f), color);
+			DirectX::DXTKXAML12::VertexPositionColor v1(XMVectorSet(posCursor.x - len, posCursor.y, posCursor.z, 0.0f), color);
+			DirectX::DXTKXAML12::VertexPositionColor v2(XMVectorSet(posCursor.x + len, posCursor.y, posCursor.z, 0.0f), color);
 			m_batch->DrawLine(v1, v2);
 		
 			GXMVECTOR color2 = XMVectorSet(0.5f, 0.5f, 0.0f, 1.0f);
-			DirectX::VertexPositionColor v3(XMVectorSet(posCursor.x, posCursor.y - len, posCursor.z, 0.0f), color2);
-			DirectX::VertexPositionColor v4(XMVectorSet(posCursor.x, posCursor.y + len, posCursor.z, 0.0f), color2);
+			DirectX::DXTKXAML12::VertexPositionColor v3(XMVectorSet(posCursor.x, posCursor.y - len, posCursor.z, 0.0f), color2);
+			DirectX::DXTKXAML12::VertexPositionColor v4(XMVectorSet(posCursor.x, posCursor.y + len, posCursor.z, 0.0f), color2);
 			m_batch->DrawLine(v3, v4);
 		
 
 
 			GXMVECTOR color3 = XMVectorSet(0.5f, 0.0f, 0.5f, 1.0f);
-			DirectX::VertexPositionColor v5(XMVectorSet(posCursor.x, posCursor.y, posCursor.z - len, 0.0f), color3);
-			DirectX::VertexPositionColor v6(XMVectorSet(posCursor.x, posCursor.y, posCursor.z + len, 0.0f), color3);
+			DirectX::DXTKXAML12::VertexPositionColor v5(XMVectorSet(posCursor.x, posCursor.y, posCursor.z - len, 0.0f), color3);
+			DirectX::DXTKXAML12::VertexPositionColor v6(XMVectorSet(posCursor.x, posCursor.y, posCursor.z + len, 0.0f), color3);
 			m_batch->DrawLine(v5, v6);
 
 			if (m_bLButtonDown)
@@ -1449,15 +1450,15 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawLineOnlyObject(GXMVECT
 		if (i == 0)
 		{
 			GXMVECTOR position = XMVectorSet(posX->get(i), posY->get(i), posZ->get(i), 0.0f);
-			DirectX::VertexPositionColor v1(position, color);// XMVectorSubtract(vScale, zAxis), color2);
+			DirectX::DXTKXAML12::VertexPositionColor v1(position, color);// XMVectorSubtract(vScale, zAxis), color2);
 			m_batch->DrawLine(v1, v1);
 		}
 		else
 		{
 			GXMVECTOR position = XMVectorSet(posX->get(i - 1), posY->get(i - 1), posZ->get(i - 1), 0.0f);
 			GXMVECTOR position2 = XMVectorSet(posX->get(i), posY->get(i), posZ->get(i), 0.0f);
-			DirectX::VertexPositionColor v1(position, color);// XMVectorSubtract(vScale, zAxis), color2);
-			DirectX::VertexPositionColor v2(position2, color);// XMVectorSubtract(vScale, zAxis), color2);
+			DirectX::DXTKXAML12::VertexPositionColor v1(position, color);// XMVectorSubtract(vScale, zAxis), color2);
+			DirectX::DXTKXAML12::VertexPositionColor v2(position2, color);// XMVectorSubtract(vScale, zAxis), color2);
 			m_batch->DrawLine(v1, v2);
 		}
 	}
@@ -1488,14 +1489,14 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridXY(FXMVECTOR xAxis
 		if (i == 5)
 		{
 			GXMVECTOR color2 = XMVectorSet(0.0f,0.5f,0.0f,1.0f);
-			DirectX::VertexPositionColor v1(XMVectorSubtract(vScale, yAxis), color2);
-			DirectX::VertexPositionColor v2(XMVectorAdd(vScale, yAxis), color2);
+			DirectX::DXTKXAML12::VertexPositionColor v1(XMVectorSubtract(vScale, yAxis), color2);
+			DirectX::DXTKXAML12::VertexPositionColor v2(XMVectorAdd(vScale, yAxis), color2);
 			m_batch->DrawLine(v1, v2);
 		}
 		else 
 		{
-			DirectX::VertexPositionColor v1(XMVectorSubtract(vScale, yAxis), color);
-			DirectX::VertexPositionColor v2(XMVectorAdd(vScale, yAxis), color);
+			DirectX::DXTKXAML12::VertexPositionColor v1(XMVectorSubtract(vScale, yAxis), color);
+			DirectX::DXTKXAML12::VertexPositionColor v2(XMVectorAdd(vScale, yAxis), color);
 			m_batch->DrawLine(v1, v2);
 		}
 		
@@ -1512,14 +1513,14 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridXY(FXMVECTOR xAxis
 		if (i == 5)
 		{
 			GXMVECTOR color2 = XMVectorSet(0.0f, 0.0f, 0.5f, 1.0f);
-			DirectX::VertexPositionColor v1(XMVectorSubtract(vScale, xAxis), color2);
-			DirectX::VertexPositionColor v2(XMVectorAdd(vScale, xAxis), color2);
+			DirectX::DXTKXAML12::VertexPositionColor v1(XMVectorSubtract(vScale, xAxis), color2);
+			DirectX::DXTKXAML12::VertexPositionColor v2(XMVectorAdd(vScale, xAxis), color2);
 			m_batch->DrawLine(v1, v2);
 		}
 		else
 		{
-			DirectX::VertexPositionColor v1(XMVectorSubtract(vScale, xAxis), color);
-			DirectX::VertexPositionColor v2(XMVectorAdd(vScale, xAxis), color);
+			DirectX::DXTKXAML12::VertexPositionColor v1(XMVectorSubtract(vScale, xAxis), color);
+			DirectX::DXTKXAML12::VertexPositionColor v2(XMVectorAdd(vScale, xAxis), color);
 			m_batch->DrawLine(v1, v2);
 		}
 	}
@@ -1550,14 +1551,14 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridXZ(FXMVECTOR xAxis
 		if (i == 5)
 		{
 			GXMVECTOR color2 = XMVectorSet(1.0f, 0.5f, 0.0f, 1.0f);
-			DirectX::VertexPositionColor v1(XMVectorSubtract(vScale, zAxis), color2);
-			DirectX::VertexPositionColor v2(XMVectorAdd(vScale, zAxis), color2);
+			DirectX::DXTKXAML12::VertexPositionColor v1(XMVectorSubtract(vScale, zAxis), color2);
+			DirectX::DXTKXAML12::VertexPositionColor v2(XMVectorAdd(vScale, zAxis), color2);
 			m_batch->DrawLine(v1, v2);
 		}
 		else
 		{
-			DirectX::VertexPositionColor v1(XMVectorSubtract(vScale, zAxis), color);
-			DirectX::VertexPositionColor v2(XMVectorAdd(vScale, zAxis), color);
+			DirectX::DXTKXAML12::VertexPositionColor v1(XMVectorSubtract(vScale, zAxis), color);
+			DirectX::DXTKXAML12::VertexPositionColor v2(XMVectorAdd(vScale, zAxis), color);
 			m_batch->DrawLine(v1, v2);
 		}
     }
@@ -1572,14 +1573,14 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridXZ(FXMVECTOR xAxis
 		if (i == 5)
 		{
 			GXMVECTOR color2 = XMVectorSet(0.0f, 0.0f, 0.5f, 1.0f);
-			DirectX::VertexPositionColor v1(XMVectorSubtract(vScale, xAxis), color2);
-			DirectX::VertexPositionColor v2(XMVectorAdd(vScale, xAxis), color2);
+			DirectX::DXTKXAML12::VertexPositionColor v1(XMVectorSubtract(vScale, xAxis), color2);
+			DirectX::DXTKXAML12::VertexPositionColor v2(XMVectorAdd(vScale, xAxis), color2);
 			m_batch->DrawLine(v1, v2);
 		}
 		else
 		{
-			DirectX::VertexPositionColor v1(XMVectorSubtract(vScale, xAxis), color);
-			DirectX::VertexPositionColor v2(XMVectorAdd(vScale, xAxis), color);
+			DirectX::DXTKXAML12::VertexPositionColor v1(XMVectorSubtract(vScale, xAxis), color);
+			DirectX::DXTKXAML12::VertexPositionColor v2(XMVectorAdd(vScale, xAxis), color);
 			m_batch->DrawLine(v1, v2);
 		}
 	}
@@ -1655,7 +1656,7 @@ uint16_t XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPoints(uint1
 		
 		for (unsigned int i = 0; i < m_iPointCount; i++)
 		{
-			DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+			DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
 			vertices.push_back(vpc);
 			m_PtGroupList.at(0)->SetPtList(i, k);
 			k++;
@@ -1674,7 +1675,7 @@ uint16_t XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPoints(uint1
 					float aa = (float)j * a;
 					float x = m_hot3dxRotate->xCoordofYRot3(posX->get(i), posZ->get(i), aa);
 					float z = m_hot3dxRotate->zCoordofYRot3(posX->get(i), posZ->get(i), aa);
-					DirectX::VertexPositionColor vpc = { XMFLOAT3(x, posY->get(i), z), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(x, posY->get(i), z), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 					k++;
@@ -1694,7 +1695,7 @@ uint16_t XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPoints(uint1
 				float aa = (float)j * a;
 				float y = m_hot3dxRotate->yCoordofXRot3(posY->get(i), posZ->get(i), aa);
 				float z = m_hot3dxRotate->zCoordofXRot3(posY->get(i), posZ->get(i), aa);
-				DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), y, z), XMFLOAT4(r,g,b,alpha) };
+				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), y, z), XMFLOAT4(r,g,b,alpha) };
 				vertices.push_back(vpc);
 				m_PtGroupList.at(j)->SetPtList(i, k);
 				k++;
@@ -1708,7 +1709,7 @@ uint16_t XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPoints(uint1
 		size_t sz = m_PtGroupList.size()-1;
 		for (unsigned int i = 0; i < m_iPointCount; i++)
 		{
-			DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+			DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
 			vertices.push_back(vpc);
 			m_PtGroupList.at(sz)->SetPtList(i, k);
 			k++;
@@ -1750,7 +1751,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTop()
 			{
 				if (i == 0)
 				{
-					DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -1759,7 +1760,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTop()
 					float aa = (float)j * a;
 					float x = m_hot3dxRotate->xCoordofYRot3(posX->get(i), posZ->get(i), aa);
 					float z = m_hot3dxRotate->zCoordofYRot3(posX->get(i), posZ->get(i), aa);
-					DirectX::VertexPositionColor vpc = { XMFLOAT3(x, posY->get(i), z), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(x, posY->get(i), z), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -1770,7 +1771,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTop()
 		IncrementPtGroups();
 		for (unsigned int i = 0; i < m_iPointCount; i++)
 		{
-				DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
 				vertices.push_back(vpc);
 				m_PtGroupList.at(j)->SetPtList(i, k);
 				k++;
@@ -1786,7 +1787,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTop()
 			{
 				if (i == 0)
 				{
-					DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -1795,7 +1796,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTop()
 					float aa = (float)j * a;
 					float y = m_hot3dxRotate->yCoordofXRot3(posY->get(i), posZ->get(i), aa);
 					float z = m_hot3dxRotate->zCoordofXRot3(posY->get(i), posZ->get(i), aa);
-					DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), y, z), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), y, z), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -1806,7 +1807,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTop()
 		IncrementPtGroups();
 		for (unsigned int i = 0; i < m_iPointCount; i++)
 		{
-				DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
 				vertices.push_back(vpc);
 				m_PtGroupList.at(j)->SetPtList(i, k);
 				k++;
@@ -1849,7 +1850,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsBottom()
 			{
 				if (i == (m_iPointCount - 1))
 				{
-					DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -1858,7 +1859,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsBottom()
 					float aa = (float)j * a;
 					float x = m_hot3dxRotate->xCoordofYRot3(posX->get(i), posZ->get(i), aa);
 					float z = m_hot3dxRotate->zCoordofYRot3(posX->get(i), posZ->get(i), aa);
-					DirectX::VertexPositionColor vpc = { XMFLOAT3(x, posY->get(i), z), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(x, posY->get(i), z), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -1869,7 +1870,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsBottom()
 		IncrementPtGroups();
 		for (unsigned int i = 0; i < m_iPointCount; i++)
 		{
-			DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+			DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
 			vertices.push_back(vpc);
 			m_PtGroupList.at(j)->SetPtList(i, k);
 			k++;
@@ -1885,7 +1886,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsBottom()
 			{
 				if (i == m_iPointCount - 1)
 				{
-					DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -1894,7 +1895,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsBottom()
 					float aa = (float)j * a;
 					float y = m_hot3dxRotate->yCoordofXRot3(posY->get(i), posZ->get(i), aa);
 					float z = m_hot3dxRotate->zCoordofXRot3(posY->get(i), posZ->get(i), aa);
-					DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), y, z), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), y, z), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -1905,7 +1906,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsBottom()
 		IncrementPtGroups();
 		for (unsigned int i = 0; i < m_iPointCount; i++)
 		{
-				DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
 				vertices.push_back(vpc);
 				m_PtGroupList.at(j)->SetPtList(i, k); 
 				k++;
@@ -1947,7 +1948,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTopBottom(
 			{
 				if (i == (m_iPointCount - 1))
 				{
-					DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -1956,7 +1957,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTopBottom(
 					float aa = (float)j * a;
 					float x = m_hot3dxRotate->xCoordofYRot3(posX->get(i), posZ->get(i), aa);
 					float z = m_hot3dxRotate->zCoordofYRot3(posX->get(i), posZ->get(i), aa);
-					DirectX::VertexPositionColor vpc = { XMFLOAT3(x, posY->get(i), z), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(x, posY->get(i), z), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -1967,7 +1968,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTopBottom(
 		IncrementPtGroups();
 		for (unsigned int i = 0; i < m_iPointCount; i++)
 		{
-				DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
 				vertices.push_back(vpc);
 				m_PtGroupList.at(j)->SetPtList(i, k);
 			k++;
@@ -1983,7 +1984,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTopBottom(
 			{
 				if (i == m_iPointCount - 1)
 				{
-					DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -1992,7 +1993,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTopBottom(
 					float aa = (float)j * a;
 					float y = m_hot3dxRotate->yCoordofXRot3(posY->get(i), posZ->get(i), aa);
 					float z = m_hot3dxRotate->zCoordofXRot3(posY->get(i), posZ->get(i), aa);
-					DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), y, z), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), y, z), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -2003,7 +2004,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTopBottom(
 		IncrementPtGroups();
 		for (unsigned int i = 0; i < m_iPointCount; i++)
 		{
-				DirectX::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
 				vertices.push_back(vpc);
 				m_PtGroupList.at(j)->SetPtList(i, k);
 			    k++;
@@ -2246,15 +2247,15 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridPicRectangle()
 {
 	//m_bDDS_WIC_FLAGGridPic = false;
 	m_bDDS_WIC_FLAGGridPicComplete = false;
-	DirectX::VertexCollection vCol;
-	vCol.push_back(DirectX::VertexPositionNormalTexture(XMFLOAT3(-10.5f, 10.5f, 0.0f), XMFLOAT3(0.000000f, 1.000000f, -0.000000f), XMFLOAT2(0.0000f, 0.0000f)));// , vPNT[3]);
-	vCol.push_back(DirectX::VertexPositionNormalTexture(XMFLOAT3(10.5f, 10.5f, 0.0f), XMFLOAT3(0.999894f, 0.000000f, -0.014547f), XMFLOAT2(1.00000f, 0.0000f)));
-	vCol.push_back(DirectX::VertexPositionNormalTexture(XMFLOAT3(10.5f, -10.5f, 0.0f), XMFLOAT3(0.000000f, 1.000000f, -0.000000f), XMFLOAT2(1.00000f, 1.00000f)));
-	vCol.push_back(DirectX::VertexPositionNormalTexture(XMFLOAT3(-10.5f, -10.5f, 0.0f), XMFLOAT3(0.014547f, 0.000000f, -0.999894f), XMFLOAT2(0.0000f, 1.000000f)));
+	DirectX::DXTKXAML12::VertexCollection vCol;
+	vCol.push_back(DirectX::DXTKXAML12::VertexPositionNormalTexture(XMFLOAT3(-10.5f, 10.5f, 0.0f), XMFLOAT3(0.000000f, 1.000000f, -0.000000f), XMFLOAT2(0.0000f, 0.0000f)));// , vPNT[3]);
+	vCol.push_back(DirectX::DXTKXAML12::VertexPositionNormalTexture(XMFLOAT3(10.5f, 10.5f, 0.0f), XMFLOAT3(0.999894f, 0.000000f, -0.014547f), XMFLOAT2(1.00000f, 0.0000f)));
+	vCol.push_back(DirectX::DXTKXAML12::VertexPositionNormalTexture(XMFLOAT3(10.5f, -10.5f, 0.0f), XMFLOAT3(0.000000f, 1.000000f, -0.000000f), XMFLOAT2(1.00000f, 1.00000f)));
+	vCol.push_back(DirectX::DXTKXAML12::VertexPositionNormalTexture(XMFLOAT3(-10.5f, -10.5f, 0.0f), XMFLOAT3(0.014547f, 0.000000f, -0.999894f), XMFLOAT2(0.0000f, 1.000000f)));
 	DirectX::IndexCollectionColor vColColor = { 0,1,2,2,3,0 };
 	m_shapeGridPic = GeometricPrimitive::CreateCustom(vCol, vColColor, m_sceneDeviceResources->GetD3DDevice());
 
-	ResourceUploadBatch* m_resourceUploadGridPic = new ResourceUploadBatch(m_sceneDeviceResources->GetD3DDevice());
+	DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadGridPic = new DirectX::DXTKXAML12::ResourceUploadBatch(m_sceneDeviceResources->GetD3DDevice());
 	m_resourceUploadGridPic->BeginXaml();
 
 	// 
@@ -2315,7 +2316,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectSingleTextu
 	//m_shapeDrawnObject = Hot3dxDrawnObject::CreateDrawnObjectColor( vertices, indices, device);
 	size_t cnt = vertices.size();
 	//vertexes.reserve(cnt);
-	DirectX::VertexPositionColor* vpc = vertices.data();
+	DirectX::DXTKXAML12::VertexPositionColor* vpc = vertices.data();
 	// Makes the Box Frame Dimensions float* box is created 
 	InitDimensionsBox();
 	CreateDimensions(&vpc->position, cnt);
@@ -2331,10 +2332,10 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectSingleTextu
 	*/	
 		XMVECTOR n = DirectX::XMVector3Normalize(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f));
 		//float* tuv = GetU(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f), box);
-		//DirectX::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(-tuv[0], tuv[1]) };
+		//DirectX::DXTKXAML12::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(-tuv[0], tuv[1]) };
 		if (i > textureU.size()) { textureU.push_back(0.0f); }
 		if (i > textureV.size()) { textureV.push_back(0.0f); }
-		DirectX::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(textureU.at(i), textureV.at(i)) };
+		DirectX::DXTKXAML12::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(textureU.at(i), textureV.at(i)) };
 		vertexes.push_back(vpnt);
 		
 	}
@@ -2344,7 +2345,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectSingleTextu
 	{
 		XMVECTOR n = XMVector3Normalize(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f));
 		float* tuv = GetU(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f), box);
-		DirectX::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(-tuv[0], tuv[1]) };
+		DirectX::DXTKXAML12::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(-tuv[0], tuv[1]) };
 		vertexes.push_back(vpnt);
 		//vertexes.at(i).position=vertices.at(i).position;
 	}
@@ -2353,7 +2354,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectSingleTextu
 	m_shapeDrawnObjectTex = GeometricPrimitive::CreateCustom(vertexes, indices, device);
 	{
 
-	ResourceUploadBatch* m_resourceUploadDrawnObject = new ResourceUploadBatch(device);
+		DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadDrawnObject = new DirectX::DXTKXAML12::ResourceUploadBatch(device);
 
 		// Begin Resource Upload
 		m_resourceUploadDrawnObject->BeginXaml();
@@ -2361,7 +2362,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectSingleTextu
 		if (m_bDDS_WIC_FLAG1 == true)
 		{
 			DX::ThrowIfFailed(
-				DirectX::CreateDDSTextureFromFile(device, *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1));
+				DirectX::DXTKXAML12::CreateDDSTextureFromFile(device, *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1));
 		}
 		else
 		{
@@ -2369,7 +2370,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectSingleTextu
 				CreateWICTextureFromFile(device, *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1));
 		}
 
-			DirectX::CreateShaderResourceView(device, m_DrawnMeshTexture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture1)));
+			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_DrawnMeshTexture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture1)));
 		
 		RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());
 		// Each effect object must be proceeded by its own 
@@ -2426,7 +2427,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectDualTexture
 		//m_shapeDrawnObject = Hot3dxDrawnObject::CreateDrawnObjectColor( vertices, indices, device);
 		size_t cnt = vertices.size();
 		//vertexes.reserve(cnt);
-		DirectX::VertexPositionColor* vpc = vertices.data();
+		DirectX::DXTKXAML12::VertexPositionColor* vpc = vertices.data();
 		// Makes the Box Frame Dimensions float* box is created 
 		InitDimensionsBox();
 		CreateDimensions(&vpc->position, cnt);
@@ -2436,8 +2437,8 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectDualTexture
 		{
 			XMVECTOR n = DirectX::XMVector3Normalize(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f));
 			//float* tuv = GetU(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f), box);
-			//DirectX::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(-tuv[0], tuv[1]) };
-			DirectX::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(textureU.at(i), textureV.at(i)) };
+			//DirectX::DXTKXAML12::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(-tuv[0], tuv[1]) };
+			DirectX::DXTKXAML12::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(textureU.at(i), textureV.at(i)) };
 			vertexes.push_back(vpnt);
 
 		}
@@ -2447,7 +2448,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectDualTexture
 		{
 			XMVECTOR n = XMVector3Normalize(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f));
 			float* tuv = GetU(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f), box);
-			DirectX::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(-tuv[0], tuv[1]) };
+			DirectX::DXTKXAML12::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(-tuv[0], tuv[1]) };
 			vertexes.push_back(vpnt);
 			//vertexes.at(i).position=vertices.at(i).position;
 		}
@@ -2456,7 +2457,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectDualTexture
 		m_shapeDrawnObjectTex = GeometricPrimitive::CreateCustom(vertexes, indices, device);
 		{
 
-			ResourceUploadBatch* m_resourceUploadDrawnObject = new ResourceUploadBatch(device);
+			DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadDrawnObject = new DirectX::DXTKXAML12::ResourceUploadBatch(device);
 
 			// Begin Resource Upload
 			m_resourceUploadDrawnObject->BeginXaml();
@@ -2465,9 +2466,9 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectDualTexture
 
 			if (m_bDDS_WIC_FLAG1 == true)
 			{
-				//DX::ThrowIfFailed(DirectX::CreateDDSTextureFromFile(device, *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1));
+				//DX::ThrowIfFailed(DirectX::DXTKXAML12::CreateDDSTextureFromFile(device, *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1));
 				DX::ThrowIfFailed(
-					DirectX::CreateDDSTextureFromFile(device, *m_resourceUploadDrawnObject, m_strTextureFileNameFirst->Data(), &m_DrawnMeshTexture1)//.ReleaseAndGetAddressOf())
+					DirectX::DXTKXAML12::CreateDDSTextureFromFile(device, *m_resourceUploadDrawnObject, m_strTextureFileNameFirst->Data(), &m_DrawnMeshTexture1)//.ReleaseAndGetAddressOf())
 					);
 			}
 			else
@@ -2476,7 +2477,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectDualTexture
 					CreateWICTextureFromFile(device, *m_resourceUploadDrawnObject, m_strTextureFileNameFirst->Data(), &m_DrawnMeshTexture1));
 			}
 			
-			DirectX::CreateShaderResourceView(device, m_DrawnMeshTexture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture1)));
+			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_DrawnMeshTexture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture1)));
 
 			//////////////////////////////////////////////////////////////////
 			// Second Texture Load
@@ -2484,7 +2485,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectDualTexture
 			if (m_bDDS_WIC_FLAG2 == true)
 			{
 				DX::ThrowIfFailed(
-					DirectX::CreateDDSTextureFromFile(device, *m_resourceUploadDrawnObject, m_strTextureFileNameSecond->Data(), &m_DrawnMeshTexture2));
+					DirectX::DXTKXAML12::CreateDDSTextureFromFile(device, *m_resourceUploadDrawnObject, m_strTextureFileNameSecond->Data(), &m_DrawnMeshTexture2));
 			}
 			else
 			{
@@ -2492,7 +2493,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectDualTexture
 					CreateWICTextureFromFile(device, *m_resourceUploadDrawnObject, m_strTextureFileNameSecond->Data(), &m_DrawnMeshTexture2));
 			}
 
-			DirectX::CreateShaderResourceView(device, m_DrawnMeshTexture2.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture2)));
+			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_DrawnMeshTexture2.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture2)));
             //////////////////////////////////////////////
 
 			RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());

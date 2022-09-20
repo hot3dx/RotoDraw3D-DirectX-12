@@ -19,6 +19,7 @@
 #include <Graphics\MyResourceUploadBatchXaml12.h>
 
 using namespace DirectX;
+using namespace DirectX::DXTKXAML12;
 using namespace std;
 using Microsoft::WRL::ComPtr;
 
@@ -81,7 +82,7 @@ public:
 
     void InitializeDrawnObjectColor(const VertexCollectionColor& vertices, const IndexCollectionColor& indices, _In_opt_ ID3D12Device* device);
 
-    void LoadStaticBuffers(_In_ ID3D12Device* device, ResourceUploadBatch& resourceUploadBatch);
+    void LoadStaticBuffers(_In_ ID3D12Device* device, DirectX::DXTKXAML12::ResourceUploadBatch& resourceUploadBatch);
 
     void Draw(_In_ ID3D12GraphicsCommandList* commandList) const;
 
@@ -195,7 +196,7 @@ void Hot3dxDrawnObject::Impl::InitializeDrawnObjectColor(const VertexCollectionC
 _Use_decl_annotations_
 void Hot3dxDrawnObject::Impl::LoadStaticBuffers(
     ID3D12Device* device,
-    ResourceUploadBatch& resourceUploadBatch)
+    DirectX::DXTKXAML12::ResourceUploadBatch& resourceUploadBatch)
 {
     CD3DX12_HEAP_PROPERTIES heapProperties(D3D12_HEAP_TYPE_DEFAULT);
 
@@ -206,7 +207,7 @@ void Hot3dxDrawnObject::Impl::LoadStaticBuffers(
 
         auto desc = CD3DX12_RESOURCE_DESC::Buffer(mVertexBuffer.Size());
 
-        ThrowIfFailed(device->CreateCommittedResource(
+        DirectX::DXTKXAML12::ThrowIfFailed(device->CreateCommittedResource(
             &heapProperties,
             D3D12_HEAP_FLAG_NONE,
             &desc,
@@ -235,7 +236,7 @@ void Hot3dxDrawnObject::Impl::LoadStaticBuffers(
 
         auto desc = CD3DX12_RESOURCE_DESC::Buffer(mIndexBuffer.Size());
 
-        ThrowIfFailed(device->CreateCommittedResource(
+        DirectX::DXTKXAML12::ThrowIfFailed(device->CreateCommittedResource(
             &heapProperties,
             D3D12_HEAP_FLAG_NONE,
             &desc,
@@ -289,7 +290,7 @@ Hot3dxDrawnObject::~Hot3dxDrawnObject()
 
 // Public entrypoints.
 _Use_decl_annotations_
-void Hot3dxDrawnObject::LoadStaticBuffers(ID3D12Device* device, ResourceUploadBatch& resourceUploadBatch)
+void Hot3dxDrawnObject::LoadStaticBuffers(ID3D12Device* device, DirectX::DXTKXAML12::ResourceUploadBatch& resourceUploadBatch)
 {
     pImpl->LoadStaticBuffers(device, resourceUploadBatch);
 }

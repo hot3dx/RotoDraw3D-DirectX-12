@@ -283,8 +283,8 @@ namespace Hot3dxRotoDraw
 		Platform::Array<float>^ m_iTempMouseY = ref new Platform::Array<float>(1000);
 		
 		std::vector<PtGroups^> m_PtGroupList;// = ref new Platform::Array<PtGroups>(360);
-		std::vector<DirectX::VertexPositionColor> vertices;
-		std::vector<DirectX::VertexPositionNormalTexture> vertexes;
+		std::vector<DirectX::DXTKXAML12::VertexPositionColor> vertices;
+		std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes;
 		std::vector<uint16_t> indices;
 		std::vector<float> textureU;
 		std::vector<float> textureV;
@@ -336,25 +336,25 @@ namespace Hot3dxRotoDraw
 		//Windows::UI::Core::CoreIndependentInputSource^ m_coreInput;
 		/////////////
 		// DirectXTK Test objects.
-		std::shared_ptr<DirectX::ResourceUploadBatch>                           m_resourceUpload;
-		std::unique_ptr<DirectX::GraphicsMemory>                                m_graphicsMemory;
-		std::unique_ptr<DirectX::DescriptorHeap>                                m_resourceDescriptors;
-		std::unique_ptr<DirectX::CommonStates>                                  m_states;
-		std::unique_ptr<DirectX::BasicEffect>                                   m_lineEffect;
-		std::unique_ptr<DirectX::BasicEffect>                                   m_cursorEffect;
-		std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>  m_batch;
-		std::unique_ptr<DirectX::BasicEffect>                                   m_shapeEffect;
-		std::unique_ptr<DirectX::BasicEffect>                                   m_artistCameraEffect;
-		std::unique_ptr<DirectX::BasicEffect>                                   m_shapeTetraEffect;
-		std::unique_ptr<DirectX::BasicEffect>                                   m_drawRectangleEffect;
-		std::unique_ptr<DirectX::Model>                                         m_model;
-		std::vector<std::shared_ptr<DirectX::IEffect>>                          m_modelEffects;
-		std::unique_ptr<DirectX::EffectTextureFactory>                          m_modelResources;
-		std::unique_ptr<DirectX::GeometricPrimitive>                            m_shape;
-		std::unique_ptr<DirectX::GeometricPrimitive>                            m_artistCamera;
-		std::unique_ptr<DirectX::GeometricPrimitive>                            m_shapeTetra;
-		std::unique_ptr<DirectX::GeometricPrimitive>                            m_shapeGridPic;
-		std::unique_ptr<DirectX::SpriteBatch>                                   m_sprites;
+		std::shared_ptr<DirectX::DXTKXAML12::ResourceUploadBatch>                           m_resourceUpload;
+		std::unique_ptr<DirectX::DXTKXAML12::GraphicsMemory>                                m_graphicsMemory;
+		std::unique_ptr<DirectX::DXTKXAML12::DescriptorHeap>                                m_resourceDescriptors;
+		std::unique_ptr<DirectX::DXTKXAML12::CommonStates>                                  m_states;
+		std::unique_ptr<DirectX::DXTKXAML12::BasicEffect>                                   m_lineEffect;
+		std::unique_ptr<DirectX::DXTKXAML12::BasicEffect>                                   m_cursorEffect;
+		std::unique_ptr<DirectX::DXTKXAML12::PrimitiveBatch<DirectX::DXTKXAML12::VertexPositionColor>>  m_batch;
+		std::unique_ptr<DirectX::DXTKXAML12::BasicEffect>                                   m_shapeEffect;
+		std::unique_ptr<DirectX::DXTKXAML12::BasicEffect>                                   m_artistCameraEffect;
+		std::unique_ptr<DirectX::DXTKXAML12::BasicEffect>                                   m_shapeTetraEffect;
+		std::unique_ptr<DirectX::DXTKXAML12::BasicEffect>                                   m_drawRectangleEffect;
+		std::unique_ptr<DirectX::DXTKXAML12::Model>                                         m_model;
+		std::vector<std::shared_ptr<DirectX::DXTKXAML12::IEffect>>                          m_modelEffects;
+		std::unique_ptr<DirectX::DXTKXAML12::EffectTextureFactory>                          m_modelResources;
+		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_shape;
+		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_artistCamera;
+		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_shapeTetra;
+		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_shapeGridPic;
+		std::unique_ptr<DirectX::DXTKXAML12::SpriteBatch>                                   m_sprites;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_CameraEyeFont;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_CameraAtFont;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_CameraUpFont;
@@ -364,13 +364,13 @@ namespace Hot3dxRotoDraw
 		std::unique_ptr<DirectX::SpriteFont>                                    m_FaceCountFont;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_GroupCountFont;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_SelectedPointNumberFont;
-		std::unique_ptr<DirectX::DualTextureEffect>                             m_dualTextureEffect;
+		std::unique_ptr<DirectX::DXTKXAML12::DualTextureEffect>                             m_dualTextureEffect;
 		
-		std::unique_ptr<DirectX::BasicEffect>                                   m_shapeDrawnObjectEffect;
+		std::unique_ptr<DirectX::DXTKXAML12::BasicEffect>                                   m_shapeDrawnObjectEffect;
 		std::unique_ptr<DirectX::Hot3dxDrawnObject>                             m_shapeDrawnObject;
-		std::unique_ptr<DirectX::GeometricPrimitive>                            m_shapeDrawnObjectTex;
-		std::shared_ptr<DirectX::ResourceUploadBatch>                           mesourceUploadDrawnObject;
-		std::unique_ptr<DirectX::GraphicsMemory>                                m_graphicsMemoryDrawnObject;
+		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_shapeDrawnObjectTex;
+		std::shared_ptr<DirectX::DXTKXAML12::ResourceUploadBatch>                           mesourceUploadDrawnObject;
+		std::unique_ptr<DirectX::DXTKXAML12::GraphicsMemory>                                m_graphicsMemoryDrawnObject;
 
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_texture1;
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_texture2;

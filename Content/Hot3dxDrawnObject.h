@@ -18,7 +18,7 @@
 
 namespace DirectX
 {
-    typedef std::vector<DirectX::VertexPositionColor> VertexCollectionColor;
+    typedef std::vector<DirectX::DXTKXAML12::VertexPositionColor> VertexCollectionColor;
     typedef std::vector<uint16_t> IndexCollectionColor;
 
     void ComputeBoxColor(VertexCollectionColor& vertices,IndexCollectionColor& indices, const XMFLOAT3& size, bool rhcoords);
@@ -43,7 +43,7 @@ namespace DirectX
 
         virtual ~Hot3dxDrawnObject();
 
-        using VertexType = VertexPositionColor;
+        using VertexType = DirectX::DXTKXAML12::VertexPositionColor;
 
         // Factory methods.
         static std::unique_ptr<Hot3dxDrawnObject> __cdecl CreateCube(float size = 1, bool rhcoords = true, _In_opt_ ID3D12Device* device = nullptr);
@@ -58,7 +58,7 @@ namespace DirectX
         static std::unique_ptr<Hot3dxDrawnObject> __cdecl CreateDodecahedron(float size = 1, bool rhcoords = true, _In_opt_ ID3D12Device* device = nullptr);
         static std::unique_ptr<Hot3dxDrawnObject> __cdecl CreateIcosahedron(float size = 1, bool rhcoords = true, _In_opt_ ID3D12Device* device = nullptr);
         static std::unique_ptr<Hot3dxDrawnObject> __cdecl CreateCustom(const std::vector<VertexType>& vertices, const std::vector<uint16_t>& indices, _In_opt_ ID3D12Device* device = nullptr);
-        static std::unique_ptr<Hot3dxDrawnObject> __cdecl CreateDrawnObjectColor(const std::vector<VertexPositionColor>& vertices, const std::vector<uint16_t>& indices, _In_opt_ ID3D12Device* device = nullptr);
+        static std::unique_ptr<Hot3dxDrawnObject> __cdecl CreateDrawnObjectColor(const std::vector<DirectX::DXTKXAML12::VertexPositionColor>& vertices, const std::vector<uint16_t>& indices, _In_opt_ ID3D12Device* device = nullptr);
         static std::unique_ptr<Hot3dxDrawnObject> __cdecl CreateDrawnObjectTexture(const std::vector<VertexType>& vertices, const std::vector<uint16_t>& indices, _In_opt_ ID3D12Device* device = nullptr);
 
         static void __cdecl CreateCube(std::vector<VertexType>& vertices, std::vector<uint16_t>& indices, float size = 1, bool rhcoords = true);
@@ -74,7 +74,7 @@ namespace DirectX
         static void __cdecl CreateIcosahedron(std::vector<VertexType>& vertices, std::vector<uint16_t>& indices, float size = 1, bool rhcoords = true);
         
         // Load VB/IB resources for static geometry.
-        void __cdecl LoadStaticBuffers(_In_ ID3D12Device* device, ResourceUploadBatch& resourceUploadBatch);
+        void __cdecl LoadStaticBuffers(_In_ ID3D12Device* device, DirectX::DXTKXAML12::ResourceUploadBatch& resourceUploadBatch);
 
         // Draw the primitive.
         void __cdecl Draw(_In_ ID3D12GraphicsCommandList* commandList) const;
