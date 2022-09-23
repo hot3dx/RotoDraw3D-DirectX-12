@@ -42,6 +42,8 @@ Setup for pen, mouse, or touchpad. a pen is best
 ![Step 3: Set Point Color and Draw](https://github.com/hot3dx/RotoDraw3D-DirectX-12/blob/main/ScreenShot/Screenshot51.png)
 ![Step 4: Set PointsButton](https://github.com/hot3dx/RotoDraw3D-DirectX-12/blob/main/ScreenShot/Screenshot52.png)
 
+The collada and obj file writers allow importation into the fbx Visual Studio modeller
+
 Bitcoin donations accepted:
 BTC 32HVJHEXh9bMLVkmoSE1d389q2Q1YvfrNE
 
@@ -49,3 +51,6 @@ BTC 32HVJHEXh9bMLVkmoSE1d389q2Q1YvfrNE
 - 200 point MAXIMUM on Single First LINE! @360 lines!
 - Failure of all necessary files to copy into AppX\Assets\ or AppX\Assets\Textures\ manually copy if that happens
 - SegoeUI_18.spritefont does not copy from assets to AppX/Assets and must be manually copied or an invokewatson exception results in vccorlib
+- Create Algorithm for m_widthRatio and m_heightRatio variables in RotoDrawSceneRender::RotoDrawSceneRender() in 
+Hot3dxRotoDrawSceneRender.cpp for optimal mouse/cursor movement
+based on drawing area pixel width and pixel height
