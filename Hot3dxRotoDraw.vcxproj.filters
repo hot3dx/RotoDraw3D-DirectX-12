@@ -6,7 +6,7 @@
     </Filter>
     <Filter Include="Assets">
       <UniqueIdentifier>baae49b0-ff10-4fbc-9654-2768fd11b189</UniqueIdentifier>
-      <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
+      <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png;wav;dds;ttf;spritefont;</Extensions>
     </Filter>
     <Filter Include="Content">
       <UniqueIdentifier>3a34d6e5-333d-4c09-9510-3c08e8e5109b</UniqueIdentifier>
@@ -349,8 +349,9 @@
     <None Include="Assets\tiny.sdkmesh">
       <Filter>Assets</Filter>
     </None>
-    <None Include="Package.StoreAssociation.xml" />
     <None Include="packages.config" />
+    <None Include="hot3dxjeffkubitzpackagecertificate.pfx" />
+    <None Include="Hot3dxRotoDraw_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\musicmono_adpcm.wav">

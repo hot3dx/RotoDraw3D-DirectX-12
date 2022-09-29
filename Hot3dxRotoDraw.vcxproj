@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="16.9.4" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.props" Condition="Exists('packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -43,58 +44,59 @@
     <AppContainerApplication>true</AppContainerApplication>
     <ApplicationType>Windows Store</ApplicationType>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformMinVersion>10.0.19041.0</WindowsTargetPlatformMinVersion>
+    <WindowsTargetPlatformMinVersion>10.0.22000.0</WindowsTargetPlatformMinVersion>
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <WebView2UseWinRT>true</WebView2UseWinRT>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -141,11 +143,12 @@
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>56A5537F28586F76BE7738A67580EE8D5BDA05C4</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>3BA8AB34544E641B4FEA10134680808B84E52B74</PackageCertificateThumbprint>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>
+    </LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
@@ -301,35 +304,34 @@
       <AdditionalLibraryDirectories>$(RootDir)\DirectXToolKitXaml12\x64\Release\DirectXToolKitXaml12; %(AdditionalLibraryDirectories); $(VCInstallDir)\lib\store\amd64; $(VCInstallDir)\lib\amd64</AdditionalLibraryDirectories>
       <AdditionalOptions>
       </AdditionalOptions>
-      <LinkTimeCodeGeneration />
+      <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
       <EnableCOMDATFolding />
-      <OptimizeReferences />
+      <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
     </Link>
     <ClCompile>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
       <AdditionalIncludeDirectories>$(RootDir)\DirectXToolKitXaml12; $(RootDir)\DirectXToolKitXaml12\Audio; $(RootDir)\DirectXToolKitXaml12\Graphics; $(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4062;4263;4264;4265;4355;4365;4453;4555;4946;4986;4996;28204;4061;4820;4625;4626;5026;5027;5032;5219;5220;4668;5204;5045;5039;</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4062;4100;4189;4242;4244;4263;4264;4265;4355;4371;4365;4453;4456;4458;4515;4555;4654;4946;4986;4996;28204;4061;4820;4625;4626;5026;5027;5031;5032;5038;5219;5220;4668;5204;5045;5039;5246;</DisableSpecificWarnings>
       <PreprocessorDefinitions>NDEBUG;_X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
-      <FunctionLevelLinking>
-      </FunctionLevelLinking>
-      <Optimization>Disabled</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
       <SupportJustMyCode>true</SupportJustMyCode>
-      <WholeProgramOptimization>
-      </WholeProgramOptimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <SmallerTypeCheck>false</SmallerTypeCheck>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -399,6 +401,28 @@
     <Image Include="Assets\WideLogo.scale-200.png" />
     <Image Include="Assets\windowslogo.dds" />
     <Image Include="Assets\__TemplateIcon.ico" />
+  </ItemGroup>
+<ItemGroup>
+    <None Include="Assets\ADPCMdroid.xwb" />
+    <None Include="Assets\cursor1.cur" />
+    <None Include="Assets\italic.spritefont" />
+    <None Include="Assets\occcity.bin" />
+    <None Include="Assets\SegoeUI_18.spritefont" />
+    <None Include="Assets\TeapotData.inc" />
+    <None Include="Assets\tiny.sdkmesh" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\bounce.wav" />
+    <Media Include="Assets\hit.wav" />
+    <Media Include="Assets\MonoSound.wav" />
+    <Media Include="Assets\musicmono_adpcm.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\credits.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Assets\segoeui.ttf" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.xaml.h">
@@ -564,25 +588,6 @@
     <Page Include="Styles.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\ADPCMdroid.xwb" />
-    <None Include="Assets\cursor1.cur" />
-    <None Include="Assets\italic.spritefont" />
-    <None Include="Assets\occcity.bin" />
-    <None Include="Assets\SegoeUI_18.spritefont" />
-    <None Include="Assets\TeapotData.inc" />
-    <None Include="Assets\tiny.sdkmesh" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="Assets\musicmono_adpcm.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="Assets\segoeui.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Package.StoreAssociation.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="Hot3dxRotoDraw.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
@@ -590,14 +595,17 @@
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ImageContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\MeshContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ShaderGraphContentTask.targets" />
-    <Import Project="packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets" Condition="Exists('packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets')" />
-    <Import Project="packages\Microsoft.UI.Xaml.2.6.0-prerelease.210405001\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('packages\Microsoft.UI.Xaml.2.6.0-prerelease.210405001\build\native\Microsoft.UI.Xaml.targets')" />
+    <Import Project="packages\Microsoft.Web.WebView2.1.0.1264.42\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('packages\Microsoft.Web.WebView2.1.0.1264.42\build\native\Microsoft.Web.WebView2.targets')" />
+    <Import Project="packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.targets')" />
+    <Import Project="packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets" Condition="Exists('packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets'))" />
-    <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.6.0-prerelease.210405001\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.6.0-prerelease.210405001\build\native\Microsoft.UI.Xaml.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.Web.WebView2.1.0.1264.42\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Web.WebView2.1.0.1264.42\build\native\Microsoft.Web.WebView2.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.targets'))" />
+    <Error Condition="!Exists('packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets'))" />
   </Target>
 </Project>
