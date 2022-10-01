@@ -1,42 +1,12 @@
 #pragma once
 
 #include "pch.h"
-//#include "Scenario5_MatsTexs.xaml.h"
+#include "Scenario5_MatsTexs.xaml.h"
 
 namespace Hot3dxRotoDraw
 {
     value struct MaterialList;
     value struct MaterialType;
-
-    partial ref class Scenario5_MatsTexs
-    {
-    internal:
-        
-        static property Platform::Array<MaterialList>^ materials
-        {
-            Platform::Array<MaterialList>^ get()
-            {
-                return materialListsInner;
-            }
-
-            void set(Platform::Array<MaterialList>^ list)
-            {
-                materialListsInner = list;
-            }
-        }
-
-        static property Platform::Array<MaterialTypes>^ materialTypes
-        {
-            Platform::Array<MaterialTypes>^ get()
-            {
-                return materialTypesLists;
-            }
-        }
-   
-    private:
-        static Platform::Array<MaterialList>^ materialListsInner;
-        static Platform::Array<MaterialTypes>^ materialTypesLists;
-    };
 
     public value struct MaterialList
     {
@@ -68,5 +38,37 @@ namespace Hot3dxRotoDraw
         Platform::String^ TextureName;
         Platform::String^ TextureFile;
     };
+
+    partial ref class Scenario5_MatsTexs
+    {
+    internal:
+        
+        static property Platform::Array<MaterialList>^ materials
+        {
+            Platform::Array<MaterialList>^ get()
+            {
+                return materialListsInner;
+            }
+
+            void set(Platform::Array<MaterialList>^ list)
+            {
+                materialListsInner = list;
+            }
+        }
+
+        static property Platform::Array<MaterialTypes>^ materialTypes
+        {
+            Platform::Array<MaterialTypes>^ get()
+            {
+                return materialTypesLists;
+            }
+        }
+   
+    private:
+        static Platform::Array<MaterialList>^ materialListsInner;
+        static Platform::Array<MaterialTypes>^ materialTypesLists;
+    };
+
+
 }
 
