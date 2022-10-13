@@ -19,9 +19,6 @@ namespace DX
 	{
 		virtual void OnDeviceLost() = 0;
 		virtual void OnDeviceRestored() = 0;
-	protected:
-		~IDeviceNotify() = default;
-
 	};
 
 	//static const UINT c_frameCount = 3;		// Use triple buffering.
@@ -125,7 +122,7 @@ namespace DX
 		Microsoft::WRL::ComPtr<IDXGIFactory5>			m_dxgiFactory5;
 		//Microsoft::WRL::ComPtr<IDXGISwapChain3>         m_swapChain;
 		// Doesn't work at all no scene shows needs a dx12 computer
-		 Microsoft::WRL::ComPtr<IDXGISwapChain4>			m_swapChain;
+		Microsoft::WRL::ComPtr<IDXGISwapChain4>			m_swapChain;
 
 		Microsoft::WRL::ComPtr<ID3D12Resource>			m_renderTargets[MAX_BACK_BUFFER_COUNT];
 
@@ -185,8 +182,8 @@ namespace DX
 		Microsoft::WRL::ComPtr<IDWriteTextFormat>       m_textFormat;
 		Microsoft::WRL::ComPtr<IDWriteTextFormat>       m_smallTextFormat;
 
-		D3D_FEATURE_LEVEL                                   m_d3dMinFeatureLevel;
 		D3D_FEATURE_LEVEL                                   m_d3dFeatureLevel;
+		D3D_FEATURE_LEVEL                                   m_d3dMinFeatureLevel;
 		DXGI_MODE_ROTATION                                  m_rotation;
 		RECT                                                m_outputSizeRect;
 
