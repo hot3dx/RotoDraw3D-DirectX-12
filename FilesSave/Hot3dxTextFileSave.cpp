@@ -12,15 +12,16 @@
 
 Hot3dxRotoDraw::Hot3dxTextFileSave::Hot3dxTextFileSave(Platform::String^ filename, unsigned int objectCount)
 {
-	
+	m_filename=filename;
+	m_objectCount=objectCount;
 }
 
-Platform::String^ Hot3dxRotoDraw::Hot3dxTextFileSave::DrawnObjectSaveHot3dxTextFile(std::vector<DirectX::VertexPositionNormalTexture> vertexes,
+Platform::String^ Hot3dxRotoDraw::Hot3dxTextFileSave::DrawnObjectSaveHot3dxTextFile(std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes,
 	std::vector<uint16_t> indices, Platform::String^ textureImageFile, unsigned int count, VOID** nodes)
 {
 	Platform::String^ file = ref new Platform::String(L"HEADER:Hot3dx:DirectX12:Model:Text:20201n");
 	Platform::String^ m_ptVertexCntStr = ref new Platform::String(std::to_wstring(vertexes.size()).c_str());
-	file = file->Concat(file, "VertexType: DirectX::VertexPositionNormalTexture");
+	file = file->Concat(file, "VertexType: DirectX::DXTKXAML12::VertexPositionNormalTexture");
 	file = file->Concat(file, "\n");
 	file = file->Concat(file, "VertexCount: ");
 	file = file->Concat(file, m_ptVertexCntStr);
@@ -39,7 +40,7 @@ Platform::String^ Hot3dxRotoDraw::Hot3dxTextFileSave::DrawnObjectSaveHot3dxTextF
 	unsigned int cnt = 0;
 	for (unsigned int i = 0; i < indices.size(); )
 	{
-		Platform::String^ aFaceStr = IndicesFaceValuesReturnHot3dxTextFile(cnt, indices.at(i), indices.at(i + 1), indices.at(i + 2));
+		Platform::String^ aFaceStr = IndicesFaceValuesReturnHot3dxTextFile(cnt, indices.at(static_cast<size_t>(i)), indices.at(static_cast<size_t>(i) + 1), indices.at(static_cast<size_t>(i) + 2));
 		file = file->Concat(file, aFaceStr);
 		i += 3;
 		cnt++;

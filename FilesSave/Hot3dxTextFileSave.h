@@ -21,7 +21,7 @@ namespace Hot3dxRotoDraw
 	internal:
 		Hot3dxTextFileSave(Platform::String^ filename, unsigned int objectCount);
 
-		Platform::String^ DrawnObjectSaveHot3dxTextFile(std::vector<DirectX::VertexPositionNormalTexture> vertexes,
+		Platform::String^ DrawnObjectSaveHot3dxTextFile(std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes,
 		std::vector<uint16_t> indices, Platform::String^ textureImageFile, unsigned int count, VOID** nodes);
 		
 		Platform::String^ XM_CALLCONV PointDataValuesReturnHot3dxTextFileVertex(unsigned int number, float x, float y, float z, float nx, float ny, float nz, float tu, float tv);
