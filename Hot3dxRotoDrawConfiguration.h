@@ -13,7 +13,7 @@ namespace Hot3dxRotoDraw
         {
             Platform::String^ get()
             {
-                return "RotoDraw3DX 12";
+                return "Hot3dxRotoDraw3D DX 12";
             }
         }
 
