@@ -19,14 +19,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,0,0" Height="570" Width="500">
 
-    <Grid x:Name="RootGrid" Margin="0,0,0,0" Background="#FF0B8D0B">
+    <Grid x:Name="RootGrid" Margin="0,-120,0,0" CanBeScrollAnchor="True" Height="570" Width="500" HorizontalAlignment="Left" Background="LightGreen">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="570"/>
+            <RowDefinition/>
             <RowDefinition Height="Auto"/>
-            
         </Grid.RowDefinitions>
-
         <TextBox x:Name="IDC_PALETTE_FILE_NAME_EDIT" HorizontalAlignment="Left" Margin="1,5,0,0" Text="Palette FileName" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="115" FontSize="9"/>
         <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="118,5,0,0" Text="Sample Edit Filename Box" VerticalAlignment="Top" Width="380" Height="25" FontSize="9"/>
         <TextBlock x:Name="filePath1TextBlock" HorizontalAlignment="Left" Margin="1,38,0,0" Text="FilePath:1" VerticalAlignment="Top" Height="34" Width="80" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"/>
@@ -95,7 +95,7 @@
             <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
             <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
         </ListBox>
-        <TextBlock x:Name="textBlock12" Margin="180,433,0,0" Text="FileName" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Height="19" Width="127"/>
+        <TextBlock x:Name="textBlock12" HorizontalAlignment="Center" Margin="0,426,0,0" Text="FileName" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="132"/>
         <Button x:Name="IDC_NAME_SET_BUTTON" Content="==Set Name" Margin="182,280,0,0" VerticalAlignment="Top" Height="32" Width="100"/>
         <TextBox x:Name="IDC_NAME_SET_EDIT" HorizontalAlignment="Left" Margin="180,320,0,0" Text="Enter Name" VerticalAlignment="Top" Width="100" Height="32"/>
         <Button x:Name="IDC_TEXTURE_FILENAME_BUTTON" Content="Texture Name" Margin="182,360,0,0" VerticalAlignment="Top" Height="25" Width="100" FontSize="10"/>
@@ -103,12 +103,14 @@
         <TextBlock x:Name="textBlock13" HorizontalAlignment="Left" Margin="180,495,0,0" Text="Power" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="38"/>
         <TextBlock x:Name="textBlock14" HorizontalAlignment="Left" Margin="321,495,0,0" Text="Others" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="41"/>
         <Slider x:Name="IDC_POWER_SLIDER" HorizontalAlignment="Left" Margin="227,490,0,0" VerticalAlignment="Top" Width="82" Height="25" Background="Yellow"/>
+        <Slider x:Name="IDC_OTHERS_SLIDER" HorizontalAlignment="Left" Margin="371,490,0,0" VerticalAlignment="Top" Width="82" Height="25" Background="Yellow"/>
+        <TextBlock x:Name="IDC_D3DMATERIAL_DISPLAY" HorizontalAlignment="Left" Margin="458,705,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="256" Width="256" FocusVisualPrimaryBrush="White" Foreground="White"/>
         <Button x:Name="ID_COLOR_ADD_BUTTON" Content="Add Custom Colors" Margin="181,460,0,0" VerticalAlignment="Top" Height="25" Width="115" FontSize="10"/>
         <Slider  x:Name="scrollBar" HorizontalAlignment="Left" Margin="180,520,0,0" VerticalAlignment="Top" Width="300" Height="25" Background="Yellow" Orientation="Horizontal"/>
-        <Image x:Name="TextureImage1" HorizontalAlignment="Left" Height="100" Margin="318,114,0,0" VerticalAlignment="Top" Width="100"/>
-        <Button x:Name="IDC_TEXTURE_IMAGE1_BUTTON" Content="Add-Texture 1" Margin="318,220,0,0" VerticalAlignment="Top" Height="30" Width="103" Click="IDC_TEXTURE_IMAGE1_BUTTON_Click"/>
-        <Button x:Name="IDC_TEXTURE_IMAGE2_BUTTON" Content="Add-Texture 2" Margin="318,251,0,0" VerticalAlignment="Top" Height="30" Width="103" Click="IDC_TEXTURE_IMAGE2_BUTTON_Click"/>
-        <Image x:Name="TextureImage2" HorizontalAlignment="Left" Height="100" Margin="318,288,0,0" VerticalAlignment="Top" Width="100"/>
+        <Image x:Name="TextureImage1" HorizontalAlignment="Left" Height="150" Margin="318,114,0,0" VerticalAlignment="Top" Width="150"/>
+        <Button x:Name="IDC_TEXTURE_IMAGE1_BUTTON" Content="Add Texture 1" Margin="318,270,0,0" VerticalAlignment="Top" Height="30" Width="135" Click="IDC_TEXTURE_IMAGE1_BUTTON_Click"/>
+        <Button x:Name="IDC_TEXTURE_IMAGE2_BUTTON" Content="Add Texture 2" Margin="318,305,0,0" VerticalAlignment="Top" Height="30" Width="135" Click="IDC_TEXTURE_IMAGE2_BUTTON_Click"/>
+        <Image x:Name="TextureImage2" HorizontalAlignment="Left" Height="150" Margin="318,338,0,0" VerticalAlignment="Top" Width="150"/>
 
     </Grid>
 </Page>

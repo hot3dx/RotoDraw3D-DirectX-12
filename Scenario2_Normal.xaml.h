@@ -57,7 +57,7 @@ namespace Hot3dxRotoDraw
         void IDC_AXIS_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void IDC_TOP_OR_LEFT_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void IDC_BOTTOM_OR_RIGHT_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        void IDC_BACKGROUND_DRAW_CHECKBOX_checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+
         // TextBoxes
         VOID IDC_ROTATION_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 
@@ -82,7 +82,6 @@ namespace Hot3dxRotoDraw
         bool m_bAxisChecked;
         bool m_bTopOrLeftChecked;
         bool m_bBottomOrRightChecked;
-        bool m_bBackgroundDrawChecked;
         Windows::UI::Color m_pointColor;
         DirectXPage^ _rootPage;
         Windows::UI::Xaml::Controls::TextBox^ m_PointSpaceTextBox;

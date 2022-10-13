@@ -10,11 +10,12 @@
 //*********************************************************
 
 #include "pch.h"
+#include "OmnidirectionalSound.h"
 
 _Use_decl_annotations_
 HRESULT OmnidirectionalSound::Initialize(LPCWSTR filename)
 {
-    auto hr = _audioFile.Initialize(filename);
+    HRESULT hr = _audioFile.Initialize(filename);
 
     ComPtr<IXAPO> xapo;
     if (SUCCEEDED(hr))

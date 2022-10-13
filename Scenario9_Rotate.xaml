@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel x:Name="panel"  HorizontalAlignment="Left" Height="600" Width="500" Margin="0,0,0,0" VerticalAlignment="Top" Background="Green">
+        <StackPanel x:Name="panel"  HorizontalAlignment="Left" Height="600" Width="500" Margin="0,0,0,0" VerticalAlignment="Top" Background="LightGreen">
             <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
             <TextBlock x:Name="IDC_DESCRIPTION4_STATIC" HorizontalAlignment="Left" Margin="10,1,0,0" TextWrapping="Wrap" Text="Rotate Finished Object Settings" VerticalAlignment="Top" RenderTransformOrigin="00,0.0" TextDecorations="Underline"/>
             <TextBlock x:Name="IDC_XROTATE_STATIC" HorizontalAlignment="Left" Margin="10,20,0,0" TextWrapping="Wrap" Text="Rotate - X Axis" VerticalAlignment="Top" RenderTransformOrigin="00,0.0" TextDecorations="Underline"/>

@@ -12,7 +12,7 @@
 #pragma once
 
 #include <hrtfapoapi.h>
-#include "Audio\AudioFileReaderXaml12.h"
+#include <AudioFileReaderXaml12.h>
 //
 // Sound with omnidirectional radiation pattern i.e. emits sound equally in all directions.
 //

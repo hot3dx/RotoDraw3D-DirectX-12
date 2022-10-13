@@ -10,20 +10,43 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+
     <Grid x:Name="RootGrid" Margin="0,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel x:Name="HeaderPanel" HorizontalAlignment="Left" Height="600" Width="500" Margin="0,0,0,0" VerticalAlignment="Top" Background="Green">
-            <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
+        <StackPanel x:Name="HeaderPanel" HorizontalAlignment="Left" Height="600" Width="500" Margin="0,0,0,0" VerticalAlignment="Top" Background="LightGreen">
+            <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}" FontSize="10" FontStyle="Italic"/>
+
+            <TextBlock x:Name="m_sculptText" HorizontalAlignment="Left" Margin="5,1,0,0" TextWrapping="Wrap" Text="Sculpt - ObjectMust Be Drawn First!" FontWeight="Bold"/>
+            <CheckBox x:Name="checkBoxSculptBool" Content="Enable Sculpt"  HorizontalAlignment="Left" Margin="5,1,0,0" FontSize="12" Click="checkBoxSculptBool_Checked" Background="#FFECFF00"/>
+            <TextBlock x:Name="m_sculptMovementLock" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="Sculpt MovementDirection Locks!" FontSize="12" FontWeight="Bold"/>
+            <CheckBox x:Name="checkBoxSculptXBool" Content="Lock X Direction" HorizontalAlignment="Left" Margin="5,1,0,0" FontSize="12" Click="checkBoxSculptXBool_Checked" BorderBrush="#FFECFF00" Background="#FFECFF00"/>
+            <CheckBox x:Name="checkBoxSculptYBool" Content="Lock Y Direction" HorizontalAlignment="Left" Margin="135,-37,0,0" FontSize="12" Click="checkBoxSculptYBool_Checked" Background="#FFECFF00"/>
+            <CheckBox x:Name="checkBoxSculptZBool" Content="Lock Z Direction" HorizontalAlignment="Left" Margin="270,-37,0,0" FontSize="12" Click="checkBoxSculptZBool_Checked" Background="#FFECFF00"/>
+            <TextBlock x:Name="m_sculptObjectData" Text="Group Count    Points Per Group   Point Count" TextWrapping="Wrap"  Margin="5,1,0,0" FontSize="12" FontWeight="Bold"/>
+            <TextBox x:Name="textBoxGroupCount"  Margin="5,1,0,0" TextWrapping="Wrap" Text="0"  HorizontalAlignment="Left" FontSize="12" Height="25" Width="75" TextChanged="textBoxGroupCount_TextChanged"/>
+            <TextBox x:Name="textBoxPointsPerGroup"  Margin="95,-32,0,0" TextWrapping="Wrap" Text="0"  HorizontalAlignment="Left" FontSize="12" Height="25" Width="75" TextChanged="textBoxPointsPerGroup_TextChanged"/>
+            <TextBox x:Name="textBoxPointCount"  Margin="195,-32,0,0" TextWrapping="Wrap" Text="0"  HorizontalAlignment="Left" FontSize="12" Height="25" Width="75" TextChanged="textBoxPointCount_TextChanged"/>
+            <TextBlock x:Name="RotateXTextBlock" Text="X:"  Margin="5,20,0,0" Width="10" HorizontalAlignment="Left" FontSize="12" FontWeight="Bold"/>
+            <TextBox x:Name="GRIDCAM_XROTATE_EDIT" HorizontalAlignment="Center" Margin="-80,-20,0,0" Text="0.0" VerticalAlignment="Top" Width="112" TextChanged="GRIDCAM_X_ROTATE_EDIT_TextChanged" BorderBrush="#FFF36A0B" InputScope="Number"/>
+            <Slider x:Name="slider_RotateXGridCam" Width="360" Value="1" Maximum="359" Margin="-90,0,0,0" ValueChanged="ROTATE_X_GridCam_ValueChanged"/>
+            <TextBlock x:Name="RotateYTextBlock" Text="Y:"  Margin="5,20,0,0" Width="10" HorizontalAlignment="Left" FontSize="12" FontWeight="Bold"/>
+            <TextBox x:Name="GRIDCAM_YROTATE_EDIT" HorizontalAlignment="Center" Margin="-80,-20,0,0" Text="0.0" VerticalAlignment="Top" Width="112" TextChanged="GRIDCAM_Y_ROTATE_EDIT_TextChanged" BorderBrush="#FFF36A0B" InputScope="Number"/>
+            <Slider x:Name="slider_RotateYGridCam" Width="360" Value="1" Maximum="359"  Margin="-90,0,0,0" ValueChanged="ROTATE_Y_GridCam_ValueChanged"/>
+            <TextBlock x:Name="RotateZTextBlock" Text="Z:"  Margin="5,20,0,0" Width="10" HorizontalAlignment="Left" FontSize="12" FontWeight="Bold"/>
+            <TextBox x:Name="GRIDCAM_ZROTATE_EDIT" HorizontalAlignment="Center" Margin="-80,-20,0,0" Text="0.0" VerticalAlignment="Top" Width="112" TextChanged="GRIDCAM_Z_ROTATE_EDIT_TextChanged" BorderBrush="#FFF36A0B" InputScope="Number"/>
+            <Slider x:Name="slider_RotateZGridCam" Width="360" Value="1" Maximum="359"  Margin="-90,0,0,0" ValueChanged="ROTATE_Z_GridCam_ValueChanged"/>
+
+
+            <TextBox x:Name="m_sculptTextBox" Text="Sculpt Topics" TextWrapping="Wrap"  Margin="0,75,0,0" RenderTransformOrigin="0.455,-1.562" TextChanged="SculptTextBox_TextChanged" Height="20"/>
+            <TextBlock x:Name="m_sculptFilesText" HorizontalAlignment="Left" Margin="0,5,0,0" TextWrapping="Wrap" Text="Sculpt Files"/>
+            <TextBox x:Name="m_sculptFilesTextBox" Text="Sculpt Files" TextWrapping="Wrap" RenderTransformOrigin="0.455,-1.562" TextChanged="SculptFilesTextBox_TextChanged" Height="20"/>
             <TextBlock x:Name="IDC_DESCRIPTION_STATIC" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Sculpt Data Area" VerticalAlignment="Top" RenderTransformOrigin="0.667,-11.258" TextDecorations="Underline"/>
 
-            <TextBlock x:Name="m_sculptText" HorizontalAlignment="Left" Margin="0,5,0,0" TextWrapping="Wrap" Text="Sculpt Topics"/>
-            <TextBox x:Name="m_sculptTextBox" Text="Sculpt Topics" TextWrapping="Wrap" RenderTransformOrigin="0.455,-1.562" TextChanged="SculptTextBox_TextChanged" Height="90"/>
-            <TextBlock x:Name="m_sculptFilesText" HorizontalAlignment="Left" Margin="0,5,0,0" TextWrapping="Wrap" Text="Sculpt Files"/>
-            <TextBox x:Name="m_sculptFilesTextBox" Text="Sculpt Files" TextWrapping="Wrap" RenderTransformOrigin="0.455,-1.562" TextChanged="SculptFilesTextBox_TextChanged" Height="460"/>
+
 
         </StackPanel>
     </Grid>

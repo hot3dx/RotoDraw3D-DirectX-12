@@ -133,42 +133,42 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Obj_Material_Button_Click(Platform::
     savePicker->SuggestedFileName = "ObjectNode1";
 
     create_task(savePicker->PickSaveFileAsync()).then([this](StorageFile^ file)
-    {
-        if (file != nullptr)
         {
-            Hot3dxRotoDraw::Scenario3_FileIO^ _this = this;
-            // Prevent updates to the remote version of the file until we finish making changes and call CompleteUpdatesAsync.
-            CachedFileManager::DeferUpdates(file);
-            // write to file
-            this->mtlFilename = file;
-            Platform::String^ sf = file->DisplayName;
-            Platform::String^ fileData = _rootPage->GetSceneRenderDrawnObjectSaveObj3DandMtl(L"Phong[13]", 2, sf, _rootPage->GetTextureImage1FileDXP());
-
-            create_task(FileIO::WriteTextAsync(file, fileData/*file->Name*/)).then([_this, file]()
+            if (file != nullptr)
             {
-                // Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
-                // Completing updates may require Windows to ask for user input.
-                create_task(CachedFileManager::CompleteUpdatesAsync(file)).then([_this, file](FileUpdateStatus status)
-                {
-                    if (status == FileUpdateStatus::Complete)
-                    {
-                        //task.get();
-                        _this->_rootPage->NotifyUser("The following " + file + file->Name + " was saved.", NotifyType::StatusMessage);
+                Hot3dxRotoDraw::Scenario3_FileIO^ _this = this;
+                // Prevent updates to the remote version of the file until we finish making changes and call CompleteUpdatesAsync.
+                CachedFileManager::DeferUpdates(file);
+                // write to file
+                this->mtlFilename = file;
+                Platform::String^ sf = file->DisplayName;
+                Platform::String^ fileData = _rootPage->GetSceneRenderDrawnObjectSaveObj3DandMtl(L"Phong[13]", 2, sf, _rootPage->GetTextureImage1FileDXP());
 
-                    }
-                    else
+                create_task(FileIO::WriteTextAsync(file, fileData/*file->Name*/)).then([_this, file]()
                     {
-                        _this->_rootPage->NotifyUser("Error writing to file" + file + file->Name, NotifyType::ErrorMessage);
-                    }
-                });
-            });
-        }
-        else
-        {
-            _rootPage->NotifyUser("There is no model, please draw a model and then save again.", NotifyType::ErrorMessage);
-        }
+                        // Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
+                        // Completing updates may require Windows to ask for user input.
+                        create_task(CachedFileManager::CompleteUpdatesAsync(file)).then([_this, file](FileUpdateStatus status)
+                            {
+                                if (status == FileUpdateStatus::Complete)
+                                {
+                                    //task.get();
+                                    _this->_rootPage->NotifyUser("The following " + file + file->Name + " was saved.", NotifyType::StatusMessage);
 
-    });
+                                }
+                                else
+                                {
+                                    _this->_rootPage->NotifyUser("Error writing to file" + file + file->Name, NotifyType::ErrorMessage);
+                                }
+                            });
+                    });
+            }
+            else
+            {
+                _rootPage->NotifyUser("There is no model, please draw a model and then save again.", NotifyType::ErrorMessage);
+            }
+
+        });
 
     FileSavePicker^ savePicker1 = ref new FileSavePicker();
     savePicker1->SuggestedStartLocation = PickerLocationId::DocumentsLibrary;
@@ -178,41 +178,41 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Obj_Material_Button_Click(Platform::
     savePicker1->FileTypeChoices->Insert("3D Obj fbx", plainTextExtensions2);
     savePicker1->SuggestedFileName = "ObjectNode1";
     create_task(savePicker1->PickSaveFileAsync()).then([this](StorageFile^ file1)
-    {
-        if (file1 != nullptr)
         {
-            Hot3dxRotoDraw::Scenario3_FileIO^ _this = this;
-            // Prevent updates to the remote version of the file until we finish making changes and call CompleteUpdatesAsync.
-            CachedFileManager::DeferUpdates(file1);
-            // write to file
-
-            Platform::String^ fileData = _rootPage->GetSceneRenderDrawnObjectSaveObj3DFile(_this->mtlFilename->Name, file1->DisplayName, L"Phong[13]");
-            
-            create_task(FileIO::WriteTextAsync(file1, fileData/*file->Name*/)).then([_this, file1]()
+            if (file1 != nullptr)
             {
-                // Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
-                // Completing updates may require Windows to ask for user input.
-                create_task(CachedFileManager::CompleteUpdatesAsync(file1)).then([_this, file1](FileUpdateStatus status)
-                {
-                    if (status == FileUpdateStatus::Complete)
-                    {
-                        //task.get();
-                        _this->_rootPage->NotifyUser("The following " + file1 + file1->Name + " was saved.", NotifyType::StatusMessage);
+                Hot3dxRotoDraw::Scenario3_FileIO^ _this = this;
+                // Prevent updates to the remote version of the file until we finish making changes and call CompleteUpdatesAsync.
+                CachedFileManager::DeferUpdates(file1);
+                // write to file
 
-                    }
-                    else
-                    {
-                        _this->_rootPage->NotifyUser("Error writing to file" + file1 + file1->Name, NotifyType::ErrorMessage);
-                    }
-                });
-            });
-        }
-        else
-        {
-            _rootPage->NotifyUser("There is no model, please draw a model and then save again.", NotifyType::ErrorMessage);
-        }
+                Platform::String^ fileData = _rootPage->GetSceneRenderDrawnObjectSaveObj3DFile(_this->mtlFilename->Name, file1->DisplayName, L"Phong[13]");
 
-    });
+                create_task(FileIO::WriteTextAsync(file1, fileData/*file->Name*/)).then([_this, file1]()
+                    {
+                        // Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
+                        // Completing updates may require Windows to ask for user input.
+                        create_task(CachedFileManager::CompleteUpdatesAsync(file1)).then([_this, file1](FileUpdateStatus status)
+                            {
+                                if (status == FileUpdateStatus::Complete)
+                                {
+                                    //task.get();
+                                    _this->_rootPage->NotifyUser("The following " + file1 + file1->Name + " was saved.", NotifyType::StatusMessage);
+
+                                }
+                                else
+                                {
+                                    _this->_rootPage->NotifyUser("Error writing to file" + file1 + file1->Name, NotifyType::ErrorMessage);
+                                }
+                            });
+                    });
+            }
+            else
+            {
+                _rootPage->NotifyUser("There is no model, please draw a model and then save again.", NotifyType::ErrorMessage);
+            }
+
+        });
 
 }
 

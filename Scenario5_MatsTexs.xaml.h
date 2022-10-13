@@ -62,12 +62,13 @@ namespace Hot3dxRotoDraw
         void scrollBar_Scroll(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::ScrollEventArgs^ e);
         void IDC_TEXTURE_IMAGE1_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void IDC_TEXTURE_IMAGE2_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+
         void LoadDefaultImage1();
         void LoadChosenImage1();
         void LoadDefaultImage2();
         void LoadChosenImage2();
 
-        void SetMaterialTypesStrings();
+        void Hot3dxRotoDraw::Scenario5_MatsTexs::SetMaterialTypesStrings();
         void SetSingleMaterialTypesStringListboxItem(Platform::Object^ sender, unsigned int i,
             MaterialList const& s, MaterialTypes m,
             Windows::UI::Xaml::Controls::TextBlock^ textBlock);

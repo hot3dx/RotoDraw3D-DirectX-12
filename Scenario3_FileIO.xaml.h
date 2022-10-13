@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "Generated Files\Scenario3_FileIO.g.h"
+#include "Scenario3_FileIO.g.h"
 #include "DirectXPage.xaml.h"
 #include "Hot3dxRotoDrawConfiguration.h"
 
@@ -32,7 +32,6 @@ namespace Hot3dxRotoDraw
         virtual ~Scenario3_FileIO();
     private:
         
-
         DirectXPage^ _rootPage;
         bool                            _initialized = false;
         Windows::Storage::StorageFile^ mtlFilename;
