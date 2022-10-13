@@ -92,6 +92,9 @@
     <ClCompile Include="FilesSave\Hot3dxTextFileSave.cpp">
       <Filter>FilesSave</Filter>
     </ClCompile>
+    <ClCompile Include="Content\Hot3dxRotoDrawSceneRenderDrawFunctions.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hot3dxRotoDrawMain.h" />
@@ -328,19 +331,10 @@
     <Page Include="Scenario11_GridorPic.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\ADPCMdroid.xwb">
-      <Filter>Assets</Filter>
-    </None>
     <None Include="Assets\cursor1.cur">
       <Filter>Assets</Filter>
     </None>
-    <None Include="Assets\italic.spritefont">
-      <Filter>Assets</Filter>
-    </None>
     <None Include="Assets\occcity.bin">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="Assets\SegoeUI_18.spritefont">
       <Filter>Assets</Filter>
     </None>
     <None Include="Assets\TeapotData.inc">
@@ -350,11 +344,22 @@
       <Filter>Assets</Filter>
     </None>
     <None Include="packages.config" />
-    <None Include="hot3dxjeffkubitzpackagecertificate.pfx" />
-    <None Include="Hot3dxRotoDraw_TemporaryKey.pfx" />
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\musicmono_adpcm.wav">
+      <Filter>Assets</Filter>
+    </Media>
+    <Media Include="Assets\bounce.wav">
+      <Filter>Assets</Filter>
+    </Media>
+    <Media Include="Assets\hit.wav">
+      <Filter>Assets</Filter>
+    </Media>
+    <Media Include="Assets\MonoSound.wav">
+      <Filter>Assets</Filter>
+    </Media>
+    <Media Include="Assets\ADPCMdroid.xwb">
       <Filter>Assets</Filter>
     </Media>
   </ItemGroup>
@@ -362,8 +367,17 @@
     <Font Include="Assets\segoeui.ttf">
       <Filter>Assets</Filter>
     </Font>
+    <Font Include="Assets\SegoeUI_18.spritefont">
+      <Filter>Assets</Filter>
+    </Font>
+    <Font Include="Assets\italic.spritefont">
+      <Filter>Assets</Filter>
+    </Font>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Hot3dxRotoDraw.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\credits.txt" />
   </ItemGroup>
 </Project>

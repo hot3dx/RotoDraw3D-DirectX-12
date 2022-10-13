@@ -324,7 +324,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <Optimization>MaxSpeed</Optimization>
-      <SupportJustMyCode>true</SupportJustMyCode>
+      <SupportJustMyCode>false</SupportJustMyCode>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -402,14 +402,12 @@
     <Image Include="Assets\windowslogo.dds" />
     <Image Include="Assets\__TemplateIcon.ico" />
   </ItemGroup>
-<ItemGroup>
-    <None Include="Assets\ADPCMdroid.xwb" />
+  <ItemGroup>
     <None Include="Assets\cursor1.cur" />
-    <None Include="Assets\italic.spritefont" />
     <None Include="Assets\occcity.bin" />
-    <None Include="Assets\SegoeUI_18.spritefont" />
     <None Include="Assets\TeapotData.inc" />
     <None Include="Assets\tiny.sdkmesh" />
+    <None Include="cpp.hint" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -417,12 +415,15 @@
     <Media Include="Assets\hit.wav" />
     <Media Include="Assets\MonoSound.wav" />
     <Media Include="Assets\musicmono_adpcm.wav" />
+    <Media Include="Assets\ADPCMdroid.xwb" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\credits.txt" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Assets\segoeui.ttf" />
+    <Font Include="Assets\italic.spritefont" />
+    <Font Include="Assets\SegoeUI_18.spritefont" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.xaml.h">
@@ -494,6 +495,7 @@
     <ClCompile Include="Content\Hot3dxDrawnObject.cpp" />
     <ClCompile Include="Content\Hot3dxRotoDrawVariables.cpp" />
     <ClCompile Include="Content\Hot3dxRotoDrawSceneRender.cpp" />
+    <ClCompile Include="Content\Hot3dxRotoDrawSceneRenderDrawFunctions.cpp" />
     <ClCompile Include="FilesSave\ColladaFileType.cpp" />
     <ClCompile Include="FilesSave\Hot3dxTextFileSave.cpp" />
     <ClCompile Include="FilesSave\Obj3DFile.cpp" />
@@ -595,17 +597,17 @@
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ImageContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\MeshContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ShaderGraphContentTask.targets" />
+    <Import Project="packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets" Condition="Exists('packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets')" />
     <Import Project="packages\Microsoft.Web.WebView2.1.0.1264.42\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('packages\Microsoft.Web.WebView2.1.0.1264.42\build\native\Microsoft.Web.WebView2.targets')" />
     <Import Project="packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.targets')" />
-    <Import Project="packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets" Condition="Exists('packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
+    <Error Condition="!Exists('packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets'))" />
     <Error Condition="!Exists('packages\Microsoft.Web.WebView2.1.0.1264.42\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Web.WebView2.1.0.1264.42\build\native\Microsoft.Web.WebView2.targets'))" />
     <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.props'))" />
     <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.targets'))" />
-    <Error Condition="!Exists('packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets'))" />
   </Target>
 </Project>

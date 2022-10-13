@@ -1,0 +1,661 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph DataVirtualized="True" Layout="Sugiyama" ZoomLevel="3" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="(@10)" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-profile-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-profile-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="(@17)" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-debug-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-debug-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="(@24)" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-sysinfo-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-sysinfo-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="(@25)" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-heap-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-heap-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="(@30)" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-processenvironment-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-processenvironment-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="(@35)" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-file-l2-1-0.dll" Group="Collapsed" Label="api-ms-win-core-file-l2-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}">
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="(@36)" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-file-l1-2-0.dll" Group="Collapsed" Label="api-ms-win-core-file-l1-2-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}">
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="(@43)" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(System)\d3d12.dll" Group="Collapsed" Label="d3d12.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}">
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="(@46)" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(System)\ucrtbased.dll" Group="Collapsed" Label="ucrtbased.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}">
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="(@51)" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(System)\HrtfApo.dll" Group="Collapsed" Label="HrtfApo.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}">
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="(@54)" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="vccorlib140d_app.DLL" Group="Collapsed" Label="vccorlib140d_app.DLL" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="(@55)" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="VCRUNTIME140D_APP.dll" Group="Collapsed" Label="VCRUNTIME140D_APP.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="(@64)" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(VsSolution)\Hot3dxRotoDraw.sln\Unknown Library" Group="Collapsed" Label="Unknown Library" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="(@9)" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-file-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-file-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@12" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-errorhandling-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-errorhandling-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@14" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-string-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-string-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@16" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-winrt-string-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-winrt-string-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@19" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-synch-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-synch-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@2" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" CodeSchemaProperty_StrongName="Microsoft.UI.Xaml, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime" DelayedChildNodesState="NotFetched" FilePath="$(VsSolution)\x64\Debug\Hot3dxRotoDraw\Microsoft.UI.Xaml.winmd" Group="Collapsed" Label="Microsoft.UI.Xaml.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@21" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-util-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-util-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@23" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-com-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-com-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@27" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-winrt-error-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-winrt-error-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@29" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-processthreads-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-processthreads-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@32" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-winrt-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-winrt-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@34" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-memory-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-memory-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@38" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-synch-l1-2-0.dll" Group="Collapsed" Label="api-ms-win-core-synch-l1-2-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}">
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@4" Category="CodeSchema_Assembly" Bounds="0,-5.70926489937758,172.64,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(0e722f41-e8b3-4dd0-9430-4b11e1810dd7.OutputPath)" Group="Collapsed" Label="Hot3dxRotoDraw.exe" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}">
+      <Category Ref="CodeMap_WindowsStoreProject" />
+      <Category Ref="FileSystem.Category.FileOfType.exe" />
+    </Node>
+    <Node Id="@40" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-libraryloader-l1-2-0.dll" Group="Collapsed" Label="api-ms-win-core-libraryloader-l1-2-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@42" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-winrt-error-l1-1-1.dll" Group="Collapsed" Label="api-ms-win-core-winrt-error-l1-1-1.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@45" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(System)\XAudio2_9.dll" Group="Collapsed" Label="XAudio2_9.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}">
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@48" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(System)\MFReadWrite.dll" Group="Collapsed" Label="MFReadWrite.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}">
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@50" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(System)\dxgi.dll" Group="Collapsed" Label="dxgi.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}">
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@53" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="WinPixEventRuntime_UAP.dll" Group="Collapsed" Label="WinPixEventRuntime_UAP.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@57" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="MSVCP140D_APP.dll" Group="Collapsed" Label="MSVCP140D_APP.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@59" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="CONCRT140D_APP.dll" Group="Collapsed" Label="CONCRT140D_APP.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@6" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-interlocked-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-interlocked-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@61" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="VCRUNTIME140_1D_APP.dll" Group="Collapsed" Label="VCRUNTIME140_1D_APP.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@63" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(System)\MFPlat.DLL" Group="Collapsed" Label="MFPlat.DLL" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}">
+      <Category Ref="FileSystem.Category.FileOfType.dll" />
+    </Node>
+    <Node Id="@65" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.AI.MachineLearning.MachineLearningContract\3.0.0.0\Windows.AI.MachineLearning.MachineLearningContract.winmd" Group="Collapsed" Label="Windows.AI.MachineLearning.MachineLearningContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@66" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.AI.MachineLearning.Preview.MachineLearningPreviewContract\2.0.0.0\Windows.AI.MachineLearning.Preview.MachineLearningPreviewContract.winmd" Group="Collapsed" Label="Windows.AI.MachineLearning.Preview.MachineLearningPreviewContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@67" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.ApplicationModel.Calls.Background.CallsBackgroundContract\2.0.0.0\Windows.ApplicationModel.Calls.Background.CallsBackgroundContract.winmd" Group="Collapsed" Label="Windows.ApplicationModel.Calls.Background.CallsBackgroundContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@68" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.ApplicationModel.Calls.CallsPhoneContract\5.0.0.0\Windows.ApplicationModel.Calls.CallsPhoneContract.winmd" Group="Collapsed" Label="Windows.ApplicationModel.Calls.CallsPhoneContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@69" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.ApplicationModel.Calls.CallsVoipContract\4.0.0.0\Windows.ApplicationModel.Calls.CallsVoipContract.winmd" Group="Collapsed" Label="Windows.ApplicationModel.Calls.CallsVoipContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@70" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.ApplicationModel.CommunicationBlocking.CommunicationBlockingContract\2.0.0.0\Windows.ApplicationModel.CommunicationBlocking.CommunicationBlockingContract.winmd" Group="Collapsed" Label="Windows.ApplicationModel.CommunicationBlocking.CommunicationBlockingContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@71" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.ApplicationModel.SocialInfo.SocialInfoContract\2.0.0.0\Windows.ApplicationModel.SocialInfo.SocialInfoContract.winmd" Group="Collapsed" Label="Windows.ApplicationModel.SocialInfo.SocialInfoContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@72" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.ApplicationModel.StartupTaskContract\3.0.0.0\Windows.ApplicationModel.StartupTaskContract.winmd" Group="Collapsed" Label="Windows.ApplicationModel.StartupTaskContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@73" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Devices.Custom.CustomDeviceContract\1.0.0.0\Windows.Devices.Custom.CustomDeviceContract.winmd" Group="Collapsed" Label="Windows.Devices.Custom.CustomDeviceContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@74" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Devices.DevicesLowLevelContract\3.0.0.0\Windows.Devices.DevicesLowLevelContract.winmd" Group="Collapsed" Label="Windows.Devices.DevicesLowLevelContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@75" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Devices.Printers.PrintersContract\1.0.0.0\Windows.Devices.Printers.PrintersContract.winmd" Group="Collapsed" Label="Windows.Devices.Printers.PrintersContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@76" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Devices.SmartCards.SmartCardBackgroundTriggerContract\3.0.0.0\Windows.Devices.SmartCards.SmartCardBackgroundTriggerContract.winmd" Group="Collapsed" Label="Windows.Devices.SmartCards.SmartCardBackgroundTriggerContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@77" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Devices.SmartCards.SmartCardEmulatorContract\6.0.0.0\Windows.Devices.SmartCards.SmartCardEmulatorContract.winmd" Group="Collapsed" Label="Windows.Devices.SmartCards.SmartCardEmulatorContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@78" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Foundation.FoundationContract\4.0.0.0\Windows.Foundation.FoundationContract.winmd" Group="Collapsed" Label="Windows.Foundation.FoundationContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@79" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Foundation.UniversalApiContract\10.0.0.0\Windows.Foundation.UniversalApiContract.winmd" Group="Collapsed" Label="Windows.Foundation.UniversalApiContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@8" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="api-ms-win-core-handle-l1-1-0.dll" Group="Collapsed" Label="api-ms-win-core-handle-l1-1-0.dll" Language="{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" />
+    <Node Id="@80" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Gaming.XboxLive.StorageApiContract\1.0.0.0\Windows.Gaming.XboxLive.StorageApiContract.winmd" Group="Collapsed" Label="Windows.Gaming.XboxLive.StorageApiContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@81" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Graphics.Printing3D.Printing3DContract\4.0.0.0\Windows.Graphics.Printing3D.Printing3DContract.winmd" Group="Collapsed" Label="Windows.Graphics.Printing3D.Printing3DContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@82" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Networking.Connectivity.WwanContract\2.0.0.0\Windows.Networking.Connectivity.WwanContract.winmd" Group="Collapsed" Label="Windows.Networking.Connectivity.WwanContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@83" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Networking.Sockets.ControlChannelTriggerContract\3.0.0.0\Windows.Networking.Sockets.ControlChannelTriggerContract.winmd" Group="Collapsed" Label="Windows.Networking.Sockets.ControlChannelTriggerContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@84" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Security.Isolation.IsolatedWindowsEnvironmentContract\2.0.0.0\Windows.Security.Isolation.Isolatedwindowsenvironmentcontract.winmd" Group="Collapsed" Label="Windows.Security.Isolation.Isolatedwindowsenvironmentcontract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@85" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Services.Maps.GuidanceContract\3.0.0.0\Windows.Services.Maps.GuidanceContract.winmd" Group="Collapsed" Label="Windows.Services.Maps.GuidanceContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@86" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Services.Maps.LocalSearchContract\4.0.0.0\Windows.Services.Maps.LocalSearchContract.winmd" Group="Collapsed" Label="Windows.Services.Maps.LocalSearchContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@87" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Services.Store.StoreContract\4.0.0.0\Windows.Services.Store.StoreContract.winmd" Group="Collapsed" Label="Windows.Services.Store.StoreContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@88" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Services.TargetedContent.TargetedContentContract\1.0.0.0\Windows.Services.TargetedContent.TargetedContentContract.winmd" Group="Collapsed" Label="Windows.Services.TargetedContent.TargetedContentContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@89" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.Storage.Provider.CloudFilesContract\4.0.0.0\Windows.Storage.Provider.CloudFilesContract.winmd" Group="Collapsed" Label="Windows.Storage.Provider.CloudFilesContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@90" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.System.Profile.ProfileHardwareTokenContract\1.0.0.0\Windows.System.Profile.ProfileHardwareTokenContract.winmd" Group="Collapsed" Label="Windows.System.Profile.ProfileHardwareTokenContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@91" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.System.Profile.ProfileSharedModeContract\2.0.0.0\Windows.System.Profile.ProfileSharedModeContract.winmd" Group="Collapsed" Label="Windows.System.Profile.ProfileSharedModeContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@92" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.System.Profile.SystemManufacturers.SystemManufacturersContract\3.0.0.0\Windows.System.Profile.SystemManufacturers.SystemManufacturersContract.winmd" Group="Collapsed" Label="Windows.System.Profile.SystemManufacturers.SystemManufacturersContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@93" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.System.SystemManagementContract\7.0.0.0\Windows.System.SystemManagementContract.winmd" Group="Collapsed" Label="Windows.System.SystemManagementContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@94" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.UI.ViewManagement.ViewManagementViewScalingContract\1.0.0.0\Windows.UI.ViewManagement.ViewManagementViewScalingContract.winmd" Group="Collapsed" Label="Windows.UI.ViewManagement.ViewManagementViewScalingContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="@95" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.UI.Xaml.Core.Direct.XamlDirectContract\2.0.0.0\Windows.UI.Xaml.Core.Direct.XamlDirectContract.winmd" Group="Collapsed" Label="Windows.UI.Xaml.Core.Direct.XamlDirectContract.winmd" UseManualLocation="True">
+      <Category Ref="FileSystem.Category.FileOfType.winmd" />
+    </Node>
+    <Node Id="_standardGraphExternalsGroup" Category="Externals" Bounds="42.825,60.7093146689776,86.99,25" Group="Collapsed" Label="Externals" LayoutSettings="List" />
+  </Nodes>
+  <Links>
+    <Link Source="@4" Target="@12" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@14" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@16" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@19" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@2" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@21" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@23" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@27" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@29" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@32" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@34" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@38" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@40" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@42" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@45" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@48" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@50" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@53" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@57" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@59" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@6" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@61" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@63" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@65" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@66" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@67" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@68" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@69" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@70" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@71" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@72" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@73" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@74" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@75" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@76" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@77" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@78" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@79" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@8" Category="CodeSchema_Calls" />
+    <Link Source="@4" Target="@80" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@81" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@82" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@83" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@84" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@85" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@86" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@87" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@88" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@89" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@90" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@91" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@92" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@93" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@94" Category="CodeMap_ExternalReference" />
+    <Link Source="@4" Target="@95" Category="CodeMap_ExternalReference" />
+    <Link Source="_standardGraphExternalsGroup" Target="(@10)" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="(@17)" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="(@24)" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="(@25)" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="(@30)" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="(@35)" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="(@36)" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="(@43)" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="(@46)" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="(@51)" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="(@54)" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="(@55)" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="(@64)" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="(@9)" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@12" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@14" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@16" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@19" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@2" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@21" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@23" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@27" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@29" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@32" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@34" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@38" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@40" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@42" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@45" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@48" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@50" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@53" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@57" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@59" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@6" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@61" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@63" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@65" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@66" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@67" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@68" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@69" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@70" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@71" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@72" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@73" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@74" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@75" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@76" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@77" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@78" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@79" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@8" Category="Contains" />
+    <Link Source="_standardGraphExternalsGroup" Target="@80" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@81" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@82" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@83" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@84" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@85" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@86" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@87" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@88" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@89" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@90" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@91" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@92" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@93" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@94" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+    <Link Source="_standardGraphExternalsGroup" Target="@95" Category="Contains" FetchingParent="_standardGraphExternalsGroup" />
+  </Links>
+  <Categories>
+    <Category Id="CodeMap_ExternalReference" Label="External Reference" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Referenced By" OutgoingActionLabel="References" />
+    <Category Id="CodeMap_WindowsStoreProject" Label="Windows Store Project" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="Windows Store Projects" />
+    <Category Id="CodeSchema_Assembly" Label="Assembly" BasedOn="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Assembly" NavigationActionLabel="Assemblies" />
+    <Category Id="CodeSchema_Calls" Label="Calls" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Called By" OutgoingActionLabel="Calls" />
+    <Category Id="Contains" Label="Contains" Description="Whether the source of the link contains the target object" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contained By" IsContainment="True" OutgoingActionLabel="Contains" />
+    <Category Id="Externals" Label="Externals" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="Externals" />
+    <Category Id="File" Label="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="File" NavigationActionLabel="Files" />
+    <Category Id="FileSystem.Category.FileOfType.dll" BasedOn="CodeSchema_Assembly" CanBeDataDriven="True" IsProviderRoot="False" />
+    <Category Id="FileSystem.Category.FileOfType.exe" BasedOn="CodeSchema_Assembly" CanBeDataDriven="True" IsProviderRoot="False" />
+    <Category Id="FileSystem.Category.FileOfType.winmd" BasedOn="CodeSchema_Assembly" CanBeDataDriven="True" IsProviderRoot="False" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsExternal" Label="Is External" Description="Flag indicating whether this node is considered external" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_StrongName" Label="StrongName" Description="StrongName" DataType="System.String" />
+    <Property Id="DataVirtualized" Label="Data Virtualized" Description="If true, the graph can contain nodes and links that represent data for virtualized nodes/links (i.e. not actually created in the graph)." DataType="System.Boolean" />
+    <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
+    <Property Id="DelayedChildNodesState" Label="Delayed Child Nodes State" Description="Unspecified if the delayed child nodes state is not specified. NotFetched if the group contains child nodes that are not fetched into the graph yet. Fetched if the group has all its delayed child nodes already fetched." DataType="Microsoft.VisualStudio.GraphModel.DelayedDataState" />
+    <Property Id="DelayedCrossGroupLinksState" Label="Delayed Cross-Group Links State" Description="Unspecified if the delayed cross-group links state is not specified. NotFetched if delayed cross-group links on this node are not fetched into the graph yet. Fetched if all delayed cross-group links have already fetched." DataType="Microsoft.VisualStudio.GraphModel.DelayedDataState" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="FetchingParent" DataType="Microsoft.VisualStudio.GraphModel.GraphNodeId" />
+    <Property Id="FilePath" Label="File Path" Description="File Path" DataType="System.String" />
+    <Property Id="Group" Label="Group" Description="Display the node as a group" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="Icon" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="Language" Label="Language" Description="Language" DataType="System.String" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="LayoutSettings" DataType="Microsoft.VisualStudio.Diagrams.View.GroupLayoutStyle" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+    <Property Id="Visibility" Label="Visibility" Description="Defines whether a node in the graph is visible or not" DataType="System.Windows.Visibility" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+  <QualifiedNames>
+    <Name Id="Assembly" Label="Assembly" ValueType="Uri" />
+    <Name Id="StrongName" Label="Strong Name" ValueType="System.String" />
+  </QualifiedNames>
+  <IdentifierAliases>
+    <Alias n="1" Uri="Assembly=$(VsSolutionUri)/x64/Debug/Hot3dxRotoDraw/Microsoft.UI.Xaml.winmd" />
+    <Alias n="2" Id="(@1)" />
+    <Alias n="3" Uri="Assembly=$(0e722f41-e8b3-4dd0-9430-4b11e1810dd7.OutputPathUri)" />
+    <Alias n="4" Id="(@3)" />
+    <Alias n="5" Uri="Assembly=file:///api-ms-win-core-interlocked-l1-1-0.dll" />
+    <Alias n="6" Id="(@5)" />
+    <Alias n="7" Uri="Assembly=file:///api-ms-win-core-handle-l1-1-0.dll" />
+    <Alias n="8" Id="(@7)" />
+    <Alias n="9" Uri="Assembly=file:///api-ms-win-core-file-l1-1-0.dll" />
+    <Alias n="10" Uri="Assembly=file:///api-ms-win-core-profile-l1-1-0.dll" />
+    <Alias n="11" Uri="Assembly=file:///api-ms-win-core-errorhandling-l1-1-0.dll" />
+    <Alias n="12" Id="(@11)" />
+    <Alias n="13" Uri="Assembly=file:///api-ms-win-core-string-l1-1-0.dll" />
+    <Alias n="14" Id="(@13)" />
+    <Alias n="15" Uri="Assembly=file:///api-ms-win-core-winrt-string-l1-1-0.dll" />
+    <Alias n="16" Id="(@15)" />
+    <Alias n="17" Uri="Assembly=file:///api-ms-win-core-debug-l1-1-0.dll" />
+    <Alias n="18" Uri="Assembly=file:///api-ms-win-core-synch-l1-1-0.dll" />
+    <Alias n="19" Id="(@18)" />
+    <Alias n="20" Uri="Assembly=file:///api-ms-win-core-util-l1-1-0.dll" />
+    <Alias n="21" Id="(@20)" />
+    <Alias n="22" Uri="Assembly=file:///api-ms-win-core-com-l1-1-0.dll" />
+    <Alias n="23" Id="(@22)" />
+    <Alias n="24" Uri="Assembly=file:///api-ms-win-core-sysinfo-l1-1-0.dll" />
+    <Alias n="25" Uri="Assembly=file:///api-ms-win-core-heap-l1-1-0.dll" />
+    <Alias n="26" Uri="Assembly=file:///api-ms-win-core-winrt-error-l1-1-0.dll" />
+    <Alias n="27" Id="(@26)" />
+    <Alias n="28" Uri="Assembly=file:///api-ms-win-core-processthreads-l1-1-0.dll" />
+    <Alias n="29" Id="(@28)" />
+    <Alias n="30" Uri="Assembly=file:///api-ms-win-core-processenvironment-l1-1-0.dll" />
+    <Alias n="31" Uri="Assembly=file:///api-ms-win-core-winrt-l1-1-0.dll" />
+    <Alias n="32" Id="(@31)" />
+    <Alias n="33" Uri="Assembly=file:///api-ms-win-core-memory-l1-1-0.dll" />
+    <Alias n="34" Id="(@33)" />
+    <Alias n="35" Uri="Assembly=file:///api-ms-win-core-file-l2-1-0.dll" />
+    <Alias n="36" Uri="Assembly=file:///api-ms-win-core-file-l1-2-0.dll" />
+    <Alias n="37" Uri="Assembly=file:///api-ms-win-core-synch-l1-2-0.dll" />
+    <Alias n="38" Id="(@37)" />
+    <Alias n="39" Uri="Assembly=file:///api-ms-win-core-libraryloader-l1-2-0.dll" />
+    <Alias n="40" Id="(@39)" />
+    <Alias n="41" Uri="Assembly=file:///api-ms-win-core-winrt-error-l1-1-1.dll" />
+    <Alias n="42" Id="(@41)" />
+    <Alias n="43" Uri="Assembly=$(SystemUri)/d3d12.dll" />
+    <Alias n="44" Uri="Assembly=$(SystemUri)/XAudio2_9.dll" />
+    <Alias n="45" Id="(@44)" />
+    <Alias n="46" Uri="Assembly=$(SystemUri)/ucrtbased.dll" />
+    <Alias n="47" Uri="Assembly=$(SystemUri)/MFReadWrite.dll" />
+    <Alias n="48" Id="(@47)" />
+    <Alias n="49" Uri="Assembly=$(SystemUri)/dxgi.dll" />
+    <Alias n="50" Id="(@49)" />
+    <Alias n="51" Uri="Assembly=$(SystemUri)/HrtfApo.dll" />
+    <Alias n="52" Uri="Assembly=file:///WinPixEventRuntime_UAP.dll" />
+    <Alias n="53" Id="(@52)" />
+    <Alias n="54" Uri="Assembly=file:///vccorlib140d_app.DLL" />
+    <Alias n="55" Uri="Assembly=file:///VCRUNTIME140D_APP.dll" />
+    <Alias n="56" Uri="Assembly=file:///MSVCP140D_APP.dll" />
+    <Alias n="57" Id="(@56)" />
+    <Alias n="58" Uri="Assembly=file:///CONCRT140D_APP.dll" />
+    <Alias n="59" Id="(@58)" />
+    <Alias n="60" Uri="Assembly=file:///VCRUNTIME140_1D_APP.dll" />
+    <Alias n="61" Id="(@60)" />
+    <Alias n="62" Uri="Assembly=$(SystemUri)/MFPlat.DLL" />
+    <Alias n="63" Id="(@62)" />
+    <Alias n="64" Uri="Assembly=$(VsSolutionUri)/Hot3dxRotoDraw.sln/Unknown Library" />
+    <Alias n="65" Id="(StrongName=&quot;Windows.AI.MachineLearning.MachineLearningContract, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="66" Id="(StrongName=&quot;Windows.AI.MachineLearning.Preview.MachineLearningPreviewContract, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="67" Id="(StrongName=&quot;Windows.ApplicationModel.Calls.Background.CallsBackgroundContract, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="68" Id="(StrongName=&quot;Windows.ApplicationModel.Calls.CallsPhoneContract, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="69" Id="(StrongName=&quot;Windows.ApplicationModel.Calls.CallsVoipContract, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="70" Id="(StrongName=&quot;Windows.ApplicationModel.CommunicationBlocking.CommunicationBlockingContract, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="71" Id="(StrongName=&quot;Windows.ApplicationModel.SocialInfo.SocialInfoContract, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="72" Id="(StrongName=&quot;Windows.ApplicationModel.StartupTaskContract, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="73" Id="(StrongName=&quot;Windows.Devices.Custom.CustomDeviceContract, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="74" Id="(StrongName=&quot;Windows.Devices.DevicesLowLevelContract, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="75" Id="(StrongName=&quot;Windows.Devices.Printers.PrintersContract, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="76" Id="(StrongName=&quot;Windows.Devices.SmartCards.SmartCardBackgroundTriggerContract, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="77" Id="(StrongName=&quot;Windows.Devices.SmartCards.SmartCardEmulatorContract, Version=6.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="78" Id="(StrongName=&quot;Windows.Foundation.FoundationContract, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="79" Id="(StrongName=&quot;Windows.Foundation.UniversalApiContract, Version=10.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="80" Id="(StrongName=&quot;Windows.Gaming.XboxLive.StorageApiContract, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="81" Id="(StrongName=&quot;Windows.Graphics.Printing3D.Printing3DContract, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="82" Id="(StrongName=&quot;Windows.Networking.Connectivity.WwanContract, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="83" Id="(StrongName=&quot;Windows.Networking.Sockets.ControlChannelTriggerContract, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="84" Id="(StrongName=&quot;Windows.Security.Isolation.IsolatedWindowsEnvironmentContract, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="85" Id="(StrongName=&quot;Windows.Services.Maps.GuidanceContract, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="86" Id="(StrongName=&quot;Windows.Services.Maps.LocalSearchContract, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="87" Id="(StrongName=&quot;Windows.Services.Store.StoreContract, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="88" Id="(StrongName=&quot;Windows.Services.TargetedContent.TargetedContentContract, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="89" Id="(StrongName=&quot;Windows.Storage.Provider.CloudFilesContract, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="90" Id="(StrongName=&quot;Windows.System.Profile.ProfileHardwareTokenContract, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="91" Id="(StrongName=&quot;Windows.System.Profile.ProfileSharedModeContract, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="92" Id="(StrongName=&quot;Windows.System.Profile.SystemManufacturers.SystemManufacturersContract, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="93" Id="(StrongName=&quot;Windows.System.SystemManagementContract, Version=7.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="94" Id="(StrongName=&quot;Windows.UI.ViewManagement.ViewManagementViewScalingContract, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+    <Alias n="95" Id="(StrongName=&quot;Windows.UI.Xaml.Core.Direct.XamlDirectContract, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
+  </IdentifierAliases>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Results" ValueLabel="True">
+      <Condition Expression="HasCategory('QueryResult')" />
+      <Setter Property="Background" Value="#FFBCFFBE" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Test Project" ValueLabel="Test Project">
+      <Condition Expression="HasCategory('CodeMap_TestProject')" />
+      <Setter Property="Icon" Value="CodeMap_TestProject" />
+      <Setter Property="Background" Value="#FF307A69" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Web Project" ValueLabel="Web Project">
+      <Condition Expression="HasCategory('CodeMap_WebProject')" />
+      <Setter Property="Icon" Value="CodeMap_WebProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Windows Store Project" ValueLabel="Windows Store Project">
+      <Condition Expression="HasCategory('CodeMap_WindowsStoreProject')" />
+      <Setter Property="Icon" Value="CodeMap_WindowsStoreProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Phone Project" ValueLabel="Phone Project">
+      <Condition Expression="HasCategory('CodeMap_PhoneProject')" />
+      <Setter Property="Icon" Value="CodeMap_PhoneProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Portable Library" ValueLabel="Portable Library">
+      <Condition Expression="HasCategory('CodeMap_PortableLibraryProject')" />
+      <Setter Property="Icon" Value="CodeMap_PortableLibraryProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="WPF Project" ValueLabel="WPF Project">
+      <Condition Expression="HasCategory('CodeMap_WpfProject')" />
+      <Setter Property="Icon" Value="CodeMap_WpfProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="VSIX Project" ValueLabel="VSIX Project">
+      <Condition Expression="HasCategory('CodeMap_VsixProject')" />
+      <Setter Property="Icon" Value="CodeMap_VsixProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Modeling Project" ValueLabel="Modeling Project">
+      <Condition Expression="HasCategory('CodeMap_ModelingProject')" />
+      <Setter Property="Icon" Value="CodeMap_ModelingProject" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Assembly" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Assembly')" />
+      <Setter Property="Background" Value="#FF094167" />
+      <Setter Property="Stroke" Value="#FF094167" />
+      <Setter Property="Icon" Value="CodeSchema_Assembly" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Namespace" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Namespace')" />
+      <Setter Property="Background" Value="#FF0E619A" />
+      <Setter Property="Stroke" Value="#FF0E619A" />
+      <Setter Property="Icon" Value="CodeSchema_Namespace" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Interface" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Interface')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Interface" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Struct" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Struct')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Struct" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Enumeration" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Enum')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Enum" />
+      <Setter Property="LayoutSettings" Value="List" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Delegate" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Delegate')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Delegate" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Class" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Type')" />
+      <Setter Property="Background" Value="#FF0E70C0" />
+      <Setter Property="Stroke" Value="#FF0E70C0" />
+      <Setter Property="Icon" Value="CodeSchema_Class" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Property')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Property" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Method" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Method') Or HasCategory('CodeSchema_CallStackUnresolvedMethod')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Method" />
+      <Setter Property="LayoutSettings" Value="List" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Event" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Event')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Event" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Field" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Field')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Field" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Out Parameter" ValueLabel="Has category">
+      <Condition Expression="CodeSchemaProperty_IsOut = 'True'" />
+      <Setter Property="Icon" Value="CodeSchema_OutParameter" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Parameter" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Parameter')" />
+      <Setter Property="Icon" Value="CodeSchema_Parameter" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Local Variable" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_LocalExpression')" />
+      <Setter Property="Icon" Value="CodeSchema_LocalExpression" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Externals" ValueLabel="Has category">
+      <Condition Expression="HasCategory('Externals')" />
+      <Setter Property="Background" Value="#FF424242" />
+      <Setter Property="Stroke" Value="#FF424242" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Inherits From" ValueLabel="True">
+      <Condition Expression="HasCategory('InheritsFrom')" />
+      <Setter Property="Stroke" Value="#FF00A600" />
+      <Setter Property="StrokeDashArray" Value="2 0" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Implements" ValueLabel="True">
+      <Condition Expression="HasCategory('Implements')" />
+      <Setter Property="Stroke" Value="#8000A600" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Calls" ValueLabel="True">
+      <Condition Expression="HasCategory('CodeSchema_Calls')" />
+      <Setter Property="Stroke" Value="#FFFF00FF" />
+      <Setter Property="StrokeDashArray" Value="2 0" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Function Pointer" ValueLabel="True">
+      <Condition Expression="HasCategory('CodeSchema_FunctionPointer')" />
+      <Setter Property="Stroke" Value="#FFFF00FF" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Field Read" ValueLabel="True">
+      <Condition Expression="HasCategory('CodeSchema_FieldRead')" />
+      <Setter Property="Stroke" Value="#FF00AEEF" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Field Write" ValueLabel="True">
+      <Condition Expression="HasCategory('CodeSchema_FieldWrite')" />
+      <Setter Property="Stroke" Value="#FF00AEEF" />
+      <Setter Property="DrawArrow" Value="true" />
+      <Setter Property="IsHidden" Value="false" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Inherits From" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('InheritsFrom') And Target.HasCategory('CodeSchema_Class')" />
+      <Setter Property="TargetDecorator" Value="OpenArrow" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Implements" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('Implements') And Target.HasCategory('CodeSchema_Interface')" />
+      <Setter Property="TargetDecorator" Value="OpenArrow" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Comment Link" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="Source.HasCategory('Comment')" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Cursor Location Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="IsCursorLocation" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Disabled Breakpoint Location Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="DisabledBreakpointCount" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Enabled Breakpoint Location Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="EnabledBreakpointCount" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Instruction Pointer Location Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="IsInstructionPointerLocation" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Current Callstack Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="IsCurrentCallstackFrame" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Return" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('CodeSchema_ReturnTypeLink')" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="References" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('References')" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Uses Attribute" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('CodeSchema_AttributeUse')" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Solution Folder" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('CodeMap_SolutionFolder')" />
+      <Setter Property="Background" Value="#FFDEBA83" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Project Reference" ValueLabel="Project Reference">
+      <Condition Expression="HasCategory('CodeMap_ProjectReference')" />
+      <Setter Property="Stroke" Value="#9A9A9A" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="External Reference" ValueLabel="External Reference">
+      <Condition Expression="HasCategory('CodeMap_ExternalReference')" />
+      <Setter Property="Stroke" Value="#9A9A9A" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+  </Styles>
+  <Paths>
+    <Path Id="0e722f41-e8b3-4dd0-9430-4b11e1810dd7.OutputPath" Value="C:\Hot3dxRotoDraw\x64\Debug\Hot3dxRotoDraw\Hot3dxRotoDraw.exe" />
+    <Path Id="0e722f41-e8b3-4dd0-9430-4b11e1810dd7.OutputPathUri" Value="file:///C:/Hot3dxRotoDraw/x64/Debug/Hot3dxRotoDraw/Hot3dxRotoDraw.exe" />
+    <Path Id="ProgramFiles" Value="C:\Program Files (x86)" />
+    <Path Id="System" Value="C:\WINDOWS\system32" />
+    <Path Id="SystemUri" Value="file:///C:/WINDOWS/system32" />
+    <Path Id="VsSolution" Value="C:\Hot3dxRotoDraw" />
+    <Path Id="VsSolutionUri" Value="file:///C:/Hot3dxRotoDraw" />
+  </Paths>
+</DirectedGraph>

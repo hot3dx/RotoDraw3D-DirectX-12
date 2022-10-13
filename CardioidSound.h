@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "Audio\AudioFileReaderXaml12.h"
+#include <AudioFileReaderXaml12.h>
 
 //
 // Sound with Cardioid radiation pattern.

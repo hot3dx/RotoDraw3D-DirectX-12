@@ -17,7 +17,6 @@
 #include "Generated Files\DirectXPage.g.h"
 
 #include "Common\DeviceResources.h"
-#include "Common\DirectXHelper.h"
 #include "Hot3dxRotoDrawMain.h"
 #include "Hot3dxRotoDrawConfiguration.h"
 #include "Content\Hot3dxRotoDrawVariables.h"
@@ -25,15 +24,13 @@
 #include <xapo.h>
 #include <hrtfapoapi.h>
 #include "OmnidirectionalSound.h"
-#include <Graphics\DDSTextureLoaderXaml12.h>
-#include <Graphics\LoaderHelpersXaml12.h>
-#include <Graphics\MyResourceUploadBatchXaml12.h>
 
 using namespace DirectX;
+using namespace DirectX::DXTKXAML12;
 
 namespace Hot3dxRotoDraw
 {
-	
+
 	/// <summary>
 	/// A page that hosts a DirectX SwapChainPanel.
 	/// </summary>
@@ -48,7 +45,7 @@ namespace Hot3dxRotoDraw
 		void AudioInitialize();
 		void AudioStop();
 		void IDC_CLEAR_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-		void Toggle_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void TEXTURE_IMAGE1(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void TEXTURE_IMAGE2(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void SetLeftSwapChainPanel();
@@ -128,40 +125,17 @@ namespace Hot3dxRotoDraw
 				m_main->GetSceneRenderer()->EndRightPointsXAxis();
 			}
 		}
-		bool GetGridPicCheckedDXP() { return m_Scene2Vars->GetGridPicChecked(); }
-		void SetGridPicCheckedDXP(bool b) { m_Scene2Vars->SetGridPicChecked(b); }
 		bool GetLinearAcrossDXP() { return m_bLinearAcrossDXP; }
 		void SetLinearAcrossDXP(bool val) { m_bLinearAcrossDXP = val; }
 		bool GetLinearUpDXP() { return m_bLinearUpDXP; }
 		void SetLinearUpDXP(bool val) { m_bLinearUpDXP = val; }
-		unsigned int GetPointsCountDXP() { return m_main->GetSceneRenderer()->GetPointCount(); }
 		void SET_POINTS_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-
+			if (m_main->GetSceneRenderer()->GetPointCount() == 0) {
+				return;
+			}
 			IDC_SET_POINTS_BUTTON_Click(sender, e);
 		}
 		// Texture Filename Accessors
-		int TestTextureSubResources(Windows::Storage::StorageFile^ file) {
-			ID3D12Device* device = m_deviceResources->GetD3DDevice();
-			std::shared_ptr<ResourceUploadBatch> m_Object = std::make_unique<ResourceUploadBatch>(device);
-			Microsoft::WRL::ComPtr<ID3D12Resource> Texture1;
-
-			m_Object->BeginXaml();
-			// Create the command queue.
-			Microsoft::WRL::ComPtr<ID3D12CommandQueue> q;
-			D3D12_COMMAND_QUEUE_DESC queueDesc = {};
-			queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-			queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
-
-			DX::ThrowIfFailed(device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&q)));
-			DX::SetName(q.Get(), L"q");
-			int hr = DirectX::CreateDDSTextureFromFile(device, *m_Object, file->Path->Data(), &Texture1);
-			m_Object->EndXaml(q.Get());
-
-			//q->Release();
-			//Texture1->Release();
-			return hr;
-		}
-
 		void Setm_bDDS_WIC_FLAGDXP1(bool flag) { m_main->GetSceneRenderer()->Setm_bDDS_WIC_FLAG1(flag); }
 		void Setm_bDDS_WIC_FLAGDXP2(bool flag) { m_main->GetSceneRenderer()->Setm_bDDS_WIC_FLAG2(flag); }
 		void SetDDS_WIC_FLAGGridPicFileDXP(bool flag) { m_main->GetSceneRenderer()->SetDDS_WIC_FLAGGridPic(flag); }
@@ -169,15 +143,36 @@ namespace Hot3dxRotoDraw
 		Platform::String^ GetTextureImage1FileDXP() { return m_main->GetSceneRenderer()->GetTextureImage1File(); }
 		Platform::String^ GetTextureImage2FileDXP() { return m_main->GetSceneRenderer()->GetTextureImage2File(); }
 		Platform::String^ GetTextureImageGridPicFileDXP() { return m_main->GetSceneRenderer()->GetTextureImageGridPicFile(); }
+
 		void SetTextureImage1FileDXP(Platform::String^ fileName) {
 			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage1File();// = nullptr;
 			file = ref new Platform::String(fileName->Data());
 			m_main->GetSceneRenderer()->SetTextureImage1File(fileName);
+			/*
+			OutputDebugString(L"\n m_strTextureFileName \n");
+			OutputDebugString(L"SetTextureImage1File(Platform::String ^ fileName)");
+			OutputDebugString(L"\n m_textureImage1File \n");
+			OutputDebugString(file->Data());
+			OutputDebugString(L"\n \n");
+			*/
+			//m_loadingDrawnObjectComplete = true;
+			//InitDrawnObjectSingleTexture();
+			//fileName1 = fileName;
 		}
 		void SetTextureImage2FileDXP(Platform::String^ fileName) {
 			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage2File();// = nullptr;
 			file = ref new Platform::String(fileName->Data());
 			m_main->GetSceneRenderer()->SetTextureImage2File(fileName);
+			/*
+			OutputDebugString(L"\n m_strTextureFileName \n");
+			OutputDebugString(L"SetTextureImage2File(Platform::String ^ fileName)");
+			OutputDebugString(L"\n m_textureImage2File \n");
+			OutputDebugString(file->Data());
+			OutputDebugString(L"\n \n");
+			*/
+			//m_loadingDrawnObjectComplete = true;
+			//InitDrawnObjectSingleTexture();
+			//fileName1 = fileName;
 		}
 
 		// Scenario11_GridorPic
@@ -187,7 +182,6 @@ namespace Hot3dxRotoDraw
 			file = ref new Platform::String(fileName->Data());
 			m_main->GetSceneRenderer()->SetTextureImageGridPicFile(fileName);
 		}
-
 		// Scale Variables
 		float Get_xScaleDrawnObject() { return m_xScaleDrawnObject; }
 		void Set_xScaleDrawnObject(float x) { m_xScaleDrawnObject = x; }
@@ -225,6 +219,25 @@ namespace Hot3dxRotoDraw
 		float GetPartialRotateAngleDXP() { return m_Scene2Vars->GetPartialRotateAngle(); }
 		void  SetPartialRotateAngleDXP(float angle) { m_Scene2Vars->SetPartialRotateAngle(angle); }
 
+		// Rotate GridCam Variables Scenario10_Sculpt sliders
+		float Get_xRotateGridCam() { return m_xRotateGridCam; }
+		void Set_xRotateGridCam(float x) { m_xRotateGridCam = x; }
+		float Get_yRotateGridCam() { return m_yRotateGridCam; }
+		void Set_yRotateGridCam(float y) { m_yRotateGridCam = y; }
+		float Get_zRotateGridCam() { return m_zRotateGridCam; }
+		void Set_zRotateGridCam(float z) { m_zRotateGridCam = z; }
+		void SetRotateYaw(float deg) { RotateYaw(deg); }
+		void SetRotatePitch(float deg) { RotatePitch(deg); }
+		//double        dxpGetTimer() { double ts = m_main->GetSceneRenderer()->GetTimer(); return ts; }
+		void SetXRotationScenario10(float value) {
+			//DirectX::XMStoreFloat4x4(&m_main->GetSceneRenderer()->GetWorld4X4(), DirectX::XMMatrixRotationX((float)dxpGetTimer() * value));
+			m_main->GetSceneRenderer()->RotatePitchSquid(value);
+		}
+		void SetYRotationScenario10(float value) {
+			//XMStoreFloat4x4(&m_main->GetSceneRenderer()->GetWorld4X4(), DirectX::XMMatrixRotationY((float)dxpGetTimer() * value));
+			m_main->GetSceneRenderer()->RotateYawSquid(value);
+		}
+
 		// Audio Sound
 		void SetOnTimerTickDXP(Object^ sender, Object^ e) { OnTimerTickDXP(sender, e); }
 		// Audio
@@ -252,6 +265,7 @@ namespace Hot3dxRotoDraw
 		Platform::String^ GetSceneRenderDrawnObjectOpenBinary() {
 			return m_main->GetSceneRenderer()->DrawnObjectOpenBinary();
 		}
+		
 		Platform::String^ GetSceneRenderDrawnObjectSaveText(Platform::String^ fileName, unsigned int objectCount) {
 			return m_main->GetSceneRenderer()->DrawnObjectSaveText(fileName, objectCount);
 		}
@@ -279,7 +293,8 @@ namespace Hot3dxRotoDraw
 
 		Scenario2Vars^ GetScene2Vars() { return m_Scene2Vars; }
 		Scenario5Vars^ GetScene5Vars() { return m_Scene5Vars; }
-		Scenario11Vars^ GetScene11Vars() { return m_Scene11Vars; }
+		//Scenario10Vars^ GetScene10Vars() { return m_Scene10Vars; }
+		//Scenario11Vars^ GetScene11Vars() { return m_Scene11Vars; }
 
 		// Symmetrical Copy of a flipped set of points
 		// on the other side of the X or Y axis
@@ -298,7 +313,6 @@ namespace Hot3dxRotoDraw
 
 		void ScenarioControl_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e);
 		void Footer_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-		//void Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void UpdateStatus(Platform::String^ strMessage, NotifyType type);
 		// XAML low-level rendering event handler.
 		void OnRendering(Platform::Object^ sender, Platform::Object^ args);
@@ -306,16 +320,12 @@ namespace Hot3dxRotoDraw
 
 
 		// Window event handlers.
-		void OnResizeStarted(Windows::UI::Core::CoreWindow^ sender, Platform::Object^ e);
-		void OnResizeCompleted(Windows::UI::Core::CoreWindow^ sender, Platform::Object^ e);
-		void OnWindowSizeChanged(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::WindowSizeChangedEventArgs^ args);
 		void OnVisibilityChanged(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::VisibilityChangedEventArgs^ args);
-		void OnWindowClosed(Windows::UI::Core::CoreWindow^, Windows::UI::Core::CoreWindowEventArgs^ args);
+
 		// DisplayInformation event handlers.
 		void OnDpiChanged(Windows::Graphics::Display::DisplayInformation^ sender, Platform::Object^ args);
 		void OnOrientationChanged(Windows::Graphics::Display::DisplayInformation^ sender, Platform::Object^ args);
 		void OnDisplayContentsInvalidated(Windows::Graphics::Display::DisplayInformation^ sender, Platform::Object^ args);
-		void OnInputEnabled(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::InputEnabledEventArgs^ args);
 
 		// Other event handlers.
 		void AppBarButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
@@ -349,7 +359,6 @@ namespace Hot3dxRotoDraw
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		std::unique_ptr<Hot3dxRotoDrawMain> m_main;
 
-		bool m_windowClosed;
 		bool m_windowVisible;
 		/*
 		void SphereRadiusTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
@@ -366,10 +375,10 @@ namespace Hot3dxRotoDraw
 		Windows::UI::Color bcolorDXP;
 		Windows::UI::Color m_pointColorDXP;
 		// Shift Key straightLine
-		bool m_bIfRightShiftKeyHeldDrawStraightLine;
-		bool m_bIfLeftShiftKeyHeldDrawStraightLine;
+		bool m_bIfRightShiftKeyHeldDrawStraightLine; // "M" Key
+		bool m_bIfLeftShiftKeyHeldDrawStraightLine;  // "N" Key
 		// Shift Key 45 degree Line
-		bool m_bIfLeftShiftKeyHeldDraw45Line;
+		bool m_bIfLeftShiftKeyHeldDraw45Line; // "L" key
 
 		//Scenario2_Normal Variables
 		bool m_bDoFrontFacesDXP;
@@ -380,7 +389,7 @@ namespace Hot3dxRotoDraw
 		bool m_bObjectDrawnDXP;
 		bool m_bLinearAcrossDXP;
 		bool m_bLinearUpDXP;
-		
+
 		float m_fPointDrawGroupAngleDXP;
 		float m_fPointSpacingDXP;
 		float m_fPartialRotateAngleDXP;
@@ -400,6 +409,11 @@ namespace Hot3dxRotoDraw
 		float m_yRotateDrawnObject;
 		float m_zRotateDrawnObject;
 
+		// Rotate GridCam Variables Scenatio_10Sculpt Sliders
+		float m_xRotateGridCam;
+		float m_yRotateGridCam;
+		float m_zRotateGridCam;
+
 		// Camera Variables
 		float m_cameraradius;
 		float m_camerarotation;
@@ -410,12 +424,13 @@ namespace Hot3dxRotoDraw
 
 		// fullscreen
 		bool m_fullscreen;
-						
+
 	internal:
 		static DirectXPage^ Current;
 		void NotifyUser(Platform::String^ strMessage, NotifyType type);
 		Scenario2Vars^ m_Scene2Vars = ref new Scenario2Vars();
 		Scenario5Vars^ m_Scene5Vars = ref new Scenario5Vars();
+		Scenario10Vars^ m_Scene10Vars = ref new Scenario10Vars();
 		Scenario11Vars^ m_Scene11Vars = ref new Scenario11Vars();
 
 	private:
@@ -430,6 +445,5 @@ namespace Hot3dxRotoDraw
 		float                           _radiusDXP = 2.0f;            // Radius of the orbit
 		float                           _heightDXP = 0;               // Height at which the sound is orbiting (0 for centered around listener's head, +ve for above and -ve for below)
 		float                           _angularVelocityDXP = 0;      // Speed of orbit, default is stationary
-		void Hot3dxRotoDraw3DX12_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-};
+	};
 }
