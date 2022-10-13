@@ -19,6 +19,7 @@
 #include <Graphics\MyResourceUploadBatchXaml12.h>
 
 using namespace DirectX;
+using namespace DirectX::DXTKXAML12;
 using namespace std;
 using Microsoft::WRL::ComPtr;
 
@@ -81,7 +82,7 @@ public:
 
     void InitializeDrawnObjectColor(const VertexCollectionColor& vertices, const IndexCollectionColor& indices, _In_opt_ ID3D12Device* device);
 
-    void LoadStaticBuffers(_In_ ID3D12Device* device, ResourceUploadBatch& resourceUploadBatch);
+    void LoadStaticBuffers(_In_ ID3D12Device* device, DirectX::DXTKXAML12::ResourceUploadBatch& resourceUploadBatch);
 
     void Draw(_In_ ID3D12GraphicsCommandList* commandList) const;
 
@@ -92,6 +93,7 @@ public:
     ComPtr<ID3D12Resource>      mStaticVertexBuffer;
     D3D12_VERTEX_BUFFER_VIEW    mVertexBufferView;
     D3D12_INDEX_BUFFER_VIEW     mIndexBufferView;
+
 };
 
 
@@ -190,12 +192,11 @@ void Hot3dxDrawnObject::Impl::InitializeDrawnObjectColor(const VertexCollectionC
     mIndexBufferView.Format = DXGI_FORMAT_R16_UINT;
 }
 
-
 // Load VB/IB resources for static geometry.
 _Use_decl_annotations_
 void Hot3dxDrawnObject::Impl::LoadStaticBuffers(
     ID3D12Device* device,
-    ResourceUploadBatch& resourceUploadBatch)
+    DirectX::DXTKXAML12::ResourceUploadBatch& resourceUploadBatch)
 {
     CD3DX12_HEAP_PROPERTIES heapProperties(D3D12_HEAP_TYPE_DEFAULT);
 
@@ -206,7 +207,7 @@ void Hot3dxDrawnObject::Impl::LoadStaticBuffers(
 
         auto desc = CD3DX12_RESOURCE_DESC::Buffer(mVertexBuffer.Size());
 
-        ThrowIfFailed(device->CreateCommittedResource(
+        DXTKXAML12::ThrowIfFailed(device->CreateCommittedResource(
             &heapProperties,
             D3D12_HEAP_FLAG_NONE,
             &desc,
@@ -235,7 +236,7 @@ void Hot3dxDrawnObject::Impl::LoadStaticBuffers(
 
         auto desc = CD3DX12_RESOURCE_DESC::Buffer(mIndexBuffer.Size());
 
-        ThrowIfFailed(device->CreateCommittedResource(
+        DXTKXAML12::ThrowIfFailed(device->CreateCommittedResource(
             &heapProperties,
             D3D12_HEAP_FLAG_NONE,
             &desc,
@@ -289,7 +290,7 @@ Hot3dxDrawnObject::~Hot3dxDrawnObject()
 
 // Public entrypoints.
 _Use_decl_annotations_
-void Hot3dxDrawnObject::LoadStaticBuffers(ID3D12Device* device, ResourceUploadBatch& resourceUploadBatch)
+void Hot3dxDrawnObject::LoadStaticBuffers(ID3D12Device* device, DirectX::DXTKXAML12::ResourceUploadBatch& resourceUploadBatch)
 {
     pImpl->LoadStaticBuffers(device, resourceUploadBatch);
 }
@@ -842,21 +843,21 @@ void DirectX::ComputeSphereColor(VertexCollectionColor& vertices, IndexCollectio
     float radius = diameter / 2;
 
     // Create rings of vertices at progressively higher latitudes.
-    for (float i = 0.0f; i <= (float)verticalSegments; i++)
+    for (size_t i = 0; i <= verticalSegments; i++)
     {
-        float v = 1 - float(i) / (float)verticalSegments;
+        float v = 1 - float(i) / verticalSegments;
 
-        float latitude = (i * XM_PI / (float)verticalSegments) - XM_PIDIV2;
+        float latitude = (i * XM_PI / verticalSegments) - XM_PIDIV2;
         float dy, dxz;
 
         XMScalarSinCos(&dy, &dxz, latitude);
 
         // Create a single ring of vertices at this latitude.
-        for (float j = 0.0f; j <= (float)horizontalSegments; j++)
+        for (size_t j = 0; j <= horizontalSegments; j++)
         {
-            float u = float(j) / (float)horizontalSegments;
+            float u = float(j) / horizontalSegments;
 
-            float longitude = j * XM_2PI / (float)horizontalSegments;
+            float longitude = j * XM_2PI / horizontalSegments;
             float dx, dz;
 
             XMScalarSinCos(&dx, &dz, longitude);
@@ -1052,7 +1053,7 @@ void DirectX::ComputeGeoSphereColor(VertexCollectionColor& vertices, IndexCollec
     vertices.reserve(vertexPositions.size());
     for (auto it = vertexPositions.begin(); it != vertexPositions.end(); ++it)
     {
-        auto vertexValue = *it;
+        auto& vertexValue = *it;
 
         auto normal = XMVector3Normalize(XMLoadFloat3(&vertexValue));
         auto pos = XMVectorScale(normal, radius);
@@ -1152,7 +1153,7 @@ void DirectX::ComputeGeoSphereColor(VertexCollectionColor& vertices, IndexCollec
     // poles, but reduce stretching.
     auto fixPole = [&](size_t poleIndex)
     {
-        auto poleVertex = vertices[poleIndex];
+        auto& poleVertex = vertices[poleIndex];
         bool overwrittenPoleVertex = false; // overwriting the original pole vertex saves us one vertex
 
         for (size_t i = 0; i < indices.size(); i += 3)
@@ -1225,7 +1226,7 @@ namespace
     // Helper computes a point on a unit circle, aligned to the x/z plane and centered on the origin.
     inline XMVECTOR GetCircleVectorColor(size_t i, size_t tessellation)
     {
-        float angle = (float)i * XM_2PI / tessellation;
+        float angle = i * XM_2PI / tessellation;
         float dx, dz;
 
         XMScalarSinCos(&dx, &dz, angle);
@@ -1316,7 +1317,7 @@ void DirectX::ComputeCylinderColor(VertexCollectionColor& vertices, IndexCollect
 
         XMVECTOR sideOffset = XMVectorScale(normal, radius);
 
-        float u = float(i) / (float)tessellation;
+        float u = float(i) / tessellation;
 
         XMVECTOR textureCoordinate = XMLoadFloat(&u);
 
@@ -1367,7 +1368,7 @@ void DirectX::ComputeConeColor(VertexCollectionColor& vertices, IndexCollectionC
 
         XMVECTOR sideOffset = XMVectorScale(circlevec, radius);
 
-        float u = float(i) / (float)tessellation;
+        float u = float(i) / tessellation;
 
         XMVECTOR textureCoordinate = XMLoadFloat(&u);
 
@@ -1410,9 +1411,9 @@ void DirectX::ComputeTorusColor(VertexCollectionColor& vertices, IndexCollection
     // First we loop around the main ring of the torus.
     for (size_t i = 0; i <= tessellation; i++)
     {
-        float u = float(i) / (float)tessellation;
+        float u = float(i) / tessellation;
 
-        float outerAngle = (float)i * XM_2PI / (float)tessellation - XM_PIDIV2;
+        float outerAngle = i * XM_2PI / tessellation - XM_PIDIV2;
 
         // Create a transform matrix that will align geometry to
         // slice perpendicularly though the current ring position.
@@ -1421,9 +1422,9 @@ void DirectX::ComputeTorusColor(VertexCollectionColor& vertices, IndexCollection
         // Now we loop along the other axis, around the side of the tube.
         for (size_t j = 0; j <= tessellation; j++)
         {
-            float v = 1 - float(j) / (float)tessellation;
+            float v = 1 - float(j) / tessellation;
 
-            float innerAngle = (float)j * XM_2PI / (float)tessellation + XM_PI;
+            float innerAngle = j * XM_2PI / tessellation + XM_PI;
             float dx, dy;
 
             XMScalarSinCos(&dy, &dx, innerAngle);
