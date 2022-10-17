@@ -80,6 +80,7 @@ namespace Hot3dxRotoDraw
 	{
 	public:
 		Scenario2Vars() {
+                    m_pointColor = { 255,0,0,0};
 		}
 		virtual ~Scenario2Vars() {}
 
