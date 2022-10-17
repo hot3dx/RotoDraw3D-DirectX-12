@@ -96,7 +96,7 @@ RotoDrawSceneRender::RotoDrawSceneRender(const std::shared_ptr<DX::DeviceResourc
 	m_UpX(0.0f), m_UpY(1.0f), m_UpZ(0.0f),
 	m_bRotateKeyPressed(false),
 	m_drawMode((int)RotoDrawDrawMode::DrawLineOnlyObject),//0
-	m_bDDS_WIC_FLAG1(false),
+	m_bDDS_WIC_FLAG1(true),
 	m_bDDS_WIC_FLAG2(true),
 	m_bDDS_WIC_FLAGGridPic(false),
 	m_bDDS_WIC_FLAGGridPicComplete(false)
@@ -2483,14 +2483,12 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectDualTexture
 			Platform::String^ m_strTextureFileNameSecond = ref new Platform::String(L"Assets\\Textures\\seafloor.dds");
 			if (m_bDDS_WIC_FLAG2 == true)
 			{
-				DX::ThrowIfFailed(
-					DirectX::CreateDDSTextureFromFile(device, *m_resourceUploadDrawnObject, m_strTextureFileNameSecond->Data(), &m_DrawnMeshTexture2));
-			}
-			else
-			{
+		              HRESULT hr1 =
+					DirectX::CreateDDSTextureFromFile(device, *m_resourceUploadDrawnObject, m_strTextureFileNameSecond->Data(), &m_DrawnMeshTexture2);
+                              if(hr1 != S_OK)  
 				DX::ThrowIfFailed(
 					CreateWICTextureFromFile(device, *m_resourceUploadDrawnObject, m_strTextureFileNameSecond->Data(), &m_DrawnMeshTexture2));
-			}
+			}// If error image was not in App\\Assets\\ directory of the program 
 
 			DirectX::CreateShaderResourceView(device, m_DrawnMeshTexture2.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture2)));
             //////////////////////////////////////////////
@@ -2665,12 +2663,11 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::ClearDrawnObject()
 
 	m_bDDS_WIC_FLAGGridPicComplete = false;
 	m_bDDS_WIC_FLAGGridPic = false;
+        m_bDDS_WIC_FLAG1 = true;
 	m_textureGridPic.Reset(); 
 	m_shapeGridPic.reset();
 	m_drawRectangleEffect.reset();
 
-	m_shapeDrawnObjectTex.reset();
-	m_shapeDrawnObjectEffect.reset();
 	Scenario2_Normal^ sc2 = m_vars->GetDXPage()->m_Scene2Vars->GetScenario2Page();
 
 	sc2->Current->SetTopLeftCheckBoxFalse();
