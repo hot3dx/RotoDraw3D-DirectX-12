@@ -1,12 +1,3 @@
-//--------------------------------------------------------------------------------------
-// File: Hot3dxRotoDrawMain.h
-//
-// Copyright (c) Jeff Kubitz - hot3dx. All rights reserved.
-// 
-// No warranty is expressed or implied use at own risk
-//
-//--------------------------------------------------------------------------------------
-
 #pragma once
 
 #include "Common\StepTimer.h"
@@ -19,6 +10,7 @@
 // The goal will be to put this library in Windows Kits in the appropriate 10.0.18362.0 folders!
 // Or C://Hot3dx
 // 
+
 #include <Graphics\AlignedNewXaml12.h>
 #include <Graphics\RenderTargetStateXaml12.h>
 #include <Graphics\EffectPipelineStateDescriptionXaml12.h>
@@ -45,7 +37,7 @@ namespace Hot3dxRotoDraw
 	{
 	public:
 		Hot3dxRotoDrawMain(const std::shared_ptr<DX::DeviceResources>& deviceResources);
-		virtual ~Hot3dxRotoDrawMain();
+		~Hot3dxRotoDrawMain();
 		void CreateWindowSizeDependentResources();
 		void CreateDeviceDependentResources();
 		void Update();
@@ -70,14 +62,11 @@ namespace Hot3dxRotoDraw
 
 		// Accessors
 
-		//RotoDrawSceneRender* GetSceneRenderer(){ return m_sceneRenderer.get();}
 		RotoDrawSceneRender^ GetSceneRenderer() { return m_sceneRenderer; }
 		void SetSceneRenderer() {
-			//m_sceneRenderer = std::unique_ptr<RotoDrawSceneRender>(new RotoDrawSceneRender(m_deviceResources)); 
 			m_sceneRenderer = ref new RotoDrawSceneRender(m_deviceResources);
 		}
-		//CD3D12GridXaml* GetCD3D12GridRenderer() { return m_cd3d12GridRenderer.get(); }
-
+		
 		void PauseRequested() {
 			m_timer.Stop();
 			m_pauseRequested = true;
@@ -93,7 +82,7 @@ namespace Hot3dxRotoDraw
 		void KeyUp(Windows::System::VirtualKey key);
 
 		DX::StepTimer GetTimer() { return m_timer; }
-				
+
 	private:
 		// Process all input from the user before updating game state
 		void ProcessInput();
@@ -102,10 +91,8 @@ namespace Hot3dxRotoDraw
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 
 		// TODO: Replace with your own content renderers.
-		//std::unique_ptr<RotoDrawSceneRender> m_sceneRenderer;
 		RotoDrawSceneRender^ m_sceneRenderer;
-		//std::unique_ptr<RotoDrawFpsTextRender> m_fpsTextRenderer;
-
+		
 		Windows::Foundation::IAsyncAction^ m_renderLoopWorker;
 		Concurrency::critical_section m_criticalSection;
 
