@@ -77,7 +77,23 @@ Other than that, there are full, partial open and closed object drawing caps.
 
 IThe program is set up to where it will work with warp emulation software as long as your computer has DirectX 11 capabilities but it works great and fast in DirectX 12 - Now the Default.
 
-Added - Resize including monitor, resultion, pix per inch change.
+Most things are fixed no help files but ummm, the key list is in DxPage.xaml.cpp KeyUp and KeyDown functions
+
+Q-E Z axis in out
+W-S Y axis up down
+A-D X axis left right
+
+Arrow Keys
+Up-Down Vertical (x axis) Rotation for object View
+Left-Right Horizontal (y axis Rotation for object view
+
+F - exits FullScreen mode button clicked in Settings Page
+
+Shift N, M, L hold down while drawing draw horizontal, Vertical, 45 degree angle lines
+
+Z-X, C-V - adjust width and height ratios so the mouse matches the cursor for your screen size
+
+Added - Resize including monitor, resultion, pix per inch change, switches across monitors, does not crash if monitor loses power or is unplugged.
       - New or clear button allows another new object to be drawn
       - A lot of try catches for accidental clicks
       - Under the current Solution setup the DirectXToolkitXaml12 is in the $(RootDir)\ Hot3dxRotoDraw can be in any sub-directory
