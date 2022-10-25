@@ -106,11 +106,6 @@ void Hot3dxRotoDraw::Scenario1_Start::EnvironmentComboBox_SelectionChanged(Platf
     }
 }
 
-void Hot3dxRotoDraw::Scenario1_Start::MenuViewButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
-{
-    _rootPage->FullScreen_Click(sender, e);
-}
-
 void Hot3dxRotoDraw::Scenario1_Start::FullViewButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
     _rootPage->FullScreen_Click(sender, e);
@@ -148,4 +143,10 @@ void Hot3dxRotoDraw::Scenario1_Start::LeftMenusButton_Click(Platform::Object^ se
 void Hot3dxRotoDraw::Scenario1_Start::RightMenusButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
     _rootPage->SetRightSwapChainPanel();
+}
+
+
+void Hot3dxRotoDraw::Scenario1_Start::textBlock2_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+
 }

@@ -6,7 +6,7 @@
 namespace Hot3dxRotoDraw
 {
     value struct MaterialList;
-    value struct MaterialType;
+    value struct MaterialList;
 
     public value struct MaterialList
     {
@@ -17,7 +17,7 @@ namespace Hot3dxRotoDraw
     public value struct MaterialTypes
     {
         Platform::String^ matName;
-        Platform::String^ Alpha;
+        Platform::String^ Alpha; //_rootPage->m_Scene5Vars->GetTextureImage1File() },
         Platform::String^ Power;
         Platform::String^ A;
         Platform::String^ R;
@@ -63,12 +63,14 @@ namespace Hot3dxRotoDraw
                 return materialTypesLists;
             }
         }
-   
+
+                
     private:
         static Platform::Array<MaterialList>^ materialListsInner;
         static Platform::Array<MaterialTypes>^ materialTypesLists;
     };
 
-
+    
+    
 }
 

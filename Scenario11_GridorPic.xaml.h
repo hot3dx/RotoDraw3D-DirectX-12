@@ -29,7 +29,7 @@ namespace Hot3dxRotoDraw
 
     private:
 
-        DirectXPage^ _rootPage;
+        Hot3dxRotoDraw::DirectXPage^ _rootPage;
         bool _initialized = false;
 
         void IDC_GRID_OR_PIC_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
@@ -56,5 +56,7 @@ namespace Hot3dxRotoDraw
         virtual void OnNavigatedTo(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e) override;
 
      };
+
+    
 }
 

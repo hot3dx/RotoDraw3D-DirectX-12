@@ -23,54 +23,55 @@
 
     <Grid x:Name="RootGrid" Margin="0,0,0,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="600" MinHeight="521"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"  MaxHeight="50"/>
         </Grid.RowDefinitions>
-        <StackPanel x:Name="HeaderPanel" Margin="0,0,0,0" HorizontalAlignment="Left" Height="600" Width="500" VerticalAlignment="Center" Background="Green">
+        <StackPanel x:Name="HeaderPanel" Margin="0,0,0,0" HorizontalAlignment="Left" Height="600" Width="400" VerticalAlignment="Center" Background="LightGreen">
             <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
             <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap" Text="Settings to Initialize Sound and the 3D World" FontSize="13.333"/>
 
-           
+            <!-- Status Block for providing messages to the user.  Use the
+             NotifyUser() method to populate the message -->
+            <Border x:Name="ErrorBorder" Background="Red" Grid.Row="3"/>
+            <TextBlock x:Name="StatusBlock" Grid.Row="3" Margin="12, 0, 12, 0" Visibility="Visible"/>
+
             <!-- Always give ComboBoxes and Sliders names that are accessible to a screen reader.
              In this case, reference the labeling TextBlocks to have the accessible names set 
              on the ComboBoxes and Sliders. -->
             <!--StackPanel Height="500"  Grid.Row ="1"-->
-            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Height="440" Margin="0,-0,0,0" Width="300" RequestedTheme="Default" Background="Green" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Left" Height="440" Margin="0,0,0,0" Width="300" RequestedTheme="Default" Background="LightGreen" Grid.Row="1">
                 <TextBlock x:Name="SwitchMenuSidesTextBlock" HorizontalAlignment="Left" Margin="185,20,0,0" TextWrapping="Wrap" Text="Reverse theMenu/Drawing Side by pressing:" Width="111" Height="75"/>
-                <TextBlock x:Name="textBlock2" TextWrapping="Wrap" Text="Speed of Orbit in Seconds" Margin="10,0,0,0"/>
-                <Button Content="Left Menus" Click="LeftMenusButton_Click" Margin="185,10,0,0" Width="90" VerticalAlignment="Top"/>
+                <Button Content="Play" Click="PlayButton_Click" Margin="180,10,0,0" Width="47" VerticalAlignment="Top"/>
+                <Button Content="Stop" Click="StopButton_Click" Margin="180,20,0,0" Width="50" VerticalAlignment="Top"/>
+                <TextBlock x:Name="textBlock2" TextWrapping="Wrap" Text="Speed of Orbit in Seconds" Margin="10,-170,0,0" Width="163" HorizontalAlignment="Left" SelectionChanged="textBlock2_SelectionChanged" Height="22"/>
                 <Slider x:Name="RotationSpeedSlider" Width="152" Maximum="20" LargeChange="1" ValueChanged="RotationSpeedSlider_ValueChanged" SmallChange="0.5"
-            AutomationProperties.LabeledBy="{Binding ElementName=textBlock2}" Margin="10,-30,0,0" HorizontalAlignment="Left"/>
-                <Button Content="Right Menus" Click="RightMenusButton_Click" Margin="185,10,0,0" Width="90" VerticalAlignment="Top"/>
-
+            AutomationProperties.LabeledBy="{Binding ElementName=textBlock2}" Margin="10,-100,0,0" HorizontalAlignment="Left" Height="34"/>
+                
                 <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="10,-180,0,0" TextWrapping="Wrap" Text="Music/Sound Environment" VerticalAlignment="Top"/>
-                <ComboBox x:Name="EnvironmentComboBox" HorizontalAlignment="Left"  Margin="10,-150,0,0" Width="161"  IsDropDownOpen="True" SelectionChanged="EnvironmentComboBox_SelectionChanged"
+                <ComboBox x:Name="EnvironmentComboBox" HorizontalAlignment="Left"  Margin="10,-160,0,0" Width="161"  IsDropDownOpen="True" SelectionChanged="EnvironmentComboBox_SelectionChanged"
             AutomationProperties.LabeledBy="{Binding ElementName=textBlock1}">
                     <x:String>Small Room</x:String>
                     <x:String>Medium Room</x:String>
                     <x:String>Large Room</x:String>
                     <x:String>Outdoors</x:String>
                 </ComboBox>
-                <Button Content="Menu View" Click="MenuViewButton_Click" Margin="185,20,0,0" Width="90" VerticalAlignment="Top"/>
-                <Button Content="Full View" Click="FullViewButton_Click" Margin="185,10,0,0" Width="90" VerticalAlignment="Top"/>
-                <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,-130,0,0" TextWrapping="Wrap" Text="Radius of Orbit" VerticalAlignment="Top"/>
-                <Slider x:Name="RadiusSlider" HorizontalAlignment="Left" Margin="10,-100,0,0" VerticalAlignment="Top" Width="152" Maximum="10" LargeChange="1" Value="1" ValueChanged="RadiusSlider_ValueChanged" SmallChange="0.1" TickFrequency="1" StepFrequency="0.1"
+                <Button Content="Full View" Click="FullViewButton_Click" Margin="180,10,0,0" Width="90"/>
+                <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,-70,0,0" TextWrapping="Wrap" Text="Radius of Orbit" VerticalAlignment="Top"/>
+                <Slider x:Name="RadiusSlider" HorizontalAlignment="Left" Margin="10,-50,0,0" VerticalAlignment="Top" Width="152" Maximum="10" LargeChange="1" Value="1" ValueChanged="RadiusSlider_ValueChanged" SmallChange="0.1" TickFrequency="1" StepFrequency="0.1"
             AutomationProperties.LabeledBy="{Binding ElementName=textBlock}"/>
-                <TextBlock x:Name="textBlock3" HorizontalAlignment="Left" Margin="10,-60,0,0" TextWrapping="Wrap" Text="Height of Orbit" VerticalAlignment="Top"/>
-                <Slider x:Name="HeightSlider" HorizontalAlignment="Left" Margin="10,-30,0,0" VerticalAlignment="Top" Width="152" Minimum="-10" Maximum="10" LargeChange="1" SmallChange="0.5" ValueChanged="HeightSlider_ValueChanged"
+                <TextBlock x:Name="textBlock3" HorizontalAlignment="Left" Margin="10,-20,0,0" TextWrapping="Wrap" Text="Height of Orbit" VerticalAlignment="Top"/>
+                <Slider x:Name="HeightSlider" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Width="152" Minimum="-10" Maximum="10" LargeChange="1" SmallChange="0.5" ValueChanged="HeightSlider_ValueChanged"
             AutomationProperties.LabeledBy="{Binding ElementName=textBlock3}"/>
-                <Button Content="Play" Click="PlayButton_Click" Margin="7,10,0,0" Width="47" VerticalAlignment="Top"/>
-                <Button Content="Stop" Click="StopButton_Click" Margin="110,-30,0,0" Width="50" VerticalAlignment="Top"/>
+                <Button Content="Left Menus" Click="LeftMenusButton_Click" Margin="10,30,0,0" Width="90"/>
+                <Button Content="Right Menus" Click="RightMenusButton_Click" Margin="10,10,0,0" Width="90" VerticalAlignment="Top"/>
+
             </StackPanel>
             <StackPanel>
                 <TextBlock Text="1" x:Name="text6Block1" />
                 <TextBlock Text="2" x:Name="text6Block2" />
                 <TextBlock Text="3" x:Name="text6Block3" />
             </StackPanel>
-            <!-- Status Block for providing messages to the user.  Use the
-             NotifyUser() method to populate the message -->
-            <Border x:Name="ErrorBorder" Background="Red" Grid.Row="1"/>
-            <TextBlock x:Name="StatusBlock" Text="Hello" Grid.Row="1" Margin="0,0,0,0" Visibility="Visible" VerticalAlignment="Bottom"/>
-
         </StackPanel>
     </Grid>
 </Page>

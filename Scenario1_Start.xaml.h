@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "Generated Files\Scenario1_Start.g.h"
+#include "Scenario1_Start.g.h"
 #include "DirectXPage.xaml.h"
 #include "Hot3dxRotoDrawConfiguration.h"
 
@@ -35,7 +35,6 @@ namespace Hot3dxRotoDraw
         void OnTimerTick(Object^ sender, Object^ e);
         void RadiusSlider_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
         void EnvironmentComboBox_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e);
-        void MenuViewButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void FullViewButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void PlayButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         //void AngularVelocitySlider_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
@@ -48,6 +47,7 @@ namespace Hot3dxRotoDraw
         float _height;
         void LeftMenusButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void RightMenusButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void textBlock2_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
     };
 }
 

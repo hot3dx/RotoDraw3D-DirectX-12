@@ -94,6 +94,6 @@ void Hot3dxRotoDraw::Scenario7_SphereDraw::DrawSphereButton_Click(Platform::Obje
 
 void Hot3dxRotoDraw::Scenario7_SphereDraw::Back_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
-    _rootPage->Toggle_Button_Click(sender, e);
+    _rootPage->Button_Click(sender, e);
 }
 

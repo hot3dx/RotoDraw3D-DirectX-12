@@ -1,13 +1,5 @@
-﻿//--------------------------------------------------------------------------------------
-// File: pch.h
-//
-// Copyright (c) Jeff Kubitz - hot3dx. All rights reserved.
-// 
-// No warranty is expressed or implied use at own risk
-//
-//--------------------------------------------------------------------------------------
+﻿#pragma once
 
-#pragma once
 #include <ppltasks.h>
 
 #include <wrl.h>
@@ -77,28 +69,31 @@
 using namespace Microsoft::WRL;
 using namespace Windows::UI::Xaml;
 using namespace Windows::Foundation;
+using namespace DirectX;
 
-#include <Audio/AudioFileReaderXaml12.h>
-#include <Audio/XAudio2HelpersXaml12.h>
+#include <AudioFileReaderXaml12.h>
+#include <XAudio2HelpersXaml12.h>
 #include "OmnidirectionalSound.h"
 #include "CardioidSound.h"
 #include "CustomDecay.h"
-#include <Audio/AudioXaml12.h>
-#include <Graphics/CommonStatesXaml12.h>
-#include <Graphics/DirectXHelpersXaml12.h>
-#include <Graphics/DDSTextureLoaderXaml12.h>
-#include <Graphics/DescriptorHeapXaml12.h>
-#include <Graphics/EffectsXaml12.h>
-#include <Graphics/GeometricPrimitiveXaml12.h>
-#include <Graphics/GraphicsMemoryXaml12.h>
-#include <Graphics/ModelXaml12.h>
-#include <Graphics/PrimitiveBatchXaml12.h>
-#include <Graphics/MyResourceUploadBatchXaml12.h>
-#include <Graphics/RenderTargetStateXaml12.h>
-#include <Graphics/SimpleMathXaml12.h>
-#include <Graphics/SpriteBatchXaml12.h>
-#include <Graphics/SpriteFontXaml12.h> 
-#include <Graphics/VertexTypesXaml12.h>
+#include <AudioXaml12.h>
+#include <CommonStatesXaml12.h>
+#include <DirectXHelpersXaml12.h>
+#include <DDSTextureLoaderXaml12.h>
+#include <DescriptorHeapXaml12.h>
+#include <EffectsXaml12.h>
+#include <GeometricPrimitiveXaml12.h>
+#include <GraphicsMemoryXaml12.h>
+#include <ModelXaml12.h>
+#include <PrimitiveBatchXaml12.h>
+#include <MyResourceUploadBatchXaml12.h>
+#include <RenderTargetStateXaml12.h>
+#include <SimpleMathXaml12.h>
+#include <SpriteBatchXaml12.h>
+#include <SpriteFontXaml12.h> 
+#include <VertexTypesXaml12.h>
+
+using namespace DirectX::DXTKXAML12;
 
 #define SINGLETHREADED FALSE
 

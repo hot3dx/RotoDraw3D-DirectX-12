@@ -66,19 +66,6 @@ Hot3dxRotoDraw::Scenario5_MatsTexs::Scenario5_MatsTexs() : _rootPage(DirectXPage
 
 	Scenario5_MatsTexs::Current = this;
 	_rootPage->m_Scene5Vars->SetScenario5Page(this);
-	 
-	Hot3dxRotoDraw::MaterialDataVector^ list = _rootPage->m_Scene5Vars->GetMaterialGroupsData();
-	Hot3dxRotoDraw::MaterialData d = list->GetMaterialsList(0);
-	//OutputDebugString(L"d.wcfileName 1\n");
-	//OutputDebugString(d.wcfileName->Data());
-	//OutputDebugString(L"\n");
-	d.wcfileName = ref new Platform::String(_rootPage->GetTextureImage1FileDXP()->Data());
-	//OutputDebugString(L"d.wcfileName 2\n");
-	//OutputDebugString(d.wcfileName->Data());
-	//OutputDebugString(L"\n");
-	//OutputDebugString(L"GetTextureImage1FileDXP\n");
-	//OutputDebugString(_rootPage->GetTextureImage1FileDXP()->Data());
-	//OutputDebugString(L"\n");
 }
 
 Hot3dxRotoDraw::Scenario5_MatsTexs::~Scenario5_MatsTexs()
@@ -112,7 +99,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_IMAGE1_BUTTON_Click(Platfor
 {
 	FileOpenPicker^ openPicker = ref new FileOpenPicker();
 	openPicker->ViewMode = PickerViewMode::Thumbnail;
-	openPicker->SuggestedStartLocation = PickerLocationId:: ComputerFolder;//PicturesLibrary;
+	openPicker->SuggestedStartLocation = PickerLocationId::ComputerFolder;// :PicturesLibrary;
 	openPicker->FileTypeFilter->Append(".jpg");
 	openPicker->FileTypeFilter->Append(".jpeg");
 	openPicker->FileTypeFilter->Append(".png");
@@ -136,54 +123,29 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_IMAGE1_BUTTON_Click(Platfor
 	{
 		if (file)
 		{
-
-			Platform::String^ str = ref new Platform::String(file->FileType->Data());
-			Platform::String^ strc1 = ref new Platform::String(L".dds");
-			Platform::String^ strc2 = ref new Platform::String(L".DDS");
 			
-			if (str == strc1 || str == strc2)
-			{
-				//set RotoDrawSceneRender flag m_bDDS_WIC_FLAG = true
-				_rootPage->Setm_bDDS_WIC_FLAGDXP1(true);
-			}
-			else
-			{
-				//set RotoDrawSceneRender flag m_bDDS_WIC_FLAG = false
-				_rootPage->Setm_bDDS_WIC_FLAGDXP1(false);
-			}
-
 			Hot3dxRotoDraw::Scenario5_MatsTexs^ _this = this;
 			create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 			{
 				if (thumbnail != nullptr)
 				{
-					//StorageFile^ _file = file;
-					//HRESULT hr = (HRESULT)_this->_rootPage->TestTextureSubResources(_file);
-					HRESULT hr = S_OK;
-					if (hr == S_OK)
-					{
-						Scenario5Vars^ vars = _this->_rootPage->m_Scene5Vars;
-						vars->SetFile1(file);
-						vars->SetTextureImage1File(file->Path);
-						_this->_rootPage->SetTextureImage1FileDXP(file->Path);
-						vars->SetTextureImage1File(file->Path);
-						vars->SetThumbnailDXP1(thumbnail);
-						DisplayResult(_this->TextureImage1, _this->filePath1TextBlock, thumbnailModeName, size, file, thumbnail, false);
-						vars->SetbitmapImageDXP1(vars->GetThumbnailDXP1());
-						vars->GetBitmapImageDXP1()->SetSource(vars->GetThumbnailDXP1());
-						_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
-						_this->textureFileTextBlock1->Text = file->Path;
-
-					}
-					else
-					{
-						_this->_rootPage->NotifyUser("Error opening file" + file->Name, NotifyType::ErrorMessage);
-
-					}
+					Scenario5Vars^ vars = _this->_rootPage->m_Scene5Vars;
+					vars->SetFile1(file);
+					vars->SetTextureImage1File(file->Path);
+					_this->_rootPage->SetTextureImage1FileDXP(file->Path);
+					vars->SetTextureImage1File(file->Path);
+					vars->SetThumbnailDXP1(thumbnail);
+					DisplayResult(_this->TextureImage1, _this->filePath1TextBlock, thumbnailModeName, size, file, thumbnail, false);
+					vars->SetbitmapImageDXP1(vars->GetThumbnailDXP1());
+					vars->GetBitmapImageDXP1()->SetSource(vars->GetThumbnailDXP1());				
+					_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
+					_this->textureFileTextBlock1->Text = file->Path;
 				}
+
 				else
 				{
-					_this->_rootPage->NotifyUser("Error: File not compatible with for making texture" + file->Name, NotifyType::ErrorMessage);
+					_this->_rootPage->NotifyUser("Error opening file" + file->Name, NotifyType::ErrorMessage);
+					
 				}
 		
 			});
@@ -221,22 +183,6 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_IMAGE2_BUTTON_Click(Platfor
 	{
 		if (file)
 		{
-			Platform::String^ str = ref new Platform::String(file->FileType->Data());
-			Platform::String^ strc1 = ref new Platform::String(L".dds");
-			Platform::String^ strc2 = ref new Platform::String(L".DDS");
-			int compare1 = str->CompareOrdinal(str, strc1);
-			int compare2 = str->CompareOrdinal(str, strc2);
-
-			if (compare1 == 1 || compare2 == 1)
-			{
-				//set RotoDrawSceneRender flag m_bDDS_WIC_FLAG = true
-				_rootPage->Setm_bDDS_WIC_FLAGDXP2(true);
-			}
-			else
-			{
-				//set RotoDrawSceneRender flag m_bDDS_WIC_FLAG = false
-				_rootPage->Setm_bDDS_WIC_FLAGDXP2(false);
-			}
 			Hot3dxRotoDraw::Scenario5_MatsTexs^ _this = this;
 			create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 			{
@@ -280,8 +226,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage1()
 
 #ifdef _DEBUG
 		//sfile = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Debug\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\Marble.dds");// vars->GetTextureImage1File();
-		vars->SetTextureImage1File(L"\\Assets\\Textures\\Marble.dds");
-		sfile = sfile->Concat(sfile, vars->GetTextureImage1File());
+		sfile = sfile->Concat(sfile, L"\\Assets\\Textures\\Marble.dds");// vars->GetTextureImage1File();
 #endif // DEBUG
 #ifdef NDEBUG
 		//sfile = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Release\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\Marble.dds");// vars->GetTextureImage1File();

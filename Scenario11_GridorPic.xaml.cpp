@@ -108,7 +108,7 @@ void Hot3dxRotoDraw::Scenario11_GridorPic::IDC_PIC_TEXTURE_IMAGE1_BUTTON_Click(P
 	ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
 	String^ thumbnailModeName = thumbnailMode.ToString();
 	bool fastThumbnail = false;
-	ThumbnailOptions thumbnailOptions;
+	ThumbnailOptions thumbnailOptions{};
 
 	const unsigned int size = int(PicTextureImage1->ActualHeight);
 	if (size > 0)

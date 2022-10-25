@@ -57,13 +57,16 @@ namespace Hot3dxRotoDraw
         void IDC_AXIS_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void IDC_TOP_OR_LEFT_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void IDC_BOTTOM_OR_RIGHT_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        void IDC_BACKGROUND_DRAW_CHECKBOX_checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+
         // TextBoxes
-        VOID IDC_ROTATION_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        VOID IDC_ROTATION_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
 
         // Point Spacing Slider
         void IDC_SLIDER_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
         void PointSpacingTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
+
+        // Sets Partial Slider for objects that are not 360 degrees
+        void SetPartialSlider();
         
         // Partial Rotation Slider
         void IDC_PARTIAL_ROTATE_SLIDER_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
@@ -82,16 +85,19 @@ namespace Hot3dxRotoDraw
         bool m_bAxisChecked;
         bool m_bTopOrLeftChecked;
         bool m_bBottomOrRightChecked;
-        bool m_bBackgroundDrawChecked;
         Windows::UI::Color m_pointColor;
         DirectXPage^ _rootPage;
         Windows::UI::Xaml::Controls::TextBox^ m_PointSpaceTextBox;
         int m_iCount;
         void IDC_SET_POINTS_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        unsigned int m_fPointGroupsCount; // Number of Slices or pointGroups
+        float DenomOf360;
 
     internal:
         static Scenario2_Normal^ Current;
         
+    private:
+       
     };
 }
 
