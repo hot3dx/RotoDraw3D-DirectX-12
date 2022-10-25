@@ -3,6 +3,7 @@
 #include <pch.h>
 #include "Scenario2_Normal.xaml.h"
 #include "Scenario5_MatsTexs.xaml.h"
+#include "Scenario10_Sculpt.xaml.h"
 #include "Scenario11_GridorPic.xaml.h"
 
 
@@ -80,7 +81,6 @@ namespace Hot3dxRotoDraw
 	{
 	public:
 		Scenario2Vars() {
-                    m_pointColor = { 255,0,0,0};
 		}
 		virtual ~Scenario2Vars() {}
 
@@ -105,9 +105,6 @@ namespace Hot3dxRotoDraw
 		bool GetBottomOrRightChecked() { return m_bBottomOrRightChecked; }
 		void SetBottomOrRightChecked(bool b) { m_bBottomOrRightChecked = b; }
 		
-		bool GetGridPicChecked() { return m_bGridPicChecked; }
-		void SetGridPicChecked(bool b) { m_bGridPicChecked = b; }
-
 		Windows::UI::Color GetPointColor() { return m_pointColor; }
 		void SetPointColor(Windows::UI::Color b) { m_pointColor = b; }
 		
@@ -131,14 +128,13 @@ namespace Hot3dxRotoDraw
 		bool m_bAxisChecked;
 		bool m_bTopOrLeftChecked;
 		bool m_bBottomOrRightChecked;
-		bool m_bGridPicChecked;
 		Windows::UI::Color m_pointColor;
 		//Windows::UI::Xaml::Controls::TextBox^ m_PointSpaceTextBox;
 		bool m_bOpenOrClosedChecked;
 		float m_fPartialRotateAngle;
 		int m_iCount;
 	};
-	
+
 	struct MaterialData
 	{
 		Platform::Array<float>^ args1 = ref new Platform::Array<float>(14);
@@ -154,7 +150,7 @@ namespace Hot3dxRotoDraw
 	{
 	public:
 		virtual ~MaterialDataVector() { }
-		
+
 
 	internal:
 		MaterialDataVector() {};
@@ -179,8 +175,8 @@ namespace Hot3dxRotoDraw
 		void SetMaterialList(unsigned int i, uint16_t val) { m_MaterialList->set(i, val); }
 		uint16_t GetListMaterial(unsigned int i) { return m_MaterialList->get(i); }
 		void ZeroOutMaterialList() { m_MaterialList->~Array(); }
-		
-	
+
+
 	private:
 		Platform::Array<uint16_t>^ m_MaterialList = ref new Platform::Array<uint16_t>(1000);
 
@@ -189,8 +185,10 @@ namespace Hot3dxRotoDraw
 	public ref class Scenario5Vars sealed
 	{
 	public:
-		virtual ~Scenario5Vars() {}
+		virtual ~Scenario5Vars(){}
+
 	internal:
+
 		Scenario5Vars() {
 			m_materialDataVector = ref new MaterialDataVector();
 			MaterialData data;
@@ -199,27 +197,24 @@ namespace Hot3dxRotoDraw
 			r2 = 255; g2 = 255; b2 = 255; a2 = 255;
 
 			float ar[14] = { 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
-			float arMtl[14] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f };
+
 			// initialize materials with ar[] values
-			for (unsigned int i = 0; i < 14; i++)
+			for (int i = 0; i < 14; i++)
 			{
 				args1->set(i, ar[i]);
-				data.args1->set(i, arMtl[i]);
 				args2->set(i, ar[1]);
 			}
 
 			fCount1 = 0;
 			fCount2 = 0;
-			data.fCount = 0;
 
-			wchar_t* fn = L"Marble.dds";
-			for (unsigned int i = 0; i < 10; i++)
+			wchar_t* fn = L"NONE1";
+			for (int i = 0; i < 10; i++)
 			{
 				wcfileName1->set(i, fn[i]);
-				
 			}
-			fn = L"nightceiling.dds";
-			for (unsigned int i = 0; i < 10; i++)
+			fn = L"NONE2";
+			for (int i = 0; i < 10; i++)
 			{
 				wcfileName2->set(i, fn[i]);
 			}
@@ -227,31 +222,20 @@ namespace Hot3dxRotoDraw
 
 			nCount1 = 0;
 			nCount2 = 0;
-			data.nCount = 0;
 
 			wchar_t* fn1 = L"NONE1";
-			for (unsigned int i = 0; i < 10; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				matName1->set(i, fn1[i]);
-				
 			}
 			fn1 = L"NONE2";
-			for (unsigned int i = 0; i < 10; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				matName2->set(i, fn1[i]);
 			}
-			
-			        data.wcfileName = ref new Platform::String();
-			        data.matName = ref new Platform::String(L"NONE1");
-			        data.nodeName = ref new Platform::String(L"CubeNode");
-					data.effectName = ref new Platform::String(L"Phong[13]");
-					m_materialDataVector->SetMaterialsList(data);
 			fn1 = nullptr;
-			
-			
 		}
 		
-
 		//Accessors
 		Scenario5_MatsTexs^ GetScenario5Page() { return _scenario5Page; }
 		void SetScenario5Page(Scenario5_MatsTexs^ s) { _scenario5Page = s; }
@@ -290,7 +274,6 @@ namespace Hot3dxRotoDraw
 		void SetFile1(Windows::Storage::StorageFile^ file) { fileImage1 = file; }
 		Windows::Storage::StorageFile^ GetFile2() { return fileImage2; }
 		void SetFile2(Windows::Storage::StorageFile^ file) { fileImage2 = file; }
-		
 		Platform::String^ GetTextureImage1File() { return fileName1; }// m_textureImage1File
 		void SetTextureImage1File(Platform::String^ fileName) {
 			fileName1 = nullptr;
@@ -303,24 +286,24 @@ namespace Hot3dxRotoDraw
 			fileName2 = ref new Platform::String(fileName->Data());
 			fileName2 = fileName;
 		}
-		
+
 		Windows::Storage::FileProperties::StorageItemThumbnail^ GetThumbnailDXP1() { return m_thumbnailDXP1; }
 		void SetThumbnailDXP1(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail) { m_thumbnailDXP1 = thumbnail; }
 		Windows::Storage::FileProperties::StorageItemThumbnail^ GetThumbnailDXP2() { return m_thumbnailDXP2; }
 		void SetThumbnailDXP2(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail) { m_thumbnailDXP2 = thumbnail; }
-		Windows::UI::Xaml::Media::Imaging::BitmapImage^ GetBitmapImageDXP1() { return bitmapImageDXP1; }
+		BitmapImage^ GetBitmapImageDXP1() { return bitmapImageDXP1; }
 		void SetbitmapImageDXP1(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail)
 		{
 			bitmapImageDXP1 = ref new BitmapImage();
 			bitmapImageDXP1->SetSourceAsync(thumbnail);
 		}
-		Windows::UI::Xaml::Media::Imaging::BitmapImage^ GetBitmapImageDXP2() { return bitmapImageDXP2; }
+		BitmapImage^ GetBitmapImageDXP2() { return bitmapImageDXP2; }
 		void SetbitmapImageDXP2(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail)
 		{
 			bitmapImageDXP2 = ref new BitmapImage();
 			bitmapImageDXP2->SetSource(thumbnail);
 		}
-		
+
 		Platform::Array<float>^ GetMatArgs1Array() { return args1; }
 		void SetMatArgs1Array(unsigned int i, float val) { args1->set(i, val); }
 		Platform::Array<float>^ GetMatArgs2Array() { return args2; }
@@ -346,10 +329,12 @@ namespace Hot3dxRotoDraw
 		}
 
 		Hot3dxRotoDraw::MaterialDataVector^ GetMaterialGroupsData() { return m_materialDataVector; }
+		
 
 	private:
 		Scenario5_MatsTexs^ _scenario5Page;
 		Scenario11_GridorPic^ _scenario11Page;
+		
 		Windows::Storage::StorageFile^ fileImage1;
 		Windows::Storage::StorageFile^ fileImage2;
 		Windows::Storage::FileProperties::StorageItemThumbnail^ m_thumbnailDXP1;
@@ -358,7 +343,7 @@ namespace Hot3dxRotoDraw
 		Platform::String^ fileName2;
 		BitmapImage^ bitmapImageDXP1;
 		BitmapImage^ bitmapImageDXP2;
-		
+
 		unsigned char r1, g1, b1, a1;
 		unsigned char r2, g2, b2, a2;
 		Platform::Array<float>^ args1 = ref new Platform::Array<float>(14);
@@ -381,8 +366,41 @@ namespace Hot3dxRotoDraw
 
 		Hot3dxRotoDraw::MaterialDataVector^ m_materialDataVector;
 
-
 	}; 
+
+	public ref class Scenario10Vars sealed
+	{
+	public:
+		virtual ~Scenario10Vars() {}
+
+	internal:
+		Scenario10Vars() {
+			m_bSculptChecked = false;
+			m_bSculptXChecked = false;
+			m_bSculptYChecked = false;
+			m_bSculptZChecked = false;
+		}
+
+		//Accessors
+		Scenario10_Sculpt^ GetScenario10Page() { return _scenario10Page; }
+		void SetScenario10Page(Scenario10_Sculpt^ s) { _scenario10Page = s; }
+		bool GetSculptChecked() { return m_bSculptChecked; }
+		void SetSculptChecked(bool b) { m_bSculptChecked = b; }
+		bool GetSculptXChecked() { return m_bSculptXChecked; }
+		void SetSculptXChecked(bool b) { m_bSculptXChecked = b; }
+		bool GetSculptYChecked() { return m_bSculptYChecked; }
+		void SetSculptYChecked(bool b) { m_bSculptYChecked = b; }
+		bool GetSculptZChecked() { return m_bSculptZChecked; }
+		void SetSculptZChecked(bool b) { m_bSculptZChecked = b; }
+
+	private:
+
+		Scenario10_Sculpt^ _scenario10Page;
+		bool m_bSculptChecked;
+		bool m_bSculptXChecked;
+		bool m_bSculptYChecked;
+		bool m_bSculptZChecked;
+	};
 
 	public ref class Scenario11Vars sealed
 	{
@@ -419,7 +437,7 @@ namespace Hot3dxRotoDraw
 			fileNameGridPic = ref new Platform::String(fileName->Data());
 			fileNameGridPic = fileName;
 		}
-		
+
 		Windows::Storage::FileProperties::StorageItemThumbnail^ GetThumbnailGridPicDXP1() { return m_thumbnailGridPicDXP; }
 		void SetThumbnailGridPicDXP1(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail) { m_thumbnailGridPicDXP = thumbnail; }
 		BitmapImage^ GetBitmapImageGridPicDXP1() { return bitmapImageGridPicDXP1; }
@@ -437,7 +455,7 @@ namespace Hot3dxRotoDraw
 			bitmapImageDXP1 = ref new BitmapImage();
 			bitmapImageDXP1->SetSourceAsync(thumbnail);
 		}
-		
+
 		bool GetGridorPicChecked() { return m_bGridorPicChecked; }
 		void SetGridorPicChecked(bool b) { m_bGridorPicChecked = b; }
 
@@ -451,9 +469,9 @@ namespace Hot3dxRotoDraw
 
 		Windows::Storage::FileProperties::StorageItemThumbnail^ m_thumbnailGridPicDXP;
 		Windows::UI::Xaml::Media::Imaging::BitmapImage^ bitmapImageGridPicDXP1;
-		Windows::Storage::StorageFile^ fileImageGridPic; 
+		Windows::Storage::StorageFile^ fileImageGridPic;
 		Platform::String^ fileNameGridPic;
-		
+
 		bool m_bGridorPicChecked;
 	};
 }
