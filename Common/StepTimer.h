@@ -8,7 +8,7 @@ namespace DX
 	class StepTimer
 	{
 	public:
-		StepTimer() : 
+		StepTimer() :
 			m_elapsedTicks(0),
 			m_totalTicks(0),
 			m_leftOverTicks(0),
@@ -30,35 +30,35 @@ namespace DX
 			}
 
 			// Initialize max delta to 1/10 of a second.
-			m_qpcMaxDelta = (unsigned long long)m_qpcFrequency.QuadPart / 10;
+			m_qpcMaxDelta = m_qpcFrequency.QuadPart / 10;
 		}
 
 		// Get elapsed time since the previous Update call.
-		uint64 GetElapsedTicks() const						{ return m_elapsedTicks; }
-		double GetElapsedSeconds() const					{ return TicksToSeconds(m_elapsedTicks); }
+		uint64 GetElapsedTicks() const { return m_elapsedTicks; }
+		double GetElapsedSeconds() const { return TicksToSeconds(m_elapsedTicks); }
 
 		// Get total time since the start of the program.
-		uint64 GetTotalTicks() const						{ return m_totalTicks; }
-		double GetTotalSeconds() const						{ return TicksToSeconds(m_totalTicks); }
+		uint64 GetTotalTicks() const { return m_totalTicks; }
+		double GetTotalSeconds() const { return TicksToSeconds(m_totalTicks); }
 
 		// Get total number of updates since start of the program.
-		uint32 GetFrameCount() const						{ return m_frameCount; }
+		uint32 GetFrameCount() const { return m_frameCount; }
 
 		// Get the current framerate.
-		uint32 GetFramesPerSecond() const					{ return m_framesPerSecond; }
+		uint32 GetFramesPerSecond() const { return m_framesPerSecond; }
 
 		// Set whether to use fixed or variable timestep mode.
-		void SetFixedTimeStep(bool isFixedTimestep)			{ m_isFixedTimeStep = isFixedTimestep; }
+		void SetFixedTimeStep(bool isFixedTimestep) { m_isFixedTimeStep = isFixedTimestep; }
 
 		// Set how often to call Update when in fixed timestep mode.
-		void SetTargetElapsedTicks(uint64 targetElapsed)	{ m_targetElapsedTicks = targetElapsed; }
-		void SetTargetElapsedSeconds(double targetElapsed)	{ m_targetElapsedTicks = SecondsToTicks(targetElapsed); }
+		void SetTargetElapsedTicks(uint64 targetElapsed) { m_targetElapsedTicks = targetElapsed; }
+		void SetTargetElapsedSeconds(double targetElapsed) { m_targetElapsedTicks = SecondsToTicks(targetElapsed); }
 
 		// Integer format represents time using 10,000,000 ticks per second.
 		static const uint64 TicksPerSecond = 10000000;
 
-		static double TicksToSeconds(uint64 ticks)			{ return static_cast<double>(ticks) / TicksPerSecond; }
-		static uint64 SecondsToTicks(double seconds)		{ return static_cast<uint64>(seconds * TicksPerSecond); }
+		static double TicksToSeconds(uint64 ticks) { return static_cast<double>(ticks) / TicksPerSecond; }
+		static uint64 SecondsToTicks(double seconds) { return static_cast<uint64>(seconds * TicksPerSecond); }
 
 		// After an intentional timing discontinuity (for instance a blocking IO operation)
 		// call this to avoid having the fixed timestep logic attempt a set of catch-up 
@@ -139,7 +139,7 @@ namespace DX
 			}
 			m_currentTime = currentTime;
 
-			m_deltaTime = (float)(m_currentTime.QuadPart - m_previousTime.QuadPart) * m_secondsPerCount;
+			m_deltaTime = (m_currentTime.QuadPart - m_previousTime.QuadPart) * m_secondsPerCount;
 			m_previousTime = m_currentTime;
 
 			if (m_deltaTime < 0.0)
@@ -259,7 +259,7 @@ namespace DX
 		bool   m_active;
 		float m_secondsPerCount;  // 1.0 / Frequency
 		float m_deltaTime;
-		
+
 		LARGE_INTEGER m_baseTime;
 		LARGE_INTEGER m_stopTime;
 		LARGE_INTEGER m_pausedTime;

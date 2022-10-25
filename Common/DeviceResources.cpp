@@ -105,27 +105,29 @@ DX::DeviceResources::DeviceResources(DXGI_FORMAT backBufferFormat,
 	m_backBufferFormat(backBufferFormat),
 	m_depthBufferFormat(depthBufferFormat),
 	m_backBufferCount(backBufferCount),
+	//m_currentFrame(0),
 	m_screenViewport(),
 	m_scissorRect{},
 	m_rtvDescriptorSize(0),
-	m_deviceRemoved(false),
-	m_dxgiFactoryFlags(0),
+	m_fenceEvent(0),
 	m_fenceValues{},
-	m_window(nullptr),
 	m_d3dRenderTargetSize(),
+	m_d3dFeatureLevel(minFeatureLevel),
+	m_window(nullptr),
+	m_d3dMinFeatureLevel(D3D_FEATURE_LEVEL_11_0),
+	m_rotation(DXGI_MODE_ROTATION_IDENTITY),
+	m_dxgiFactoryFlags(0),
 	m_outputSize(),
+	m_outputSizeRect{ 0,0,1,1 },
 	m_logicalSize(),
 	m_nativeOrientation(DisplayOrientations::None),
 	m_currentOrientation(DisplayOrientations::None),
+	m_orientationTransform3D(ScreenRotation::Rotation0),
 	m_dpi(-1.0f),
-	m_d3dMinFeatureLevel(D3D_FEATURE_LEVEL_11_0),
-	m_d3dFeatureLevel(minFeatureLevel),
-	m_rotation(DXGI_MODE_ROTATION_IDENTITY),
-	m_outputSizeRect{ 0,0,1,1 },
+	m_effectiveDpi(-1.0f),
 	m_colorSpace(DXGI_COLOR_SPACE_RGB_FULL_G22_NONE_P709),
 	m_options(flags),
-	m_effectiveDpi(-1.0f), 
-	m_orientationTransform3D(ScreenRotation::Rotation0)
+	m_deviceRemoved(false)
 {
 	if (backBufferCount > MAX_BACK_BUFFER_COUNT)
 	{
@@ -230,7 +232,7 @@ void DX::DeviceResources::CreateDeviceResources()
 
 	ComPtr<IDXGIAdapter1> adapter;
 	GetHardwareAdapter(&adapter);
-	if (!adapter)
+	if (adapter)
 	{
 		// Create the Direct3D 12 API device object
 		hr = D3D12CreateDevice(
@@ -238,7 +240,6 @@ void DX::DeviceResources::CreateDeviceResources()
 			D3D_FEATURE_LEVEL_11_0,			// Minimum feature level this app can support.
 			IID_PPV_ARGS(&m_d3dDevice)		// Returns the Direct3D device created.
 		);
-		
 	}
 
 	//#if defined(_DEBUG)
@@ -248,7 +249,7 @@ void DX::DeviceResources::CreateDeviceResources()
 		// If the initialization fails, fall back to the WARP device.
 		// For more information on WARP, see: 
 		// https://go.microsoft.com/fwlink/?LinkId=286690
-		if(m_d3dDevice)m_d3dDevice->Release();
+		if (m_d3dDevice)m_d3dDevice->Release();
 		ComPtr<IDXGIAdapter> warpAdapter;
 		DX::ThrowIfFailed(m_dxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&warpAdapter)));
 
@@ -396,8 +397,8 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 	m_d3dRenderTargetSize.Width = swapDimensions ? m_outputSize.Height : m_outputSize.Width;
 	m_d3dRenderTargetSize.Height = swapDimensions ? m_outputSize.Width : m_outputSize.Height;
 
-	UINT backBufferWidth = (UINT)lround(m_d3dRenderTargetSize.Width);
-	UINT backBufferHeight = (UINT)lround(m_d3dRenderTargetSize.Height);
+	UINT backBufferWidth = lround(m_d3dRenderTargetSize.Width);
+	UINT backBufferHeight = lround(m_d3dRenderTargetSize.Height);
 
 	if (m_swapChain != nullptr)
 	{
@@ -449,7 +450,7 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 
 		//CoreWindow^ window = reinterpret_cast<CoreWindow^>(m_window.Get());
 		ComPtr<IDXGISwapChain1> swapChain;
-		
+
 		// CommandQueue is used instead of the ID3D12device according to the directions
 		// For 12 for xaml
 		DX::ThrowIfFailed(
@@ -464,22 +465,22 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 			CreateWindowSizeDependentResources();
 		}
 		DX::ThrowIfFailed(swapChain.As(&m_swapChain));
-		
+
 		//////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////
 		 // Associate swap chain with SwapChainPanel
 			// UI changes will need to be dispatched back to the UI thread
 		m_swapChainPanel->Dispatcher->RunAsync(CoreDispatcherPriority::High, ref new DispatchedHandler([=]()
-			{
-				// Get backing native interface for SwapChainPanel
-				ComPtr<ISwapChainPanelNative> panelNative;
-				DX::ThrowIfFailed(
-					reinterpret_cast<IUnknown*>(m_swapChainPanel)->QueryInterface(IID_PPV_ARGS(panelNative.GetAddressOf())));
-				DX::ThrowIfFailed(
-					panelNative->SetSwapChain(m_swapChain.Get())
-				);
+		{
+			// Get backing native interface for SwapChainPanel
+			ComPtr<ISwapChainPanelNative> panelNative;
+			DX::ThrowIfFailed(
+				reinterpret_cast<IUnknown*>(m_swapChainPanel)->QueryInterface(IID_PPV_ARGS(panelNative.GetAddressOf())));
+			DX::ThrowIfFailed(
+				panelNative->SetSwapChain(m_swapChain.Get())
+			);
 
-			}, CallbackContext::Any));
+		}, CallbackContext::Any));
 
 		// Ensure that DXGI does not queue more than one frame at a time. This both reduces latency and
 		// ensures that the application will only render after each VSync, minimizing power consumption.
@@ -547,28 +548,6 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 			static_cast<INT>(n), m_rtvDescriptorSize);
 		m_d3dDevice->CreateRenderTargetView(m_renderTargets[n].Get(), &rtvDesc, rtvDescriptor);
 	}
-
-	// Create render target views of the swap chain back buffer.
-	/*
-	m_backBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
-	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvDescriptor(m_rtvHeap->GetCPUDescriptorHandleForHeapStart());
-
-	for (UINT n = 0; n < m_backBufferCount; n++)
-		{
-			DX::ThrowIfFailed(m_swapChain->GetBuffer(n, IID_PPV_ARGS(&m_renderTargets[n])));
-			m_d3dDevice->CreateRenderTargetView(m_renderTargets[n].Get(), nullptr, rtvDescriptor);
-			rtvDescriptor.Offset(m_rtvDescriptorSize);
-
-		String^ arg = ref new String(L"Render target ");
-		String^ var = ref new String(std::to_wstring(n).c_str());
-		arg = arg->Concat(arg, var);
-		m_renderTargets[n]->SetName((LPCWSTR)arg);
-			if (arg->Length() > 0)
-			{
-				DX::SetName(m_renderTargets[n].Get(), name);
-			}
-		}
-	*/
 
 	// Create a depth stencil and view.
 	if (m_depthBufferFormat != DXGI_FORMAT_UNKNOWN)
@@ -679,7 +658,6 @@ void DX::DeviceResources::HandleDeviceLost()
 	}
 #endif
 
-	//CreateWindowSizeDependentResources(); // added 4/23/21 16:57 
 	CreateDeviceResources();
 	CreateWindowSizeDependentResources();
 
@@ -695,7 +673,7 @@ bool DX::DeviceResources::WindowSizeChanged(int width, int height, DXGI_MODE_ROT
 	m_outputSizeRect.top = 0;
 	m_outputSizeRect.right = (LONG)m_outputSize.Width;
 	m_outputSizeRect.bottom = (LONG)m_outputSize.Height;
-	RECT newRc;
+	RECT newRc{};
 	newRc.left = newRc.top = 0;
 	newRc.right = width;
 	newRc.bottom = height;
@@ -890,24 +868,21 @@ void DX::DeviceResources::Present(D3D12_RESOURCE_STATES beforeState)
 // Wait for pending GPU work to complete.
 void DX::DeviceResources::WaitForGpu() noexcept
 {
-
 	if (m_commandQueue && m_fence && m_fenceEvent != nullptr)//;.IsValid())
 	{
 		// Schedule a Signal command in the GPU queue.
 		UINT64 fenceValue = m_fenceValues[m_backBufferIndex];
 		m_fenceValue = fenceValue;
-		//DX::ThrowIfFailed(m_commandQueue->Signal(m_fence.Get(), m_fenceValues[m_backBufferIndex]));
-		if (SUCCEEDED(m_commandQueue->Signal(m_fence.Get(), m_fenceValues[m_backBufferIndex])))
-		{
-			// Wait until the Signal has been processed.
-			//DX::ThrowIfFailed(m_fence->SetEventOnCompletion(m_fenceValues[m_backBufferIndex], m_fenceEvent));
-			if (SUCCEEDED(m_fence->SetEventOnCompletion(m_fenceValues[m_backBufferIndex], m_fenceEvent)))
-			{
-				WaitForSingleObjectEx(m_fenceEvent, INFINITE, FALSE);
-				// Increment the fence value for the current frame.
-				m_fenceValues[m_backBufferIndex]++;
-			}
-		}
+		DX::ThrowIfFailed(m_commandQueue->Signal(m_fence.Get(), m_fenceValues[m_backBufferIndex]));
+
+		// Wait until the Signal has been processed.
+		DX::ThrowIfFailed(m_fence->SetEventOnCompletion(m_fenceValues[m_backBufferIndex], m_fenceEvent));
+		WaitForSingleObjectEx(m_fenceEvent, INFINITE, FALSE);
+
+		// Increment the fence value for the current frame.
+		m_fenceValues[m_backBufferIndex]++;
+
+
 	}
 }
 
@@ -1009,7 +984,7 @@ DXGI_MODE_ROTATION DX::DeviceResources::ComputeDisplayRotation()
 			rotation = DXGI_MODE_ROTATION_ROTATE180;
 			break;
 		}
-	    break;
+		break;
 	}
 	return rotation;
 }
