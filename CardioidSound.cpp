@@ -53,13 +53,13 @@ HRESULT CardioidSound::ConfigureApo(float scaling, float order)
     }
 
     // Cardioid directivity configuration
-    HrtfDirectivityCardioid cardioid;
+    HrtfDirectivityCardioid cardioid{};
     cardioid.directivity.type = HrtfDirectivityType::Cardioid;
     cardioid.directivity.scaling = scaling;
     cardioid.order = order;
 
     // APO intialization
-    HrtfApoInit apoInit;
+    HrtfApoInit apoInit{};
     apoInit.directivity = &cardioid.directivity;
     apoInit.distanceDecay = nullptr;                // This specifies natural distance decay behavior (simulates real world)
 
