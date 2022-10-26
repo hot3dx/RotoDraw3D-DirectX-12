@@ -1817,6 +1817,8 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectSingleTextu
 		vertexes.push_back(vpnt);
 	}
 	
+        if (vertices.size() <= 0)return; // catch added 10_26_2022
+	if (indices.size() == 0)return; // catch added 10_26_2022 Fixed by manually moving the partial scrollbar from zero to one
 	m_shapeDrawnObjectTex = GeometricPrimitive::CreateCustom(vertexes, indices, device);
 	{
 		DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadDrawnObject = new DirectX::DXTKXAML12::ResourceUploadBatch(device);
