@@ -43,7 +43,8 @@ Setup for pen, mouse, or touchpad. a pen is best
 ![Step 3: Set Point Color and Draw](https://github.com/hot3dx/RotoDraw3D-DirectX-12/blob/main/ScreenShot/Screenshot51.png)
 ![Step 4: Set PointsButton](https://github.com/hot3dx/RotoDraw3D-DirectX-12/blob/main/ScreenShot/Screenshot52.png)
 
-The collada and obj file writers allow importation into the fbx Visual Studio modeller
+### The text collada and obj file writers allow importation into the fbx Visual Studio modeller
+### and import into Blender. Can be edited in Notepad 
 
 Bitcoin donations accepted:
 BTC 32HVJHEXh9bMLVkmoSE1d389q2Q1YvfrNE
