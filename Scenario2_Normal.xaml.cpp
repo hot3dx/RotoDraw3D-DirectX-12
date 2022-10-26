@@ -105,6 +105,8 @@ void Scenario2_Normal::SetPartialSlider()
     IDC_PARTIAL_ROTATE_SLIDER->SetValue(IDC_PARTIAL_ROTATE_SLIDER->MaximumProperty, IDC_PARTIAL_ROTATE_SLIDER->Maximum);
     IDC_PARTIAL_ROTATE_SLIDER->Value::set(0);
     IDC_PARTIAL_ROTATE_SLIDER->SetValue(IDC_PARTIAL_ROTATE_SLIDER->ValueProperty, IDC_PARTIAL_ROTATE_SLIDER->Value);
+    PartialRotateTextBox->Text = ref new Platform::String(std::to_wstring(0).c_str());
+ 
 }
 
 void Hot3dxRotoDraw::Scenario2_Normal::IDC_PARTIAL_ROTATE_SLIDER_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
