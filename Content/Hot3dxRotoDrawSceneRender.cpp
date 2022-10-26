@@ -2116,6 +2116,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::ClearDrawnObject()
 	sc2->Current->SetBottomRightCheckBoxFalse();
 	m_vars->GetDXPage()->m_Scene2Vars->SetTopOrLeftChecked(false);
 	m_vars->GetDXPage()->m_Scene2Vars->SetBottomOrRightChecked(false);
+        sc2->Current->SetPartialSlider();
 }
 
 Platform::String^ Hot3dxRotoDraw::RotoDrawSceneRender::DrawnObjectOpenText()
