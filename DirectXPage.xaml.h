@@ -293,16 +293,18 @@ namespace Hot3dxRotoDraw
 
 		Scenario2Vars^ GetScene2Vars() { return m_Scene2Vars; }
 		Scenario5Vars^ GetScene5Vars() { return m_Scene5Vars; }
-		//Scenario10Vars^ GetScene10Vars() { return m_Scene10Vars; }
-		//Scenario11Vars^ GetScene11Vars() { return m_Scene11Vars; }
+		Scenario10Vars^ GetScene10Vars() { return m_Scene10Vars; }
+		Scenario11Vars^ GetScene11Vars() { return m_Scene11Vars; }
 
 		// Symmetrical Copy of a flipped set of points
 		// on the other side of the X or Y axis
 		void CopyFlipPointsXAxisDXP() {
-			m_main->GetSceneRenderer()->CopyFlipPointsXAxis();
+		       if(m_main->GetSceneRenderer()->GetPointCount() <= 0)return;
+                       m_main->GetSceneRenderer()->CopyFlipPointsXAxis();
 		}
 
 		void CopyFlipPointsYAxisDXP() {
+                       if(m_main->GetSceneRenderer()->GetPointCount() <= 0) return; 
 			m_main->GetSceneRenderer()->CopyFlipPointsYAxis();
 		}
 
