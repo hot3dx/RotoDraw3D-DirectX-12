@@ -45,7 +45,8 @@
                 IsAlphaSliderVisible="{x:Bind Mode=OneWay, Path=alphaSlider.IsChecked.Value}"
                 IsAlphaTextInputVisible="{x:Bind Mode=OneWay, Path=alphaTextInput.IsChecked.Value}"
                 Width="300" Height="600" Margin="0,0,0,0"
-                RenderTransformOrigin="0,0" />
+                RenderTransformOrigin="0,0" 
+                ToolTipService.Placement="Right" ToolTipService.ToolTip="Choose a color by left clicking Then click and unclick a checkbox" />
                 <TextBlock Text="Color on a Rectangle" IsColorFontEnabled="True" Width="131" Height="20" Margin="175,-270,0,0" 
                 HorizontalAlignment="Left"/>
                 <Rectangle x:Name="previewRect" Height="50" Width="140" Margin="175,-110,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
@@ -73,7 +74,8 @@
                 <StackPanel Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
                     <CheckBox Content="Alpha Enabled" x:Name="alpha"  FontSize="8" IsChecked="True" />
                     <TextBlock Text="Materials" />
-                    <CheckBox x:Name="m_frontColor" Content="IsFrontColor" FontSize="8"  IsChecked="False" Height="32" Width="50" Checked="frontColor_Checked"/>
+                    <CheckBox x:Name="m_frontColor" Content="IsFrontColor" FontSize="8"  IsChecked="False" Height="32" Width="50" Checked="frontColor_Checked"
+                              ToolTipService.Placement="Right" ToolTipService.ToolTip="Click and unclick this checkbox to set a color" />
                     <Rectangle x:Name="ColorFrontRect" Height="64" Width="64" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
                            StrokeThickness="1"
                            Stroke="{ThemeResource TextControlBorderBrush}" RadiusX="0" RadiusY="0">
@@ -81,7 +83,8 @@
                             <SolidColorBrush Color="{x:Bind Mode=OneWay, Path=colorPicker.Color}" />
                         </Rectangle.Fill>
                     </Rectangle>
-                    <CheckBox x:Name="m_backColor" Content="IsBackColor" FontSize="8"  Margin="10,0,0,0"  IsChecked="False" Width="50" Checked="backColor_Checked"/>
+                    <CheckBox x:Name="m_backColor" Content="IsBackColor" FontSize="8"  Margin="10,0,0,0"  IsChecked="False" Width="50" Checked="backColor_Checked"
+                              ToolTipService.Placement="Right" ToolTipService.ToolTip="Click and then unclick this checkbox to set a color" />
                     <Rectangle x:Name="ColorBackRect" Height="64" Width="64" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" 
                            StrokeThickness="1"
                            Stroke="{ThemeResource TextControlBorderBrush}" RadiusX="0" RadiusY="0">

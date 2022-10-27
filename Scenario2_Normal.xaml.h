@@ -40,6 +40,8 @@ namespace Hot3dxRotoDraw
 
         void SetTopLeftCheckBoxFalse() { IDC_TOP_OR_LEFT_CHECKBOX->IsChecked = false; }
         void SetBottomRightCheckBoxFalse() { IDC_BOTTOM_OR_RIGHT_CHECKBOX->IsChecked = false; }
+
+        void SetPartialSlider();
        
     protected:
         virtual void OnNavigatedTo(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e) override;
@@ -66,7 +68,6 @@ namespace Hot3dxRotoDraw
         void PointSpacingTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
 
         // Sets Partial Slider for objects that are not 360 degrees
-        void SetPartialSlider();
         
         // Partial Rotation Slider
         void IDC_PARTIAL_ROTATE_SLIDER_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);

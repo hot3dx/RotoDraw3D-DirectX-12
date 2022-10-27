@@ -299,12 +299,12 @@ namespace Hot3dxRotoDraw
 		// Symmetrical Copy of a flipped set of points
 		// on the other side of the X or Y axis
 		void CopyFlipPointsXAxisDXP() {
-		       if(m_main->GetSceneRenderer()->GetPointCount() <= 0)return;
-                       m_main->GetSceneRenderer()->CopyFlipPointsXAxis();
+			if (m_main->GetSceneRenderer()->GetPointCount() <= 0)return;
+			m_main->GetSceneRenderer()->CopyFlipPointsXAxis();
 		}
 
 		void CopyFlipPointsYAxisDXP() {
-                       if(m_main->GetSceneRenderer()->GetPointCount() <= 0) return; 
+			if (m_main->GetSceneRenderer()->GetPointCount() <= 0)return;
 			m_main->GetSceneRenderer()->CopyFlipPointsYAxis();
 		}
 

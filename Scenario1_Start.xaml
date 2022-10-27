@@ -56,15 +56,18 @@
                     <x:String>Large Room</x:String>
                     <x:String>Outdoors</x:String>
                 </ComboBox>
-                <Button Content="Full View" Click="FullViewButton_Click" Margin="180,10,0,0" Width="90"/>
+                <Button Content="Full View" Click="FullViewButton_Click" Margin="180,10,0,0" Width="90"
+                        ToolTipService.Placement="Right" ToolTipService.ToolTip="Opens Fullscreen F key to exit" />
                 <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,-70,0,0" TextWrapping="Wrap" Text="Radius of Orbit" VerticalAlignment="Top"/>
                 <Slider x:Name="RadiusSlider" HorizontalAlignment="Left" Margin="10,-50,0,0" VerticalAlignment="Top" Width="152" Maximum="10" LargeChange="1" Value="1" ValueChanged="RadiusSlider_ValueChanged" SmallChange="0.1" TickFrequency="1" StepFrequency="0.1"
             AutomationProperties.LabeledBy="{Binding ElementName=textBlock}"/>
                 <TextBlock x:Name="textBlock3" HorizontalAlignment="Left" Margin="10,-20,0,0" TextWrapping="Wrap" Text="Height of Orbit" VerticalAlignment="Top"/>
                 <Slider x:Name="HeightSlider" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Width="152" Minimum="-10" Maximum="10" LargeChange="1" SmallChange="0.5" ValueChanged="HeightSlider_ValueChanged"
             AutomationProperties.LabeledBy="{Binding ElementName=textBlock3}"/>
-                <Button Content="Left Menus" Click="LeftMenusButton_Click" Margin="10,30,0,0" Width="90"/>
-                <Button Content="Right Menus" Click="RightMenusButton_Click" Margin="10,10,0,0" Width="90" VerticalAlignment="Top"/>
+                <Button Content="Left Menus" Click="LeftMenusButton_Click" Margin="10,30,0,0" Width="90"
+                        ToolTipService.Placement="Right" ToolTipService.ToolTip="Flips GUI to left side" />
+                <Button Content="Right Menus" Click="RightMenusButton_Click" Margin="10,10,0,0" Width="90" VerticalAlignment="Top"
+                        ToolTipService.Placement="Right" ToolTipService.ToolTip="Flips GUI to right side, Resize should occur before flip" />
 
             </StackPanel>
             <StackPanel>

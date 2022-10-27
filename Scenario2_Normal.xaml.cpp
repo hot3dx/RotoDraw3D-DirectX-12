@@ -64,6 +64,7 @@ Scenario2_Normal::Scenario2_Normal() : _rootPage(DirectXPage::Current)
     DenomOf360 = 10.0f;
     m_fPointGroupsCount = 36;
     SetPartialSlider();
+    
     IDC_CLOSED_OR_OPEN_CHECKBOX->IsChecked::set(true);
     IDC_CLOSED_OR_OPEN_CHECKBOX->SetValue(IDC_CLOSED_OR_OPEN_CHECKBOX->IsCheckedProperty, 
         IDC_CLOSED_OR_OPEN_CHECKBOX->IsChecked);
@@ -106,7 +107,6 @@ void Scenario2_Normal::SetPartialSlider()
     IDC_PARTIAL_ROTATE_SLIDER->Value::set(0);
     IDC_PARTIAL_ROTATE_SLIDER->SetValue(IDC_PARTIAL_ROTATE_SLIDER->ValueProperty, IDC_PARTIAL_ROTATE_SLIDER->Value);
     PartialRotateTextBox->Text = ref new Platform::String(std::to_wstring(0).c_str());
- 
 }
 
 void Hot3dxRotoDraw::Scenario2_Normal::IDC_PARTIAL_ROTATE_SLIDER_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
