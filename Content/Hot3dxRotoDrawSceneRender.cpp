@@ -242,7 +242,12 @@ void RotoDrawSceneRender::CreateDeviceDependentResources()
 				L"Assets/SegoeUI_18.spritefont",
 				m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
 				m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
-
+			/*
+			m_CursorPosFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
+				L"Assets/SegoeUI_18.spritefont",
+				m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
+				m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
+            */
 			 m_PointCountFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
 				L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
 				m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
@@ -566,6 +571,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::OnDeviceLost()
 	m_textureGridPic.Reset();
 
 	m_MousePosFont.reset();
+	//m_CursorPosFont.reset();
 	m_CameraEyeFont.reset();
 	m_CameraAtFont.reset();
 	m_CameraUpFont.reset();
@@ -639,13 +645,14 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::OnDeviceRestored()
 
 void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::MouseCursorRender(float positionX, float positionY)
 {
+	pointC.x = positionX;
+	pointC.y = positionY;
 	positionY = 0.0f;
 	if (m_tracking)
 	{
 		if (m_loadingComplete)
 		{
 			D3D12_VIEWPORT rect = m_sceneDeviceResources->GetScreenViewport();
-
 			XMVECTOR xAxis = XMVectorSet(0.0f, 50.0f, 0.0f, 0.0f);
 			XMVECTOR yAxis = XMVectorSet(50.0f, -50.0f, 0.0f, 0.0f);
 			XMVECTOR zAxis = XMVectorSet(-50.0f, -50.0f, 0.0f, 0.0f);
@@ -655,27 +662,35 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::MouseCursorRender(float po
 			float x = 0.0f;
 			float y = 0.0f;
 			float z = 0.0f;
-			int centerx;
-			int centery;
+			float centerx;
+			float centery;
+			
 			// convert mouse points to number line 
 			// plus/ minus coordinates
 			// and convert to float
-
+			
+			float midWidth = rect.Width / 2.0f;
+			float midHeight = rect.Height / 2.0f;
+			m_drawMouseWidthRatio = 14.0f / midWidth;// 28.0f / Width would also work for the drawWidthRatio
+			m_drawMouseHeightRatio = 14.0f / midHeight;// 28.0f / Height would also work for the drawHeightRatio
+			
 			if (positionX > 0 || point.x < (rect.TopLeftX - rect.Width)
 				|| point.y > 0 || point.y < (rect.TopLeftY - rect.Height))
 			{
-				centerx = (int)(rect.Width - rect.TopLeftX) / 2;
-				centery = (int)(rect.Height - rect.TopLeftY) / 2;
+				centerx = (rect.Width / 2.0f);
+				centery = (rect.Height / 2.0f);
+				
 				if (m_IsLeftHanded)
 				{
-					x = ((point.x - (float)centerx) * (float)m_drawMouseWidthRatio);// for left handed minus sign on x
+					
+					x = ((point.x - centerx) * m_drawMouseWidthRatio);// for left handed minus sign on x
 				}
 				else
 				{
-					x = -((point.x - (float)centerx) * (float)m_drawMouseWidthRatio);// for right handed remove minus sign on x
+					x = -((point.x - centerx) * m_drawMouseWidthRatio);// for right handed remove minus sign on x
 
 				}// eo if (m_IsLeftHanded)
-				y = -((point.y - (float)centery) * m_drawMouseHeightRatio);
+				y = -((point.y - centery) * m_drawMouseHeightRatio);
 
 				XMVECTOR xx, yy;// , zz;
 				xx = XMVectorScale(xAxis, x);
@@ -1234,7 +1249,12 @@ bool RotoDrawSceneRender::Render()
 	m_MousePosFont->DrawString(m_sprites.get(),
 		ObjectXYZPositionString(m_fontString, "Mouse ", m_posX, m_posY, m_posZ)->Data(),  
 	    XMFLOAT2(10, 10), Colors::Black);
-	
+	/*
+	Platform::String^ m_fontCursorString = nullptr;
+	m_CursorPosFont->DrawString(m_sprites.get(),
+		ObjectXYZPositionString(m_fontCursorString, "Cursor ", pointC.x, pointC.y, m_posZ)->Data(),
+		XMFLOAT2(550, 10), Colors::Black);
+*/
 	// Put Camera Eye on screen
 	Platform::String^ m_fontStringCameraEye = nullptr;
 	m_CameraEyeFont->DrawString(m_sprites.get(), 
@@ -1816,9 +1836,9 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectSingleTextu
 		DirectX::DXTKXAML12::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(textureU.at(i), textureV.at(i)) };
 		vertexes.push_back(vpnt);
 	}
-	
-        if (vertices.size() <= 0)return; // catch added 10_26_2022
-	if (indices.size() == 0)return; // catch added 10_26_2022 Fixed by manually moving the partial scrollbar from zero to one
+
+	if (vertices.size() <= 0)return;
+	if (indices.size() == 0)return;
 	m_shapeDrawnObjectTex = GeometricPrimitive::CreateCustom(vertexes, indices, device);
 	{
 		DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadDrawnObject = new DirectX::DXTKXAML12::ResourceUploadBatch(device);
@@ -1892,6 +1912,8 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectDualTexture
 			vertexes.push_back(vpnt);
 		}
 
+		if (vertices.size() <= 0)return;
+		if (indices.size() == 0)return;
 		m_shapeDrawnObjectTex = GeometricPrimitive::CreateCustom(vertexes, indices, device);
 		{
 
@@ -2076,21 +2098,21 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::ClearDrawnObject()
 	posY = ref new Platform::Array<float>(1000);
 	posZ = ref new Platform::Array<float>(1000);
 
-	
+
 	box = ref new Platform::Array<float>(6);
 
 	m_iPointCount = 0;
 	m_iTotalPointCount = 0;
-	
+
 	m_iTempGroup = ref new Platform::Array<unsigned int>(1000);
 	m_iTempMouseX = ref new Platform::Array<float>(1000);
 	m_iTempMouseY = ref new Platform::Array<float>(1000);
 	m_iTempGroupCount = 0;
 	m_PtGroupList.clear();
 	m_PtGroupList.resize(0);
-	m_iGroupCount = 0; 
+	m_iGroupCount = 0;
 	//m_iLastPoint = 0;
-	point = XMFLOAT2(0.0f,0.0f);
+	point = XMFLOAT2(0.0f, 0.0f);
 	vertices.clear();
 	vertices.resize(0);
 	indices.clear();
@@ -2099,14 +2121,14 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::ClearDrawnObject()
 	textureU.resize(0);
 	textureV.clear();
 	textureV.resize(0);
-	
+
 	vertexes.clear();
 	vertexes.resize(0);
 
 	m_bDDS_WIC_FLAGGridPicComplete = false;
 	m_bDDS_WIC_FLAGGridPic = true;
 	m_bDDS_WIC_FLAG1 = true;
-	m_textureGridPic.Reset(); 
+	m_textureGridPic.Reset();
 	m_shapeGridPic.reset();
 	m_drawRectangleEffect.reset();
 
@@ -2116,8 +2138,10 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::ClearDrawnObject()
 	sc2->Current->SetBottomRightCheckBoxFalse();
 	m_vars->GetDXPage()->m_Scene2Vars->SetTopOrLeftChecked(false);
 	m_vars->GetDXPage()->m_Scene2Vars->SetBottomOrRightChecked(false);
-        sc2->Current->SetPartialSlider();
+	m_vars->GetDXPage()->m_Scene2Vars->SetPartialRotateAngle(0.0f);
+	sc2->Current->SetPartialSlider();
 }
+
 
 Platform::String^ Hot3dxRotoDraw::RotoDrawSceneRender::DrawnObjectOpenText()
 {

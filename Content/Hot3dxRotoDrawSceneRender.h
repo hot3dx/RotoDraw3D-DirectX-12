@@ -282,7 +282,7 @@ namespace Hot3dxRotoDraw
 		unsigned int m_iPointCount;
 		size_t m_iTotalPointCount;
 		//unsigned int m_iLastPoint;
-		XMFLOAT2 point;
+		XMFLOAT2 point; XMFLOAT2 pointC;
 		Platform::Array<unsigned int>^ m_iTempGroup = ref new Platform::Array<unsigned int>(1000);
 		Platform::Array<float>^ m_iTempMouseX = ref new Platform::Array<float>(1000);
 		Platform::Array<float>^ m_iTempMouseY = ref new Platform::Array<float>(1000);
@@ -364,6 +364,7 @@ namespace Hot3dxRotoDraw
 		std::unique_ptr<DirectX::SpriteFont>                                    m_CameraAtFont;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_CameraUpFont;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_MousePosFont;
+		//std::unique_ptr<DirectX::SpriteFont>                                    m_CursorPosFont;// Windows cursor
 		std::unique_ptr<DirectX::SpriteFont>                                    m_PointCountFont;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_TotalPointCountFont;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_FaceCountFont;
