@@ -31,6 +31,12 @@ namespace Hot3dxRotoDraw
         Scenario9_Rotate();
         virtual ~Scenario9_Rotate();
 
+    internal:
+        static Scenario9_Rotate^ Current;
+
+    protected:
+        virtual void OnNavigatedTo(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e) override;
+
     private:
 
         DirectXPage^ _rootPage;

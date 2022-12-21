@@ -43,11 +43,21 @@ Hot3dxRotoDraw::Scenario11_GridorPic::Scenario11_GridorPic() : _rootPage(DirectX
 	}
 	_rootPage->NotifyUser("Stopped", NotifyType::StatusMessage);
 
-	Scenario11_GridorPic::Current = this;
-	_rootPage->m_Scene11Vars->SetScenario11Page(this);
+	
 	
 	if(_rootPage->GetGridPicTextureImageFileDXP()->Data())
 	wcfileName = ref new Platform::String(_rootPage->GetGridPicTextureImageFileDXP()->Data());
+
+	IDC_GRID_OR_PIC_CHECKBOX->IsChecked::set(true);
+	IDC_GRID_OR_PIC_CHECKBOX->SetValue(IDC_GRID_OR_PIC_CHECKBOX->IsCheckedProperty,
+		IDC_GRID_OR_PIC_CHECKBOX->IsChecked);
+	IDC_PIC_CHECKBOX->IsChecked::set(false);
+	IDC_PIC_CHECKBOX->SetValue(IDC_PIC_CHECKBOX->IsCheckedProperty,
+		IDC_PIC_CHECKBOX->IsChecked);
+	vars->SetGridChecked(true);
+	vars->SetPicChecked(false);
+	Scenario11_GridorPic::Current = this;
+	_rootPage->m_Scene11Vars->SetScenario11Page(this);
 }
 
 Hot3dxRotoDraw::Scenario11_GridorPic::~Scenario11_GridorPic()
@@ -60,12 +70,26 @@ void Hot3dxRotoDraw::Scenario11_GridorPic::IDC_GRID_OR_PIC_CHECKBOX_Checked(Plat
 	Scenario11Vars^ vars = _rootPage->m_Scene11Vars;
 	if (IDC_GRID_OR_PIC_CHECKBOX->IsChecked->Value)
 	{
-		vars->SetGridorPicChecked(true);
+		vars->SetGridChecked(true);
 		_rootPage->NotifyUser("Draw with Grid Picked", NotifyType::StatusMessage);
 	}
 	else {
-		vars->SetGridorPicChecked(false);
+		vars->SetGridChecked(false);
 		_rootPage->NotifyUser("Draw with Photo Picked", NotifyType::StatusMessage);
+	}
+}
+
+void Hot3dxRotoDraw::Scenario11_GridorPic::IDC_PIC_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	Scenario11Vars^ vars = _rootPage->m_Scene11Vars;
+	if (IDC_PIC_CHECKBOX->IsChecked->Value)
+	{
+		vars->SetPicChecked(true);
+		_rootPage->NotifyUser("Draw with Background Picture Picked", NotifyType::StatusMessage);
+	}
+	else {
+		vars->SetPicChecked(false);
+		_rootPage->NotifyUser("Draw without Background Photo Picked", NotifyType::StatusMessage);
 	}
 }
 
@@ -97,7 +121,7 @@ void Hot3dxRotoDraw::Scenario11_GridorPic::IDC_PIC_TEXTURE_IMAGE1_BUTTON_Click(P
 {
 	FileOpenPicker^ openPicker = ref new FileOpenPicker();
 	openPicker->ViewMode = PickerViewMode::Thumbnail;
-	openPicker->SuggestedStartLocation = PickerLocationId::PicturesLibrary;
+	openPicker->SuggestedStartLocation = PickerLocationId::ComputerFolder;//PicturesLibrary;
 	openPicker->FileTypeFilter->Append(".jpg");
 	openPicker->FileTypeFilter->Append(".jpeg");
 	openPicker->FileTypeFilter->Append(".png");
@@ -188,6 +212,9 @@ void Hot3dxRotoDraw::Scenario11_GridorPic::LoadChosenImage1()
 		bool fastThumbnail = false;
 		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
+	TCHAR pwd[512];
+	DWORD LENGTH = GetCurrentDirectory(512, pwd);
+	Platform::String^ sfile = ref new Platform::String(pwd, LENGTH);
 
 	StorageFile^ file = vars->GetFileGridPic();
 
@@ -199,28 +226,27 @@ void Hot3dxRotoDraw::Scenario11_GridorPic::LoadChosenImage1()
 			{
 				this->DisplayResultGridPic(this->PicTextureImage1, this->m_gridorPicFilesTextBox, thumbnailModeName, size, file, thumbnail, false);
 
-				this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
+				this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
 				this->m_gridorPicFilesTextBox->Text = file->Path;
 			}
 			else
 			{
-				this->_rootPage->NotifyUser("Error opening file" + file->Name, NotifyType::ErrorMessage);
+				this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
 			}
 		});
 	}
 	else {
-		this->_rootPage->NotifyUser("Error opening file" + file->Name, NotifyType::ErrorMessage);
+		this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
 	}
-
 	_rootPage->NotifyUser("Stopped", NotifyType::StatusMessage);
 }
 
 void Hot3dxRotoDraw::Scenario11_GridorPic::OnNavigatedTo(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e)
 {
-	Scenario11_GridorPic::Current = this;
-	
-	_rootPage->m_Scene11Vars->SetScenario11Page(this);
 	Scenario11Vars^ vars = _rootPage->m_Scene11Vars;
-	IDC_GRID_OR_PIC_CHECKBOX->IsChecked = vars->GetGridorPicChecked();
-	
+	IDC_GRID_OR_PIC_CHECKBOX->IsChecked = vars->GetGridChecked();
+	IDC_PIC_CHECKBOX->IsChecked = vars->GetPicChecked();
+	Scenario11_GridorPic::Current = this;
+	_rootPage->m_Scene11Vars->SetScenario11Page(this);
 }
+

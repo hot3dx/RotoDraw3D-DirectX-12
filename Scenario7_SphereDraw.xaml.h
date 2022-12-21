@@ -59,7 +59,7 @@ namespace Hot3dxRotoDraw
         float m_cameraradius;
         float m_camerarotation;
         float m_anglerotation;
-        int m_iCount;
+        int m_iPointCount;
     };
 }
 

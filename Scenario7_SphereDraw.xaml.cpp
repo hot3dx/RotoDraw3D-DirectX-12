@@ -81,14 +81,23 @@ void Hot3dxRotoDraw::Scenario7_SphereDraw::PointSpacingTextBox_TextChanged(Platf
 
 void Hot3dxRotoDraw::Scenario7_SphereDraw::DrawSphereButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
+    if (_rootPage->GetPointCount() == 0)
+    {
+        Platform::String^ str;
 
-    Platform::String^ str;
-    
-    str = Hot3dxRotoDraw::Scenario7_SphereDraw::m_SphereRadiusTextBox->Text;
-    m_cameraradius = std::wcstof(str->Data(), nullptr);
+        str = Hot3dxRotoDraw::Scenario7_SphereDraw::m_SphereRadiusTextBox->Text;
+        m_cameraradius = std::wcstof(str->Data(), nullptr);
 
-    str = Hot3dxRotoDraw::Scenario7_SphereDraw::m_PointSpaceTextBox->Text;
-    m_camerarotation = std::wcstof(str->Data(), nullptr);
+        str = Hot3dxRotoDraw::Scenario7_SphereDraw::m_PointSpaceTextBox->Text;
+        m_camerarotation = std::wcstof(str->Data(), nullptr);
+
+        _rootPage->SET_SPHERE_BUTTON_Click(sender, e, m_cameraradius, m_camerarotation);
+        _rootPage->NotifyUser(L"Sphere Drawn", NotifyType::StatusMessage);
+    }
+    else
+    {
+        _rootPage->NotifyUser(L"Go To Draw Page and Click the Clear Button before drawing another sphere", NotifyType::StatusMessage);
+    }
 }
 
 

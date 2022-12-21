@@ -30,6 +30,7 @@ using namespace Windows::UI::Xaml::Input;
 using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Navigation;
 
+Scenario9_Rotate^ Scenario9_Rotate::Current = nullptr;
 Hot3dxRotoDraw::Scenario9_Rotate::Scenario9_Rotate() : _rootPage(DirectXPage::Current)
 {
 	InitializeComponent();
@@ -45,11 +46,22 @@ Hot3dxRotoDraw::Scenario9_Rotate::~Scenario9_Rotate()
 
 }
 
+void Hot3dxRotoDraw::Scenario9_Rotate::OnNavigatedTo(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e)
+{
+	Scenario9_Rotate::Current = this;
+}
+
 void Hot3dxRotoDraw::Scenario9_Rotate::IDC_SetRotate_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	IDC_XROTATE_EDIT->Text = L"0.0f";
 	IDC_YROTATE_EDIT->Text = L"0.0f";
 	IDC_ZROTATE_EDIT->Text = L"0.0f";
+	XRotateSlider->Value = (0.0f);
+	XRotateSlider->SetValue(XRotateSlider->ValueProperty, 0.0f);
+	YRotateSlider->Value = (0.0f);
+	YRotateSlider->SetValue(YRotateSlider->ValueProperty, 0.0f);
+	ZRotateSlider->Value = (0.0f);
+	ZRotateSlider->SetValue(ZRotateSlider->ValueProperty, 0.0f);
 }
 
 void Hot3dxRotoDraw::Scenario9_Rotate::IDC_X_ROTATE_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
@@ -57,7 +69,7 @@ void Hot3dxRotoDraw::Scenario9_Rotate::IDC_X_ROTATE_ValueChanged(Platform::Objec
 	float value = static_cast<float>(e->NewValue);
 	IDC_XROTATE_EDIT->Text = ref new Platform::String(IDC_XROTATE_EDIT->Text->Data());
 	IDC_XROTATE_EDIT->Text = ref new Platform::String(std::to_wstring(value).c_str());
-	value *= 0.03046174197867085f;
+	value *=  0.017453293005625408f;// old 0.03046174197867085f;
 	_rootPage->Set_xRotateDrawnObject(value);
 }
 
@@ -66,7 +78,7 @@ void Hot3dxRotoDraw::Scenario9_Rotate::IDC_Y_ROTATE_ValueChanged(Platform::Objec
 	float value = static_cast<float>(e->NewValue);
 	IDC_YROTATE_EDIT->Text = ref new Platform::String(IDC_YROTATE_EDIT->Text->Data());
 	IDC_YROTATE_EDIT->Text = ref new Platform::String(std::to_wstring(value).c_str());
-	value *= 0.03046174197867085f;
+	value *=  0.017453293005625408f;
 	_rootPage->Set_yRotateDrawnObject(value);
 }
 
@@ -75,7 +87,7 @@ void Hot3dxRotoDraw::Scenario9_Rotate::IDC_Z_ROTATE_ValueChanged(Platform::Objec
 	float value = static_cast<float>(e->NewValue);
 	IDC_ZROTATE_EDIT->Text = ref new Platform::String(IDC_ZROTATE_EDIT->Text->Data());
 	IDC_ZROTATE_EDIT->Text = ref new Platform::String(std::to_wstring(value).c_str());
-	value *= 0.03046174197867085f;
+	value *=  0.017453293005625408f;
 	_rootPage->Set_zRotateDrawnObject(value);
 }
 
@@ -84,7 +96,7 @@ void Hot3dxRotoDraw::Scenario9_Rotate::IDC_X_ROTATE_EDIT_TextChanged(Platform::O
 	IDC_XROTATE_EDIT->Text = ref new Platform::String(IDC_XROTATE_EDIT->Text->Data());
 	Platform::String^ str = ref new Platform::String(IDC_XROTATE_EDIT->Text->Data());
 	float value = std::wcstof(str->Data(), nullptr);
-	value *= 0.03046174197867085f;
+	value *=  0.017453293005625408f;
 	_rootPage->Set_xRotateDrawnObject(value);
 }
 
@@ -93,7 +105,7 @@ void Hot3dxRotoDraw::Scenario9_Rotate::IDC_Y_ROTATE_EDIT_TextChanged(Platform::O
 	IDC_YROTATE_EDIT->Text = ref new Platform::String(IDC_YROTATE_EDIT->Text->Data());
 	Platform::String^ str = ref new Platform::String(IDC_YROTATE_EDIT->Text->Data());
 	float value = std::wcstof(str->Data(), nullptr);
-	value *= 0.03046174197867085f;
+	value *=  0.017453293005625408f;
 	_rootPage->Set_yRotateDrawnObject(value);
 }
 
@@ -102,6 +114,6 @@ void Hot3dxRotoDraw::Scenario9_Rotate::IDC_Z_ROTATE_EDIT_TextChanged(Platform::O
 	IDC_ZROTATE_EDIT->Text = ref new Platform::String(IDC_ZROTATE_EDIT->Text->Data());
 	Platform::String^ str = ref new Platform::String(IDC_ZROTATE_EDIT->Text->Data());
 	float value = std::wcstof(str->Data(), nullptr);
-	value *= 0.03046174197867085f;
+	value *=  0.017453293005625408f;
 	_rootPage->Set_zRotateDrawnObject(value);
 }

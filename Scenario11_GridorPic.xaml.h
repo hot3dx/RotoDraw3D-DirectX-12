@@ -23,6 +23,22 @@ namespace Hot3dxRotoDraw
         Scenario11_GridorPic();
         virtual ~Scenario11_GridorPic();
 
+        void SetIDC_GRID_OR_PIC_CHECKED(bool b) { 
+            if (this)
+            {
+                IDC_GRID_OR_PIC_CHECKBOX->IsChecked = b;
+              
+            }
+            
+        }
+        void SetIDC_PIC_CHECKED(bool b) {
+            if (this)
+            {
+                IDC_PIC_CHECKBOX->IsChecked = b;
+               
+            }
+        }
+
     internal:
         static Scenario11_GridorPic^ Current;
         Platform::String^ wcfileName;
@@ -33,6 +49,7 @@ namespace Hot3dxRotoDraw
         bool _initialized = false;
 
         void IDC_GRID_OR_PIC_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void IDC_PIC_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void GridorPicTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
 
         void GridorPicFilesTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
