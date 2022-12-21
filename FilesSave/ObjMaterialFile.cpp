@@ -23,32 +23,38 @@ Hot3dxRotoDraw::Obj3DMaterialFile::~Obj3DMaterialFile()
 	//throw ref new Platform::NotImplementedException();
 }
 
-Platform::String^ XM_CALLCONV Hot3dxRotoDraw::Obj3DMaterialFile::WriteObj3DMaterialHeaderData()
+Platform::String^ XM_CALLCONV Hot3dxRotoDraw::Obj3DMaterialFile::WriteObj3DMaterialHeaderData(unsigned int index, Platform::String^ objectName)
 {
-	Platform::String^ m_ptStr = ref new Platform::String(L"#\n#\n#\n\n");
-	return m_ptStr;
+	Platform::String^ m_ptStr = ref new Platform::String();
+	if (index > 0) {
+		m_ptStr = m_ptStr->Concat(m_ptStr, L"\n");
+	}
+	      Platform::String^ s = ref new Platform::String(L"#\n#\\n#\n\n ");
+		
+		
+     return m_ptStr;
 }
 
-Platform::String^ XM_CALLCONV Hot3dxRotoDraw::Obj3DMaterialFile::WriteObj3DMaterialListData(Platform::String^ effectName, unsigned int illumType, Platform::String^ Node, Platform::String^ ColorType, Platform::String^  filename, Hot3dxRotoDraw::MaterialDataVector^ list)
+Platform::String^ XM_CALLCONV Hot3dxRotoDraw::Obj3DMaterialFile::WriteObj3DMaterialListData(Platform::String^ effectName, unsigned int illumType, Platform::String^ Node, Platform::String^ ColorType, Platform::String^  filename, unsigned int i, Hot3dxRotoDraw::MaterialDataVector^ list)
 {
-	unsigned int length = (unsigned int)list->GetMaterialDataVector().size();
+	
 	Platform::String^ m_ptStr = ref new Platform::String();
-	for (unsigned int i = 0; i < length; i++)
 	{
 		Platform::String^ s = WriteObj3DMaterialNameTypeData(Node, effectName);// list->GetMaterialsList(i).effectName);
 		m_ptStr = m_ptStr->Concat(m_ptStr, s);
 		Platform::String^ s1 = WriteObj3DMaterialIllumData(illumType);
 		m_ptStr = m_ptStr->Concat(m_ptStr, s1);
-		Platform::String^ s2 = WriteObj3DMaterialKaData(list->GetMaterialsList(i).args1[0], list->GetMaterialsList(i).args1[1], list->GetMaterialsList(i).args1[2]);
+		Platform::String^ s2 = WriteObj3DMaterialKaData(list->GetMaterialsList(i).args1->get(0), list->GetMaterialsList(i).args1->get(1), list->GetMaterialsList(i).args1->get(2));
 		m_ptStr = m_ptStr->Concat(m_ptStr, s2); 
-		Platform::String^ s3 = WriteObj3DMaterialKdData(list->GetMaterialsList(i).args1[3], list->GetMaterialsList(i).args1[4], list->GetMaterialsList(i).args1[5]);
+		Platform::String^ s3 = WriteObj3DMaterialKdData(list->GetMaterialsList(i).args1->get(3), list->GetMaterialsList(i).args1->get(4), list->GetMaterialsList(i).args1->get(5));
 		m_ptStr = m_ptStr->Concat(m_ptStr, s3); 
-		Platform::String^ s4 = WriteObj3DMaterialKsData(list->GetMaterialsList(i).args1[6], list->GetMaterialsList(i).args1[7], list->GetMaterialsList(i).args1[8]);
+		Platform::String^ s4 = WriteObj3DMaterialKsData(list->GetMaterialsList(i).args1->get(7), list->GetMaterialsList(i).args1->get(8), list->GetMaterialsList(i).args1->get(9));
 		m_ptStr = m_ptStr->Concat(m_ptStr, s4); 
-		Platform::String^ s5 = WriteObj3DMaterialNsData(list->GetMaterialsList(i).args1[9]);
+		Platform::String^ s5 = WriteObj3DMaterialNsData(list->GetMaterialsList(i).args1->get(1));
 		m_ptStr = m_ptStr->Concat(m_ptStr, s5); 
 		Platform::String^ s6 = WriteObj3DMaterialFileNameData(ColorType, filename);//list->GetMaterialsList(i).wcfileName);
 		m_ptStr = m_ptStr->Concat(m_ptStr, s6);
+		
 	}
 
 	return m_ptStr;
@@ -58,9 +64,13 @@ Platform::String^ XM_CALLCONV Hot3dxRotoDraw::Obj3DMaterialFile::WriteObj3DMater
 {
 	Platform::String^ m_ptStr = ref new Platform::String(L"newmtl ");
 	m_ptStr = m_ptStr->Concat(m_ptStr, Node);
-	m_ptStr = m_ptStr->Concat(m_ptStr, L"_");
-	m_ptStr = m_ptStr->Concat(m_ptStr, materialType);
-	m_ptStr = m_ptStr->Concat(m_ptStr, L"\n");
+	m_ptStr = m_ptStr->Concat(m_ptStr, L" Mesh_");
+	m_ptStr = m_ptStr->Concat(m_ptStr, Node);
+	m_ptStr = m_ptStr->Concat(m_ptStr, L"_Mesh_Default - Lambert\n");
+	//m_ptStr = m_ptStr->Concat(m_ptStr, Node);
+	//m_ptStr = m_ptStr->Concat(m_ptStr, L"_");
+	//m_ptStr = m_ptStr->Concat(m_ptStr, materialType);
+	//m_ptStr = m_ptStr->Concat(m_ptStr, L"\n");
 	return m_ptStr;
 }
 

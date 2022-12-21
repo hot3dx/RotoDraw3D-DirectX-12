@@ -21,11 +21,14 @@ namespace Hot3dxRotoDraw
 
 	internal:
 		Obj3DMaterialFile(Platform::String^ filename, unsigned int materialCount);
-		Platform::String^ XM_CALLCONV WriteObj3DMaterialHeaderData();
-		Platform::String^ XM_CALLCONV WriteObj3DMaterialListData(Platform::String^ effectName, 
+		Platform::String^ XM_CALLCONV WriteObj3DMaterialHeaderData(unsigned int index, Platform::String^ objectName);
+		Platform::String^ XM_CALLCONV WriteObj3DMaterialListData(
+			Platform::String^ effectName, 
 			unsigned int illumType, 
-			Platform::String^ Node, Platform::String^ ColorType, 
-			Platform::String^ filename, 
+			Platform::String^ Node, 
+			Platform::String^ ColorType, 
+			Platform::String^ filename,
+			unsigned int MaterialDataIndex,
 			Hot3dxRotoDraw::MaterialDataVector^ list);
 		Platform::String^ XM_CALLCONV WriteObj3DMaterialNameTypeData(Platform::String^ Node, Platform::String^ materialType);
 		Platform::String^ XM_CALLCONV WriteObj3DMaterialIllumData(unsigned int n); 

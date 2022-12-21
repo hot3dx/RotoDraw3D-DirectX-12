@@ -113,7 +113,7 @@ Platform::String^ Hot3dxRotoDraw::Obj3DFile::DrawnObjectNodesSaveObjFile(unsigne
 Platform::String^ Hot3dxRotoDraw::Obj3DFile::DrawnObjectSaveObjFile(
 	unsigned int pointCount, 
 	unsigned int groupCount,
-	std::vector<DirectX::VertexPositionNormalTexture> vertexes,
+	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes,
 	std::vector<uint16_t> indices,
 	Platform::String^ mtlObjFilename,
 	Platform::String^ nodeName,
@@ -139,15 +139,20 @@ Platform::String^ Hot3dxRotoDraw::Obj3DFile::DrawnObjectSaveObjFile(
 	nodeName = ref new Platform::String(s->Data());
 	// Node Name Block
 	file = file->Concat(file, nodeName);
-	file = file->Concat(file, L"\n#\ng ");
+	file = file->Concat(file, L" Mesh\n#\ng ");
 	file = file->Concat(file, nodeName);
+	file = file->Concat(file, L" Mesh\n");
 
 	// Node Name + Effect Block
 	file = file->Concat(file, L"\n\n\n#\n# ");
 	file = file->Concat(file, nodeName);
-	file = file->Concat(file, L"_");
+	file = file->Concat(file, L"Mesh_");
+	file = file->Concat(file, nodeName);
+
 	file = file->Concat(file, effectName);
 	file = file->Concat(file, L"\n#\nusemtl ");
+	file = file->Concat(file, nodeName);
+	file = file->Concat(file, L" Mesh_");
 	file = file->Concat(file, nodeName);
 	file = file->Concat(file, L"_");
 	file = file->Concat(file, effectName);
@@ -176,9 +181,9 @@ Platform::String^ Hot3dxRotoDraw::Obj3DFile::DrawnObjectSaveObjFile(
 
 	for (unsigned int i = 0; i < indices.size(); )
 	{
-		unsigned int a = indices.at(i)+1;
-		unsigned int b = indices.at(i + 1)+1;
-		unsigned int c = indices.at(i + 2) + 1;
+		uint16_t a = indices.at(static_cast<size_t>(i))+1;
+		uint16_t b = indices.at(static_cast<size_t>(i) + 1)+1;
+		uint16_t c = indices.at(static_cast<size_t>(i) + 2) + 1;
 		Platform::String^ aFaceStr = IndicesFaceValuesReturnObjFile(a, b, c);
 		file = file->Concat(file, aFaceStr);
 		//Platform::String^ bFaceStr = IndicesFaceValuesReturnObjFile(indices.at(i), indices.at(i + 2), indices.at(i + 1));
