@@ -16,4 +16,13 @@ namespace Hot3dxRotoDraw
 		DirectX::XMFLOAT3 pos;
 		DirectX::XMFLOAT3 color;
 	};
+
+	struct VertexPositionDualTexture
+	{
+		DirectX::XMFLOAT3 position;
+		DirectX::XMFLOAT2 textureCoordinate0;
+		DirectX::XMFLOAT2 textureCoordinate1;
+	};
+
+	
 }
