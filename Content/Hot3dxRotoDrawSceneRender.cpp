@@ -36,6 +36,10 @@
 #include "FilesSave\ObjMaterialFile.h"
 #include "FilesSave\Obj3DFile.h"
 #include "FilesSave\Hot3dxTextFileSave.h"
+#include <Graphics\VertexTypesXaml12.h>
+
+#include <stdlib.h>
+#include "Hot3dxObjectGeometry.h"
 
 using namespace Hot3dxRotoDraw;
 using namespace Hot3dx;
@@ -68,6 +72,8 @@ RotoDrawSceneRender::RotoDrawSceneRender(const std::shared_ptr<DX::DeviceResourc
 	m_iEndPointOneCount(0),
 	m_iEndPointTwoCount(0),
 	m_vars(),
+	m_iCullNoneToWireframe(0),
+	m_iSamplIndexWrap(0),
 	m_iPointCount(0),
 	m_iTotalPointCount(0),
 	m_iGroupCount(0),
@@ -88,6 +94,10 @@ RotoDrawSceneRender::RotoDrawSceneRender(const std::shared_ptr<DX::DeviceResourc
 	sceneVertexCount(8),
 	m_textureImage1File(L"Assets\\Textures\\Marble.dds"),
 	m_textureImage2File(L"Assets\\Textures\\nightceiling.dds"),
+	m_textureImage3File(L"Assets\\Textures\\Floor_RMA.dds"),
+	m_textureImage4File(L"Assets\\Textures\\Floor_Normal.dds"),
+	m_textureImage5File(L"Assets\\Textures\\WHITE_CUBEMAP_R.DDS.dds"),
+	m_textureImage6File(L"Assets\\Textures\\WHITE_CUBEMAP_IR.DDS.dds"),
 	m_textureImageGridPicFile(L"Assets\\Textures\\tree01S.dds"),
 	m_bMouse3dPosDist(false),
 	m_posX(0.0f), m_posY(0.0f), m_posZ(0.0f),
@@ -103,6 +113,9 @@ RotoDrawSceneRender::RotoDrawSceneRender(const std::shared_ptr<DX::DeviceResourc
 	m_UpX(0.0f), m_UpY(1.0f), m_UpZ(0.0f),
 	m_bRotateKeyPressed(false),
 	m_drawMode((int)RotoDrawDrawMode::DrawLineOnlyObject),//0
+	m_bIsPBRModel(false),
+	m_bIsBasicModel(true),
+	m_bIsDualTextureModel(false),
 	m_bDDS_WIC_FLAG1(true),
 	m_bDDS_WIC_FLAG2(true),
 	m_bDDS_WIC_FLAGGridPic(false),
@@ -149,6 +162,8 @@ void RotoDrawSceneRender::CreateDeviceDependentResources()
 			return;
 		}
 
+
+
 		mediaReader = ref new MediaReader();
 		auto targetHitSound = mediaReader->LoadMedia("Assets\\hit.wav");
 
@@ -158,32 +173,50 @@ void RotoDrawSceneRender::CreateDeviceDependentResources()
 
 		m_states = std::make_unique<DirectX::DXTKXAML12::CommonStates>(device);
 
+
+
 		m_resourceDescriptors = std::make_unique<DirectX::DXTKXAML12::DescriptorHeap>(device,
 			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
 			D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE,
-			size_t(Descriptors::Count));
+			static_cast<size_t>(Descriptors::Count));
+
+
+
 
 		m_batch = std::make_unique<DirectX::DXTKXAML12::PrimitiveBatch<DirectX::DXTKXAML12::VertexPositionColor>>(device);
 
 		m_shapeTetra = DirectX::DXTKXAML12::GeometricPrimitive::CreateTetrahedron(0.5f);
 
-		// SDKMESH has to use clockwise winding with right-handed coordinates, so textures are flipped in U
+		m_shapeDrawnObject = std::make_unique<DirectX::DXTKXAML12::PrimitiveBatch<DirectX::DXTKXAML12::VertexPositionColor>>(device);
+
+
+
+		//m_shapeDrawnObjectPBREffect = std::make_unique<DirectX::DXTKXAML12::BasicEffect>(device);
+
+	// SDKMESH has to use clockwise winding with right-handed coordinates, so textures are flipped in U
 		{
 
 			// Begin Resource Upload
 			m_resourceUpload->BeginXaml();
-			
+
+			TCHAR pwd[512];
+			DWORD LENGTH = GetCurrentDirectory(512, pwd);
+			Platform::String^ sfil = ref new Platform::String(pwd, LENGTH);
+			sfil = sfil->Concat(sfil, L"\\Assets\\Textures\\seafloor.dds");
 			DX::ThrowIfFailed(
-				DirectX::DXTKXAML12::CreateDDSTextureFromFile(device, *m_resourceUpload, L"Assets\\seafloor.dds", &m_texture1)
+				DirectX::DXTKXAML12::CreateDDSTextureFromFile(device, *m_resourceUpload, sfil->ToString()->Data(), &m_texture1)
 			);
 
 			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_texture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SeaFloor)), false);
 			
+			
 			RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());
+
+			
 			// Each effect object must ne proceeded by its own 
 			// EffectPipelineStateDescription pd even if the EffectPipelineStateDescription pd is the same
 			{
-				EffectPipelineStateDescription pd(
+				EffectPipelineStateDescription pdline(
 					&DirectX::DXTKXAML12::VertexPositionColor::InputLayout,
 					DirectX::DXTKXAML12::CommonStates::Opaque,
 					DirectX::DXTKXAML12::CommonStates::DepthNone,
@@ -191,9 +224,9 @@ void RotoDrawSceneRender::CreateDeviceDependentResources()
 					rtState,
 					D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE);
 
-				m_lineEffect = std::make_unique<DirectX::DXTKXAML12::BasicEffect>(device, EffectFlags::VertexColor, pd);
+				m_lineEffect = std::make_unique<DirectX::DXTKXAML12::BasicEffect>(device, EffectFlags::VertexColor, pdline);
 			}
-			
+
 			{
 				EffectPipelineStateDescription cd(
 					&DirectX::DXTKXAML12::VertexPositionColor::InputLayout,
@@ -205,75 +238,90 @@ void RotoDrawSceneRender::CreateDeviceDependentResources()
 
 				m_cursorEffect = std::make_unique<DirectX::DXTKXAML12::BasicEffect>(device, EffectFlags::VertexColor, cd);
 			}
-			
-			{			
-				EffectPipelineStateDescription pd(
+
+			{
+				EffectPipelineStateDescription pdsprite(
 					&DirectX::DXTKXAML12::GeometricPrimitive::VertexType::InputLayout,
 					DirectX::DXTKXAML12::CommonStates::Opaque,
 					DirectX::DXTKXAML12::CommonStates::DepthDefault,
 					DirectX::DXTKXAML12::CommonStates::CullNone,
 					rtState);
 
-				m_shapeTetraEffect = std::make_unique<DirectX::DXTKXAML12::BasicEffect>(device, EffectFlags::PerPixelLighting | EffectFlags::Texture, pd);
+				m_shapeTetraEffect = std::make_unique<DirectX::DXTKXAML12::BasicEffect>(device, EffectFlags::PerPixelLighting | EffectFlags::Texture, pdsprite);
 				m_shapeTetraEffect->EnableDefaultLighting();
 				m_shapeTetraEffect->SetTexture(m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SeaFloor)), m_states->AnisotropicWrap());
+
 			}
 
 			{
-				SpriteBatchPipelineStateDescription pd(rtState);
+				
+				SpriteBatchPipelineStateDescription pdspr(rtState);
 
-				m_sprites = std::make_unique<SpriteBatch>(device, *m_resourceUpload, pd);
+				m_sprites = std::make_unique<SpriteBatch>(device, *m_resourceUpload, pdspr);
 			}
 
-			m_CameraEyeFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
-				L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
-				m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
-				m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
-			m_CameraAtFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
-				L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
-				m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
-				m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
-			m_CameraUpFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
-				L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
-				m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
-				m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
 
-			m_MousePosFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
-				L"Assets/SegoeUI_18.spritefont",
-				m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
-				m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
-			/*
-			m_CursorPosFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
-				L"Assets/SegoeUI_18.spritefont",
-				m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
-				m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
-            */
-			 m_PointCountFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
-				L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
-				m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
-				m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
+			
 
-			 m_TotalPointCountFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
-				 L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
-				 m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
-				 m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
+				m_CameraEyeFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
+					L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
+					m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
+					m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
 
-			 m_FaceCountFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
-				 L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
-				 m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
-				 m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
+				m_CameraAtFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
+					L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
+					m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
+					m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
 
-			 m_GroupCountFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
-				 L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
-				 m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
-				 m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
+				m_CameraUpFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
+					L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
+					m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
+					m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
 
-			 m_SelectedPointNumberFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
-				 L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
-				 m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
-				 m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
 
-			//HANDLE completeEvent = CreateEventEx(nullptr, nullptr, 0, EVENT_ALL_ACCESS);
+				m_MousePosFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
+					L"Assets/SegoeUI_18.spritefont",
+					m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
+					m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
+
+				/*
+				m_CursorPosFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
+					L"Assets/SegoeUI_18.spritefont",
+					//m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
+					//m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
+
+				*/
+				m_PointCountFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
+					L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
+					m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
+					m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
+
+
+				m_TotalPointCountFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
+					L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
+					m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
+					m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
+
+				m_FaceCountFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
+					L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
+					m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
+					m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
+
+
+				m_GroupCountFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
+					L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
+					m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
+					m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
+
+
+				m_SelectedPointNumberFont = std::make_unique<SpriteFont>(device, *m_resourceUpload,
+					L"Assets/SegoeUI_18.spritefont", //L"italic.spritefont",
+					m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SegoeFont)),
+					m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::SegoeFont)));
+			
+			
+
+			
 			auto loaded = m_resourceUpload->EndXaml(m_sceneDeviceResources->GetCommandQueue());
 			WaitForSingleObject(m_resourceUpload->GetGPUHandle(), INFINITE);
 
@@ -287,6 +335,8 @@ void RotoDrawSceneRender::CreateDeviceDependentResources()
 			m_sprites->SetViewport(viewport);
 
 			m_sprites->SetRotation(m_sceneDeviceResources->GetRotation());
+
+			
 			m_sceneDeviceResources->WaitForGpu();
 			loaded.then([this]()
 				{
@@ -294,14 +344,15 @@ void RotoDrawSceneRender::CreateDeviceDependentResources()
 
 				});
 
-		}
-	} // eo ! m_loadingComplete = false
+		} // eo ! m_loadingComplete = false
+	}
 }
 
 // Initializes view parameters when the window size changes.
 void RotoDrawSceneRender::CreateWindowSizeDependentResources()
 {
-	Size outputSize = m_sceneDeviceResources->GetOutputSize();
+	m_outputSize = m_sceneDeviceResources->GetOutputSize();
+	Size outputSize = m_outputSize;
 	float aspectRatio = outputSize.Width / outputSize.Height;
 	float fovAngleY = 70.0f * XM_PI / 180.0f;
 
@@ -450,20 +501,38 @@ void RotoDrawSceneRender::Update(DX::StepTimer const& timer)
 
 		m_shapeTetraEffect->SetView(XMLoadFloat4x4(&m_view4x4));
 
+		
 		if (m_bDDS_WIC_FLAGGridPic == true && m_bDDS_WIC_FLAGGridPicComplete == true)
 		{
 			m_drawRectangleEffect->SetView(XMLoadFloat4x4(&m_view4x4));
+			m_drawRectangleEffect->SetWorld(DirectX::XMMatrixIdentity());
 		}
 
 		if (m_loadingDrawnObjectComplete)
 		{
-			m_shapeDrawnObjectEffect->SetView(XMLoadFloat4x4(&m_view4x4));
-			m_shapeDrawnObjectEffect->SetWorld(DirectX::XMMatrixIdentity());
+			if (m_bIsBasicModel == true) {
+				if (m_shapeDrawnObjectEffect) {
+					m_shapeDrawnObjectEffect->SetView(XMLoadFloat4x4(&m_view4x4));
+					m_shapeDrawnObjectEffect->SetWorld(DirectX::XMMatrixIdentity());
+				}
+			}
+			else if (m_bIsDualTextureModel == true) {
+				if (m_dualTextureEffect) {
+					m_dualTextureEffect->SetView(XMLoadFloat4x4(&m_view4x4));
+					m_dualTextureEffect->SetWorld(DirectX::XMMatrixIdentity());
+				}
+			}
+			else{
+				if (m_shapeDrawnObjectPBREffect) {
+					m_shapeDrawnObjectPBREffect->SetView(XMLoadFloat4x4(&m_view4x4));
+					m_shapeDrawnObjectPBREffect->SetWorld(DirectX::XMMatrixIdentity());
+				}
+			}
 		}
-		m_sprites->SetViewport(m_sceneDeviceResources->GetScreenViewport());
-		
 
+		
 		PIXEndEvent();
+		
 	}
 }
 
@@ -565,10 +634,15 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::OnDeviceLost()
 	ReleaseDeviceDependentResources();
 	m_bDDS_WIC_FLAGGridPicComplete = false;
 	m_bDDS_WIC_FLAGGridPic = false;
-
+	m_loadingComplete = false;
+	m_loadingDrawnObjectComplete = false;
 	m_texture1.Reset();
 	m_texture2.Reset();
 	m_textureGridPic.Reset();
+	m_DrawnMeshTexture1.Reset();
+	m_DrawnMeshTexture2.Reset();
+	m_radianceIBL.Reset();
+	m_irradianceIBL.Reset();
 
 	m_MousePosFont.reset();
 	//m_CursorPosFont.reset();
@@ -585,7 +659,6 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::OnDeviceLost()
 	//m_shape.reset();
 	m_shapeTetra.reset();
 	m_shapeGridPic.reset();
-	m_shapeDrawnObjectTex.reset();
 	//m_model.reset();
 	
 	m_lineEffect.reset();
@@ -594,30 +667,37 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::OnDeviceLost()
 
 	//m_shapeEffect.reset();
 	m_shapeTetraEffect.reset();
-	//m_drawRectangleEffect.reset();
+	m_drawRectangleEffect.reset();
+	m_shapeDrawnObject.reset();
 	m_shapeDrawnObjectTex.reset();
+	m_hot3dxDrawnObject.reset();
 	m_shapeDrawnObjectEffect.reset();
+	m_shapeDrawnObjectPBREffect.reset();
+	m_dualTextureEffect.reset();
 	//m_modelEffects.clear();
 	//m_modelResources.reset();
 	m_sprites.reset();
-	m_resourceDescriptors.reset();
+	//m_resourceDescriptors.reset();
+	//m_resDescPile.reset();
+	m_rtvHeap.reset();
 	m_states.reset();
 	m_graphicsMemory.reset();
-
+	m_resourceDescriptors.reset();
 	pos.clear();
 	pos.resize(0);
 
-	posX = ref new Platform::Array<float>(1000);
-	posY = ref new Platform::Array<float>(1000);
-	posZ = ref new Platform::Array<float>(1000);
+	posX = ref new Platform::Array<float>(10000);
+	posY = ref new Platform::Array<float>(10000);
+	posZ = ref new Platform::Array<float>(10000);
 	box = ref new Platform::Array<float>(6);
 
+	m_iGroupCount = 0;
 	m_iPointCount = 0;
 	m_iTotalPointCount = 0;
 	
 	m_iTempGroup = ref new Platform::Array<unsigned int>(1000);
-	m_iTempMouseX = ref new Platform::Array<float>(1000);
-	m_iTempMouseY = ref new Platform::Array<float>(1000);
+	m_iTempMouseX = ref new Platform::Array<float>(10000);
+	m_iTempMouseY = ref new Platform::Array<float>(10000);
 	m_iTempGroupCount = 0;
 	
 	m_PtGroupList.~vector();
@@ -627,7 +707,8 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::OnDeviceLost()
 	indices.~vector();
 	textureU.~vector();
 	textureV.~vector();
-
+	verticesDual.~vector();
+	verticesPBR.~vector();
 	//m_textureImage1File = nullptr; 
     //m_textureImage1File = ref new Platform::String(); 
 	//m_textureImage2File = nullptr; 
@@ -635,6 +716,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::OnDeviceLost()
 	//m_textureImage2File = ref new Platform::String();
 	// not in original must watch
 	m_loadingComplete = false;
+	m_loadingDrawnObjectComplete = false;
 }
 
 void Hot3dxRotoDraw::RotoDrawSceneRender::OnDeviceRestored()
@@ -671,8 +753,10 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::MouseCursorRender(float po
 			
 			float midWidth = rect.Width / 2.0f;
 			float midHeight = rect.Height / 2.0f;
-			m_drawMouseWidthRatio = 14.0f / midWidth;// 28.0f / Width would also work for the drawWidthRatio
-			m_drawMouseHeightRatio = 14.0f / midHeight;// 28.0f / Height would also work for the drawHeightRatio
+			float m_cameraDistanceRatio = -m_EyeZ / 1.428571428571429f; // -20.0f / 14.0f (The original camera position divided by the height and width in DirectX units
+			float m_cameraDistanceWidthRatio = -m_EyeZ / 1.052631578947368f; // for a perfectly square grid
+			m_drawMouseWidthRatio = m_cameraDistanceRatio / midWidth;// 14.0f //28.0f / Width would also work for the drawWidthRatio
+			m_drawMouseHeightRatio = m_cameraDistanceRatio / midHeight;// 14.0f // 28.0f / Height would also work for the drawHeightRatio
 			
 			if (positionX > 0 || point.x < (rect.TopLeftX - rect.Width)
 				|| point.y > 0 || point.y < (rect.TopLeftY - rect.Height))
@@ -718,14 +802,14 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::MouseCursorRender(float po
 					double planeConstant = m_hot3dxGeo->FindPlaneConstantVec(planeNormal, a);
 					XMVECTOR intersect = m_hot3dxGeo->FindPointIntersectPlaneVec(planeNormal, eye, lineDirection, (float)planeConstant); // -(m_fCameraDistance));
 					XMFLOAT3 isect = {};
-					XMStoreFloat3(&isect, intersect);
+					DirectX::XMStoreFloat3(&isect, intersect);
 					
 						point.x = x;
 						point.y = y;
 						z = dir.z;
-						XMVectorSetX(mouse3dPos, XMVectorGetX(intersect));
-						XMVectorSetY(mouse3dPos, XMVectorGetX(intersect));
-						XMVectorSetZ(mouse3dPos, z);
+						DirectX::XMVectorSetX(mouse3dPos, XMVectorGetX(intersect));
+						DirectX::XMVectorSetY(mouse3dPos, XMVectorGetX(intersect));
+						DirectX::XMVectorSetZ(mouse3dPos, z);
 						m_posX = XMVectorGetX(mouse3dPos);
 						m_posY = XMVectorGetY(mouse3dPos);
 						m_posZ = XMVectorGetZ(mouse3dPos);
@@ -753,8 +837,25 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawPointsOne(XMFLOAT3 cur
 				{
 					cursorPos.x = m_previousPosX;
 				}
-				
-
+				/*
+				else if (m_vars->GetDXPage()->GetIfIfRightShiftKeySphereRadius())
+				{
+					//XMVECTOR v1;
+					DirectX::FXMVECTOR norm1 = { (m_xmfSphereRadiusPoint.x, m_xmfSphereRadiusPoint.y, 0.0f) };
+					XMVECTOR dist = norm1;
+					dist = XMVector2Length(norm1);
+					XMVECTOR norm = XMVector2Normalize(norm1);
+					    float psp = (m_fPointSpace/2) * (m_fPointSpace/2);
+						float dxp = m_xmfSphereRadiusPoint.x * m_xmfSphereRadiusPoint.x;
+						float bsq = sqrtf(dxp - psp);
+						float dyp = m_previousPosY - m_xmfSphereRadiusPoint.y;
+						float dx = dist.m128_f32[0] * 1.0f * cosf(0.017453293005625408f);
+						float dy = sqrtf(powf(dist.m128_f32[1], 2.0f) - powf(dx, 2.0f));
+							//(m_previousPosY + m_fPointSpace) * sinf(0.017453293005625408f);
+						cursorPos.x = dx;
+						cursorPos.y = dy;
+				}
+				*/
 				else if (m_vars->GetDXPage()->GetIfLeftShiftKeyHeldDraw45Line())
 				{
 					if (cursorPos.x - m_previousPosX > 0)
@@ -777,26 +878,26 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawPointsOne(XMFLOAT3 cur
 				} // if (m_vars->GetDXPage()->GetIfLeftShiftKeyHeldDraw45Line())
 			}// if (m_iPointCount > 0)
 
-			if (!posX || posX->Length < 1000)
+			if (!posX || posX->Length < 10000)
 			{
-				posX = ref new Platform::Array<float>(1000);
+				posX = ref new Platform::Array<float>(10000);
 			}
-			if (!posY || posY->Length < 1000)
+			if (!posY || posY->Length < 10000)
 			{
-				posY = ref new Platform::Array<float>(1000);
+				posY = ref new Platform::Array<float>(10000);
 			}
-			if (!posZ || posZ->Length < 1000)
+			if (!posZ || posZ->Length < 10000)
 			{
-				posZ = ref new Platform::Array<float>(1000);
+				posZ = ref new Platform::Array<float>(10000);
 			}
 
-			if (!m_iTempMouseX || m_iTempMouseX->Length < 1000)
+			if (!m_iTempMouseX || m_iTempMouseX->Length < 10000)
 			{
-				m_iTempMouseX = ref new Platform::Array<float>(1000);
+				m_iTempMouseX = ref new Platform::Array<float>(10000);
 			}
-			if (!m_iTempMouseY || m_iTempMouseY->Length < 1000)
+			if (!m_iTempMouseY || m_iTempMouseY->Length < 10000)
 			{
-				this->m_iTempMouseY = ref new Platform::Array<float>(1000);
+				this->m_iTempMouseY = ref new Platform::Array<float>(10000);
 			}
 
 			posX->set(m_iPointCount, cursorPos.x);// posCursor.x;
@@ -1111,8 +1212,6 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::SetPoints()
 	// Register our SwapChainPanel to get independent input pointer events
 	auto drawItemHandler = ref new WorkItemHandler([this](IAsyncAction^ action)
 		{
-			//if(action->Status == Windows::Foundation::AsyncStatus::Started)
-			{
 				critical_section::scoped_lock lock(m_drawCriticalSection);
 				Hot3dxRotoDraw::Scenario2Vars^ page = m_vars->GetDXPage()->GetScene2Vars();
 				if (page->GetTopOrLeftChecked() == true
@@ -1140,11 +1239,69 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::SetPoints()
 					DrawObjectPoints(0);
 					CalculateMeshFaces();
 				}
-			}
+				
+				if (m_bIsBasicModel == true) { InitDrawnObjectSingleTexture(); }
+				else if (m_bIsDualTextureModel == true) { InitDrawnObjectDualTexture(); }
+				else { InitDrawnObjectPBRSingleTexture(); }
+				m_iDrawMode = 2;
 		});
 
 	// Run task on a dedicated high priority background thread.
 	m_drawObjectWorker = ThreadPool::RunAsync(drawItemHandler, WorkItemPriority::High, WorkItemOptions::TimeSliced);
+}
+
+bool RotoDrawSceneRender::RenderPBR(DirectX::XMMATRIX localDrawnObject)
+{
+	/*
+	m_bDDS_WIC_FLAGGridPicComplete = false;
+	auto commandList = m_sceneDeviceResources->GetCommandList();
+	auto device = m_sceneDeviceResources->GetD3DDevice();
+	ID3D12DescriptorHeap* heapss[] = { m_resourceDescriptors->Heap(), m_states->Heap() };
+	commandList->SetDescriptorHeaps(_countof(heapss), heapss);
+
+	m_shapeDrawnObjectPBREffect->SetWorld(localDrawnObject);
+	m_shapeDrawnObjectPBREffect->Apply(commandList);
+	PIXBeginEvent(commandList, PIX_COLOR_DEFAULT, L"RenderPBR");
+	
+	m_hot3dxDrawnObject = Hot3dxDrawnObject::CreateCustomTangent(verticesPBR, indices, device);
+
+	DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadGridPic = new DirectX::DXTKXAML12::ResourceUploadBatch(m_sceneDeviceResources->GetD3DDevice());
+	m_resourceUploadGridPic->BeginXaml();
+
+	auto depthStencilDescriptor = m_sceneDeviceResources->GetDepthStencilView();
+	auto toneMapRTVDescriptor = m_rtvHeap->GetFirstCpuHandle();
+	commandList->OMSetRenderTargets(1, &toneMapRTVDescriptor, FALSE, &depthStencilDescriptor);
+
+	PIXBeginEvent(commandList, PIX_COLOR_DEFAULT, L"Draw PBR Object");
+	
+	
+	m_hot3dxDrawnObject->Draw(commandList);
+	PIXEndEvent(commandList); // Model Draw
+	
+	{
+		PIXBeginEvent(commandList, PIX_COLOR_DEFAULT, L"Tonemap");
+		auto rtv = static_cast<D3D12_CPU_DESCRIPTOR_HANDLE>(m_sceneDeviceResources->GetRenderTargetView());
+		commandList->OMSetRenderTargets(1, &rtv, FALSE, NULL);
+
+		if (m_sceneDeviceResources->GetColorSpace() == DXGI_COLOR_SPACE_RGB_FULL_G2084_NONE_P2020)
+		{
+			// HDR10 signal
+			m_HDR10->SetHDRSourceTexture(m_resourceDescriptors->GetGpuHandle(static_cast<size_t>(PBRDescriptors::PicTex)));///::SceneTex));
+			m_HDR10->Process(commandList);
+		}
+		else
+		{
+			// Tonemap for SDR signal
+			m_toneMap->SetHDRSourceTexture(m_resourceDescriptors->GetGpuHandle(static_cast<size_t>(PBRDescriptors::PicTex)));//::SceneTex));
+			m_toneMap->Process(commandList);
+		}
+		PIXEndEvent(commandList);
+
+		PIXEndEvent(commandList);
+
+
+	}*/
+	return true;
 }
 // Renders one frame using the vertex and pixel shaders.
 bool RotoDrawSceneRender::Render()
@@ -1161,37 +1318,50 @@ bool RotoDrawSceneRender::Render()
 	auto commandList = m_sceneDeviceResources->GetCommandList();
 	PIXBeginEvent(commandList, PIX_COLOR_DEFAULT, L"Render");
 	
+	//Scenario11_GridorPic^ sc11 = m_vars->GetDXPage()->m_Scene11Vars->GetScenario11Page();
+	if (m_vars->GetDXPage()->m_Scene11Vars->GetGridChecked() == true)
+	{
+		// Draw procedurally generated XZ dynamic grid
+		// const XMVECTORF32 xaxis = { 20.f, 0.f, 0.f };
+		// const XMVECTORF32 yaxis = { 0.f, 0.f, 20.f };
+		// DrawGrid(xaxis, yaxis, g_XMZero, 20, 20, Colors::Gray);
+		const XMVECTORF32 xaxis = { 10.f, 0.f, 0.f };
+		const XMVECTORF32 yaxis = { 0.f, 0.f, 0.f };
+		const XMVECTORF32 zaxis = { 0.f, 0.f, 10.f };
+		DrawGridXZ(xaxis, zaxis, yaxis, 10, 10, Colors::SaddleBrown);
+		// Draw procedurally generated XY dynamic grid
+		const XMVECTORF32 xaxis1 = { 10.f, 0.f, 0.f };
+		const XMVECTORF32 yaxis1 = { 0.f, 10.f, 0.f };
+		const XMVECTORF32 zaxis1 = { 0.f, 0.f, 0.f };
+		DrawGridXY(xaxis1, yaxis1, zaxis1, 10, 10, Colors::Crimson);
+		// Draw procedurally generated XY Cursor
+		const XMVECTORF32 xaxis12 = { 10.f, 0.f, 0.f };
+		const XMVECTORF32 yaxis12 = { 0.f, 10.f, 0.f };
+		const XMVECTORF32 zaxis12 = { 0.f, 0.f, 0.f };
+	}
+	///////////////////////////////////////
+	// Set the descriptor heaps
+	ID3D12DescriptorHeap* heaps[] = { m_resourceDescriptors->Heap(), m_states->Heap() };
+	commandList->SetDescriptorHeaps(_countof(heaps), heaps);
+
 	if (m_bDDS_WIC_FLAGGridPic == true && m_bDDS_WIC_FLAGGridPicComplete == true)
 	{
-		// Draw WIC PIC
-		DirectX::XMMATRIX localGridPic = (XMLoadFloat4x4(&m_world4x4) * DirectX::XMMatrixTranslation(0.0f, 0.0f, 1.0f));
-		// *XMMatrixRotationRollPitchYawFromVector(angles));
-		m_drawRectangleEffect->SetWorld(localGridPic);
-		m_drawRectangleEffect->Apply(commandList);
-		m_shapeGridPic->Draw(commandList);
-		// EO Draw WIC PIC
+		if (m_vars->GetDXPage()->m_Scene11Vars->GetPicChecked() == true)
+		{
+			PIXBeginEvent(commandList, PIX_COLOR_DEFAULT, L"Draw GridPic");
+			// Draw WIC PIC
+			DirectX::XMMATRIX localGridPic = (XMLoadFloat4x4(&m_world4x4) * DirectX::XMMatrixTranslation(0.0f, 0.0f, 1.0f));
+			// *XMMatrixRotationRollPitchYawFromVector(angles));
+			m_drawRectangleEffect->SetWorld(localGridPic);
+			m_drawRectangleEffect->Apply(commandList);
+			m_shapeGridPic->Draw(commandList);
+			PIXEndEvent(commandList);
+			// EO Draw WIC PIC
+		}
 	}
-	// Draw procedurally generated XZ dynamic grid
-	//const XMVECTORF32 xaxis = { 20.f, 0.f, 0.f };
-	//const XMVECTORF32 yaxis = { 0.f, 0.f, 20.f };
-	//DrawGrid(xaxis, yaxis, g_XMZero, 20, 20, Colors::Gray);
-	const XMVECTORF32 xaxis = { 10.f, 0.f, 0.f };
-	const XMVECTORF32 yaxis = { 0.f, 0.f, 0.f };
-	const XMVECTORF32 zaxis = { 0.f, 0.f, 10.f };
-	DrawGridXZ(xaxis, zaxis, yaxis, 10, 10, Colors::SaddleBrown);
-	// Draw procedurally generated XY dynamic grid
-	const XMVECTORF32 xaxis1 = { 10.f, 0.f, 0.f };
-	const XMVECTORF32 yaxis1 = { 0.f, 10.f, 0.f };
-	const XMVECTORF32 zaxis1 = { 0.f, 0.f, 0.f };
-	DrawGridXY(xaxis1, yaxis1, zaxis1, 10, 10, Colors::Crimson);
-	// Draw procedurally generated XY Cursor
-	const XMVECTORF32 xaxis12 = { 10.f, 0.f, 0.f };
-	const XMVECTORF32 yaxis12 = { 0.f, 10.f, 0.f };
-	const XMVECTORF32 zaxis12 = { 0.f, 0.f, 0.f };
-	if(m_drawMode == (int)RotoDrawDrawMode::DrawSceneParts || m_drawMode == (int)RotoDrawDrawMode::DrawLineOnlyObject)// 0;
-	//Draw3DCursorXY(xaxis12, yaxis12, zaxis12, XMFLOAT3(m_posX, m_posY, m_posZ));
+	if (m_drawMode == (int)RotoDrawDrawMode::DrawSceneParts || m_drawMode == (int)RotoDrawDrawMode::DrawLineOnlyObject)// 0;
+		//Draw3DCursorXY(xaxis12, yaxis12, zaxis12, XMFLOAT3(m_posX, m_posY, m_posZ));
 		Draw3DCursorXY(XMFLOAT3(m_posX, m_posY, m_posZ));
-	
 
 	// Draw the Initial Line
 	if (m_drawMode == (int)RotoDrawDrawMode::DrawLineOnlyObject)//7
@@ -1201,17 +1371,17 @@ bool RotoDrawSceneRender::Render()
 		float r = c.R * RGBA_FRACTAL;
 		float g = c.G * RGBA_FRACTAL;
 		float b = c.B * RGBA_FRACTAL;
-		GXMVECTOR color = XMVectorSet(r,g,b,a);
+		GXMVECTOR color = XMVectorSet(r, g, b, a);
 		//DrawLineOnlyObject(xaxis12, yaxis12, zaxis12, color);
 		DrawLineOnlyObject(color);
 	}
 
-	// Set the descriptor heaps
-	ID3D12DescriptorHeap* heaps[] = { m_resourceDescriptors->Heap(), m_states->Heap() };
-	commandList->SetDescriptorHeaps(_countof(heaps), heaps);
+	
 
+	
 	if (m_loadingDrawnObjectComplete)
 	{
+		
 		PIXBeginEvent(commandList, PIX_COLOR_DEFAULT, L"Draw Object");
 		m_drawMode = (int)RotoDrawDrawMode::DrawTexturedObject;
 
@@ -1225,130 +1395,98 @@ bool RotoDrawSceneRender::Render()
 
 		//DirectX::XMMATRIX localDrawnObject = (XMLoadFloat4x4(&m_world4x4) * DirectX::XMMatrixTranslation(0.0f, 0.0f, 20.0f));
 		// *XMMatrixRotationRollPitchYawFromVector(angles));
+		
+
 		if (m_performScaleDrawnObjectComplete)
 		{
 			const XMVECTORF32 scale1 = { 0.01f, 0.01f, 0.01f };
-			const XMVECTORF32 translate1 = { 0.0f, 0.0f, 20.0f };
-			XMVECTOR angles1 = {0.0f, 0.0f, 0.0f};// { XM_PI / 2.f, 0.f, -XM_PI / 2.f };
-	        XMVECTOR rotate1 = DirectX::XMQuaternionRotationRollPitchYawFromVector(angles1);
+			const XMVECTORF32 translate1 = { 0.0f, 0.0f, 0.0f };
+			XMVECTOR angles1 = { 0.0f, 0.0f, 0.0f };// { XM_PI / 2.f, 0.f, -XM_PI / 2.f };
+			XMVECTOR rotate1 = DirectX::XMQuaternionRotationRollPitchYawFromVector(angles1);
 			// orig
 			//localDrawnObject = XMLoadFloat4x4(&m_world4x4) * XMMatrixTransformation(g_XMZero, DirectX::XMQuaternionIdentity(), scale, g_XMZero, rotate, translate);
-	        //Model::UpdateEffectMatrices(m_modelEffects, local, XMLoadFloat4x4(&m_view4x4), XMLoadFloat4x4(&m_projection4x4));
+			//Model::UpdateEffectMatrices(m_modelEffects, local, XMLoadFloat4x4(&m_view4x4), XMLoadFloat4x4(&m_projection4x4));
+			//m_shapeDrawnObject->DrawIndexed(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, indices.data(), indices.size(), vertices.data(), vertices.size());
 		}
-		m_shapeDrawnObjectEffect->SetWorld(localDrawnObject);
-		m_shapeDrawnObjectEffect->Apply(commandList);
-		m_shapeDrawnObjectTex->Draw(commandList);
+
+		if (m_bIsBasicModel == true)
+		{
+			if (m_shapeDrawnObjectEffect) {
+				m_shapeDrawnObjectEffect->SetWorld(localDrawnObject);
+				m_shapeDrawnObjectEffect->Apply(commandList);
+				m_shapeDrawnObjectTex->Draw(commandList);
+			}
+		}
+		else if (m_bIsDualTextureModel == true)
+		{
+			if (m_dualTextureEffect) {
+				m_dualTextureEffect->SetWorld(localDrawnObject);
+				m_dualTextureEffect->Apply(commandList);
+				m_shapeDrawnObjectTex->Draw(commandList);
+			}
+		}
+		else//if (m_bIsPBRModel == true)
+		{
+			if (m_shapeDrawnObjectPBREffect) {
+				m_shapeDrawnObjectPBREffect->SetWorld(localDrawnObject);
+				m_shapeDrawnObjectPBREffect->Apply(commandList);
+				m_hot3dxDrawnObject->Draw(commandList);
+			}
+		}
 		PIXEndEvent(commandList);
 	}
-	// Draw sprite
-	PIXBeginEvent(commandList, PIX_COLOR_DEFAULT, L"Draw sprite");
-	m_sprites->Begin(commandList);
-		
-	// Put MousePosition on screen
-	Platform::String^ m_fontString = nullptr;
-	m_MousePosFont->DrawString(m_sprites.get(),
-		ObjectXYZPositionString(m_fontString, "Mouse ", m_posX, m_posY, m_posZ)->Data(),  
-	    XMFLOAT2(10, 10), Colors::Black);
-	/*
-	Platform::String^ m_fontCursorString = nullptr;
-	m_CursorPosFont->DrawString(m_sprites.get(),
-		ObjectXYZPositionString(m_fontCursorString, "Cursor ", pointC.x, pointC.y, m_posZ)->Data(),
-		XMFLOAT2(550, 10), Colors::Black);
-*/
-	// Put Camera Eye on screen
-	Platform::String^ m_fontStringCameraEye = nullptr;
-	m_CameraEyeFont->DrawString(m_sprites.get(), 
-		ObjectXYZPositionString(m_fontStringCameraEye, "Camera Eye ", m_EyeX, m_EyeY, m_EyeZ)->Data(),
-		XMFLOAT2(10, 30), Colors::Black);
 
-	// Put Camera At on screen
-	Platform::String^ m_fontStringCameraAt = nullptr;
-	m_CameraAtFont->DrawString(m_sprites.get(),
-		ObjectXYZPositionString(m_fontStringCameraAt, "Camera At  ", m_LookAtX, m_LookAtY, m_LookAtZ)->Data(),
-		XMFLOAT2(10, 60), Colors::Black);
 	
-	// Put Camera Up on screen
-	Platform::String^ m_fontStringCameraUp = nullptr;
-	m_CameraUpFont->DrawString(m_sprites.get(), 
-		ObjectXYZPositionString(m_fontStringCameraUp, "Camera Up  ", m_UpX, m_UpY, m_UpZ)->Data(),
-        XMFLOAT2(10, 90), Colors::Black);
-
-	// Put Camera Up on screen
-	Platform::String^ m_fontStringPointCount= nullptr;
-	m_PointCountFont->DrawString(m_sprites.get(),
-		PointCountString(m_fontStringPointCount, "Pt Cnt", m_iPointCount)->Data(),
-		XMFLOAT2(10, 150), Colors::Black);
-
-	Platform::String^ m_fontStringTotalPointCount = nullptr;
-	m_TotalPointCountFont->DrawString(m_sprites.get(),
-		PointCountString(m_fontStringTotalPointCount, "#Pts", (unsigned int)m_iTotalPointCount)->Data(),
-		XMFLOAT2(10, 180), Colors::Black);
-
-	Platform::String^ m_fontStringFaceCount = nullptr;
-	m_FaceCountFont->DrawString(m_sprites.get(),
-		PointCountString(m_fontStringFaceCount, "#Faces", (unsigned int)indices.size()/3)->Data(),
-		XMFLOAT2(10, 210), Colors::Black);
-
-	Platform::String^ m_fontStringGroupCount = nullptr;
-	m_GroupCountFont->DrawString(m_sprites.get(),
-		PointCountString(m_fontStringGroupCount, "#Groups", (unsigned int)m_iGroupCount)->Data(),
-		XMFLOAT2(10, 240), Colors::Black);
-
-	Platform::String^ m_fontStringSelectedPoint = nullptr;
-	m_SelectedPointNumberFont->DrawString(m_sprites.get(),
-		PointCountString(m_fontStringSelectedPoint, "Sel Pt", (unsigned int)m_SelIndexOne)->Data(),
-		XMFLOAT2(10, 270), Colors::Black);
-
-	m_sprites->End();
-
-	PIXEndEvent(commandList);
-
-	//XMVECTOR angles = {0.0f, 0.0f, 0.0f};// { XM_PI / 2.f, 0.f, -XM_PI / 2.f };
-	//XMVECTOR rotate = DirectX::XMQuaternionRotationRollPitchYawFromVector(angles);
-	//localTetra = XMLoadFloat4x4(&m_world4x4) * XMMatrixTransformation(g_XMZero, DirectX::XMQuaternionIdentity(), scale, g_XMZero, rotate, translate);
-	//Model::UpdateEffectMatrices(m_modelEffects, local, XMLoadFloat4x4(&m_view4x4), XMLoadFloat4x4(&m_projection4x4));
-
-	if (m_drawMode == (int)RotoDrawDrawMode::DrawSceneParts || m_drawMode == (int)RotoDrawDrawMode::DrawSelectWithTetras) //1
+		//PIXEndEvent(commandList);
+	
+	
+	if (m_drawMode == (int)RotoDrawDrawMode::DrawSceneParts || m_drawMode == (int)RotoDrawDrawMode::DrawLineOnlyObject || m_drawMode == (int)RotoDrawDrawMode::DrawSelectWithTetras) //1
 	{
-		
+		/*
+		XMVECTOR angles = { XM_PI / 2.f, 0.f, -XM_PI / 2.f };//0.0f, 0.0f, 0.0f};// {
+		XMVECTOR rotate = DirectX::XMQuaternionRotationRollPitchYawFromVector(angles);
+		DirectX::XMVECTOR scale = { 0.25f, 0.25f, 0.25f, 0.25f };
+		DirectX::XMVECTOR translate = {};
+		DirectX::XMMATRIX localTetra = XMLoadFloat4x4(&m_world4x4) * XMMatrixTransformation(g_XMZero, DirectX::XMQuaternionIdentity(), scale, g_XMZero, rotate, translate);
+		//Model::UpdateEffectMatrices(m_modelEffects, local, XMLoadFloat4x4(&m_view4x4), XMLoadFloat4x4(&m_projection4x4));
+		//
 		// Draw 3D object
 		PIXBeginEvent(commandList, PIX_COLOR_DEFAULT, L"Draw tetras");
-
-		
-		/*
-		if (m_drawMode == (int)RotoDrawDrawMode::DrawSceneParts)// 0;
+		if (m_drawMode == (int)RotoDrawDrawMode::DrawSceneParts || m_drawMode == (int)RotoDrawDrawMode::DrawLineOnlyObject)// 0;
 		{
 			for (unsigned int i = 0; i < m_iPointCount; i++)
 			{
-				DirectX::XMMATRIX localTetra = (XMLoadFloat4x4(&m_world4x4) * DirectX::XMMatrixTranslation(posX->get(i), posY->get(i), posZ->get(i));
-				// *XMMatrixRotationRollPitchYawFromVector(angles));
+				DirectX::XMMATRIX localTetra = (XMLoadFloat4x4(&m_world4x4) * DirectX::XMMatrixTranslation(posX->get(i), posY->get(i), posZ->get(i)));
+				//XMMatrixRotationRollPitchYawFromVector(angles);
 				m_shapeTetraEffect->SetWorld(localTetra);
 				m_shapeTetraEffect->Apply(commandList);
 				m_shapeTetra->Draw(commandList);
 			}
 		}
-		
+
 		
 		if (m_drawMode == (int)RotoDrawDrawMode::DrawSelectWithTetras)// 1;
 		{
 			unsigned int cnt = (unsigned int)vertices.size();
 			for (unsigned int i = 0; i < cnt; i++)
 			{
-				DirectX::VertexPositionColor v = vertices.at(i);
+				DirectX::DXTKXAML12::VertexPositionColor v = vertices.at(i);
 				DirectX::XMMATRIX localTetra = (XMLoadFloat4x4(&m_world4x4) * DirectX::XMMatrixTranslation(v.position.x, v.position.y, v.position.z));
-				// *XMMatrixRotationRollPitchYawFromVector(angles));
+				//XMMatrixRotationRollPitchYawFromVector(angles);
 				m_shapeTetraEffect->SetWorld(localTetra);
 				m_shapeTetraEffect->Apply(commandList);
 				m_shapeTetra->Draw(commandList);
 			}
+
 		}
-		*/
 		PIXEndEvent(commandList);
+	*/
 	}
-
 	
+		
 	PIXEndEvent(commandList);
-
+	//////////////////////////////////////
+	
 	// Show the new frame.
 	PIXBeginEvent(m_sceneDeviceResources->GetCommandQueue(), PIX_COLOR_DEFAULT, L"Present");
 
@@ -1419,10 +1557,26 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::Draw3DCursorXY(XMFLOAT3 cu
 			{
 				if(checkDistance(curPos.x, curPos.y, curPos.z, m_vars->GetDXPage()->GetPointSpacingDXP()))
 				DrawPointsOne(curPos);
-			}// eo if (m_bLButtonDown)
 			m_posX = curPos.x;
 			m_posY = curPos.y;
 			m_posZ = curPos.z;
+			}// eo if (m_bLButtonDown)
+			/*
+			if (m_bRButtonDown)
+			{
+				if (checkDistance(curPos.x, curPos.y, curPos.z, m_vars->GetDXPage()->GetPointSpacingDXP()))
+					DrawPointsOne(curPos); 
+				m_xmfSphereRadiusPoint = { curPos.x, curPos.y, curPos.z };
+				OutputDebugString(L"m_xmfSphereRadiusPoint x: ");
+				OutputDebugString(std::to_wstring(m_xmfSphereRadiusPoint.x).c_str());
+				OutputDebugString(L"  m_xmfSphereRadiusPoint y: ");
+				OutputDebugString(std::to_wstring(m_xmfSphereRadiusPoint.x).c_str());
+				OutputDebugString(L" \n");
+				m_posX = curPos.x;
+				m_posY = curPos.y;
+				m_posZ = curPos.z;
+			}
+			*/
 	m_batch->End();
 	
 	PIXEndEvent(commandList);
@@ -1534,6 +1688,77 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridXY(FXMVECTOR xAxis
 	PIXEndEvent(commandList);
 }
 
+void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawSprites(ID3D12GraphicsCommandList* commandList)
+{
+	if (m_loadingComplete == true) {
+
+		ID3D12DescriptorHeap* heaps[] = { m_resourceDescriptors->Heap(), m_states->Heap() };
+		commandList->SetDescriptorHeaps(_countof(heaps), heaps);
+		//auto commandList = m_sceneDeviceResources->GetCommandList();
+		PIXBeginEvent(commandList, PIX_COLOR_DEFAULT, L"Draw sprites");
+		// Draw sprite
+		m_sprites->Begin(commandList);
+		//m_sprites->Draw(m_resourceDescriptors->GetGpuHandle(static_cast<size_t>(Descriptors::SeaFloor)), GetTextureSize(m_texture1.Get()), XMFLOAT2(1, 1));
+		// Put MousePosition on screen
+		Platform::String^ m_fontString = nullptr;
+		m_MousePosFont->DrawString(m_sprites.get(),
+			ObjectXYZPositionString(m_fontString, "Mouse ", m_posX, m_posY, m_posZ)->Data(),
+			XMFLOAT2(10, 10), Colors::Black);
+		/*
+		Platform::String^ m_fontCursorString = nullptr;
+		m_CursorPosFont->DrawString(m_sprites.get(),
+			ObjectXYZPositionString(m_fontCursorString, "Cursor ", pointC.x, pointC.y, m_posZ)->Data(),
+			XMFLOAT2(550, 10), Colors::Black);
+	*/
+	// Put Camera Eye on screen
+		Platform::String^ m_fontStringCameraEye = nullptr;
+		m_CameraEyeFont->DrawString(m_sprites.get(),
+			ObjectXYZPositionString(m_fontStringCameraEye, "Camera Eye ", m_EyeX, m_EyeY, m_EyeZ)->Data(),
+			XMFLOAT2(10, 30), Colors::Black);
+
+		// Put Camera At on screen
+		Platform::String^ m_fontStringCameraAt = nullptr;
+		m_CameraAtFont->DrawString(m_sprites.get(),
+			ObjectXYZPositionString(m_fontStringCameraAt, "Camera At  ", m_LookAtX, m_LookAtY, m_LookAtZ)->Data(),
+			XMFLOAT2(10, 60), Colors::Black);
+
+		// Put Camera Up on screen
+		Platform::String^ m_fontStringCameraUp = nullptr;
+		m_CameraUpFont->DrawString(m_sprites.get(),
+			ObjectXYZPositionString(m_fontStringCameraUp, "Camera Up  ", m_UpX, m_UpY, m_UpZ)->Data(),
+			XMFLOAT2(10, 90), Colors::Black);
+
+		// Put Camera Up on screen
+		Platform::String^ m_fontStringPointCount = nullptr;
+		m_PointCountFont->DrawString(m_sprites.get(),
+			PointCountString(m_fontStringPointCount, "Pt Cnt", m_iPointCount)->Data(),
+			XMFLOAT2(10, 150), Colors::Black);
+
+		Platform::String^ m_fontStringTotalPointCount = nullptr;
+		m_TotalPointCountFont->DrawString(m_sprites.get(),
+			PointCountString(m_fontStringTotalPointCount, "#Pts", (unsigned int)m_iTotalPointCount)->Data(),
+			XMFLOAT2(10, 180), Colors::Black);
+
+		Platform::String^ m_fontStringFaceCount = nullptr;
+		m_FaceCountFont->DrawString(m_sprites.get(),
+			PointCountString(m_fontStringFaceCount, "#Faces", (unsigned int)indices.size() / 3)->Data(),
+			XMFLOAT2(10, 210), Colors::Black);
+
+		Platform::String^ m_fontStringGroupCount = nullptr;
+		m_GroupCountFont->DrawString(m_sprites.get(),
+			PointCountString(m_fontStringGroupCount, "#Groups", (unsigned int)m_iGroupCount)->Data(),
+			XMFLOAT2(10, 240), Colors::Black);
+
+		Platform::String^ m_fontStringSelectedPoint = nullptr;
+		m_SelectedPointNumberFont->DrawString(m_sprites.get(),
+			PointCountString(m_fontStringSelectedPoint, "Sel Pt", (unsigned int)m_SelIndexOne)->Data(),
+			XMFLOAT2(10, 270), Colors::Black);
+
+		m_sprites->End();
+
+		PIXEndEvent(commandList);
+	}
+}
 void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridXZ(FXMVECTOR xAxis, FXMVECTOR zAxis, FXMVECTOR origin, size_t xdivs, size_t ydivs, GXMVECTOR color)
 {
 	auto commandList = m_sceneDeviceResources->GetCommandList();
@@ -1759,7 +1984,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridPicRectangle()
 	vCol.push_back(DirectX::DXTKXAML12::VertexPositionNormalTexture(XMFLOAT3(10.5f, 10.5f, 0.0f), XMFLOAT3(0.999894f, 0.000000f, -0.014547f), XMFLOAT2(1.00000f, 0.0000f)));
 	vCol.push_back(DirectX::DXTKXAML12::VertexPositionNormalTexture(XMFLOAT3(10.5f, -10.5f, 0.0f), XMFLOAT3(0.000000f, 1.000000f, -0.000000f), XMFLOAT2(1.00000f, 1.00000f)));
 	vCol.push_back(DirectX::DXTKXAML12::VertexPositionNormalTexture(XMFLOAT3(-10.5f, -10.5f, 0.0f), XMFLOAT3(0.014547f, 0.000000f, -0.999894f), XMFLOAT2(0.0000f, 1.000000f)));
-	DirectX::IndexCollectionColor vColColor = { 0,1,2,2,3,0 };
+	IndexCollectionColor vColColor = { 0,1,2,2,3,0 };
 	m_shapeGridPic = GeometricPrimitive::CreateCustom(vCol, vColColor, m_sceneDeviceResources->GetD3DDevice());
 
 	DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadGridPic = new DirectX::DXTKXAML12::ResourceUploadBatch(m_sceneDeviceResources->GetD3DDevice());
@@ -1768,17 +1993,9 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridPicRectangle()
 	
 	if (m_bDDS_WIC_FLAGGridPic == true)
 	{
-		HRESULT hr = DirectX::DXTKXAML12::CreateDDSTextureFromFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadGridPic, m_textureImageGridPicFile->Data(), &m_textureGridPic);//.ReleaseAndGetAddressOf());
-		//if (hr == S_OK) {// ClearGridPicRectangle();  return;
-			//DX::ThrowIfFailed(hr);
-		}
-		else
-		{
-			HRESULT hr = DirectX::DXTKXAML12::CreateWICTextureFromFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadGridPic, m_textureImageGridPicFile->Data(), &m_textureGridPic);//.ReleaseAndGetAddressOf())
-			if (hr != S_OK) { ClearGridPicRectangle(); return; }
-			//DX::ThrowIfFailed(hr);
-		}
-	//}
+	}
+		LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadGridPic, m_textureImageGridPicFile->Data(), &m_textureGridPic, GetMsgTypes(0), GetMessages(0));
+	
 	DirectX::DXTKXAML12::CreateShaderResourceView(m_sceneDeviceResources->GetD3DDevice(), m_textureGridPic.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::GridPicTexture)), false);
 
 	RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());
@@ -1801,14 +2018,14 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridPicRectangle()
 
 	// solution XMMATRIX projection = XMLoadFloat4x4(&m_projection4x4);
 	m_drawRectangleEffect->SetProjection(XMLoadFloat4x4(&m_projection4x4));
-
+	m_drawMode = m_drawMode == (int)RotoDrawDrawMode::DrawLineOnlyObject;
 	m_sceneDeviceResources->WaitForGpu();
 	loaded.then([this]()
 	{
 		m_bDDS_WIC_FLAGGridPicComplete = true;
 		m_bDDS_WIC_FLAGGridPic = true;
 	});
-
+	m_drawMode = m_drawMode == (int)RotoDrawDrawMode::DrawLineOnlyObject;
 }
 
 void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectSingleTexture()
@@ -1848,43 +2065,239 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectSingleTextu
 
 		if (m_bDDS_WIC_FLAG1 == true)
 		{
-			HRESULT hr1 = DirectX::DXTKXAML12::CreateDDSTextureFromFile(device, *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1);//);
-		     if(hr1 != S_OK)
-			   DX::ThrowIfFailed(
-				DirectX::DXTKXAML12::CreateWICTextureFromFile(device, *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1));
+			LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1, GetMsgTypes(0), GetMessages(0));
 		} // If there is a failure here it is because the open file dialog is not in the project directory
 
 		DirectX::DXTKXAML12::CreateShaderResourceView(device, m_DrawnMeshTexture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture1)));
 		
 		RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());
+		
 		// Each effect object must be proceeded by its own 
 		// EffectPipelineStateDescription pd 
 		// even if the EffectPipelineStateDescription pd is the same
-
+		
 		{
-			EffectPipelineStateDescription pd(
+			EffectPipelineStateDescription pdSDOE(
 				&GeometricPrimitive::VertexType::InputLayout,
 				CommonStates::Opaque,
 				CommonStates::DepthDefault,
-				CommonStates::CullNone,
+				GetCommonStatesRasterizerDescp12(m_iCullNoneToWireframe),
+				rtState,
+				D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE				
+			);
+			
+			//Transparent materials
+			EffectPipelineStateDescription pdAlphaSDOE(
+				&GeometricPrimitive::VertexType::InputLayout,
+				CommonStates::AlphaBlend,
+				CommonStates::DepthDefault,
+				GetCommonStatesRasterizerDescp12(m_iCullNoneToWireframe),
 				rtState);
-
-			m_shapeDrawnObjectEffect = std::make_unique<BasicEffect>(device, EffectFlags::PerPixelLighting | EffectFlags::Texture, pd);
+			
+			// Vertex Position Color
+			EffectPipelineStateDescription pdVPC(
+		        &DirectX::DXTKXAML12::VertexPositionColor::InputLayout,
+		    	DirectX::DXTKXAML12::CommonStates::Opaque,
+		    	DirectX::DXTKXAML12::CommonStates::DepthNone,
+		        DirectX::DXTKXAML12::CommonStates::CullNone,
+		    	rtState,
+		     	D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE);
+			
+			m_shapeDrawnObjectEffect = std::make_unique<BasicEffect>(device, EffectFlags::PerPixelLighting | EffectFlags::Texture, pdSDOE);
+			//m_shapeDrawnObjectEffect = std::make_unique<BasicEffect>(device, EffectFlags::PerPixelLighting | EffectFlags::Texture, pdAlphaSDOE);
+			//m_shapeDrawnObjectEffect = std::make_unique<BasicEffect>(device, EffectFlags::VertexColor, pdVPC);
+			
 			m_shapeDrawnObjectEffect->EnableDefaultLighting();
-			m_shapeDrawnObjectEffect->SetTexture(m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::DrawnObjectTexture1)), m_states->AnisotropicWrap());// PointWrap());// > AnisotropicWrap());
+			m_shapeDrawnObjectEffect->SetDiffuseColor(XMVECTOR{ 1.0f,1.0f ,1.0f,1.0f });
+			m_shapeDrawnObjectEffect->SetTexture(m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::DrawnObjectTexture1)), GetWrapType(m_states.get(), m_iSamplIndexWrap));
 		}
-
 		auto loaded = m_resourceUploadDrawnObject->EndXaml(m_sceneDeviceResources->GetCommandQueue());
 		WaitForSingleObject(m_resourceUploadDrawnObject->GetGPUHandle(), INFINITE);
 
 		m_shapeDrawnObjectEffect->SetProjection(XMLoadFloat4x4(&m_projection4x4));
-
 		m_sceneDeviceResources->WaitForGpu();
 		loaded.then([this]()
 			{
 				m_loadingDrawnObjectComplete = true;
-			});
-	    }
+		        m_bIsBasicModel = true;
+		    });
+	}
+	}
+}
+
+void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRSingleTexture()
+{
+	if (m_loadingDrawnObjectComplete == false)
+	{
+		
+		auto device = m_sceneDeviceResources->GetD3DDevice();
+
+		if (!device)
+		{
+			return;
+		}
+		size_t cnt = vertices.size();
+		DirectX::DXTKXAML12::VertexPositionColor* vpc = vertices.data();
+		// Makes the Box Frame Dimensions float* box is created 
+		InitDimensionsBox();
+		CreateDimensions(&vpc->position, cnt);
+		GetUVPercent();
+		
+		//verticesPBR.resize(0);
+		for (size_t i = 0; i < cnt; i++)
+		{
+			
+			XMVECTOR n = DirectX::XMVector3Normalize(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f));
+			if (i > textureU.size()) { textureU.push_back(0.0f); }
+			if (i > textureV.size()) { textureV.push_back(0.0f); }
+			XMVECTOR incident = DirectX::XMVECTOR(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f));
+			XMVECTOR t = { (XMVectorGetX(n) * cosf(vertices.at(i).position.x), XMVectorGetY(n) * sinf(vertices.at(i).position.y), XMVectorGetZ(n) * tanf(vertices.at(i).position.z)) };
+			XMVECTOR tan = XMVector3Cross(incident, n); // XMVector4Reflect(incident, n);
+			
+			
+			Hot3dxRotoDraw::VertexPositionNormalTextureTangent vpntt = Hot3dxRotoDraw::VertexPositionNormalTextureTangent(XMFLOAT3(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n), XMVectorGetY(n), XMVectorGetZ(n)), XMFLOAT2(textureU.at(i), textureV.at(i)),
+				XMFLOAT4(XMVectorGetW(tan), XMVectorGetX(tan), XMVectorGetY(tan), XMVectorGetZ(tan)) );
+			/*
+			DirectX::DXTKXAML12::VertexPositionNormalColorTexture vpntt = DirectX::DXTKXAML12::VertexPositionNormalColorTexture(
+				XMFLOAT3(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z), 
+				XMFLOAT3(XMVectorGetX(n), XMVectorGetY(n), XMVectorGetZ(n)), 
+				XMFLOAT4(XMVectorGetW(tan), XMVectorGetX(tan), XMVectorGetY(tan), XMVectorGetZ(tan)),
+				XMFLOAT2(textureU.at(i), textureV.at(i))
+				);
+			*/	
+			verticesPBR.push_back(vpntt);
+			
+		}
+		
+		if (verticesPBR.size() <= 0)return;
+		if (indices.size() == 0)return;
+
+		// Set the descriptor heaps
+		//m_hot3dxDrawnObject = Works no texture coordinates - Hot3dxDrawnObject::CreateCustom(vertices, indices, device);
+		//m_hot3dxDrawnObject = Hot3dxDrawnObject::CreateCustomTangent(verticesPBR, indices, device);
+		m_hot3dxDrawnObject = Hot3dxDrawnObject::CreateDrawnObjectTangent(verticesPBR, indices, device);// fixed - oh yeah baby
+		//m_shapeDrawnObjectTex = GeometricPrimitive::CreateCustom(vertexes, indices, device);
+		{
+
+
+			DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadDrawnObject = new DirectX::DXTKXAML12::ResourceUploadBatch(device);
+			m_resourceUploadDrawnObject->BeginXaml();
+
+			
+			//Platform::String^ normalTexture;
+			//Platform::String^ rmaTexture;
+#ifdef _DEBUG
+			//normalTexture = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Debug\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\Floor_Normal.DDS");
+			//rmaTexture = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Debug\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\Floor_RMA.DDS");
+			//m_radiance = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Debug\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\WHITE_CUBEMAP_R.DDS");
+			//m_irradiance = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Debug\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\WHITE_CUBEMAP_IR.DDS");
+#endif // _DEBUG
+#ifdef NDEBUG
+        	//normalTexture = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Release\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\Floor_Normal.DDS");
+			//rmaTexture = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Release\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\Floor_RMA.DDS");
+			//m_radiance = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Release\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\WHITE_CUBEMAP_R.DDS");
+			//m_irradiance = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Release\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\WHITE_CUBEMAP_IR.DDS");
+#endif // NDEBUG
+			
+			if (m_bDDS_WIC_FLAG1 == true)
+			{
+				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), m_DrawnMeshTexture1.ReleaseAndGetAddressOf(), GetMsgTypes(0), GetMessages(0));
+				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage4File->Data(), m_NormalTexture.ReleaseAndGetAddressOf(), GetMsgTypes(0), GetMessages(0));
+				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage3File->Data(), m_RMATexture.ReleaseAndGetAddressOf(), GetMsgTypes(0), GetMessages(0));
+				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage5File->Data(), m_radianceIBL.ReleaseAndGetAddressOf(), GetMsgTypes(0), GetMessages(0));
+				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage6File->Data(), m_irradianceIBL.ReleaseAndGetAddressOf(), GetMsgTypes(0), GetMessages(0));
+			} // If there is a failure here it is because the open file dialog is not in the project directory
+
+						
+			//Push mesh texture to resource stores
+			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_DrawnMeshTexture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(PBRDescriptors::PicTex)));
+			//Push normal texture to resource stores
+			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_NormalTexture.Get(), m_resourceDescriptors->GetCpuHandle(size_t(PBRDescriptors::NormalTex)));
+			//Push rma texture to resource stores
+			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_RMATexture.Get(), m_resourceDescriptors->GetCpuHandle(size_t(PBRDescriptors::RMATex)));
+			//Push radiance texture to resource stores
+			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_radianceIBL.Get(), m_resourceDescriptors->GetCpuHandle(size_t(PBRDescriptors::RadianceTex)), false);
+			//Push irradiance texture to resource stores
+			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_irradianceIBL.Get(), m_resourceDescriptors->GetCpuHandle(size_t(PBRDescriptors::IrradianceTex)), false);
+			
+
+			RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());
+			// Each effect object must be proceeded by its own 
+			// EffectPipelineStateDescription pd 
+			// even if the EffectPipelineStateDescription pd is the same
+			//Get effect factory - shouldn't this be per model?! It's currently shared around everything which seems a little odd
+			DirectX::DXTKXAML12::IEffectFactory* fxFactory = nullptr;
+			
+			auto m_fxFactoryPBR = std::make_unique<DirectX::DXTKXAML12::PBREffectFactory>(m_resourceDescriptors->Heap(), m_states->Heap());
+			fxFactory = m_fxFactoryPBR.get();
+			
+			D3D12_INPUT_LAYOUT_DESC inputLayout = VertexPositionNormalTextureTangent::InputLayout;
+			EffectPipelineStateDescription pdPBR(
+				&inputLayout,
+				CommonStates::Opaque,
+				CommonStates::DepthDefault,
+				GetCommonStatesRasterizerDescp12(m_iCullNoneToWireframe),
+				rtState,
+				D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
+			//Transparent materials
+			
+			D3D12_INPUT_LAYOUT_DESC inputLayoutA = VertexPositionNormalTextureTangent::InputLayout;
+			EffectPipelineStateDescription pdAlphaPBR(
+				&inputLayoutA,
+				CommonStates::AlphaBlend,
+				CommonStates::DepthDefault,
+				GetCommonStatesRasterizerDescp12(m_iCullNoneToWireframe),
+				rtState,
+				D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
+			//DirectX::DXTKXAML12::IEffectFactory::EffectInfo einfo = DirectX::DXTKXAML12::IEffectFactory::EffectInfo();
+			//fxFactory->CreateEffect(einfo, pdPBR, pdAlphaPBR, inputLayout, 5, 5);
+			m_shapeDrawnObjectPBREffect = std::make_unique<DirectX::DXTKXAML12::PBREffect>(device, EffectFlags::Texture | EffectFlags::None, pdPBR, false, true);
+			//m_shapeDrawnObjectPBREffect = std::make_unique<DirectX::DXTKXAML12::PBREffect>(device, EffectFlags::None, pdAlphaPBR);
+
+			m_shapeDrawnObjectPBREffect->SetSurfaceTextures(m_resourceDescriptors->GetGpuHandle(size_t(PBRDescriptors::PicTex)),
+				m_resourceDescriptors->GetGpuHandle(size_t(PBRDescriptors::NormalTex)),
+				m_resourceDescriptors->GetGpuHandle(size_t(PBRDescriptors::RMATex)),
+				GetWrapType(m_states.get(), m_iSamplIndexWrap)); //m_states->AnisotropicClamp());
+			//m_shapeDrawnObjectPBREffect->SetAlbedoTexture(m_resourceDescriptors->GetGpuHandle(size_t(PBRDescriptors::PicTex)), m_states->AnisotropicClamp());
+			//m_shapeDrawnObjectPBREffect->SetNormalTexture(m_resourceDescriptors->GetGpuHandle(size_t(PBRDescriptors::NormalTex)));
+			//m_shapeDrawnObjectPBREffect->SetNormalTexture(m_resourceDescriptors->GetGpuHandle(size_t(PBRDescriptors::RMATex)));
+			// Lighting
+			const int numMips = m_radianceIBL->GetDesc().MipLevels - 3;
+
+			m_shapeDrawnObjectPBREffect->SetIBLTextures(
+				m_resourceDescriptors->GetGpuHandle(sizeof(PBRDescriptors::RadianceTex)),
+				numMips,
+				m_resourceDescriptors->GetGpuHandle(sizeof(PBRDescriptors::IrradianceTex)),
+				GetWrapType(m_states.get(), m_iSamplIndexWrap));
+			
+			m_shapeDrawnObjectPBREffect->SetConstantAlbedo(DirectX::DXTKXAML12::SimpleMath::Vector3(1, 1, 1));
+			m_shapeDrawnObjectPBREffect->MaxDirectionalLights;
+			m_shapeDrawnObjectPBREffect->EnableDefaultLighting();
+
+			m_shapeDrawnObjectPBREffect->SetAlpha(1.0f);
+			float a = 1.0f;
+			float r = 0.0f;
+			float g = 0.0f;
+			float b = 1.0f;
+			XMVECTOR colorv = XMVectorSet(r, g, b, a);
+			m_shapeDrawnObjectPBREffect->SetLightDiffuseColor(0, colorv);
+			m_shapeDrawnObjectPBREffect->SetConstantMetallic(0.0f);
+			m_shapeDrawnObjectPBREffect->SetConstantRoughness(0.5f);
+									
+				//Static buffers and create TextureEffectFactory
+				m_hot3dxDrawnObject->LoadStaticBuffers(device, *m_resourceUploadDrawnObject);
+				
+			
+			auto loaded = m_resourceUploadDrawnObject->EndXaml(m_sceneDeviceResources->GetCommandQueue());
+			WaitForSingleObject(m_resourceUploadDrawnObject->GetGPUHandle(), INFINITE);
+			m_shapeDrawnObjectPBREffect->SetProjection(XMLoadFloat4x4(&m_projection4x4));
+			m_sceneDeviceResources->WaitForGpu();
+			loaded.then([this]()
+				{
+					m_loadingDrawnObjectComplete = true;
+			        m_bIsPBRModel = true;
+				});
+		}
 	}
 }
 
@@ -1904,91 +2317,104 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectDualTexture
 		InitDimensionsBox();
 		CreateDimensions(&vpc->position, cnt);
 		GetUVPercent();
-
+		
 		for (size_t i = 0; i < cnt; i++)
 		{
 			XMVECTOR n = DirectX::XMVector3Normalize(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f));
+			if (i > textureU.size()) { textureU.push_back(0.0f); }
+			if (i > textureV.size()) { textureV.push_back(0.0f); }
 			DirectX::DXTKXAML12::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(textureU.at(i), textureV.at(i)) };
 			vertexes.push_back(vpnt);
+		}
+		
+		for (size_t i = 0; i < cnt; i++)
+		{
+			XMVECTOR n = DirectX::XMVector3Normalize(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f));
+			//if (i > textureU.size()) { textureU.push_back(0.0f); }
+			//if (i > textureV.size()) { textureV.push_back(0.0f); }
+			DirectX::DXTKXAML12::VertexPositionDualTexture vpnt1 = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT2(textureU.at(i), textureV.at(i)), XMFLOAT2(textureU.at(i), textureV.at(i)) };
+			verticesDual.push_back(vpnt1);
 		}
 
 		if (vertices.size() <= 0)return;
 		if (indices.size() == 0)return;
 		m_shapeDrawnObjectTex = GeometricPrimitive::CreateCustom(vertexes, indices, device);
+		
 		{
-
 			DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadDrawnObject = new DirectX::DXTKXAML12::ResourceUploadBatch(device);
 
 			// Begin Resource Upload
 			m_resourceUploadDrawnObject->BeginXaml();
 
-			Platform::String^ m_strTextureFileNameFirst = ref new Platform::String(L"Assets\\Textures\\Marble.dds");
-
 			if (m_bDDS_WIC_FLAG1 == true)
 			{
-				HRESULT hr1 =
-					DirectX::DXTKXAML12::CreateDDSTextureFromFile(device, *m_resourceUploadDrawnObject, m_strTextureFileNameFirst->Data(), &m_DrawnMeshTexture1);
-				if(hr1 != S_OK)
-					DX::ThrowIfFailed(
-					DirectX::DXTKXAML12::CreateWICTextureFromFile(device, *m_resourceUploadDrawnObject, m_strTextureFileNameFirst->Data(), &m_DrawnMeshTexture1));
-			}// If there is a failure here it is because the open file dialog is not in the project directory
-						
+				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1, GetMsgTypes(0), GetMessages(0));
+				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage2File->Data(), &m_DrawnMeshTexture2, GetMsgTypes(0), GetMessages(0));
+			} // If there is a failure here it is because the open file dialog is not in the project directory
+
 			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_DrawnMeshTexture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture1)));
-
-			//////////////////////////////////////////////////////////////////
-			// Second Texture Load
-			Platform::String^ m_strTextureFileNameSecond = ref new Platform::String(L"Assets\\Textures\\seafloor.dds");
-			if (m_bDDS_WIC_FLAG2 == true)
-			{
-				HRESULT hr1 =
-					DirectX::DXTKXAML12::CreateDDSTextureFromFile(device, *m_resourceUploadDrawnObject, m_strTextureFileNameSecond->Data(), &m_DrawnMeshTexture2);
-				if (hr1 != S_OK)
-					DX::ThrowIfFailed(
-					   DirectX::DXTKXAML12::CreateWICTextureFromFile(device, *m_resourceUploadDrawnObject, m_strTextureFileNameSecond->Data(), &m_DrawnMeshTexture2));
-			}// If there is a failure here it is because the open file dialog is not in the project directory
-
 			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_DrawnMeshTexture2.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture2)));
-            //////////////////////////////////////////////
 
-			RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());
-			// Each effect object must be proceeded by its own 
-			// EffectPipelineStateDescription pd 
-			// even if the EffectPipelineStateDescription pd is the same
+			
 
-			{
-				EffectPipelineStateDescription pd(
-					&GeometricPrimitive::VertexType::InputLayout,
-					CommonStates::Opaque,
-					CommonStates::DepthDefault,
-					CommonStates::CullNone,
-					rtState);
+	
+	// Each effect object must be proceeded by its own 
+	// EffectPipelineStateDescription pd 
+	// even if the EffectPipelineStateDescription pd is the same
+    RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());
 
-				m_dualTextureEffect = std::make_unique<DualTextureEffect>(device, EffectFlags::PerPixelLighting | EffectFlags::Texture, pd);
-				//m_dualTextureEffect-> EnableDefaultLighting();
-				m_dualTextureEffect->SetTexture(m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::DrawnObjectTexture1)), m_states->PointWrap());// > AnisotropicWrap());
-				m_dualTextureEffect->SetTexture(m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::DrawnObjectTexture2)), m_states->PointWrap());// > AnisotropicWrap());
-			}
+	{
 
+		EffectPipelineStateDescription pd(
+			&DirectX::DXTKXAML12::VertexPositionDualTexture::InputLayout,
+			DirectX::DXTKXAML12::CommonStates::Opaque,
+			DirectX::DXTKXAML12::CommonStates::DepthDefault,
+			DirectX::DXTKXAML12::CommonStates::CullNone,
+			rtState,
+			D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE
+		);
 
-			//HANDLE completeEvent = CreateEventEx(nullptr, nullptr, 0, EVENT_ALL_ACCESS);
-			auto loaded = m_resourceUploadDrawnObject->EndXaml(m_sceneDeviceResources->GetCommandQueue());
-			WaitForSingleObject(m_resourceUploadDrawnObject->GetGPUHandle(), INFINITE);
+		m_dualTextureEffect = std::make_unique<DirectX::DXTKXAML12::DualTextureEffect>(device, EffectFlags::VertexColor || EffectFlags::Fog, pd);
+		m_dualTextureEffect->SetAlpha(1.0f);
+		float a = 1.0f;
+		float r = 1.0f;
+		float g = 1.0f;
+		float b = 1.0f;
+		XMVECTOR colorv = XMVectorSet(r, g, b, a);
+		m_dualTextureEffect->SetDiffuseColor(colorv);
+		m_dualTextureEffect->SetTexture(m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::DrawnObjectTexture1)), m_states->AnisotropicWrap());
+		m_dualTextureEffect->SetTexture2(m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::DrawnObjectTexture2)), m_states->AnisotropicWrap());
+		float a1 = 0.5f;
+		float r1 = 0.5f;
+		float g1 = 0.4f;
+		float b1 = 1.0f;
+		XMVECTOR colorvf = XMVectorSet(r1, g1, b1, a1);
 
-			// solution XMMATRIX projection = XMLoadFloat4x4(&m_projection4x4);
-			//m_shapeEffect->SetProjection(XMLoadFloat4x4(&m_projection4x4));
-			m_shapeDrawnObjectEffect->SetProjection(XMLoadFloat4x4(&m_projection4x4));
+		bool m_bSetFog = false;
 
-
-			//m_sprites->SetRotation(m_sceneDeviceResources->GetRotation());
-			m_sceneDeviceResources->WaitForGpu();
-			loaded.then([this]()
-			{
-				m_loadingDrawnObjectComplete = true;
-
-			});
-
+		if (m_bSetFog == true) {
+			m_dualTextureEffect->SetFogColor(colorvf);
+			m_dualTextureEffect->SetFogStart(0.0f);
+			m_dualTextureEffect->SetFogEnd(10.0f);
 		}
 	}
+	auto loaded = m_resourceUploadDrawnObject->EndXaml(m_sceneDeviceResources->GetCommandQueue());
+	WaitForSingleObject(m_resourceUploadDrawnObject->GetGPUHandle(), INFINITE);
+
+	m_dualTextureEffect->SetProjection(XMLoadFloat4x4(&m_projection4x4));
+	m_sceneDeviceResources->WaitForGpu();
+	loaded.then([this]()
+		{
+			m_loadingDrawnObjectComplete = true;
+	        m_bIsDualTextureModel = true;
+		});
+		}
+	}
+}
+
+void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectVideoTexture()
+{
+
 }
 
 void Hot3dxRotoDraw::RotoDrawSceneRender::ScreenMouse3DWorldAlignment()
@@ -2047,6 +2473,31 @@ Platform::String^ XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::ObjectXYZPosi
 	return m_fontString;
 }
 
+void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::LoadDDSOrWicTextureFile(_In_ ID3D12Device* device,
+	DirectX::DXTKXAML12::ResourceUploadBatch& batch,
+	_In_z_ const wchar_t* szfileName,
+	_Outptr_ ID3D12Resource** textureResource, Platform::String^ msgType, Platform::String^ message)
+{
+	unsigned int tries = 0;
+	HRESULT hr1 = DirectX::DXTKXAML12::CreateDDSTextureFromFile(device, batch, szfileName, textureResource);
+	if (hr1 != S_OK)
+	{   
+		tries++;
+		hr1 = DirectX::DXTKXAML12::CreateWICTextureFromFile(device, batch, szfileName, textureResource);
+	}
+	if (hr1 != S_OK)
+	{
+		Platform::String^ msgType = L"Error Message: Directory Not Accessible  ";
+		Platform::String^ message = L"All textures must be chosen from the x64\\Release or Debug\\Hot3dxRotoDraw\\AppX\\Assets\\(Folder or sub-Folders \nPress the Clear Button after Dialog Closes\n1)Go To: Textures\n2) Add Texture1 Button from the proper doirectory\nThe directory is also in the status box lower left)";
+		//
+		m_vars->GetDXPage()->SetErrorMessagePopup(msgType, message);
+		//CreateDeviceDependentResources();
+		return;
+
+	}
+	return;
+}
+
 XMMATRIX XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::SetXMMatrix(DirectX::XMFLOAT4X4 m, XMMATRIX xm)
 {
 	xm = XMMatrixSet(m._11, m._12, m._13, m._14,
@@ -2081,7 +2532,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::CameraReset()
 
 void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::ClearDrawnObject()
 {
-	m_drawMode = (int)RotoDrawDrawMode::DrawLineOnlyObject;// :DrawSceneParts;// 0;
+	m_drawMode = static_cast<int>(RotoDrawDrawMode::DrawLineOnlyObject);// :DrawSceneParts;// 0;
 	CameraReset();
 	m_loadingDrawnObjectComplete = false;
 	m_posX = 0.0f;
@@ -2094,9 +2545,9 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::ClearDrawnObject()
 	pos.clear();
 	pos.resize(0);
 
-	posX = ref new Platform::Array<float>(1000);
-	posY = ref new Platform::Array<float>(1000);
-	posZ = ref new Platform::Array<float>(1000);
+	posX = ref new Platform::Array<float>(10000);
+	posY = ref new Platform::Array<float>(10000);
+	posZ = ref new Platform::Array<float>(10000);
 
 
 	box = ref new Platform::Array<float>(6);
@@ -2104,17 +2555,25 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::ClearDrawnObject()
 	m_iPointCount = 0;
 	m_iTotalPointCount = 0;
 
-	m_iTempGroup = ref new Platform::Array<unsigned int>(1000);
-	m_iTempMouseX = ref new Platform::Array<float>(1000);
-	m_iTempMouseY = ref new Platform::Array<float>(1000);
+	m_iTempGroup = ref new Platform::Array<unsigned int>(10000);
+	m_iTempMouseX = ref new Platform::Array<float>(10000);
+	m_iTempMouseY = ref new Platform::Array<float>(10000);
 	m_iTempGroupCount = 0;
 	m_PtGroupList.clear();
 	m_PtGroupList.resize(0);
 	m_iGroupCount = 0;
+
+	m_vSphereGroupsSizes = ref new Platform::Array<unsigned int>(1000);
+	faceCnt = 0;
+	faceIndiceCnt = 0;
 	//m_iLastPoint = 0;
 	point = XMFLOAT2(0.0f, 0.0f);
 	vertices.clear();
 	vertices.resize(0);
+	verticesDual.clear();
+	verticesDual.resize(0);
+	verticesPBR.clear();
+	verticesPBR.resize(0);
 	indices.clear();
 	indices.resize(0);
 	textureU.clear();
@@ -2125,23 +2584,34 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::ClearDrawnObject()
 	vertexes.clear();
 	vertexes.resize(0);
 
+	m_bIsPBRModel = false;
+	m_bIsBasicModel = true;
+	m_bIsDualTextureModel = false;
+	m_vars->GetDXPage()->SetEffectIndexRenderer(0);
+
 	m_bDDS_WIC_FLAGGridPicComplete = false;
 	m_bDDS_WIC_FLAGGridPic = true;
 	m_bDDS_WIC_FLAG1 = true;
-	m_textureGridPic.Reset();
-	m_shapeGridPic.reset();
-	m_drawRectangleEffect.reset();
-
-	Scenario2_Normal^ sc2 = m_vars->GetDXPage()->m_Scene2Vars->GetScenario2Page();
-
+	Scenario11_GridorPic^ sc11 = m_vars->GetDXPage()->m_Scene11Vars->GetScenario11Page();
+	m_vars->GetDXPage()->m_Scene11Vars->SetGridChecked(true);
+	m_vars->GetDXPage()->m_Scene11Vars->SetPicChecked(false); 
+	sc11->SetIDC_GRID_OR_PIC_CHECKED(true);
+	sc11->SetIDC_PIC_CHECKED(false);
+	
+		Scenario2_Normal^ sc2 = m_vars->GetDXPage()->m_Scene2Vars->GetScenario2Page();
 	sc2->Current->SetTopLeftCheckBoxFalse();
 	sc2->Current->SetBottomRightCheckBoxFalse();
 	m_vars->GetDXPage()->m_Scene2Vars->SetTopOrLeftChecked(false);
 	m_vars->GetDXPage()->m_Scene2Vars->SetBottomOrRightChecked(false);
 	m_vars->GetDXPage()->m_Scene2Vars->SetPartialRotateAngle(0.0f);
 	sc2->Current->SetPartialSlider();
+	m_drawMode = static_cast<int>(RotoDrawDrawMode::DrawLineOnlyObject);
+	m_loadingDrawnObjectComplete = false;
+	m_bDDS_WIC_FLAG1 = true;
+	
+	CreateDeviceDependentResources();
+	m_drawMode = (int)RotoDrawDrawMode::DrawLineOnlyObject;
 }
-
 
 Platform::String^ Hot3dxRotoDraw::RotoDrawSceneRender::DrawnObjectOpenText()
 {
@@ -2181,9 +2651,13 @@ Platform::String^ Hot3dxRotoDraw::RotoDrawSceneRender::DrawnObjectSaveObj3DandMt
 	illumType = 2;
 	Platform::String^ file = ref new Platform::String(L"");
 	Obj3DMaterialFile^ f = ref new Obj3DMaterialFile(L"Scene1", 1);
-	file = file->Concat(file, f->WriteObj3DMaterialHeaderData());
 	Scenario5Vars^ vars = m_vars->GetDXPage()->m_Scene5Vars;
-	file = file->Concat(file, f->WriteObj3DMaterialListData(effectName, illumType, mtlObjFilename, L"", L"dayfloor.dds", vars->GetMaterialGroupsData()));
+	unsigned int length = static_cast<unsigned int>(vars->GetMaterialGroupsData()->GetMaterialDataVector().size());
+	
+	for (unsigned int MaterialDataIndex = 0; MaterialDataIndex < length; MaterialDataIndex++) {
+		file = file->Concat(file, f->WriteObj3DMaterialHeaderData(MaterialDataIndex, mtlObjFilename));
+		file = file->Concat(file, f->WriteObj3DMaterialListData(effectName, illumType, mtlObjFilename, L"", mtlObjFilename, MaterialDataIndex, vars->GetMaterialGroupsData()));
+	}
 	return file;
 
 }

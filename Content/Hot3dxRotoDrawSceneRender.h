@@ -22,6 +22,7 @@
 #include <Graphics\SpriteBatchXaml12.h>
 #include <Graphics\SpriteFontXaml12.h>
 #include <Graphics\Hot3dxCamera.h>
+#include <Graphics\PostProcessXaml12.h>
 #include <Audio\AudioXaml12.h>
 #include <Audio\MediaReaderXaml12.h>
 #include <Graphics\Hot3dxGeometry.h>
@@ -33,6 +34,58 @@
 
 namespace Hot3dxRotoDraw
 {
+	// A structure for our custom vertex type
+	struct CUSTOMVERTEX
+	{
+
+		FLOAT x, y, z, rhw; // The transformed position for the vertex
+		DWORD color;        // The vertex color
+	};
+
+	// Our custom FVF, which describes our custom vertex structure
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZRHW|D3DFVF_DIFFUSE)
+
+	ref class CCameraXYMoveRotation
+	{
+	internal:
+		CCameraXYMoveRotation() {}
+		float  m_fCamMove_north;
+		float  m_fCamMove_northeast;
+		float  m_fCamMove_east;
+		float  m_fCamMove_southeast;
+		float  m_fCamMove_south;
+		float  m_fCamMove_southwest;
+		float  m_fCamMove_west;
+		float  m_fCamMove_northwest;
+		float  m_fCamMove_anypointcamera;
+		float  m_fCamMove_centerofsphere;
+		float  m_fCamMove_camerapoint;
+		float  m_fCamMove_cameradirection;
+		float  m_fCamMove_camerarotation;
+		float  m_fCamMove_cameraradius;
+		float  m_fCamMove_gridcenter;
+		float  m_fCamMove_degreeradian;
+		float  m_fCamMove_anglerotation;
+		bool    m_bArrayInit;
+	public:
+
+
+
+		virtual	~CCameraXYMoveRotation();
+	private:
+
+		float* m_fCamMove_px;
+		float* m_fCamMove_py;
+		float* m_fCamMove_pz;
+		void CalculateSphereCV(int* n, DWORD color);
+		float  DegreesToRadians(float degree);
+		void   InitSphereVars(void);
+		void   CalculateSphere(int* count);
+		void   MoveRotateCameraXY(int direction);
+		void   MoveRotateCameraAny(float x, float y, float z);
+
+	};
+
 	ref class PtGroups sealed
 	{
 	public:
@@ -50,12 +103,13 @@ namespace Hot3dxRotoDraw
 	{
 	public:
 		virtual ~RotoDrawSceneRender();
-		
+
 	internal:
 		RotoDrawSceneRender(const std::shared_ptr<DX::DeviceResources>& deviceResources);
 		void CreateDeviceDependentResources();
 		void CreateWindowSizeDependentResources();
 		void Update(DX::StepTimer const& timer);
+		bool RenderPBR(DirectX::XMMATRIX localDrawnObject);
 		bool Render();
 		void Clear();
 
@@ -72,6 +126,7 @@ namespace Hot3dxRotoDraw
 		//CCameraXYMoveRotation          m_CamXYMoveRotate;
 		void XM_CALLCONV MouseCursorRender(float positionX, float positionY);
 		void XM_CALLCONV DrawPointsOne(XMFLOAT3 cursorPos);
+		void XM_CALLCONV DrawPointsSphere(XMFLOAT3 cursorPos);
 		void XM_CALLCONV CopyFlipPointsXAxis();
 		void XM_CALLCONV CopyFlipPointsYAxis();
 
@@ -103,8 +158,94 @@ namespace Hot3dxRotoDraw
 		void XM_CALLCONV DrawLineOnlyObject(GXMVECTOR color);
 		void XM_CALLCONV DrawGridXY(FXMVECTOR xAxis, FXMVECTOR yAxis, FXMVECTOR origin, size_t xdivs, size_t ydivs, GXMVECTOR color);
 		void XM_CALLCONV DrawGridXZ(FXMVECTOR xAxis, FXMVECTOR zAxis, FXMVECTOR origin, size_t xdivs, size_t ydivs, GXMVECTOR color);
+		void XM_CALLCONV DrawSprites(ID3D12GraphicsCommandList* commandList);
+		
+		unsigned int m_iCullNoneToWireframe;
+		unsigned int m_iSamplIndexWrap;
+		unsigned int m_iEffectIndex;
+		void SetCullNoneToWireframe(unsigned int descId) { m_iCullNoneToWireframe = descId; }
+		void SetSamplIndexWrap(unsigned int descId) { m_iSamplIndexWrap = descId; }
+		unsigned int GetEffectIndex() { return m_iEffectIndex; }
+		void SetEffectIndex(unsigned int descId) { m_iEffectIndex = descId;
+		 GetModelEffectDescp12(descId);
+		}
+			
+		static const D3D12_RASTERIZER_DESC GetCommonStatesRasterizerDescp12(unsigned int descId)
+		{
+			switch (descId)
+			{
+			case 0:
+				return CommonStates::CullNone;
+			case 1:
+				return CommonStates::CullClockwise;
+			case 2:
+				return CommonStates::CullCounterClockwise;
+			case 3:
+				return CommonStates::Wireframe;
+			default:
+				return CommonStates::CullNone;
+			}
+		}
+
+		D3D12_GPU_DESCRIPTOR_HANDLE GetWrapType(DirectX::DXTKXAML12::CommonStates* States, unsigned int descId)
+		{
+			switch (descId)
+			{
+			case 0:
+				return States->AnisotropicWrap();
+			case 1:
+				return States->AnisotropicClamp();
+			case 2:
+				return States->PointWrap();
+			case 3:
+				return States->PointClamp();
+			case 4:
+				return States->LinearWrap();
+			case 5:
+				return States->LinearClamp();
+			default:
+				return States->AnisotropicWrap();
+			}
+		} 
+
+		void GetModelEffectDescp12(unsigned int descId)
+		{
+			switch (descId)
+			{
+			case 0:
+			{
+				m_bIsBasicModel = true;
+				m_bIsDualTextureModel = false;
+				m_bIsPBRModel = false;
+				OutputDebugString(L"\nBasic Effect Set\n");
+			}break;
+			case 1:
+			{
+				m_bIsDualTextureModel = true;
+				m_bIsBasicModel = false;
+				m_bIsPBRModel = false;
+				OutputDebugString(L"\nDual Texture  Effect Set\n");
+			}break;
+			case 2:
+			{
+				m_bIsPBRModel = true;
+				m_bIsDualTextureModel = false;
+				m_bIsBasicModel = false;
+				OutputDebugString(L"\nPBR  Effect Set\n");
+			}break;
+			default:
+			{
+				m_bIsBasicModel = true;
+				m_bIsDualTextureModel = false;
+				m_bIsPBRModel = false;\
+			    OutputDebugString(L"\nDefault  Effect Set\n");
+			}break;
+			}
+		}
 		void XM_CALLCONV InitDrawnObjectSingleTexture();
+		void XM_CALLCONV InitDrawnObjectPBRSingleTexture();
 		void XM_CALLCONV InitDrawnObjectDualTexture();
+		void XM_CALLCONV InitDrawnObjectVideoTexture();
 		void CameraReset();
 		void XM_CALLCONV ClearDrawnObject();
 		void ScreenMouse3DWorldAlignment();
@@ -124,7 +265,15 @@ namespace Hot3dxRotoDraw
 
 		// Not Yet Used Draws Mesh Points 
 		unsigned int GetPointCount() { return m_iPointCount; }
-		void XM_CALLCONV SetPoints(); // RotoDraw3D old SetPintsButton Function
+		void XM_CALLCONV SetPoints(); // RotoDraw3D old SetPointsButton Function
+		unsigned int GetGroupCount() { return m_iGroupCount; }
+		std::vector<Hot3dxRotoDraw::PtGroups^> GetPtGroupList() { return m_PtGroupList; }
+		Platform::Array<uint16_t>^ GetPtGroupListList() { return m_PtGroupList.at(0)->GetPtList(); }
+		std::vector<DirectX::DXTKXAML12::VertexPositionColor> GetVertices() { return vertices; }
+		std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> GetVertexes() { return vertexes; }
+		std::vector<uint16_t> GetIndices() { return indices; }
+		std::vector<float> GetTextureU() { return textureU; }
+		std::vector<float> GetTextureV() { return textureV; }
 
 		void ViewMatrix(XMFLOAT4X4 M, wchar_t* str);
 
@@ -165,11 +314,11 @@ namespace Hot3dxRotoDraw
 		void RotatePitchSquid(float degree);
 		void RotateYawSquid(float degree);
 
-		bool GetRotateKeyPressed() {return m_bRotateKeyPressed;	}
+		bool GetRotateKeyPressed() { return m_bRotateKeyPressed; }
 		void SetRotateKeyPressed(bool b) { m_bRotateKeyPressed = b; }
 
 		// Calculates next Group Location
-		
+
 		float GetPointDrawGroupAngle() { return m_fPointDrawGroupAngle; }
 		void SetPointDrawGroupAngle(float f) { m_fPointDrawGroupAngle = f; }
 
@@ -180,7 +329,7 @@ namespace Hot3dxRotoDraw
 		void SetPointSpace(float dist) { m_fPointSpace = dist; }
 
 		// Draws the single line fro which the object is calculated
-		void IncrementPtGroups(){
+		void IncrementPtGroups() {
 			PtGroups^ ptGroups = ref new PtGroups();
 			m_PtGroupList.push_back(ptGroups);
 		}
@@ -189,9 +338,9 @@ namespace Hot3dxRotoDraw
 		void XM_CALLCONV DrawObjectPointsTop();
 		void XM_CALLCONV DrawObjectPointsBottom();
 		void XM_CALLCONV DrawObjectPointsTopBottom();
-		
+
 		// Sets Width and height drawing mouse ratios
-		void SetMouseWidthRatio(float w) { m_drawMouseWidthRatio = m_drawMouseWidthRatio + w;}
+		void SetMouseWidthRatio(float w) { m_drawMouseWidthRatio = m_drawMouseWidthRatio + w; }
 		void SetMouseHeightRatio(float h) { m_drawMouseHeightRatio = m_drawMouseHeightRatio + h; }
 		float GetMouseWidthRatio() { return m_drawMouseWidthRatio; }
 		float GetMouseHeightRatio() { return m_drawMouseHeightRatio; }
@@ -211,31 +360,75 @@ namespace Hot3dxRotoDraw
 			Platform::String^ effectName,
 			unsigned int illumType,
 			Platform::String^ mtlObjFilename,
-			Platform::String^ textureFilename );
+			Platform::String^ textureFilename);
 		// .obj file writer
 		Platform::String^ DrawnObjectSaveObjFile(
-			Platform::String^ mtlObjFilename, 
+			Platform::String^ mtlObjFilename,
 			Platform::String^ nodeName,
 			Platform::String^ effectName);
 
 		// .txt and .hbin file writers
 		Platform::String^ DrawnObjectSaveText(Platform::String^ fileName, unsigned int objectCount);
 		Platform::String^ DrawnObjectSaveBinary();
-
+		void SetInitSphereVB2(int* numverts, float m_cameraradius, float m_camerarotation) { InitSphereVB2(numverts, m_cameraradius, m_camerarotation); }
 		// Texture Filename Accessors
 		void Setm_bDDS_WIC_FLAG1(bool flag) { m_bDDS_WIC_FLAG1 = flag; }
 		void Setm_bDDS_WIC_FLAG2(bool flag) { m_bDDS_WIC_FLAG2 = flag; }
 		void SetDDS_WIC_FLAGGridPic(bool flag) { m_bDDS_WIC_FLAGGridPic = flag; }
-		Platform::String^ GetTextureImage1File() { return m_textureImage1File;  }
-		void SetTextureImage1File(Platform::String^ fileName) { 
-			m_textureImage1File = nullptr; 
-			m_textureImage1File = ref new Platform::String(fileName->Data()); 
+		Platform::String^ GetTextureImage1File() { return m_textureImage1File; }
+		void SetTextureImage1File(Platform::String^ fileName) {
+			m_textureImage1File = nullptr;
+			m_textureImage1File = ref new Platform::String(fileName->Data());
 		}
 		Platform::String^ GetTextureImage2File() { return m_textureImage2File; }
-		void SetTextureImage2File(Platform::String^ fileName) { 
-			m_textureImage2File = nullptr; 
+		void SetTextureImage2File(Platform::String^ fileName) {
+			m_textureImage2File = nullptr;
 			m_textureImage2File = ref new Platform::String(fileName->Data());
 		}
+		Platform::String^ GetTextureImage3File() { return m_textureImage3File; }
+		void SetTextureImage3File(Platform::String^ fileName) {
+			m_textureImage3File = nullptr;
+			m_textureImage3File = ref new Platform::String(fileName->Data());
+		}
+		Platform::String^ GetTextureImage4File() { return m_textureImage4File; }
+		void SetTextureImage4File(Platform::String^ fileName) {
+			m_textureImage4File = nullptr;
+			m_textureImage4File = ref new Platform::String(fileName->Data());
+		}
+		Platform::String^ GetTextureImage5File() { return m_textureImage5File; }
+		void SetTextureImage5File(Platform::String^ fileName) {
+			m_textureImage5File = nullptr;
+			m_textureImage5File = ref new Platform::String(fileName->Data());
+		}
+		Platform::String^ GetTextureImage6File() { return m_textureImage6File; }
+		void SetTextureImage6File(Platform::String^ fileName) {
+			m_textureImage6File = nullptr;
+			m_textureImage6File = ref new Platform::String(fileName->Data());
+		}
+		Platform::String^ GetTexture1Name() { return m_texture1Name; };
+		Platform::String^ GetTexture2Name() { return m_texture2Name; };
+		Platform::String^ GetTexture3Name() { return m_texture3Name; };
+		Platform::String^ GetTexture4Name() { return m_texture4Name; };
+		Platform::String^ GetTexture5Name() { return m_texture5Name; };
+		Platform::String^ GetTexture6Name() { return m_texture6Name; };
+		void SetTexture1Name(Platform::String^ name) {
+			m_texture1Name = nullptr; m_texture1Name = ref new Platform::String(name->Data());
+		};
+		void SetTexture2Name(Platform::String^ name) {
+			m_texture2Name = nullptr; m_texture2Name = ref new Platform::String(name->Data());
+		};
+		void SetTexture3Name(Platform::String^ name) {
+			m_texture3Name = nullptr; m_texture3Name = ref new Platform::String(name->Data());
+		};
+		void SetTexture4Name(Platform::String^ name) {
+			m_texture4Name = nullptr; m_texture4Name = ref new Platform::String(name->Data());
+		};
+		void SetTexture5Name(Platform::String^ name) {
+			m_texture5Name = nullptr; m_texture5Name = ref new Platform::String(name->Data());
+		};
+		void SetTexture6Name(Platform::String^ name) {
+			m_texture6Name = nullptr; m_texture6Name = ref new Platform::String(name->Data());
+		};
 		// Scenario111-GridPic Accessors
 		Platform::String^ GetTextureImageGridPicFile() { return m_textureImageGridPicFile; }
 		void SetTextureImageGridPicFile(Platform::String^ fileName) {
@@ -245,14 +438,20 @@ namespace Hot3dxRotoDraw
 
 		bool GetIsYAxis() { return m_bIsYAxis; }
 		void SetIsYAxis(bool b) { m_bIsYAxis = b; }
-		
+
 	private:
-		
+
 		// Calculates the faces of a mesh
 		void CalculateMeshFaces();
 		void CalculateMeshFacesTopBottom();
+		void XM_CALLCONV CalculateSphereFaces();
 		void XM_CALLCONV EndpointTopLeftFaces();
 		void XM_CALLCONV EndpointBottomRightFaces();
+		void XM_CALLCONV EndpointSphereTopLeftFaces(unsigned int secondGroupPoints);
+		void XM_CALLCONV EndpointSphereBottomRightFaces(unsigned int secondFromEndGroupPoints);
+		void XM_CALLCONV MidSphereLesserLatitudeTopLeftFaces(unsigned int groupNum, unsigned int firstGroupPoints, unsigned int secondGroupPoints);
+		void XM_CALLCONV MidSphereGreaterLatitudeTopLeftFaces(unsigned int groupNum, unsigned int firstGroupPoints, unsigned int secondGroupPoints);
+		
 
 		// Calculates Texture Coordinates for whole object
 		void XM_CALLCONV GetUVPercent();
@@ -262,8 +461,8 @@ namespace Hot3dxRotoDraw
 		Hot3dxRotoDrawVariables^ m_vars;
 
 	protected private:
-	
-		
+
+
 		// Indices into the application state map.
 		Platform::String^ AngleKey = "Angle";
 		Platform::String^ TrackingKey = "Tracking";
@@ -275,7 +474,7 @@ namespace Hot3dxRotoDraw
 		XMFLOAT3 pSect;
 		bool m_bFaceSelected;
 		int m_iV;
-		
+
 
 		int m_iDrawMode;
 		unsigned int m_GroupListSelectedIndex;
@@ -283,17 +482,24 @@ namespace Hot3dxRotoDraw
 		size_t m_iTotalPointCount;
 		//unsigned int m_iLastPoint;
 		XMFLOAT2 point; XMFLOAT2 pointC;
-		Platform::Array<unsigned int>^ m_iTempGroup = ref new Platform::Array<unsigned int>(1000);
-		Platform::Array<float>^ m_iTempMouseX = ref new Platform::Array<float>(1000);
-		Platform::Array<float>^ m_iTempMouseY = ref new Platform::Array<float>(1000);
-		
-		std::vector<PtGroups^> m_PtGroupList;// = ref new Platform::Array<PtGroups>(360);
+		Platform::Array<unsigned int>^ m_iTempGroup = ref new Platform::Array<unsigned int>(10000);
+		Platform::Array<float>^ m_iTempMouseX = ref new Platform::Array<float>(10000);
+		Platform::Array<float>^ m_iTempMouseY = ref new Platform::Array<float>(10000);
+
+		std::vector<Hot3dxRotoDraw::PtGroups^> m_PtGroupList;// = ref new Platform::Array<PtGroups>(360);
 		std::vector<DirectX::DXTKXAML12::VertexPositionColor> vertices;
 		std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes;
+		std::vector<DirectX::DXTKXAML12::VertexPositionDualTexture> verticesDual;
+		std::vector<Hot3dxRotoDraw::VertexPositionNormalTextureTangent> verticesPBR;
+		//std::vector<DirectX::DXTKXAML12::VertexPositionNormalColorTexture> verticesPBR;
 		std::vector<uint16_t> indices;
 		std::vector<float> textureU;
 		std::vector<float> textureV;
 		//unsigned int m_iTextureUVCount;
+
+		Platform::Array<unsigned int>^ m_vSphereGroupsSizes = ref new Platform::Array<unsigned int>(1000);
+		size_t faceCnt = 0;
+		size_t faceIndiceCnt = 0;
 
 		unsigned int m_iTempGroupCount;
 		unsigned int m_iGroupCount;
@@ -312,14 +518,15 @@ namespace Hot3dxRotoDraw
 
 		float m_drawMouseWidthRatio;
 		float m_drawMouseHeightRatio;
-
+		float m_cameraDistanceRatio;
+		Windows::Foundation::Size  m_outputSize;
 
 		// Constant buffers must be 256-byte aligned.
 		static const UINT c_alignedConstantBufferSize = (sizeof(ModelViewProjectionConstantBuffer) + 255) & ~255;
 
 		// Cached pointer to device resources.
 		std::shared_ptr<DX::DeviceResources> m_sceneDeviceResources;
-		
+
 		// Rendering loop timer.
 		DX::StepTimer                               m_timer;
 
@@ -359,6 +566,7 @@ namespace Hot3dxRotoDraw
 		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_artistCamera;
 		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_shapeTetra;
 		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_shapeGridPic;
+		std::unique_ptr<Hot3dxDrawnObject>                                                  m_hot3dxDrawnObject;
 		std::unique_ptr<DirectX::DXTKXAML12::SpriteBatch>                                   m_sprites;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_CameraEyeFont;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_CameraAtFont;
@@ -371,23 +579,46 @@ namespace Hot3dxRotoDraw
 		std::unique_ptr<DirectX::SpriteFont>                                    m_GroupCountFont;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_SelectedPointNumberFont;
 		std::unique_ptr<DirectX::DXTKXAML12::DualTextureEffect>                             m_dualTextureEffect;
-		
+
 		std::unique_ptr<DirectX::DXTKXAML12::BasicEffect>                                   m_shapeDrawnObjectEffect;
-		std::unique_ptr<DirectX::Hot3dxDrawnObject>                             m_shapeDrawnObject;
+		std::unique_ptr<DirectX::DXTKXAML12::AlphaTestEffect>                               m_shapeDrawnObjectAlphaEffect;
+		std::unique_ptr<DirectX::DXTKXAML12::PrimitiveBatch<DirectX::DXTKXAML12::VertexPositionColor>> m_shapeDrawnObject;
 		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_shapeDrawnObjectTex;
+		std::unique_ptr<DirectX::DXTKXAML12::PrimitiveBatch<Hot3dxRotoDraw::VertexPositionNormalTextureTangent>> m_shapeDrawnObjectPBR;
 		std::shared_ptr<DirectX::DXTKXAML12::ResourceUploadBatch>                           mesourceUploadDrawnObject;
 		std::unique_ptr<DirectX::DXTKXAML12::GraphicsMemory>                                m_graphicsMemoryDrawnObject;
 
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_texture1;
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_texture2;
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_textureGridPic;
+		//Our IBL cubemaps
+		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_radianceIBL;
+		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_irradianceIBL;
+		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_NormalTexture;
+		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_RMATexture;
 
 		Microsoft::WRL::ComPtr<ID3D12Resource> m_DrawnMeshTexture1;
 		Microsoft::WRL::ComPtr<ID3D12Resource> m_DrawnMeshTexture2;
 		Platform::String^ m_textureImage1File = ref new Platform::String();
 		Platform::String^ m_textureImage2File = ref new Platform::String();
+		Platform::String^ m_textureImage3File = ref new Platform::String();
+		Platform::String^ m_textureImage4File = ref new Platform::String();
+		Platform::String^ m_textureImage5File = ref new Platform::String();
+		Platform::String^ m_textureImage6File = ref new Platform::String();
+		Platform::String^ m_texture1Name = ref new Platform::String();
+		Platform::String^ m_texture2Name = ref new Platform::String();
+		Platform::String^ m_texture3Name = ref new Platform::String();
+		Platform::String^ m_texture4Name = ref new Platform::String();
+		Platform::String^ m_texture5Name = ref new Platform::String();
+		Platform::String^ m_texture6Name = ref new Platform::String();
 		Platform::String^ m_textureImageGridPicFile = ref new Platform::String();
-		
+
+		// TextureFile Loader
+		void XM_CALLCONV LoadDDSOrWicTextureFile(_In_ ID3D12Device* device,
+			DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
+			_In_z_ const wchar_t* szFileName,
+			_Outptr_ ID3D12Resource** texture, Platform::String^ msgType, Platform::String^ message);
+
 		Platform::String^ m_selTexFrontPath;
 		Platform::String^ m_selTexBackPath;
 
@@ -412,8 +643,24 @@ namespace Hot3dxRotoDraw
 			GridPicTexture,
 			DrawnObjectTexture1,
 			DrawnObjectTexture2,
+			DrawnObjectNormalTexture,
+			DrawnObjectRMATexture,
+			DrawnObjectRadiance,
+			DrawnObjectIrradiance,
+			Reserve,
 			Count = 256
 		} Descriptors;
+
+		//  PBR Descriptors
+		enum class PBRDescriptors
+		{
+			PicTex = 0,
+			NormalTex=1,
+			RMATex=2,
+			RadianceTex=3,
+			IrradianceTex=4,
+			Reserve=5
+		} PBRDescriptors;
 
 		// drawing modes
 		enum class RotoDrawDrawMode
@@ -425,7 +672,12 @@ namespace Hot3dxRotoDraw
 			DrawDualTextureObject = 4,
 			DrawWICDualTextureObject = 5,
 			DrawPointColorObject = 6,
-			DrawLineOnlyObject = 7
+			DrawLineOnlyObject = 7,
+			DrawLineOnlyRadius = 8,
+			SelectPoint = 9,
+			SelectFace = 10,
+			SelectEdge = 11,
+			SelectObject = 12
 		} RotoDrawDrawMode;
 
 		Audio^ m_audioController;
@@ -441,7 +693,7 @@ namespace Hot3dxRotoDraw
 		*/
 		XMFLOAT4                                                           m_vMouse3dPos;
 		bool                                                               m_bMouse3dPosDist;
-		
+
 		float m_posX;
 		float m_posY;
 		float m_posZ;
@@ -450,13 +702,13 @@ namespace Hot3dxRotoDraw
 		float m_previousPosX;
 		float m_previousPosY;
 		float m_previousPosZ;
-		
-		Platform::Array<float>^ posX = ref new Platform::Array<float>(1000);
-		Platform::Array<float>^ posY = ref new Platform::Array<float>(1000);
-		Platform::Array<float>^ posZ = ref new Platform::Array<float>(1000);
+
+		Platform::Array<float>^ posX = ref new Platform::Array<float>(10000);
+		Platform::Array<float>^ posY = ref new Platform::Array<float>(10000);
+		Platform::Array<float>^ posZ = ref new Platform::Array<float>(10000);
 
 		Platform::Array<float>^ box = ref new Platform::Array<float>(6);
-		
+
 
 
 		bool m_bAddTopFaces;
@@ -485,21 +737,22 @@ namespace Hot3dxRotoDraw
 		float m_UpY;
 		float m_UpZ;
 
-		float m_CamPosX;float m_CamPosx;
-		float m_CamPosY;float m_CamPosy;
-		float m_CamPosZ;float m_CamPosz;
-		float m_CamRotX;float m_CamRotx;
-		float m_CamRotY;float m_CamRoty;
-		float m_CamRotZ;float m_CamRotz;
-		float m_CamTheta[1];float m_CamThetaVal;
-		float m_CamOrDirX;float m_CamDirx;
-		float m_CamOrDirY;float m_CamDiry;
-		float m_CamOrDirZ;float m_CamDirz;
-		float m_CamOrUpX;float m_CamUpx;
-		float m_CamOrUpY;float m_CamUpy;
-		float m_CamOrUpZ;float m_CamUpz;
+		float m_CamPosX; float m_CamPosx;
+		float m_CamPosY; float m_CamPosy;
+		float m_CamPosZ; float m_CamPosz;
+		float m_CamRotX; float m_CamRotx;
+		float m_CamRotY; float m_CamRoty;
+		float m_CamRotZ; float m_CamRotz;
+		float m_CamTheta[1]; float m_CamThetaVal;
+		float m_CamOrDirX; float m_CamDirx;
+		float m_CamOrDirY; float m_CamDiry;
+		float m_CamOrDirZ; float m_CamDirz;
+		float m_CamOrUpX; float m_CamUpx;
+		float m_CamOrUpY; float m_CamUpy;
+		float m_CamOrUpZ; float m_CamUpz;
 		bool m_bRotateKeyPressed;
 		float m_fPointRadius;
+		float m_fSpherePointRadius;
 		float m_fPointDrawGroupAngle;
 
 		DirectX::XMFLOAT4                                        m_eye;
@@ -511,7 +764,7 @@ namespace Hot3dxRotoDraw
 		Windows::UI::Color m_frontColorSR;
 		Windows::UI::Color m_backColorSR;
 
-		int m_drawMode;	
+		int m_drawMode;
 
 		bool m_bDDS_WIC_FLAG1;
 		bool m_bDDS_WIC_FLAG2;
@@ -520,7 +773,148 @@ namespace Hot3dxRotoDraw
 
 		// Background Color for the drawing swapchainpanel
 		DirectX::XMVECTORF32 m_backGroundColor;
-	};          
+
+		Platform::String^ msgTypes;
+		Platform::String^ GetMsgTypes(unsigned int i);
+		Platform::String^ messages;
+		Platform::String^ GetMessages(unsigned int i);
+
+		CCameraXYMoveRotation          m_CamXYMoveRotate;
+
+		float m_cameraradius;
+		float m_camerarotation;
+		float m_anglerotation;
+		float  m_fCamMove_cameraradius;
+		float  m_fCamMove_degreeradian;
+		float  m_fCamMove_anglerotation;
+		XMFLOAT3 m_xmfSphereCenterPoint{ 0.0f, 0.0f, 0.0f };
+		XMFLOAT3 m_xmfSphereRadiusPoint{ 0.0f, 0.0f, 0.0f };
+		void CalculateSphereVPCXAxis(int* n, DWORD dwcolor, float m_cameraradius, float m_camerarotation);
+		void CalculateSphereVPCYAxis(int* n, DWORD dwcolor, float m_cameraradius, float m_camerarotation);
+		internal:
+		void InitSphereVB2(int* numVerts, float m_cameraradius, float m_camerarotation);
+
+		bool m_bArrayInit;
+
+		//////////// PBREffect ////////
+		enum class MaterialTypesPBR : int {
+			DIFFUSE = 0, //V2+3
+			SPECULAR = 1, //V3
+			NORMAL = 2, //V3
+			EMISSIVE = 3 //V3
+		};
+
+		
+			void SetShouldRender(bool _shouldRender) { m_shouldRender = _shouldRender; };
+
+			bool IsLoaded() { return m_loaded; };
+
+			//These functions are intended for skybox use
+			void DisableDepthDefault() { enable_depth_default = false; }
+			//void AlbedoEmissiveOverride(std::wstring path);
+			//---
+
+			
+			//Engine features
+			//GameFilepaths m_filepath;
+
+			//Settings and data
+			Platform::String^ dirpath_wchar = ref new Platform::String(L"\\Assets\\Textures\\");
+			Platform::String^ filename;
+			int resourceDescriptorOffset = 0;
+			int meshTexture_index = -1;
+			int radiance_index = -1;
+			int irradiance_index = -1;
+			bool is_debug_mesh = false;
+			bool m_shouldRender = true;
+			bool m_loaded = false;
+			int anim_config_version = -1;
+			bool is_metallic = false;
+			bool m_bIsPBRModel = false;
+			bool m_bIsBasicModel = false;
+			bool m_bIsDualTextureModel = false;
+
+			protected private:
+				std::unique_ptr<DirectX::DXTKXAML12::PBREffect>   m_shapeDrawnObjectPBREffect;
+				//Model resources
+				
+				std::vector<std::shared_ptr<DirectX::DXTKXAML12::IEffect>>  m_modelNormal;
+				//std::unique_ptr<DirectX::DXTKXAML12::DescriptorPile>        m_resDescPile;
+				std::unique_ptr<DirectX::DXTKXAML12::DescriptorHeap>        m_rtvHeap;
+				std::unique_ptr<DirectX::DXTKXAML12::ToneMapPostProcess>    m_toneMap;
+				std::unique_ptr<DirectX::DXTKXAML12::ToneMapPostProcess>    m_HDR10;
+				Microsoft::WRL::ComPtr<ID3D12Resource> m_materialOverride;
+
+				int material_override_index = -1;
+				bool material_override_applied = false;
+
+				//Should use DepthDefault? (available to change mainly b/c of skyboxes)
+				bool enable_depth_default = true;
+
+
+				
+				/* A struct to define a single animated map - we use this multiple times per material (e.g. animated diffuse, animated specular, etc) */
+				struct AnimatedMap {
+					bool is_animated = false;
+					float animation_time = 0.0f;
+					std::vector<std::string> texture_names;
+					std::vector<int> gpu_indexes;
+					std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> d3d12_textures;
+					int current_anim_index = 0;
+
+					float animation_timer = 0.0f;
+				};
+
+				/* A struct to hold a material's configurations as defined by the ThiCC toolkit. */
+				struct MaterialConfig {
+					int material_index = -1;
+
+					bool is_metallic = false;
+
+					AnimatedMap animated_diffuse;  //Supported by V2 and V3
+					AnimatedMap animated_specular; //Supported by V3
+					AnimatedMap animated_normal;   //Supported by V3
+					AnimatedMap animated_emissive; //Supported by V3
+				};
+
+				//Material config
+				std::vector<MaterialConfig> m_material_config;
+				/*
+				// Generate paths for resources
+				enum class Textures
+				{
+					Albedo = 0,
+					Normal = 1,
+					RMA = 2,
+					Radiance = 3,
+					Irradiance = 4,
+					MaxTextures = 5
+				} Textures;
+
+				Microsoft::WRL::ComPtr<ID3D12Resource>  m_textureResources[5];
+				*/
+
+			////////////// EO PBREffect
+		private:
+			
+			
+
+			// Direct3D resources for cube geometry.
+			Microsoft::WRL::ComPtr<ID3D12RootSignature>			m_rootSignature;
+			Microsoft::WRL::ComPtr<ID3D12PipelineState>			m_pipelineState;
+			Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>		m_cbvHeap;
+			Microsoft::WRL::ComPtr<ID3D12Resource>				m_vertexBuffer;
+			Microsoft::WRL::ComPtr<ID3D12Resource>				m_indexBuffer;
+			Microsoft::WRL::ComPtr<ID3D12Resource>				m_constantBuffer;
+			
+			//D3D12_RECT											m_scissorRect;
+			std::vector<BYTE>									m_vertexShader;
+			std::vector<BYTE>									m_pixelShader;
+			std::vector<BYTE>									m_vertexShaderPBR;
+			std::vector<BYTE>									m_pixelShaderPBR;
+			D3D12_VERTEX_BUFFER_VIEW							m_vertexBufferView;
+			D3D12_INDEX_BUFFER_VIEW								m_indexBufferView;
+	};
 }
 
 

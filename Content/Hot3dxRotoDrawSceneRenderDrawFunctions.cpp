@@ -467,9 +467,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::CalculateMeshFaces()
 			indices.push_back(d);
 		}
 	}
-	//EndPointSetFaceValues();
-	InitDrawnObjectSingleTexture();
-	m_iDrawMode = 2;
+	
 
 }
 
@@ -512,11 +510,10 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::CalculateMeshFacesTopBottom()
 	}
 
 	//EndPointSetFaceValues();
-	InitDrawnObjectSingleTexture();
-	m_iDrawMode = 2;
+	//InitDrawnObjectSingleTexture();
+	//m_iDrawMode = 2;
 
 }
-
 
 void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndpointTopLeftFaces()
 {
@@ -549,8 +546,8 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndpointTopLeftFaces()
 			}
 		}
 	}
-	InitDrawnObjectSingleTexture();
-	m_iDrawMode = 2;
+	//InitDrawnObjectSingleTexture();
+	//m_iDrawMode = 2;
 }
 
 void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndpointBottomRightFaces()
@@ -585,6 +582,36 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndpointBottomRightFaces()
 		}
 	}
 
-	InitDrawnObjectSingleTexture();
-	m_iDrawMode = 2;
+	//InitDrawnObjectSingleTexture();
+	//m_iDrawMode = 2;
 }
+
+Platform::String^ Hot3dxRotoDraw::RotoDrawSceneRender::GetMsgTypes(unsigned int i)
+{
+	Platform::String^ msgType = nullptr;
+	switch (i)
+	{
+	case 0:
+		msgType = L"Error Message: Directory Not Accessible  ";
+		break;
+	default:
+		msgType = L"Error Message: Unknown";
+		break;
+	}
+	return msgType;
+}
+
+Platform::String^ Hot3dxRotoDraw::RotoDrawSceneRender::GetMessages(unsigned int i)
+{
+	Platform::String^ message = nullptr;
+	switch (i)
+	{
+	case 0:
+		message = L"All textures must be chosen from the x64\\Release or Debug\\Hot3dxRotoDraw\\AppX\\Assets\\(Folder or sub-Folders \nPress the Clear Button after Dialog Closes\n1)Go To: Textures\n2) Add Texture1 Button from the proper doirectory\nThe directory is also in the status box lower left)";
+		break;
+	default:
+		message = L"Something Horrible Has Happpened and one does not know what it is.";
+	}
+	return message;
+}
+

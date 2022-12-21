@@ -81,6 +81,7 @@ namespace Hot3dxRotoDraw
 	{
 	public:
 		Scenario2Vars() {
+			m_pointColor = { 255,0,0,0 };
 		}
 		virtual ~Scenario2Vars() {}
 
@@ -114,8 +115,8 @@ namespace Hot3dxRotoDraw
 		float GetPartialRotateAngle() { return m_fPartialRotateAngle; }
 		void SetPartialRotateAngle(float angle) { m_fPartialRotateAngle = angle; }
 
-		int Get() { return m_iCount; }
-		void Set(int b) { m_iCount = b; }
+		int Get() { return m_iPointCount; }
+		void Set(int b) { m_iPointCount = b; }
 		void SetCheckBox(Windows::UI::Xaml::Controls::CheckBox^ b, bool tf) { b->IsChecked = tf; }
 		//Windows::UI::Xaml::Controls::TextBox^ GetPointSpaceTextBox() { return m_PointSpaceTextBox; }
 		//void SetPointSpaceTextBox(Windows::UI::Xaml::Controls::TextBox^ b) { m_PointSpaceTextBox = b; }
@@ -132,7 +133,7 @@ namespace Hot3dxRotoDraw
 		//Windows::UI::Xaml::Controls::TextBox^ m_PointSpaceTextBox;
 		bool m_bOpenOrClosedChecked;
 		float m_fPartialRotateAngle;
-		int m_iCount;
+		int m_iPointCount;
 	};
 
 	struct MaterialData
@@ -150,9 +151,11 @@ namespace Hot3dxRotoDraw
 	{
 	public:
 		virtual ~MaterialDataVector() { }
-
+		
 
 	internal:
+
+
 		MaterialDataVector() {};
 		std::vector<MaterialData> GetMaterialDataVector() { return m_materialDataVector; }
 		MaterialData GetMaterialsList(unsigned int n)
@@ -189,21 +192,42 @@ namespace Hot3dxRotoDraw
 
 	internal:
 
+		MaterialData data;
+		MaterialData data2;
+		MaterialDataVector^ GetMaterialDataVector() {
+			return m_materialDataVector;
+		}
+		
+		MaterialData GetMaterialData() {
+			return data;
+		}
+		Platform::Array<float>^ GetArgs1() { return args1; }
+		Platform::Array<float>^ GetArgs2() { return args2; }
+		float GetArgs1Arg(unsigned int i) { return args1->get(i); }
+		float GetArgs2Arg(unsigned int i) { return args2->get(i); }
+
 		Scenario5Vars() {
 			m_materialDataVector = ref new MaterialDataVector();
-			MaterialData data;
+			
+			
 			// Initialize Colors
 			r1 = 255; g1 = 255; b1 = 255; a1 = 255;
 			r2 = 255; g2 = 255; b2 = 255; a2 = 255;
 
-			float ar[14] = { 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+			float ar[14] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,1.0f, 1.0f, 1.0f };
+			
 
 			// initialize materials with ar[] values
 			for (int i = 0; i < 14; i++)
 			{
 				args1->set(i, ar[i]);
+				data.args1->set(i, ar[i]);
 				args2->set(i, ar[1]);
+				data2.args1->set(i, ar[i]);
 			}
+
+			m_materialDataVector->SetMaterialsList(data);
+			m_materialDataVector->SetMaterialsList(data2);
 
 			fCount1 = 0;
 			fCount2 = 0;
@@ -303,7 +327,80 @@ namespace Hot3dxRotoDraw
 			bitmapImageDXP2 = ref new BitmapImage();
 			bitmapImageDXP2->SetSource(thumbnail);
 		}
+		/// <summary>
+		/// //////////////////////////
+		Windows::Storage::StorageFile^ GetFile3() { return fileImage3; }
+		void SetFile3(Windows::Storage::StorageFile^ file) { fileImage3 = file; }
+		Windows::Storage::StorageFile^ GetFile4() { return fileImage4; }
+		void SetFile4(Windows::Storage::StorageFile^ file) { fileImage4 = file; }
+		Platform::String^ GetTextureImage3File() { return fileName3; }// m_textureImage3File
+		void SetTextureImage3File(Platform::String^ fileName) {
+			fileName3 = nullptr;
+			fileName3 = ref new Platform::String(fileName->Data());
+			fileName3 = fileName;
+		}
+		Platform::String^ GetTextureImage4File() { return fileName4; }// m_textureImage4File
+		void SetTextureImage4File(Platform::String^ fileName) {
+			fileName4 = nullptr;
+			fileName4 = ref new Platform::String(fileName->Data());
+			fileName4 = fileName;
+		}
 
+		Windows::Storage::FileProperties::StorageItemThumbnail^ GetThumbnailDXP3() { return m_thumbnailDXP3; }
+		void SetThumbnailDXP3(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail) { m_thumbnailDXP3 = thumbnail; }
+		Windows::Storage::FileProperties::StorageItemThumbnail^ GetThumbnailDXP4() { return m_thumbnailDXP4; }
+		void SetThumbnailDXP4(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail) { m_thumbnailDXP4 = thumbnail; }
+		BitmapImage^ GetBitmapImageDXP3() { return bitmapImageDXP3; }
+		void SetbitmapImageDXP3(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail)
+		{
+			bitmapImageDXP3 = ref new BitmapImage();
+			bitmapImageDXP3->SetSourceAsync(thumbnail);
+		}
+		BitmapImage^ GetBitmapImageDXP4() { return bitmapImageDXP4; }
+		void SetbitmapImageDXP4(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail)
+		{
+			bitmapImageDXP4 = ref new BitmapImage();
+			bitmapImageDXP4->SetSource(thumbnail);
+		}
+		/// </////////////////////////////////returns></returns>
+		Windows::Storage::StorageFile^ GetFile5() { return fileImage5; }
+		void SetFile5(Windows::Storage::StorageFile^ file) { fileImage5 = file; }
+		Windows::Storage::StorageFile^ GetFile6() { return fileImage6; }
+		void SetFile6(Windows::Storage::StorageFile^ file) { fileImage6 = file; }
+		Platform::String^ GetTextureImage5File() { return fileName5; }// m_textureImage5File
+		void SetTextureImage5File(Platform::String^ fileName) {
+			fileName5 = nullptr;
+			fileName5 = ref new Platform::String(fileName->Data());
+			fileName5 = fileName;
+		}
+		Platform::String^ GetTextureImage6File() { return fileName6; }// m_textureImage6File
+		void SetTextureImage6File(Platform::String^ fileName) {
+			fileName6 = nullptr;
+			fileName6 = ref new Platform::String(fileName->Data());
+			fileName6 = fileName;
+		}
+
+		Windows::Storage::FileProperties::StorageItemThumbnail^ GetThumbnailDXP5() { return m_thumbnailDXP5; }
+		void SetThumbnailDXP5(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail) { m_thumbnailDXP5 = thumbnail; }
+		Windows::Storage::FileProperties::StorageItemThumbnail^ GetThumbnailDXP6() { return m_thumbnailDXP6; }
+		void SetThumbnailDXP6(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail) { m_thumbnailDXP6 = thumbnail; }
+		BitmapImage^ GetBitmapImageDXP5() { return bitmapImageDXP5; }
+		void SetbitmapImageDXP5(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail)
+		{
+			bitmapImageDXP5 = ref new BitmapImage();
+			bitmapImageDXP5->SetSourceAsync(thumbnail);
+		}
+		BitmapImage^ GetBitmapImageDXP6() { return bitmapImageDXP6; }
+		void SetbitmapImageDXP6(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail)
+		{
+			bitmapImageDXP6 = ref new BitmapImage();
+			bitmapImageDXP6->SetSource(thumbnail);
+		}
+
+
+
+
+		//
 		Platform::Array<float>^ GetMatArgs1Array() { return args1; }
 		void SetMatArgs1Array(unsigned int i, float val) { args1->set(i, val); }
 		Platform::Array<float>^ GetMatArgs2Array() { return args2; }
@@ -337,12 +434,29 @@ namespace Hot3dxRotoDraw
 		
 		Windows::Storage::StorageFile^ fileImage1;
 		Windows::Storage::StorageFile^ fileImage2;
+		Windows::Storage::StorageFile^ fileImage3;
+		Windows::Storage::StorageFile^ fileImage4;
+		Windows::Storage::StorageFile^ fileImage5;
+		Windows::Storage::StorageFile^ fileImage6;
 		Windows::Storage::FileProperties::StorageItemThumbnail^ m_thumbnailDXP1;
 		Windows::Storage::FileProperties::StorageItemThumbnail^ m_thumbnailDXP2;
+		Windows::Storage::FileProperties::StorageItemThumbnail^ m_thumbnailDXP3;
+		Windows::Storage::FileProperties::StorageItemThumbnail^ m_thumbnailDXP4;
+		Windows::Storage::FileProperties::StorageItemThumbnail^ m_thumbnailDXP5;
+		Windows::Storage::FileProperties::StorageItemThumbnail^ m_thumbnailDXP6;
 		Platform::String^ fileName1;
 		Platform::String^ fileName2;
+		Platform::String^ fileName3;
+		Platform::String^ fileName4;
+		Platform::String^ fileName5;
+		Platform::String^ fileName6;
 		BitmapImage^ bitmapImageDXP1;
 		BitmapImage^ bitmapImageDXP2;
+		BitmapImage^ bitmapImageDXP3;
+		BitmapImage^ bitmapImageDXP4;
+		BitmapImage^ bitmapImageDXP5;
+		BitmapImage^ bitmapImageDXP6;
+
 
 		unsigned char r1, g1, b1, a1;
 		unsigned char r2, g2, b2, a2;
@@ -409,7 +523,8 @@ namespace Hot3dxRotoDraw
 	internal:
 		Scenario11Vars() {
 
-			m_bGridorPicChecked = true;
+			m_bGridChecked = true;
+			m_bPicChecked = false;
 			Platform::String^ wcfileName = ref new Platform::String();
 
 		}
@@ -456,8 +571,11 @@ namespace Hot3dxRotoDraw
 			bitmapImageDXP1->SetSourceAsync(thumbnail);
 		}
 
-		bool GetGridorPicChecked() { return m_bGridorPicChecked; }
-		void SetGridorPicChecked(bool b) { m_bGridorPicChecked = b; }
+		bool GetGridChecked() { return m_bGridChecked; }
+		void SetGridChecked(bool b) { m_bGridChecked = b; }
+
+		bool GetPicChecked() { return m_bPicChecked; }
+		void SetPicChecked(bool b) { m_bPicChecked = b; }
 
 	private:
 
@@ -472,6 +590,7 @@ namespace Hot3dxRotoDraw
 		Windows::Storage::StorageFile^ fileImageGridPic;
 		Platform::String^ fileNameGridPic;
 
-		bool m_bGridorPicChecked;
+		bool m_bGridChecked;
+		bool m_bPicChecked;
 	};
 }
