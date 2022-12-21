@@ -40,6 +40,9 @@ using namespace concurrency;
 Scenario2_Normal^ Scenario2_Normal::Current = nullptr;
 
 Scenario2_Normal::Scenario2_Normal() : _rootPage(DirectXPage::Current)
+   // m_iEffectDescSelectedIndex(0),//L"Basic Effect"),
+   // m_iRasterDescIndex(0),//L"CullNone"),
+   // m_iSamplWrapIndex(0)//L"Anisotropic Wrap")
 {
     InitializeComponent();
     Scenario2Vars^ vars = _rootPage->m_Scene2Vars;
@@ -68,6 +71,15 @@ Scenario2_Normal::Scenario2_Normal() : _rootPage(DirectXPage::Current)
     IDC_CLOSED_OR_OPEN_CHECKBOX->IsChecked::set(true);
     IDC_CLOSED_OR_OPEN_CHECKBOX->SetValue(IDC_CLOSED_OR_OPEN_CHECKBOX->IsCheckedProperty, 
         IDC_CLOSED_OR_OPEN_CHECKBOX->IsChecked);
+    /*
+    Platform::Object^ val = SamplIndexWrapComboBox->SelectedValue::get();
+    RasterDescComboBox->SelectedValue::set(m_iRasterDescIndex);
+    RasterDescComboBox->SetValue(RasterDescComboBox->SelectedIndexProperty, RasterDescComboBox->SelectedValue);
+    SamplIndexWrapComboBox->SelectedValue::set(m_iSamplWrapIndex);
+    SamplIndexWrapComboBox->SetValue(SamplIndexWrapComboBox->SelectedIndexProperty, SamplIndexWrapComboBox->SelectedValue);
+    EffectDescComboBox->SelectedValue::set(m_iEffectDescSelectedIndex);
+    EffectDescComboBox->SetValue(EffectDescComboBox->SelectedIndexProperty, EffectDescComboBox->SelectedValue);
+    */
     Scenario2_Normal::Current = this;
     _rootPage->m_Scene2Vars->SetScenario2Page(this);
 
@@ -85,7 +97,32 @@ void Hot3dxRotoDraw::Scenario2_Normal::OnNavigatedTo(Windows::UI::Xaml::Navigati
     Scenario2_Normal::Current = this;
     IDC_TOP_OR_LEFT_CHECKBOX->IsChecked = false;// (nullptr, false);
     IDC_BOTTOM_OR_RIGHT_CHECKBOX->IsChecked = false;
+    unsigned int val = EffectDescComboBox->SelectedIndex::get();
+    m_iEffectDescSelectedIndex = _rootPage->GetEffectIndexDXP();
+    Platform::String^ s1 = ref new Platform::String(L"\nVAL is: ");
+    OutputDebugString(s1->Concat(s1, ref new Platform::String(std::to_wstring(m_iEffectDescSelectedIndex).c_str()))->ToString()->Data());
+    Platform::Object^ s;
+    switch (m_iEffectDescSelectedIndex)
+    {
+    case 0:
+        s = ref new Platform::String(L"Basic Effect");
+        break;
+    case 1:
+        s = ref new Platform::String(L"DualTexture Effect");
+        break;
+    case 2:
+        s = ref new Platform::String(L"PBR Effect");
+        break;
+    }
+    m_iEffectDescSelectedIndex = _rootPage->GetEffectIndexDXP();
+    EffectDescComboBox->SelectedIndex = (m_iEffectDescSelectedIndex);
+    EffectDescComboBox->SetValue(EffectDescComboBox->SelectedIndexProperty, EffectDescComboBox->SelectedIndex);
+    
+       _rootPage->NotifyUser(s->ToString()->Concat(L"\nEffect is: ", s->ToString()), NotifyType::StatusMessage);
+    _rootPage->SetEffectIndexRenderer(m_iEffectDescSelectedIndex);
+  
     _rootPage->m_Scene2Vars->SetScenario2Page(this);
+    
 }
 
 
@@ -326,6 +363,18 @@ void Hot3dxRotoDraw::Scenario2_Normal::IDC_SET_POINTS_BUTTON_Click(Platform::Obj
     _rootPage->SET_POINTS_BUTTON_Click(sender, e);
 }
 
+void Hot3dxRotoDraw::Scenario2_Normal::RasterDescComboBox_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    unsigned int val = RasterDescComboBox->SelectedIndex;
+     _rootPage->SetCullNoneToWireframeRenderer(val);
+}
+
+void Hot3dxRotoDraw::Scenario2_Normal::SamplIndexWrapComboBox_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    unsigned int val = SamplIndexWrapComboBox->SelectedIndex;
+    _rootPage->SetSamplIndexWrapRenderer(val);
+}
+
 
 /*
 void Hot3dxRotoDraw::Scenario2_Normal::IDC_SAVE_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
@@ -373,8 +422,50 @@ void Hot3dxRotoDraw::Scenario2_Normal::IDC_SAVE_BUTTON_Click(Platform::Object^ s
                 //this->IDC_WELCOME_STATIC->Text = "Operation cancelled.";
             }
         });
-
 }
 */
 
+void Hot3dxRotoDraw::Scenario2_Normal::EffectDescComboBox_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e)
+{
+    Scenario2_Normal::Current = this;
+    if (_rootPage->GetPointCount() == 0)
+    {
+        unsigned int val = m_iEffectDescSelectedIndex = EffectDescComboBox->SelectedIndex::get();
+        //_rootPage->SetEffectIndexRenderer(val);
+        Platform::String^ s1 = ref new Platform::String(L"\nVAL is: ");
+        OutputDebugString(s1->Concat(s1, ref new Platform::String(std::to_wstring(m_iEffectDescSelectedIndex).c_str()))->ToString()->Data());
+        Platform::Object^ s;
+        switch (m_iEffectDescSelectedIndex)
+        {
+        case 0:
+            s = ref new Platform::String(L"Basic Effect");
+            break;
+        case 1:
+            s = ref new Platform::String(L"DualTexture Effect");
+            break;
+        case 2:
+            s = ref new Platform::String(L"PBR Effect");
+            break;
+        }
 
+       // EffectDescComboBox->SetValue(EffectDescComboBox->PlaceholderTextProperty, s);
+       // EffectDescComboBox->SelectedIndex = (m_iEffectDescSelectedIndex);
+        EffectDescComboBox->SetValue(EffectDescComboBox->SelectedIndexProperty, EffectDescComboBox->SelectedIndex);
+
+        _rootPage->NotifyUser(s->ToString()->Concat(L"\nEffect is: ", s->ToString()), NotifyType::StatusMessage);
+        _rootPage->SetEffectIndexRenderer(m_iEffectDescSelectedIndex);
+        _rootPage->m_Scene2Vars->SetScenario2Page(this);
+    }
+    else {
+        EffectDescComboBox->SelectedIndex = (m_iEffectDescSelectedIndex);
+        EffectDescComboBox->SetValue(EffectDescComboBox->SelectedIndexProperty, EffectDescComboBox->SelectedIndex);
+        _rootPage->NotifyUser("Effects Cannot be changed once the Set Points Button is pushed until the Clear button is pushed: Pt Count must be ZERO!", NotifyType::StatusMessage);
+    }
+}
+
+void Hot3dxRotoDraw::Scenario2_Normal::SetEffectDescComboBox(unsigned int val)
+{
+    m_iEffectDescSelectedIndex = val;
+    EffectDescComboBox->SelectedIndex = val;
+    EffectDescComboBox->SetValue(EffectDescComboBox->SelectedIndexProperty, EffectDescComboBox->SelectedIndex);
+}

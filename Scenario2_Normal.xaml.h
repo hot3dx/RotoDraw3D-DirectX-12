@@ -73,10 +73,7 @@ namespace Hot3dxRotoDraw
         void IDC_PARTIAL_ROTATE_SLIDER_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
         void PartialRotateTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
         void IDC_CLOSED_OR_OPEN_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-
-        
-
-    private:
+        void IDC_SET_POINTS_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         
         Windows::UI::Xaml::Controls::CheckBox^ m_IDC_EXTERIOR_FACES_CHECKBOX;
         Windows::UI::Xaml::Controls::CheckBox^ m_IDC_INTERIOR_FACES_CHECKBOX;
@@ -89,15 +86,23 @@ namespace Hot3dxRotoDraw
         Windows::UI::Color m_pointColor;
         DirectXPage^ _rootPage;
         Windows::UI::Xaml::Controls::TextBox^ m_PointSpaceTextBox;
-        int m_iCount;
-        void IDC_SET_POINTS_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        int m_iPointCount;
         unsigned int m_fPointGroupsCount; // Number of Slices or pointGroups
         float DenomOf360;
-
+       
     internal:
         static Scenario2_Normal^ Current;
-        
+        void RasterDescComboBox_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void SamplIndexWrapComboBox_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void EffectDescComboBox_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e);
+        void SetEffectDescComboBox(unsigned int val);
+
+       unsigned int m_iRasterDescIndex;
+       unsigned int m_iSamplWrapIndex;
+       unsigned int m_iEffectDescSelectedIndex;
     private:
+       
+        
        
     };
 }

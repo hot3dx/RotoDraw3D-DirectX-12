@@ -126,11 +126,10 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Obj_Material_Button_Click(Platform::
 
     FileSavePicker^ savePicker = ref new FileSavePicker();
     savePicker->SuggestedStartLocation = PickerLocationId::DocumentsLibrary;
-
     auto plainTextExtensions1 = ref new Platform::Collections::Vector<String^>();
     plainTextExtensions1->Append(".mtl");
-    savePicker->FileTypeChoices->Insert("Plain Text", plainTextExtensions1);
-    savePicker->SuggestedFileName = "ObjectNode1";
+    savePicker->FileTypeChoices->Insert("WaveFront Material File Text", plainTextExtensions1);
+    savePicker->SuggestedFileName = "ObjNode";
 
     create_task(savePicker->PickSaveFileAsync()).then([this](StorageFile^ file)
         {
@@ -142,7 +141,7 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Obj_Material_Button_Click(Platform::
                 // write to file
                 this->mtlFilename = file;
                 Platform::String^ sf = file->DisplayName;
-                Platform::String^ fileData = _rootPage->GetSceneRenderDrawnObjectSaveObj3DandMtl(L"Phong[13]", 2, sf, _rootPage->GetTextureImage1FileDXP());
+                Platform::String^ fileData = _rootPage->GetSceneRenderDrawnObjectSaveObj3DandMtl(L"ObjNode", 2, sf, _rootPage->GetTextureImage1FileDXP());
 
                 create_task(FileIO::WriteTextAsync(file, fileData/*file->Name*/)).then([_this, file]()
                     {
@@ -175,8 +174,8 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Obj_Material_Button_Click(Platform::
 
     auto plainTextExtensions2 = ref new Platform::Collections::Vector<String^>();
     plainTextExtensions2->Append(".obj");
-    savePicker1->FileTypeChoices->Insert("3D Obj fbx", plainTextExtensions2);
-    savePicker1->SuggestedFileName = "ObjectNode1";
+    savePicker1->FileTypeChoices->Insert("WaveFront OBJ File Text", plainTextExtensions2);
+    savePicker1->SuggestedFileName = "ObjNode";
     create_task(savePicker1->PickSaveFileAsync()).then([this](StorageFile^ file1)
         {
             if (file1 != nullptr)
@@ -186,7 +185,7 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Obj_Material_Button_Click(Platform::
                 CachedFileManager::DeferUpdates(file1);
                 // write to file
 
-                Platform::String^ fileData = _rootPage->GetSceneRenderDrawnObjectSaveObj3DFile(_this->mtlFilename->Name, file1->DisplayName, L"Phong[13]");
+                Platform::String^ fileData = _rootPage->GetSceneRenderDrawnObjectSaveObj3DFile(_this->mtlFilename->Name, file1->DisplayName, L"Mesh_Default - Lambert");
 
                 create_task(FileIO::WriteTextAsync(file1, fileData/*file->Name*/)).then([_this, file1]()
                     {
@@ -270,3 +269,17 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Texture_Button_Click(Platform::Objec
 {
 
 }
+
+/*
+Dispatcher->RunAsync(CoreDispatcherPriority::Normal, ref new DispatchedHandler([msgType, message, this]()
+    {
+        ContentDialog1^ dlg = ref new ContentDialog1();
+dlg->ContentDialog_SetTitle(msgType);
+dlg->ContentDialog_SetTextBlock(message);
+Windows::Foundation::IAsyncOperation<ContentDialogResult>^ result =
+dlg->ShowAsync();
+if (result->GetResults() == ContentDialogResult::Primary) {}
+if (result->GetResults() == ContentDialogResult::Secondary) {}
+    }));
+NotifyUser(message, NotifyType::StatusMessage);
+*/

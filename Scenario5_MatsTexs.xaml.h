@@ -16,6 +16,7 @@
 #include "DirectXPage.xaml.h"
 #include "Scenario5_MatsTexsConfig.h"
 #include "Content\Hot3dxRotoDrawVariables.h"
+#include "ContentDialog1.xaml.h"
 
 
 using namespace Platform;
@@ -62,11 +63,25 @@ namespace Hot3dxRotoDraw
         void scrollBar_Scroll(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::ScrollEventArgs^ e);
         void IDC_TEXTURE_IMAGE1_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void IDC_TEXTURE_IMAGE2_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void IDC_TEXTURE_RMA_IMAGE3_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void IDC_TEXTURE_EMMISIVE_IMAGE4_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void IDC_TEXTURE_RADIANCE_IMAGE5_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void IDC_TEXTURE_IRRADIANCE_IMAGE6_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 
         void LoadDefaultImage1();
         void LoadChosenImage1();
         void LoadDefaultImage2();
         void LoadChosenImage2();
+        void LoadDefaultImage3();
+        void LoadChosenImage3();
+        void LoadDefaultImage4();
+        void LoadChosenImage4();
+        void LoadDefaultImage5();
+        void LoadChosenImage5();
+        void LoadDefaultImage6();
+        void LoadChosenImage6();
+       //void LoadDefaultImage();
+       // void LoadChosenImage();
 
         void Hot3dxRotoDraw::Scenario5_MatsTexs::SetMaterialTypesStrings();
         void SetSingleMaterialTypesStringListboxItem(Platform::Object^ sender, unsigned int i,
@@ -89,6 +104,7 @@ namespace Hot3dxRotoDraw
     internal:
         static Scenario5_MatsTexs^ Current;
 
+        
     };
 
 }

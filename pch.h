@@ -92,6 +92,7 @@ using namespace DirectX;
 #include <SpriteBatchXaml12.h>
 #include <SpriteFontXaml12.h> 
 #include <VertexTypesXaml12.h>
+//#include <PBREffectXAML12.h>
 
 using namespace DirectX::DXTKXAML12;
 

@@ -48,7 +48,19 @@ Hot3dxRotoDraw::Scenario4_MySettings::~Scenario4_MySettings()
 
 void Hot3dxRotoDraw::Scenario4_MySettings::IDC_SetScale_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
-
+	IDC_ALLSCALE_EDIT->Text = L"1.0f";
+	IDC_XSCALE_EDIT->Text = L"1.0f";
+	IDC_YSCALE_EDIT->Text = L"1.0f";
+	IDC_ZSCALE_EDIT->Text = L"1.0f";
+	AllScaleSlider->Value = (1.0f);
+	AllScaleSlider->SetValue(AllScaleSlider->ValueProperty, 1.0f);
+	XScaleSlider->Value = (1.0f);
+	XScaleSlider->SetValue(XScaleSlider->ValueProperty, 1.0f);
+	YScaleSlider->Value = (1.0f);
+	YScaleSlider->SetValue(YScaleSlider->ValueProperty, 1.0f);
+	ZScaleSlider->Value = (1.0f);
+	ZScaleSlider->SetValue(ZScaleSlider->ValueProperty, 1.0f);
+	
 }
 
 void Hot3dxRotoDraw::Scenario4_MySettings::IDC_ALL_SCALE_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
