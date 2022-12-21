@@ -95,6 +95,15 @@
     <ClCompile Include="Content\Hot3dxRotoDrawSceneRenderDrawFunctions.cpp">
       <Filter>Content</Filter>
     </ClCompile>
+    <ClCompile Include="Content\Hot3dxSceneRenderSphere.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Content\Hot3dxObjectGeometry.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Content\Hot3dxVertexTypes.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hot3dxRotoDrawMain.h" />
@@ -128,6 +137,12 @@
     </ClInclude>
     <ClInclude Include="FilesSave\Hot3dxTextFileSave.h">
       <Filter>FilesSave</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\Hot3dxObjectGeometry.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\Hot3dxVertexTypes.h">
+      <Filter>Content</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -248,9 +263,6 @@
     <Image Include="Assets\Square44x44Logo.targetsize-256.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\Tiny_skin.dds">
-      <Filter>Assets</Filter>
-    </Image>
     <Image Include="Assets\WideLogo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
@@ -311,6 +323,39 @@
     <Image Include="Assets\Textures\CHARACTER_BABY_MARIO.PNG">
       <Filter>Assets\Textures</Filter>
     </Image>
+    <Image Include="Assets\Textures\tree01S.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\Floor_BaseColor.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\Floor_Normal.DDS">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\Floor_RMA.DDS">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\floor_section1.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\floor_section2.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\fire.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\Stonewall_Ref_irradiance.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\Stonewall_Ref_radiance.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\WHITE_CUBEMAP_IR.DDS">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\WHITE_CUBEMAP_R.DDS">
+      <Filter>Assets\Textures</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
@@ -329,22 +374,24 @@
     <Page Include="Styles.xaml" />
     <Page Include="Scenario10_Sculpt.xaml" />
     <Page Include="Scenario11_GridorPic.xaml" />
+    <Page Include="ContentDialog1.xaml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\cursor1.cur">
       <Filter>Assets</Filter>
     </None>
-    <None Include="Assets\occcity.bin">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="Assets\TeapotData.inc">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="Assets\tiny.sdkmesh">
-      <Filter>Assets</Filter>
-    </None>
     <None Include="packages.config" />
     <None Include="cpp.hint" />
+    <None Include="Content\PBREffect_Common.hlsli">
+      <Filter>Content</Filter>
+    </None>
+    <None Include="Content\PBREffect_Math.hlsli">
+      <Filter>Content</Filter>
+    </None>
+    <None Include="Content\PixelPacking_Velocity.hlsli">
+      <Filter>Content</Filter>
+    </None>
+    <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\musicmono_adpcm.wav">
@@ -379,5 +426,22 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\credits.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Content\PBREffect_PSConstant.hlsl">
+      <Filter>Content</Filter>
+    </FxCompile>
+    <FxCompile Include="Content\PBREffect_PSTextured.hlsl">
+      <Filter>Content</Filter>
+    </FxCompile>
+    <FxCompile Include="Content\PBREffect_PSTexturedVelocity.hlsl">
+      <Filter>Content</Filter>
+    </FxCompile>
+    <FxCompile Include="Content\PBREffect_VSConstant.hlsl">
+      <Filter>Content</Filter>
+    </FxCompile>
+    <FxCompile Include="Content\PBREffect_VSConstantVelocity.hlsl">
+      <Filter>Content</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -27,6 +27,15 @@
         <SwapChainPanel x:Name="swapChainPanel" Margin="0,0,500,0">
                 <StackPanel x:Name="HeaderPanel" HorizontalAlignment="Left" Margin="866,0,-500,0" Width="500" Background="DarkGreen"  Visibility="Collapsed">
             -->
+            <!--
+            <Popup Margin="0,0,0,0" x:Name="ErrorPopup" HorizontalAlignment="Center" VerticalAlignment="Top" Width="400" Height="400" IsOpen="True" FocusVisualPrimaryBrush="#FF00F3FF" Visibility="Visible">
+                <StackPanel x:Name="ErrorMessageStackPanel" Background="LightBlue" Width="400" Height="400" Margin="5,5,5,5" BorderBrush="Black" BorderThickness="5,5,5,5" Visibility="Visible">
+                    <TextBlock x:Name="ErrorMessage" HorizontalAlignment="Center" VerticalAlignment="Top" Width="380" Margin="10,10,10,10" Height="80" FontSize="28" FontWeight="Bold" Text="Error Message"/>
+                    <TextBox x:Name="ErrorMsgTextBox" TextWrapping="Wrap" Text=" Something Horrible occurred"/>
+                    <Button x:Name="Okay" Content="Okay" Margin="0,50,0,0" Height="50" Width="50" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="ErrorMsgButton_Click"></Button>
+                </StackPanel>
+            </Popup>
+            -->
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

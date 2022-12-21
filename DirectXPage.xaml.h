@@ -50,6 +50,9 @@ namespace Hot3dxRotoDraw
 		void TEXTURE_IMAGE2(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void SetLeftSwapChainPanel();
 		void SetRightSwapChainPanel();
+		void ErrorMsgButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e, Platform::String^ msgType, Platform::String^ message);
+		void SetErrorMessagePopup(Platform::String^ msgNum, Platform::String^ s);
+
 		DirectXPage^ GetThisDirectXPage() { return this; }
 
 		// Accessors ColorPicker Scenario6_
@@ -78,6 +81,9 @@ namespace Hot3dxRotoDraw
 		//Shift Key drawing 45 degree line
 		bool GetIfLeftShiftKeyHeldDraw45Line() { return m_bIfLeftShiftKeyHeldDraw45Line; }
 		void SetIfLeftShiftKeyHeldDraw45Line(bool tf) { m_bIfLeftShiftKeyHeldDraw45Line = tf; }
+		// Shift Key Drawing Sphere from Radius Point
+		bool GetIfIfRightShiftKeySphereRadius() { return m_bIfRightShiftKeySphereRadius; }
+		void SetIfIfRightShiftKeySphereRadius(bool tf) { m_bIfRightShiftKeySphereRadius = tf; }
 
 		// Accessors Normal Scenario2
 		bool GetDoFrontFacesDXP(bool frontFaces) { if (frontFaces) { m_bDoFrontFacesDXP = true; } else { m_bDoFrontFacesDXP = false; } return m_bDoFrontFacesDXP; }
@@ -135,6 +141,22 @@ namespace Hot3dxRotoDraw
 			}
 			IDC_SET_POINTS_BUTTON_Click(sender, e);
 		}
+		void SetCullNoneToWireframeRenderer(unsigned int descId) {
+			m_main->GetSceneRenderer()->SetCullNoneToWireframe(descId);
+		}
+
+		void SetSamplIndexWrapRenderer(unsigned int descId) {
+			m_main->GetSceneRenderer()->SetSamplIndexWrap(descId);
+		}
+		unsigned int GetEffectIndexDXP() {return m_main->GetSceneRenderer()->GetEffectIndex();}
+		void SetEffectIndexRenderer(unsigned int descId) {
+			m_main->GetSceneRenderer()->SetEffectIndex(descId);
+			Hot3dxRotoDraw::Scenario2_Normal::Current->SetEffectDescComboBox(descId);
+		}
+
+		void SET_SPHERE_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e,
+			float m_cameraradius, float m_camerarotation);
+
 		// Texture Filename Accessors
 		void Setm_bDDS_WIC_FLAGDXP1(bool flag) { m_main->GetSceneRenderer()->Setm_bDDS_WIC_FLAG1(flag); }
 		void Setm_bDDS_WIC_FLAGDXP2(bool flag) { m_main->GetSceneRenderer()->Setm_bDDS_WIC_FLAG2(flag); }
@@ -142,6 +164,22 @@ namespace Hot3dxRotoDraw
 		void DrawGridPicRectangleDXP() { m_main->GetSceneRenderer()->DrawGridPicRectangle(); }
 		Platform::String^ GetTextureImage1FileDXP() { return m_main->GetSceneRenderer()->GetTextureImage1File(); }
 		Platform::String^ GetTextureImage2FileDXP() { return m_main->GetSceneRenderer()->GetTextureImage2File(); }
+		Platform::String^ GetTextureImage3FileDXP() { return m_main->GetSceneRenderer()->GetTextureImage3File(); }
+		Platform::String^ GetTextureImage4FileDXP() { return m_main->GetSceneRenderer()->GetTextureImage4File(); }
+		Platform::String^ GetTextureImage5FileDXP() { return m_main->GetSceneRenderer()->GetTextureImage5File(); }
+		Platform::String^ GetTextureImage6FileDXP() { return m_main->GetSceneRenderer()->GetTextureImage6File(); }
+		Platform::String^ GetTextureImage1NameDXP() { return m_main->GetSceneRenderer()->GetTexture1Name(); }
+		Platform::String^ GetTextureImage2NameDXP() { return m_main->GetSceneRenderer()->GetTexture2Name(); }
+		Platform::String^ GetTextureImage3NameDXP() { return m_main->GetSceneRenderer()->GetTexture3Name(); }
+		Platform::String^ GetTextureImage4NameDXP() { return m_main->GetSceneRenderer()->GetTexture4Name(); }
+		Platform::String^ GetTextureImage5NameDXP() { return m_main->GetSceneRenderer()->GetTexture5Name(); }
+		Platform::String^ GetTextureImage6NameDXP() { return m_main->GetSceneRenderer()->GetTexture6Name(); }
+		void SetTextureImage1NameDXP(Platform::String^ name) { m_main->GetSceneRenderer()->SetTexture1Name(name); }
+		void SetTextureImage2NameDXP(Platform::String^ name) { m_main->GetSceneRenderer()->SetTexture2Name(name); }
+		void SetTextureImage3NameDXP(Platform::String^ name) { m_main->GetSceneRenderer()->SetTexture3Name(name); }
+		void SetTextureImage4NameDXP(Platform::String^ name) { m_main->GetSceneRenderer()->SetTexture4Name(name); }
+		void SetTextureImage5NameDXP(Platform::String^ name) { m_main->GetSceneRenderer()->SetTexture5Name(name); }
+		void SetTextureImage6NameDXP(Platform::String^ name) { m_main->GetSceneRenderer()->SetTexture6Name(name); }
 		Platform::String^ GetTextureImageGridPicFileDXP() { return m_main->GetSceneRenderer()->GetTextureImageGridPicFile(); }
 
 		void SetTextureImage1FileDXP(Platform::String^ fileName) {
@@ -149,30 +187,78 @@ namespace Hot3dxRotoDraw
 			file = ref new Platform::String(fileName->Data());
 			m_main->GetSceneRenderer()->SetTextureImage1File(fileName);
 #ifdef _DEBUG
-			OutputDebugString(L"\n m_strTextureFileName \n");
+			OutputDebugString(L"\n m_strTexture1FileName \n");
 			OutputDebugString(L"SetTextureImage1File(Platform::String ^ fileName)");
 			OutputDebugString(L"\n m_textureImage1File \n");
 			OutputDebugString(file->Data());
 			OutputDebugString(L"\n \n");
 #endif // _DEBUG
-			//m_loadingDrawnObjectComplete = true;
-			//InitDrawnObjectSingleTexture();
-			//fileName1 = fileName;
+			
 		}
 		void SetTextureImage2FileDXP(Platform::String^ fileName) {
 			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage2File();// = nullptr;
 			file = ref new Platform::String(fileName->Data());
 			m_main->GetSceneRenderer()->SetTextureImage2File(fileName);
 #ifdef _DEBUG
-			OutputDebugString(L"\n m_strTextureFileName \n");
+			OutputDebugString(L"\n m_strTexture2FileName \n");
 			OutputDebugString(L"SetTextureImage2File(Platform::String ^ fileName)");
 			OutputDebugString(L"\n m_textureImage2File \n");
 			OutputDebugString(file->Data());
 			OutputDebugString(L"\n \n");
 #endif // _DEBUG
-			//m_loadingDrawnObjectComplete = true;
-			//InitDrawnObjectSingleTexture();
-			//fileName1 = fileName;
+			
+		}
+		void SetTextureImage3FileDXP(Platform::String ^ fileName) {
+				Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage3File();// = nullptr;
+				file = ref new Platform::String(fileName->Data());
+				m_main->GetSceneRenderer()->SetTextureImage3File(fileName);
+#ifdef _DEBUG
+				OutputDebugString(L"\n m_strTexture3FileName \n");
+				OutputDebugString(L"SetTextureImage3File(Platform::String ^ fileName)");
+				OutputDebugString(L"\n m_textureImage3File \n");
+				OutputDebugString(file->Data());
+				OutputDebugString(L"\n \n");
+#endif // _DEBUG
+			
+		}
+		void SetTextureImage4FileDXP(Platform::String ^ fileName) {
+					Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage4File();// = nullptr;
+					file = ref new Platform::String(fileName->Data());
+					m_main->GetSceneRenderer()->SetTextureImage4File(fileName);
+#ifdef _DEBUG
+					OutputDebugString(L"\n m_strTexture4FileName \n");
+					OutputDebugString(L"SetTextureImage4File(Platform::String ^ fileName)");
+					OutputDebugString(L"\n m_textureImage4File \n");
+					OutputDebugString(file->Data());
+					OutputDebugString(L"\n \n");
+#endif // _DEBUG
+			
+		}
+		void SetTextureImage5FileDXP(Platform::String^ fileName) {
+			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage5File();// = nullptr;
+			file = ref new Platform::String(fileName->Data());
+			m_main->GetSceneRenderer()->SetTextureImage5File(fileName);
+#ifdef _DEBUG
+			OutputDebugString(L"\n m_strTexture5FileName \n");
+			OutputDebugString(L"SetTextureImage5File(Platform::String ^ fileName)");
+			OutputDebugString(L"\n m_textureImage5File \n");
+			OutputDebugString(file->Data());
+			OutputDebugString(L"\n \n");
+#endif // _DEBUG
+			
+		}
+		void SetTextureImage6FileDXP(Platform::String^ fileName) {
+			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage6File();// = nullptr;
+			file = ref new Platform::String(fileName->Data());
+			m_main->GetSceneRenderer()->SetTextureImage6File(fileName);
+#ifdef _DEBUG
+			OutputDebugString(L"\n m_strTexture6FileName \n");
+			OutputDebugString(L"SetTextureImage6File(Platform::String ^ fileName)");
+			OutputDebugString(L"\n m_textureImage6File \n");
+			OutputDebugString(file->Data());
+			OutputDebugString(L"\n \n");
+#endif // _DEBUG
+			
 		}
 
 		// Scenario11_GridorPic
@@ -215,7 +301,34 @@ namespace Hot3dxRotoDraw
 			m_main->GetSceneRenderer()->SetPointSpace(f);
 			m_main->GetSceneRenderer()->SetScrollDist(f);
 		}
+		unsigned int GetPointCount() {
+			return m_main->GetSceneRenderer()->GetPointCount();
+		}
+		unsigned int GetGroupCount() {
+			return m_main->GetSceneRenderer()->GetGroupCount();
+		}
+		
+		//Hot3dxRotoDraw::PtGroups^ GetPtGroupListDXP(size_t index) {
+		//	return m_main->GetSceneRenderer()->GetPtGroupList().at(index);
+		//}
 
+		Platform::Array<uint16_t>^ GetPtGroupListDXP(size_t index) {
+			Platform::Array<uint16_t>^ list = ref new Platform::Array<uint16_t>(GetGroupCount());
+			m_main->GetSceneRenderer()->GetPtGroupList().at(index)->GetPtList();
+			return list;
+		}
+
+		internal:
+		
+		
+				
+		std::vector<DirectX::DXTKXAML12::VertexPositionColor> GetVertices() { return m_main->GetSceneRenderer()->GetVertices(); }
+		std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> GetVertexes() { return m_main->GetSceneRenderer()->GetVertexes(); }
+		std::vector<uint16_t> GetIndices() { return m_main->GetSceneRenderer()->GetIndices(); }
+		std::vector<float> GetTextureU() { return m_main->GetSceneRenderer()->GetTextureU(); }
+		std::vector<float> GetTextureV() { return m_main->GetSceneRenderer()->GetTextureV(); }
+
+		public:
 		float GetPartialRotateAngleDXP() { return m_Scene2Vars->GetPartialRotateAngle(); }
 		void  SetPartialRotateAngleDXP(float angle) { m_Scene2Vars->SetPartialRotateAngle(angle); }
 
@@ -381,7 +494,7 @@ namespace Hot3dxRotoDraw
 		bool m_bIfLeftShiftKeyHeldDrawStraightLine;  // "N" Key
 		// Shift Key 45 degree Line
 		bool m_bIfLeftShiftKeyHeldDraw45Line; // "L" key
-
+		bool m_bIfRightShiftKeySphereRadius;  // "K" key
 		//Scenario2_Normal Variables
 		bool m_bDoFrontFacesDXP;
 		bool m_bDoBackFacesDXP;
@@ -420,7 +533,7 @@ namespace Hot3dxRotoDraw
 		float m_cameraradius;
 		float m_camerarotation;
 		float m_anglerotation;
-		int m_iCount;
+		int m_iPointCount;
 
 		int m_mouseWheelDeltaDXP;
 

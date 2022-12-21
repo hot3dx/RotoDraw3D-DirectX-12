@@ -142,9 +142,12 @@
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
     <PackageCertificateThumbprint>3BA8AB34544E641B4FEA10134680808B84E52B74</PackageCertificateThumbprint>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppInstallerUri>C:\Users\hot3d\Documents\Hot3dxApps</AppInstallerUri>
+    <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>
@@ -380,6 +383,12 @@
     <Image Include="Assets\Square44x44Logo.targetsize-48.png" />
     <Image Include="Assets\StoreLogo.png" />
     <Image Include="Assets\Textures\CHARACTER_BABY_MARIO.PNG" />
+    <Image Include="Assets\Textures\fire.dds" />
+    <Image Include="Assets\Textures\Floor_BaseColor.dds" />
+    <Image Include="Assets\Textures\Floor_Normal.DDS" />
+    <Image Include="Assets\Textures\Floor_RMA.DDS" />
+    <Image Include="Assets\Textures\floor_section1.dds" />
+    <Image Include="Assets\Textures\floor_section2.dds" />
     <Image Include="Assets\Textures\Marble.dds" />
     <Image Include="Assets\Textures\MarbleClouds.dds" />
     <Image Include="Assets\Textures\metal_texture.dds" />
@@ -396,7 +405,11 @@
     <Image Include="Assets\Textures\Pillar.dds" />
     <Image Include="Assets\Textures\scanner.dds" />
     <Image Include="Assets\Textures\seafloor.dds" />
-    <Image Include="Assets\Tiny_skin.dds" />
+    <Image Include="Assets\Textures\Stonewall_Ref_irradiance.dds" />
+    <Image Include="Assets\Textures\Stonewall_Ref_radiance.dds" />
+    <Image Include="Assets\Textures\tree01S.dds" />
+    <Image Include="Assets\Textures\WHITE_CUBEMAP_IR.DDS" />
+    <Image Include="Assets\Textures\WHITE_CUBEMAP_R.DDS" />
     <Image Include="Assets\Wide310x150Logo.scale-200.png" />
     <Image Include="Assets\WideLogo.scale-200.png" />
     <Image Include="Assets\windowslogo.dds" />
@@ -404,9 +417,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\cursor1.cur" />
-    <None Include="Assets\occcity.bin" />
-    <None Include="Assets\TeapotData.inc" />
-    <None Include="Assets\tiny.sdkmesh" />
+    <None Include="Content\PBREffect_Common.hlsli" />
+    <None Include="Content\PBREffect_Math.hlsli" />
+    <None Include="Content\PixelPacking_Velocity.hlsli" />
     <None Include="cpp.hint" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -432,9 +445,14 @@
     <ClInclude Include="CardioidSound.h" />
     <ClInclude Include="Common\d3dx12.h" />
     <ClInclude Include="Common\DeviceResources.h" />
+    <ClInclude Include="ContentDialog1.xaml.h">
+      <DependentUpon>ContentDialog1.xaml</DependentUpon>
+    </ClInclude>
     <ClInclude Include="Content\Hot3dxDrawnObject.h" />
+    <ClInclude Include="Content\Hot3dxObjectGeometry.h" />
     <ClInclude Include="Content\Hot3dxRotoDrawVariables.h" />
     <ClInclude Include="Content\Hot3dxRotoDrawSceneRender.h" />
+    <ClInclude Include="Content\Hot3dxVertexTypes.h" />
     <ClInclude Include="FilesSave\ColladaFileType.h" />
     <ClInclude Include="FilesSave\Hot3dxTextFileSave.h" />
     <ClInclude Include="FilesSave\Obj3DFile.h" />
@@ -492,10 +510,16 @@
     </ClCompile>
     <ClCompile Include="CardioidSound.cpp" />
     <ClCompile Include="Common\DeviceResources.cpp" />
+    <ClCompile Include="ContentDialog1.xaml.cpp">
+      <DependentUpon>ContentDialog1.xaml</DependentUpon>
+    </ClCompile>
     <ClCompile Include="Content\Hot3dxDrawnObject.cpp" />
+    <ClCompile Include="Content\Hot3dxObjectGeometry.cpp" />
     <ClCompile Include="Content\Hot3dxRotoDrawVariables.cpp" />
     <ClCompile Include="Content\Hot3dxRotoDrawSceneRender.cpp" />
     <ClCompile Include="Content\Hot3dxRotoDrawSceneRenderDrawFunctions.cpp" />
+    <ClCompile Include="Content\Hot3dxSceneRenderSphere.cpp" />
+    <ClCompile Include="Content\Hot3dxVertexTypes.cpp" />
     <ClCompile Include="FilesSave\ColladaFileType.cpp" />
     <ClCompile Include="FilesSave\Hot3dxTextFileSave.cpp" />
     <ClCompile Include="FilesSave\Obj3DFile.cpp" />
@@ -558,17 +582,86 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Content\PBREffect_PSConstant.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PSConstant</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.1</ShaderModel>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename)</VariableName>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(ProjectDir)Compiled\%(Filename).inc</HeaderFileOutput>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PSConstant</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.1</ShaderModel>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename)</VariableName>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(ProjectDir)Compiled\%(Filename).inc</HeaderFileOutput>
+    </FxCompile>
+    <FxCompile Include="Content\PBREffect_PSTextured.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PSTextured</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.1</ShaderModel>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename)</VariableName>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(ProjectDir)Compiled\%(Filename).inc</HeaderFileOutput>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PSTextured</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.1</ShaderModel>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename)</VariableName>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(ProjectDir)Compiled\%(Filename).inc</HeaderFileOutput>
+    </FxCompile>
+    <FxCompile Include="Content\PBREffect_PSTexturedVelocity.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PSTexturedVelocity</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.1</ShaderModel>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename)</VariableName>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(ProjectDir)Compiled\%(Filename).inc</HeaderFileOutput>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PSTexturedVelocity</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.1</ShaderModel>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename)</VariableName>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(ProjectDir)Compiled\%(Filename).inc</HeaderFileOutput>
+    </FxCompile>
+    <FxCompile Include="Content\PBREffect_VSConstant.hlsl">
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(ProjectDir)Compiled\%(Filename).inc</HeaderFileOutput>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(ProjectDir)Compiled\%(Filename).inc</HeaderFileOutput>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VSConstant</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VSConstant</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.1</ShaderModel>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename)</VariableName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.1</ShaderModel>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename)</VariableName>
+    </FxCompile>
+    <FxCompile Include="Content\PBREffect_VSConstantVelocity.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VSConstantVelocity</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VSConstantVelocity</EntryPointName>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(ProjectDir)Compiled\%(Filename).inc</HeaderFileOutput>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(ProjectDir)Compiled\%(Filename).inc</HeaderFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.1</ShaderModel>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename)</VariableName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.1</ShaderModel>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename)</VariableName>
+    </FxCompile>
     <FxCompile Include="Content\SamplePixelShader.hlsl">
       <ShaderType>Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.1</ShaderModel>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename)</VariableName>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(ProjectDir)Compiled\%(Filename).inc</HeaderFileOutput>
     </FxCompile>
     <FxCompile Include="Content\SampleVertexShader.hlsl">
       <ShaderType>Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.1</ShaderModel>
+      <VariableName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename)</VariableName>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(ProjectDir)Compiled\%(Filename).inc</HeaderFileOutput>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ContentDialog1.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="DirectXPage.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -592,22 +685,25 @@
   <ItemGroup>
     <ResourceCompile Include="Hot3dxRotoDraw.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Package.StoreAssociation.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ImageContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\MeshContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ShaderGraphContentTask.targets" />
     <Import Project="packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets" Condition="Exists('packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets')" />
-    <Import Project="packages\Microsoft.Web.WebView2.1.0.1264.42\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('packages\Microsoft.Web.WebView2.1.0.1264.42\build\native\Microsoft.Web.WebView2.targets')" />
     <Import Project="packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.targets')" />
+    <Import Project="packages\Microsoft.Web.WebView2.1.0.1462.37\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('packages\Microsoft.Web.WebView2.1.0.1462.37\build\native\Microsoft.Web.WebView2.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets'))" />
-    <Error Condition="!Exists('packages\Microsoft.Web.WebView2.1.0.1264.42\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Web.WebView2.1.0.1264.42\build\native\Microsoft.Web.WebView2.targets'))" />
     <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.props'))" />
     <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.Web.WebView2.1.0.1462.37\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Web.WebView2.1.0.1462.37\build\native\Microsoft.Web.WebView2.targets'))" />
   </Target>
 </Project>

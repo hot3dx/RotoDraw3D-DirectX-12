@@ -6,6 +6,7 @@
 #include "pch.h"
 #include "DirectXPage.xaml.h"
 #include "OmnidirectionalSound.h"
+#include "ContentDialog1.xaml.h"
 
 using namespace Hot3dxRotoDraw;
 
@@ -42,7 +43,7 @@ DirectXPage::DirectXPage() :
 	m_zScaleDrawnObject(1.0f),
 	m_xTranslateDrawnObject(0.0f),
 	m_yTranslateDrawnObject(0.0f),
-	m_zTranslateDrawnObject(20.0f),
+	m_zTranslateDrawnObject(0.0f),
 	m_xRotateDrawnObject(0.0f),
 	m_yRotateDrawnObject(0.0f),
 	m_zRotateDrawnObject(0.0f),
@@ -55,11 +56,18 @@ DirectXPage::DirectXPage() :
 	m_bIfRightShiftKeyHeldDrawStraightLine(false),
 	m_bIfLeftShiftKeyHeldDrawStraightLine(false),
 	m_bIfLeftShiftKeyHeldDraw45Line(false),
+	m_bIfRightShiftKeySphereRadius(false),
 	m_coreInput(nullptr)
 {
 	InitializeComponent();
 
 	DirectXPage::Current = this;
+	/*
+	ErrorPopup->Width = 0;
+	ErrorPopup->Height = 0;
+	ErrorMessageStackPanel->Width = 0;
+	ErrorMessageStackPanel->Height = 0;
+	*/
 	Hot3dxRotoDrawVariables^ m_rVars = ref new Hot3dxRotoDrawVariables();
 
 	m_rVars->SetColor(true, 255, 0, 0, 255);
@@ -390,6 +398,50 @@ void Hot3dxRotoDraw::DirectXPage::SetRightSwapChainPanel()
 	IsLeftMenuSwapChainPanel = false;
 }
 
+void Hot3dxRotoDraw::DirectXPage::ErrorMsgButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e, Platform::String^ msgType, Platform::String^ message)
+{
+	Dispatcher->RunAsync(CoreDispatcherPriority::Normal, ref new DispatchedHandler([msgType, message, this]()
+		{
+			ContentDialog1^ dlg = ref new ContentDialog1();
+			dlg->ContentDialog_SetTitle(msgType);
+			dlg->ContentDialog_SetTextBlock(message);
+			Windows::Foundation::IAsyncOperation<ContentDialogResult>^ result =
+				dlg->ShowAsync();
+			if (result->GetResults() == ContentDialogResult::Primary) {}
+			if (result->GetResults() == ContentDialogResult::Secondary) {}
+		}));
+	NotifyUser(message, NotifyType::StatusMessage);
+	
+}
+
+void Hot3dxRotoDraw::DirectXPage::SetErrorMessagePopup(Platform::String^ msgType, Platform::String^ message)
+{
+	
+	NotifyUser(message, NotifyType::StatusMessage);
+	Dispatcher->RunAsync(CoreDispatcherPriority::Normal, ref new DispatchedHandler([msgType, message, this]()
+		{
+			ContentDialog1^ dlg = ref new ContentDialog1();
+			dlg->ContentDialog_SetTitle(msgType);
+			dlg->ContentDialog_SetTextBlock(message);
+			Windows::Foundation::IAsyncOperation<ContentDialogResult>^ result =
+				dlg->ShowAsync();
+			if (result->GetResults() == ContentDialogResult::Primary) {
+				this->m_main->GetSceneRenderer()->ClearDrawnObject();
+				//CreateDeviceDependentResources();
+			}
+			if (result->GetResults() == ContentDialogResult::Secondary) {
+				this->m_main->GetSceneRenderer()->ClearDrawnObject();
+			}
+		}));
+	// Raise an event if necessary to enable a screen reader to announce the status update.
+	auto peer = dynamic_cast<FrameworkElementAutomationPeer^>(FrameworkElementAutomationPeer::FromElement(StatusBlock));
+	if (peer != nullptr)
+	{
+		peer->RaiseAutomationEvent(AutomationEvents::LiveRegionChanged);
+
+	}
+	
+}
 
 void Hot3dxRotoDraw::DirectXPage::OnRendering(Platform::Object^ sender, Platform::Object^ args)
 {
@@ -456,9 +508,11 @@ void DirectXPage::AppBarButton_Click(Object^ sender, RoutedEventArgs^ e)
 
 void DirectXPage::OnPointerPressed(Object^ sender, PointerEventArgs^ e)
 {
-	if (e->CurrentPoint->Properties->IsLeftButtonPressed) { m_main->GetSceneRenderer()->Setm_bLButtonDown(true); }
-	if (e->CurrentPoint->Properties->IsMiddleButtonPressed) { m_main->GetSceneRenderer()->Setm_bMButtonDown(true); }
-	if (e->CurrentPoint->Properties->IsRightButtonPressed) { m_main->GetSceneRenderer()->Setm_bRButtonDown(true); }
+	if (e->CurrentPoint->Properties->IsLeftButtonPressed) { m_main->GetSceneRenderer()->Setm_bLButtonDown(true); OutputDebugString(L"Setm_bLButtonDown(true)\n");
+	}
+	if (e->CurrentPoint->Properties->IsMiddleButtonPressed) { m_main->GetSceneRenderer()->Setm_bMButtonDown(true); OutputDebugString(L"Setm_bMButtonDown(true)\n");
+	}
+	if (e->CurrentPoint->Properties->IsRightButtonPressed) { m_main->GetSceneRenderer()->Setm_bRButtonDown(true); OutputDebugString(L"Setm_bRButtonDown(true)\n"); }
 	// When the pointer is pressed begin tracking the pointer movement.
 	m_main->StartTracking();
 }
@@ -479,9 +533,12 @@ void DirectXPage::OnPointerMoved(Object^ sender, PointerEventArgs^ e)
 void DirectXPage::OnPointerReleased(Object^ sender, PointerEventArgs^ e)
 {
 	// Stop tracking pointer movement when the pointer is released.
-	if (!e->CurrentPoint->Properties->IsLeftButtonPressed) { m_main->GetSceneRenderer()->Setm_bLButtonDown(false); }
-	if (!e->CurrentPoint->Properties->IsMiddleButtonPressed) { m_main->GetSceneRenderer()->Setm_bMButtonDown(false); }
-	if (!e->CurrentPoint->Properties->IsRightButtonPressed) { m_main->GetSceneRenderer()->Setm_bRButtonDown(false); }
+	if (!e->CurrentPoint->Properties->IsLeftButtonPressed) { m_main->GetSceneRenderer()->Setm_bLButtonDown(false); OutputDebugString(L"Setm_bLButtonDown(false)\n");
+	}
+	if (!e->CurrentPoint->Properties->IsMiddleButtonPressed) { m_main->GetSceneRenderer()->Setm_bMButtonDown(false); OutputDebugString(L"Setm_bMButtonDown(false)\n");
+	}
+	if (!e->CurrentPoint->Properties->IsRightButtonPressed) { m_main->GetSceneRenderer()->Setm_bRButtonDown(false); OutputDebugString(L"Setm_bRButtonDown(false)\n");
+	}
 
 }
 
@@ -693,6 +750,11 @@ void DirectXPage::OnKeyDown(Windows::UI::Core::CoreWindow^ /*window*/, Windows::
 	{
 		m_bIfLeftShiftKeyHeldDraw45Line = true;
 	}break;
+	case VirtualKey::K:
+	{
+		m_bIfRightShiftKeySphereRadius = true;
+	}break;
+
 	}// eo switch(Key
 }
 
@@ -713,6 +775,10 @@ void DirectXPage::OnKeyUp(Windows::UI::Core::CoreWindow^ /*window*/, Windows::UI
 	{
 		m_bIfLeftShiftKeyHeldDraw45Line = false;
 	}break;
+	case VirtualKey::K:
+	{
+		m_bIfRightShiftKeySphereRadius = false;
+	}break;
 	}// eo switch(Key
 	if (static_cast<UINT>(args->VirtualKey) < 256)
 	{
@@ -722,6 +788,19 @@ void DirectXPage::OnKeyUp(Windows::UI::Core::CoreWindow^ /*window*/, Windows::UI
 void Hot3dxRotoDraw::DirectXPage::IDC_SET_POINTS_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	m_main->GetSceneRenderer()->SetPoints();
+}
+
+void Hot3dxRotoDraw::DirectXPage::SET_SPHERE_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e,
+	float m_cameraradius, float m_camerarotation)
+{
+	
+	int* numVerts = nullptr;
+	
+		m_main->GetSceneRenderer()->InitSphereVB2(numVerts, m_cameraradius, m_camerarotation);
+		if (m_main->GetSceneRenderer()->GetPointCount() == 0) {
+			return;
+		}
+		
 }
 
 void DirectXPage::OnCompositionScaleChanged(SwapChainPanel^ sender, Object^ args)
@@ -766,6 +845,7 @@ void Hot3dxRotoDraw::DirectXPage::NotifyUser(Platform::String^ strMessage, Notif
 		Dispatcher->RunAsync(CoreDispatcherPriority::Normal, ref new DispatchedHandler([strMessage, type, this]()
 		{
 			UpdateStatus(strMessage, type);
+			
 		}));
 	}
 }

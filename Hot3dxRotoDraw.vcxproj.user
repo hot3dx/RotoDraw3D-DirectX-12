@@ -44,9 +44,9 @@
     <DebuggerRequireAuthentication>Universal</DebuggerRequireAuthentication>
   </PropertyGroup>
   <PropertyGroup>
-    <UapAppxPackageBuildMode>StoreAndSideload</UapAppxPackageBuildMode>
+    <UapAppxPackageBuildMode>SideloadOnly</UapAppxPackageBuildMode>
     <AppxShowAllApps>False</AppxShowAllApps>
-    <AppxBuildConfigurationSelection>x86|x64</AppxBuildConfigurationSelection>
-    <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
+    <AppxBuildConfigurationSelection>x64</AppxBuildConfigurationSelection>
+    <PackageOptionalProjectsInIdeBuilds>True</PackageOptionalProjectsInIdeBuilds>
   </PropertyGroup>
 </Project>
