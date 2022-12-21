@@ -840,7 +840,7 @@ void DX::DeviceResources::Present(D3D12_RESOURCE_STATES beforeState)
 
 	// If the device was reset we must completely reinitialize the renderer.
 	if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
-	{
+	{/*
 #ifdef _DEBUG
 
 		String^ arg = ref new String(L"Device Lost on Present: Reason code ");
@@ -848,7 +848,7 @@ void DX::DeviceResources::Present(D3D12_RESOURCE_STATES beforeState)
 		String^ var = ref new String(std::to_wstring(hr).c_str());
 		arg = arg->Concat(arg, var);
 		OutputDebugStringA((LPCSTR)arg);
-#endif
+#endif*/
 		HandleDeviceLost();
 	}
 	else
