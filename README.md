@@ -1,4 +1,14 @@
-# - New Version 10/14/2022- #
+# New Version 1/9/23
+
+Gone are the problems loading files from other directories and their subfolders like Documents, Pictures, Object 3D, Videos
+
+Finding the Directory of the program from within the program is fixed.
+
+Several other bugs are also fixed.
+
+Enjoy!
+
+# Version 10/14/2022- #
 
 # RotoDraw3D-DirectX-12 #
 RotoDraw3d DX 12 is a freehand symmetrical object drawer for DirectX 12
