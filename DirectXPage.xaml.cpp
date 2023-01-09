@@ -136,8 +136,10 @@ DirectXPage::DirectXPage() :
 	m_inputLoopWorker = ThreadPool::RunAsync(workItemHandler, WorkItemPriority::High, WorkItemOptions::TimeSliced);
 
 	AudioInitialize();
-
+	
 	m_main = std::unique_ptr<Hot3dxRotoDrawMain>(new Hot3dxRotoDrawMain(m_deviceResources));
+	// MyFilePathDXP(L"MakerC1.ico"); works but there's something faster
+	SetProgramDirPathDXP();
 	m_main->StartRenderLoop();
 
 
@@ -832,6 +834,60 @@ void Hot3dxRotoDraw::DirectXPage::IDC_CLEAR_BUTTON_Click(Platform::Object^ sende
 	if (m_main->GetSceneRenderer()->GetPointCount() == 0) { return; }
 	m_main->GetSceneRenderer()->ClearDrawnObject();
 	AudioInitialize();
+}
+
+void Hot3dxRotoDraw::DirectXPage::MyFilePathDXP(Platform::String^ image)
+{
+		Platform::String^ imageName = ref new Platform::String(image->Data());
+		Platform::String^ aPath = ref new Platform::String(L"ms-appx:///Assets/");
+		aPath = aPath->Concat(aPath, imageName);
+
+		Uri^ uri = ref new Uri(aPath);
+		create_task(StorageFile::GetFileFromApplicationUriAsync(uri)).then([this](StorageFile^ file)
+			{
+				Platform::String^ s = ref new Platform::String(file->Path->Data());
+
+		this->m_sDirPathDXP = ref new Platform::String();
+		int len = s->Length();
+		const wchar_t* dir = s->Data();
+		unsigned int cnt = len - 18;
+
+		for (unsigned int i = 0; i < cnt; i++)
+		{
+			if (dir[i] == '\\')
+			{
+				this->m_sDirPathDXP = this->m_sDirPathDXP->Concat(this->m_sDirPathDXP, dir[i]);
+				//this->m_sDirPathDXP = this->m_sDirPathDXP->Concat(this->m_sDirPathDXP, dir[i]);
+			}
+			else {
+				this->m_sDirPathDXP = this->m_sDirPathDXP->Concat(this->m_sDirPathDXP, dir[i]);
+			}
+		}
+
+		/*
+		OutputDebugString(L"The m_sDirPathDXP is \n\n");
+		OutputDebugString(m_sDirPathDXP->Data());
+		OutputDebugString(L"\n\nThe s path is \n\n");
+		OutputDebugString(s->Data());
+		OutputDebugString(L"\n\nThe s path is \n\n");
+		*/
+
+		return file->OpenSequentialReadAsync();
+			}).then(
+				[this](task<Windows::Storage::Streams::IInputStream^> inputStream)
+				{
+					try {
+				//this->currentChunk = 0;
+				//this->ReadBytesOutput->Text = "";
+
+				Windows::Storage::Streams::DataReader^ datareader = ref new Windows::Storage::Streams::DataReader(inputStream.get());
+
+				//this->ReadLoop(dataReader);
+			}
+			catch (Exception^ e) {
+				//this->ReadBytesOuput->Text = e->Message;
+			}
+				});
 }
 
 void Hot3dxRotoDraw::DirectXPage::NotifyUser(Platform::String^ strMessage, NotifyType type)

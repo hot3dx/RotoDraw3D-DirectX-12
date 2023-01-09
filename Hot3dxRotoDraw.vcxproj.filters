@@ -392,6 +392,8 @@
       <Filter>Content</Filter>
     </None>
     <None Include="Package.StoreAssociation.xml" />
+    <None Include="Hot3dxJeffKubitz1341389885DER.pfx" />
+    <None Include="Certificate1341389885.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\musicmono_adpcm.wav">

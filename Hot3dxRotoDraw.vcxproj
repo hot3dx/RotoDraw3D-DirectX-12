@@ -143,7 +143,7 @@
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>3BA8AB34544E641B4FEA10134680808B84E52B74</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>82AF805DD77654FB3D40E8B8037CAD88205F2890</PackageCertificateThumbprint>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppInstallerUri>C:\Users\hot3d\Documents\Hot3dxApps</AppInstallerUri>
@@ -417,10 +417,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\cursor1.cur" />
+    <None Include="Certificate1341389885.pfx" />
     <None Include="Content\PBREffect_Common.hlsli" />
     <None Include="Content\PBREffect_Math.hlsli" />
     <None Include="Content\PixelPacking_Velocity.hlsli" />
     <None Include="cpp.hint" />
+    <None Include="Hot3dxJeffKubitz1341389885DER.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

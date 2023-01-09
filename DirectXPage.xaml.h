@@ -320,10 +320,30 @@ namespace Hot3dxRotoDraw
 
 		internal:
 		
-		
-				
-		std::vector<DirectX::DXTKXAML12::VertexPositionColor> GetVertices() { return m_main->GetSceneRenderer()->GetVertices(); }
-		std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> GetVertexes() { return m_main->GetSceneRenderer()->GetVertexes(); }
+		Platform::String^ GetProgramDirPathDXP() {
+			//m_main->GetSceneRenderer()->m_hot3dxDirPath = m_sDirPathDXP; 
+			
+			auto folder = Windows::ApplicationModel::Package::Current->InstalledLocation;
+			Platform::String^ s = ref new Platform::String(folder->Path->Data());
+			s = s->Concat(s, L"\\");
+			m_main->GetSceneRenderer()->m_hot3dxDirPath = m_sDirPathDXP = s;
+			/*
+			OutputDebugString(L"\n\n Folder Path\n");
+			OutputDebugString(folder->Path->Data());
+			OutputDebugString(L"\n\n Folder Name\n");
+			OutputDebugString(folder->Name->Data());
+			OutputDebugString(L"\n\n Folder Name\n");
+			*/
+			return m_sDirPathDXP; }
+		void SetProgramDirPathDXP()
+		{
+			auto folder = Windows::ApplicationModel::Package::Current->InstalledLocation;
+			Platform::String^ s = ref new Platform::String(folder->Path->Data());
+			s = s->Concat(s, L"\\");
+			m_main->GetSceneRenderer()->m_hot3dxDirPath = m_sDirPathDXP = s;
+		}
+		std::vector<DirectX::DXTKXAML12::VertexPositionColor> GetVerticesDXP() { return m_main->GetSceneRenderer()->GetVertices(); }
+		std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> GetVertexesDXP() { return m_main->GetSceneRenderer()->GetVertexes(); }
 		std::vector<uint16_t> GetIndices() { return m_main->GetSceneRenderer()->GetIndices(); }
 		std::vector<float> GetTextureU() { return m_main->GetSceneRenderer()->GetTextureU(); }
 		std::vector<float> GetTextureV() { return m_main->GetSceneRenderer()->GetTextureV(); }
@@ -541,7 +561,9 @@ namespace Hot3dxRotoDraw
 		bool m_fullscreen;
 		bool IsLeftMenuSwapChainPanel = true;
 
-
+		void MyFilePathDXP(Platform::String^ image);
+		Platform::String^ m_sDirPathDXP = ref new Platform::String();
+		
 	internal:
 		static DirectXPage^ Current;
 		void NotifyUser(Platform::String^ strMessage, NotifyType type);
