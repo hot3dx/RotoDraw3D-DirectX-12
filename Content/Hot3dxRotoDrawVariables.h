@@ -302,13 +302,13 @@ namespace Hot3dxRotoDraw
 		void SetTextureImage1File(Platform::String^ fileName) {
 			fileName1 = nullptr;
 			fileName1 = ref new Platform::String(fileName->Data());
-			fileName1 = fileName;
+			//fileName1 = fileName;
 		}
 		Platform::String^ GetTextureImage2File() { return fileName2; }// m_textureImage2File
 		void SetTextureImage2File(Platform::String^ fileName) {
 			fileName2 = nullptr;
 			fileName2 = ref new Platform::String(fileName->Data());
-			fileName2 = fileName;
+			//fileName2 = fileName;
 		}
 
 		Windows::Storage::FileProperties::StorageItemThumbnail^ GetThumbnailDXP1() { return m_thumbnailDXP1; }
@@ -325,7 +325,7 @@ namespace Hot3dxRotoDraw
 		void SetbitmapImageDXP2(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail)
 		{
 			bitmapImageDXP2 = ref new BitmapImage();
-			bitmapImageDXP2->SetSource(thumbnail);
+			bitmapImageDXP2->SetSourceAsync(thumbnail);
 		}
 		/// <summary>
 		/// //////////////////////////
@@ -337,13 +337,13 @@ namespace Hot3dxRotoDraw
 		void SetTextureImage3File(Platform::String^ fileName) {
 			fileName3 = nullptr;
 			fileName3 = ref new Platform::String(fileName->Data());
-			fileName3 = fileName;
+			//fileName3 = fileName;
 		}
 		Platform::String^ GetTextureImage4File() { return fileName4; }// m_textureImage4File
 		void SetTextureImage4File(Platform::String^ fileName) {
 			fileName4 = nullptr;
 			fileName4 = ref new Platform::String(fileName->Data());
-			fileName4 = fileName;
+			//fileName4 = fileName;
 		}
 
 		Windows::Storage::FileProperties::StorageItemThumbnail^ GetThumbnailDXP3() { return m_thumbnailDXP3; }
@@ -360,7 +360,7 @@ namespace Hot3dxRotoDraw
 		void SetbitmapImageDXP4(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail)
 		{
 			bitmapImageDXP4 = ref new BitmapImage();
-			bitmapImageDXP4->SetSource(thumbnail);
+			bitmapImageDXP4->SetSourceAsync(thumbnail);
 		}
 		/// </////////////////////////////////returns></returns>
 		Windows::Storage::StorageFile^ GetFile5() { return fileImage5; }
@@ -371,13 +371,13 @@ namespace Hot3dxRotoDraw
 		void SetTextureImage5File(Platform::String^ fileName) {
 			fileName5 = nullptr;
 			fileName5 = ref new Platform::String(fileName->Data());
-			fileName5 = fileName;
+			//fileName5 = fileName;
 		}
 		Platform::String^ GetTextureImage6File() { return fileName6; }// m_textureImage6File
 		void SetTextureImage6File(Platform::String^ fileName) {
 			fileName6 = nullptr;
 			fileName6 = ref new Platform::String(fileName->Data());
-			fileName6 = fileName;
+			//fileName6 = fileName;
 		}
 
 		Windows::Storage::FileProperties::StorageItemThumbnail^ GetThumbnailDXP5() { return m_thumbnailDXP5; }
@@ -394,7 +394,7 @@ namespace Hot3dxRotoDraw
 		void SetbitmapImageDXP6(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail)
 		{
 			bitmapImageDXP6 = ref new BitmapImage();
-			bitmapImageDXP6->SetSource(thumbnail);
+			bitmapImageDXP6->SetSourceAsync(thumbnail);
 		}
 
 

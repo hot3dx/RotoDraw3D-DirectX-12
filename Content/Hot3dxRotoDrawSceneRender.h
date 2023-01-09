@@ -217,28 +217,24 @@ namespace Hot3dxRotoDraw
 				m_bIsBasicModel = true;
 				m_bIsDualTextureModel = false;
 				m_bIsPBRModel = false;
-				OutputDebugString(L"\nBasic Effect Set\n");
 			}break;
 			case 1:
 			{
 				m_bIsDualTextureModel = true;
 				m_bIsBasicModel = false;
 				m_bIsPBRModel = false;
-				OutputDebugString(L"\nDual Texture  Effect Set\n");
 			}break;
 			case 2:
 			{
 				m_bIsPBRModel = true;
 				m_bIsDualTextureModel = false;
 				m_bIsBasicModel = false;
-				OutputDebugString(L"\nPBR  Effect Set\n");
 			}break;
 			default:
 			{
 				m_bIsBasicModel = true;
 				m_bIsDualTextureModel = false;
 				m_bIsPBRModel = false;\
-			    OutputDebugString(L"\nDefault  Effect Set\n");
 			}break;
 			}
 		}
@@ -246,6 +242,7 @@ namespace Hot3dxRotoDraw
 		void XM_CALLCONV InitDrawnObjectPBRSingleTexture();
 		void XM_CALLCONV InitDrawnObjectDualTexture();
 		void XM_CALLCONV InitDrawnObjectVideoTexture();
+		Platform::String^ m_hot3dxDirPath = ref new Platform::String();
 		void CameraReset();
 		void XM_CALLCONV ClearDrawnObject();
 		void ScreenMouse3DWorldAlignment();
@@ -819,7 +816,7 @@ namespace Hot3dxRotoDraw
 			//GameFilepaths m_filepath;
 
 			//Settings and data
-			Platform::String^ dirpath_wchar = ref new Platform::String(L"\\Assets\\Textures\\");
+			Platform::String^ dirpath_wchar = ref new Platform::String(L"Assets\\Textures\\");
 			Platform::String^ filename;
 			int resourceDescriptorOffset = 0;
 			int meshTexture_index = -1;

@@ -92,8 +92,8 @@ RotoDrawSceneRender::RotoDrawSceneRender(const std::shared_ptr<DX::DeviceResourc
 	m_angle(0.01f),
 	m_tracking(false),
 	sceneVertexCount(8),
-	m_textureImage1File(L"Assets\\Textures\\Marble.dds"),
-	m_textureImage2File(L"Assets\\Textures\\nightceiling.dds"),
+	m_textureImage1File(L"Assets\\Textures\\fire.dds"),
+	m_textureImage2File(L"Assets\\Textures\\sphere.png"),
 	m_textureImage3File(L"Assets\\Textures\\Floor_RMA.dds"),
 	m_textureImage4File(L"Assets\\Textures\\Floor_Normal.dds"),
 	m_textureImage5File(L"Assets\\Textures\\WHITE_CUBEMAP_R.DDS.dds"),
@@ -135,7 +135,6 @@ RotoDrawSceneRender::RotoDrawSceneRender(const std::shared_ptr<DX::DeviceResourc
 
 	m_vars = ref new Hot3dxRotoDrawVariables();
 
-	
 	CreateWindowSizeDependentResources();
 	CreateDeviceDependentResources();
 	CreateWindowSizeDependentResources();
@@ -199,10 +198,10 @@ void RotoDrawSceneRender::CreateDeviceDependentResources()
 			// Begin Resource Upload
 			m_resourceUpload->BeginXaml();
 
-			TCHAR pwd[512];
-			DWORD LENGTH = GetCurrentDirectory(512, pwd);
-			Platform::String^ sfil = ref new Platform::String(pwd, LENGTH);
-			sfil = sfil->Concat(sfil, L"\\Assets\\Textures\\seafloor.dds");
+			//TCHAR pwd[512];
+			//DWORD LENGTH = GetCurrentDirectory(512, pwd);
+			Platform::String^ sfil = ref new Platform::String(m_hot3dxDirPath->Data());//(pwd, LENGTH);
+			sfil = sfil->Concat(sfil, L"Assets\\Textures\\seafloor.dds");
 			DX::ThrowIfFailed(
 				DirectX::DXTKXAML12::CreateDDSTextureFromFile(device, *m_resourceUpload, sfil->ToString()->Data(), &m_texture1)
 			);
@@ -2178,27 +2177,9 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRSingleTe
 		m_hot3dxDrawnObject = Hot3dxDrawnObject::CreateDrawnObjectTangent(verticesPBR, indices, device);// fixed - oh yeah baby
 		//m_shapeDrawnObjectTex = GeometricPrimitive::CreateCustom(vertexes, indices, device);
 		{
-
-
 			DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadDrawnObject = new DirectX::DXTKXAML12::ResourceUploadBatch(device);
 			m_resourceUploadDrawnObject->BeginXaml();
 
-			
-			//Platform::String^ normalTexture;
-			//Platform::String^ rmaTexture;
-#ifdef _DEBUG
-			//normalTexture = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Debug\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\Floor_Normal.DDS");
-			//rmaTexture = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Debug\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\Floor_RMA.DDS");
-			//m_radiance = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Debug\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\WHITE_CUBEMAP_R.DDS");
-			//m_irradiance = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Debug\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\WHITE_CUBEMAP_IR.DDS");
-#endif // _DEBUG
-#ifdef NDEBUG
-        	//normalTexture = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Release\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\Floor_Normal.DDS");
-			//rmaTexture = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Release\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\Floor_RMA.DDS");
-			//m_radiance = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Release\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\WHITE_CUBEMAP_R.DDS");
-			//m_irradiance = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Release\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\WHITE_CUBEMAP_IR.DDS");
-#endif // NDEBUG
-			
 			if (m_bDDS_WIC_FLAG1 == true)
 			{
 				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), m_DrawnMeshTexture1.ReleaseAndGetAddressOf(), GetMsgTypes(0), GetMessages(0));
@@ -2489,12 +2470,22 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::LoadDDSOrWicTextureFile(_I
 	{
 		Platform::String^ msgType = L"Error Message: Directory Not Accessible  ";
 		Platform::String^ message = L"All textures must be chosen from the x64\\Release or Debug\\Hot3dxRotoDraw\\AppX\\Assets\\(Folder or sub-Folders \nPress the Clear Button after Dialog Closes\n1)Go To: Textures\n2) Add Texture1 Button from the proper doirectory\nThe directory is also in the status box lower left)";
-		//
+		m_vars->GetDXPage()->NotifyUser("File Error Open " + message, NotifyType::ErrorMessage); 
+		ClearDrawnObject();
+		m_vars->GetDXPage()->NotifyUser("Opened file " + ref new Platform::String(szfileName), NotifyType::StatusMessage);
 		m_vars->GetDXPage()->SetErrorMessagePopup(msgType, message);
-		//CreateDeviceDependentResources();
+		
+			
+		
+	}
+
+	else
+	{
+		m_vars->GetDXPage()->NotifyUser("Opened file " + ref new Platform::String(szfileName), NotifyType::StatusMessage);
 		return;
 
 	}
+	m_vars->GetDXPage()->NotifyUser("Opened file " + ref new Platform::String(szfileName), NotifyType::StatusMessage);
 	return;
 }
 
