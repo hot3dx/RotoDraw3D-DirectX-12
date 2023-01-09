@@ -118,11 +118,11 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Button_Click(Platform::Object^ sende
 
 }
 
-void Hot3dxRotoDraw::Scenario3_FileIO::Save_Obj_Material_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+void Hot3dxRotoDraw::Scenario3_FileIO::Save_Material_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
     // Clear previous returned file name, if it exists, between iterations of this scenario
-    //IDC_WELCOME_STATIC->Text = "";//was used as a sample but needs to be changed; A writer function needs to be called with
-    //the file data to be saved.
+   //IDC_WELCOME_STATIC->Text = "";//was used as a sample but needs to be changed; A writer function needs to be called with
+   //the file data to be saved.
 
     FileSavePicker^ savePicker = ref new FileSavePicker();
     savePicker->SuggestedStartLocation = PickerLocationId::DocumentsLibrary;
@@ -168,6 +168,11 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Obj_Material_Button_Click(Platform::
             }
 
         });
+}
+
+void Hot3dxRotoDraw::Scenario3_FileIO::Save_Obj_Material_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+   
 
     FileSavePicker^ savePicker1 = ref new FileSavePicker();
     savePicker1->SuggestedStartLocation = PickerLocationId::DocumentsLibrary;
@@ -283,3 +288,4 @@ if (result->GetResults() == ContentDialogResult::Secondary) {}
     }));
 NotifyUser(message, NotifyType::StatusMessage);
 */
+

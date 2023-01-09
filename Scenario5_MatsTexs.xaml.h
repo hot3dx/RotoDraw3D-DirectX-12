@@ -68,20 +68,23 @@ namespace Hot3dxRotoDraw
         void IDC_TEXTURE_RADIANCE_IMAGE5_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void IDC_TEXTURE_IRRADIANCE_IMAGE6_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 
-        void LoadDefaultImage1();
+        void LoadDefaultImage1(Platform::String^ imagePath);
         void LoadChosenImage1();
-        void LoadDefaultImage2();
+        void LoadDefaultImage2(Platform::String^ imagePath);
         void LoadChosenImage2();
-        void LoadDefaultImage3();
+        void LoadDefaultImage3(Platform::String^ imagePath);
         void LoadChosenImage3();
-        void LoadDefaultImage4();
+        void LoadDefaultImage4(Platform::String^ imagePath);
         void LoadChosenImage4();
-        void LoadDefaultImage5();
+        void LoadDefaultImage5(Platform::String^ imagePath);
         void LoadChosenImage5();
-        void LoadDefaultImage6();
+        void LoadDefaultImage6(Platform::String^ imagePath);
         void LoadChosenImage6();
-       //void LoadDefaultImage();
-       // void LoadChosenImage();
+        void LoadDefaultImages(unsigned int imageIdNum, 
+            Platform::String^ imagePath
+        );
+        unsigned int imageIdNums;
+        void LoadChosenImages();
 
         void Hot3dxRotoDraw::Scenario5_MatsTexs::SetMaterialTypesStrings();
         void SetSingleMaterialTypesStringListboxItem(Platform::Object^ sender, unsigned int i,
@@ -97,7 +100,8 @@ namespace Hot3dxRotoDraw
 
         void MaterialListControl_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e);
         void MaterialListControlData_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e);
-
+        void MySc5FilePath(Platform::String^ image);
+        Platform::String^ m_sSc5DirPath;
 
         bool m_firstOrSecondImage;
 
@@ -105,6 +109,13 @@ namespace Hot3dxRotoDraw
         static Scenario5_MatsTexs^ Current;
 
         
+    private:
+        void TextureImage1_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void TextureImage2_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void TextureImage3_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void TextureImage4_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void TextureImage5_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void TextureImage6_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
     };
 
 }

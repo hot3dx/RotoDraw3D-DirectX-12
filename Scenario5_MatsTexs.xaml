@@ -115,16 +115,16 @@
         <TextBlock x:Name="IDC_D3DMATERIAL_DISPLAY" HorizontalAlignment="Left" Margin="458,705,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="256" Width="256" FocusVisualPrimaryBrush="White" Foreground="White"/>
         <Button x:Name="ID_COLOR_ADD_BUTTON" Content="Add Custom Colors" Margin="181,460,0,0" VerticalAlignment="Top" Height="25" Width="115" FontSize="10"/>
         <Slider  x:Name="scrollBar" HorizontalAlignment="Left" Margin="180,540,0,0" VerticalAlignment="Top" Width="300" Height="25" Background="Yellow" Orientation="Horizontal"/>
-        <Image x:Name="TextureImage1" HorizontalAlignment="Left" Height="75" Margin="305,128,0,0" VerticalAlignment="Top" Width="75"/>
-        <Image x:Name="TextureImage2" HorizontalAlignment="Left" Height="75" Margin="385,128,0,0" VerticalAlignment="Top" Width="75"/>
+        <Image x:Name="TextureImage1" Source="ms-appx:///Assets/Textures/fire.dds" x:Load="True" Loaded="TextureImage1_Loaded" HorizontalAlignment="Left" Height="75" Margin="305,128,0,0" VerticalAlignment="Top" Width="75"/>
+        <Image x:Name="TextureImage2" Source="ms-appx:///Assets/Textures/sphere.png"  x:Load="True" Loaded="TextureImage2_Loaded" HorizontalAlignment="Left" Height="75" Margin="385,128,0,0" VerticalAlignment="Top" Width="75"/>
         <Button x:Name="IDC_TEXTURE_IMAGE1_BUTTON" Content="Add Texture 1" Margin="318,212,0,0" VerticalAlignment="Top" Height="22" Width="135" FontSize="8" Click="IDC_TEXTURE_IMAGE1_BUTTON_Click"/>
-        <Button x:Name="IDC_TEXTURE_IMAGE2_BUTTON" Content="Add Texture 2/Normal" Margin="318,238,0,0" VerticalAlignment="Top" Height="22" Width="135" FontSize="8" Click="IDC_TEXTURE_IMAGE2_BUTTON_Click"/>
-        <Image x:Name="TextureRMAImage3" HorizontalAlignment="Left" Height="75" Margin="305,268,0,0" VerticalAlignment="Top" Width="75"/>
-        <Image x:Name="TextureEMMisiveImage4" HorizontalAlignment="Left" Height="75" Margin="385,268,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="IDC_TEXTURE_IMAGE2_BUTTON" Content="Add Texture 2/Dual Tex" Margin="318,238,0,0" VerticalAlignment="Top" Height="22" Width="135" FontSize="8" Click="IDC_TEXTURE_IMAGE2_BUTTON_Click"/>
+        <Image x:Name="TextureRMAImage3" Source="ms-appx:///Assets/Textures/Floor_RMA.DDS" x:Load="True" Loaded="TextureImage3_Loaded" HorizontalAlignment="Left" Height="75" Margin="305,268,0,0" VerticalAlignment="Top" Width="75"/>
+        <Image x:Name="TextureEMMisiveImage4" Source="ms-appx:///Assets/Textures/Floor_Normal.DDS" x:Load="True" Loaded="TextureImage4_Loaded" HorizontalAlignment="Left" Height="75" Margin="385,268,0,0" VerticalAlignment="Top" Width="75"/>
         <Button x:Name="IDC_TEXTURE_RMA_IMAGE3_BUTTON" Content="Add Texture 3/RMA" Margin="318,348,0,0" VerticalAlignment="Top" Height="22" Width="135" FontSize="8" Click="IDC_TEXTURE_RMA_IMAGE3_BUTTON_Click"/>
-        <Button x:Name="IDC_TEXTURE_EMMISIVE_IMAGE4_BUTTON" Content="Add Texture 4/Emmisive" Margin="318,374,0,0" VerticalAlignment="Top" Height="22" Width="135" FontSize="8" Click="IDC_TEXTURE_EMMISIVE_IMAGE4_BUTTON_Click"/>
-        <Image x:Name="TextureRadianceImage5" HorizontalAlignment="Left" Height="75" Margin="305,405,0,0" VerticalAlignment="Top" Width="75"/>
-        <Image x:Name="TextureIrradianceImage6" HorizontalAlignment="Left" Height="75" Margin="385,405,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="IDC_TEXTURE_EMMISIVE_IMAGE4_BUTTON" Content="Add Texture 4/Normal" Margin="318,374,0,0" VerticalAlignment="Top" Height="22" Width="135" FontSize="8" Click="IDC_TEXTURE_EMMISIVE_IMAGE4_BUTTON_Click"/>
+        <Image x:Name="TextureRadianceImage5" Source="ms-appx:///Assets/Textures/WHITE_CUBEMAP_R.DDS"  x:Load="True" Loaded="TextureImage5_Loaded" HorizontalAlignment="Left" Height="75" Margin="305,405,0,0" VerticalAlignment="Top" Width="75"/>
+        <Image x:Name="TextureIrradianceImage6" Source="ms-appx:///Assets/Textures/WHITE_CUBEMAP_IR.DDS"  x:Load="True" Loaded="TextureImage6_Loaded" HorizontalAlignment="Left" Height="75" Margin="385,405,0,0" VerticalAlignment="Top" Width="75"/>
         <Button x:Name="IDC_TEXTURE_RADIANCE_IMAGE5_BUTTON" Content="Add Tex/Radiance" Margin="318,485,0,0" VerticalAlignment="Top" Height="22" Width="75" FontSize="8" Click="IDC_TEXTURE_RADIANCE_IMAGE5_BUTTON_Click"/>
         <Button x:Name="IDC_TEXTURE_IRRADIANCE_IMAGE6_BUTTON" Content="Tex/Irradiance" Margin="398,485,0,0" VerticalAlignment="Top" Height="22" Width="75" FontSize="8" Click="IDC_TEXTURE_IRRADIANCE_IMAGE6_BUTTON_Click"/>
 

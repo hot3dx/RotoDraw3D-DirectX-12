@@ -45,6 +45,7 @@ namespace Hot3dxRotoDraw
         void SaveAll_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void Save_Texture_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         
+        void Save_Material_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
     };
 }
 

@@ -64,6 +64,7 @@ namespace Hot3dxRotoDraw
         void LoadChosenImage1();
 
         bool m_GridOrPicImage;
+        Platform::String^ m_dirPath;
         Windows::Storage::StorageFile^ fileImageGridPic;
         Windows::Storage::FileProperties::StorageItemThumbnail^ m_thumbnailGridPicDXP;
         Platform::String^ fileNameGridPic;

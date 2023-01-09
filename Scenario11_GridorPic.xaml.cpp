@@ -140,11 +140,12 @@ void Hot3dxRotoDraw::Scenario11_GridorPic::IDC_PIC_TEXTURE_IMAGE1_BUTTON_Click(P
 		bool fastThumbnail = false;
 		ThumbnailOptions thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
-
+	
 	create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
 	{
 		if (file)
 		{
+			    m_dirPath = ref new Platform::String(file->Path->Data());
 				Platform::String^ str = ref new Platform::String(file->FileType->Data());
 				Platform::String^ strc1 = ref new Platform::String(L".dds");
 				Platform::String^ strc2 = ref new Platform::String(L".DDS");
@@ -212,12 +213,10 @@ void Hot3dxRotoDraw::Scenario11_GridorPic::LoadChosenImage1()
 		bool fastThumbnail = false;
 		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
-	TCHAR pwd[512];
-	DWORD LENGTH = GetCurrentDirectory(512, pwd);
-	Platform::String^ sfile = ref new Platform::String(pwd, LENGTH);
+	
 
 	StorageFile^ file = vars->GetFileGridPic();
-
+	m_dirPath = ref new Platform::String(L"ms-appx:///Assets/Textures/");
 	if (file)
 	{
 		create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)

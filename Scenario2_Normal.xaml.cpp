@@ -99,8 +99,8 @@ void Hot3dxRotoDraw::Scenario2_Normal::OnNavigatedTo(Windows::UI::Xaml::Navigati
     IDC_BOTTOM_OR_RIGHT_CHECKBOX->IsChecked = false;
     unsigned int val = EffectDescComboBox->SelectedIndex::get();
     m_iEffectDescSelectedIndex = _rootPage->GetEffectIndexDXP();
-    Platform::String^ s1 = ref new Platform::String(L"\nVAL is: ");
-    OutputDebugString(s1->Concat(s1, ref new Platform::String(std::to_wstring(m_iEffectDescSelectedIndex).c_str()))->ToString()->Data());
+    //Platform::String^ s1 = ref new Platform::String(L"\nVAL is: ");
+    //OutputDebugString(s1->Concat(s1, ref new Platform::String(std::to_wstring(m_iEffectDescSelectedIndex).c_str()))->ToString()->Data());
     Platform::Object^ s;
     switch (m_iEffectDescSelectedIndex)
     {
@@ -432,8 +432,8 @@ void Hot3dxRotoDraw::Scenario2_Normal::EffectDescComboBox_SelectionChanged(Platf
     {
         unsigned int val = m_iEffectDescSelectedIndex = EffectDescComboBox->SelectedIndex::get();
         //_rootPage->SetEffectIndexRenderer(val);
-        Platform::String^ s1 = ref new Platform::String(L"\nVAL is: ");
-        OutputDebugString(s1->Concat(s1, ref new Platform::String(std::to_wstring(m_iEffectDescSelectedIndex).c_str()))->ToString()->Data());
+        //Platform::String^ s1 = ref new Platform::String(L"\nVAL is: ");
+        //OutputDebugString(s1->Concat(s1, ref new Platform::String(std::to_wstring(m_iEffectDescSelectedIndex).c_str()))->ToString()->Data());
         Platform::Object^ s;
         switch (m_iEffectDescSelectedIndex)
         {

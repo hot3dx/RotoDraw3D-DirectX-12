@@ -327,7 +327,7 @@ void Hot3dxRotoDraw::Scenario10_Sculpt::SelectedGroupSlider_ValueChanged(Platfor
 	{
 		point = ((static_cast<size_t>(selectedGroup) + 1) * (_rootPage->GetPointCount())) + pointNum;
 	}
-	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> verts = _rootPage->GetVertexes();
+	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> verts = _rootPage->GetVertexesDXP();
 	
 	if (point < verts.size())
 	{
@@ -377,7 +377,7 @@ void Hot3dxRotoDraw::Scenario10_Sculpt::SelectedPointSlider_ValueChanged(Platfor
 	{
 		point = ((static_cast<size_t>(m_iselectedGroup) + 1) * (_rootPage->GetPointCount())) + pointNum;
 	}
-	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> verts = _rootPage->GetVertexes();
+	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> verts = _rootPage->GetVertexesDXP();
 
 	if (point < verts.size())
 	{
@@ -421,7 +421,7 @@ void Hot3dxRotoDraw::Scenario10_Sculpt::textBoxXPointValue_TextChanged(Platform:
 	textBoxSelectedPointX->Text::set(textBoxSelectedPointX->Text::get());
 	textBoxSelectedPointX->SetValue(textBoxSelectedPointX->TextProperty, textBoxSelectedPointX->Text);
 
-	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> verts = _rootPage->GetVertexes();
+	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> verts = _rootPage->GetVertexesDXP();
 
 	if (point < verts.size())
 	{
@@ -437,7 +437,7 @@ void Hot3dxRotoDraw::Scenario10_Sculpt::textBoxYPointValue_TextChanged(Platform:
 	textBoxSelectedPointY->Text::set(textBoxSelectedPointY->Text::get());
 	textBoxSelectedPointY->SetValue(textBoxSelectedPointY->TextProperty, textBoxSelectedPointY->Text);
 
-	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> verts = _rootPage->GetVertexes();
+	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> verts = _rootPage->GetVertexesDXP();
 
 	if (point < verts.size())
 	{
@@ -452,7 +452,7 @@ void Hot3dxRotoDraw::Scenario10_Sculpt::textBoxZPointValue_TextChanged(Platform:
 	textBoxSelectedPointZ->Text::set(textBoxSelectedPointZ->Text::get());
 	textBoxSelectedPointZ->SetValue(textBoxSelectedPointZ->TextProperty, textBoxSelectedPointZ->Text);
 
-	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> verts = _rootPage->GetVertexes();
+	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> verts = _rootPage->GetVertexesDXP();
 
 	if (point < verts.size())
 	{
