@@ -29,6 +29,7 @@ public:
     HrtfEnvironment GetEnvironment() { return _environment; }
 
 private:
+
     HrtfPosition ComputePositionInOrbit(_In_ float height, _In_ float radius, _In_ float angle);
 
 private:

@@ -5,7 +5,8 @@
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:uap6="http://schemas.microsoft.com/appx/manifest/uap/windows10/6"
-  IgnorableNamespaces="uap mp uap6">
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  IgnorableNamespaces="uap mp uap6 uap3">
 
   <Identity
     Name="Hot3dx-JeffKubitz.RotoDraw3DDirectX12"
@@ -52,6 +53,12 @@
               <uap:FileType>.bmp</uap:FileType>
               <uap:FileType>.tga</uap:FileType>
               <uap:FileType>.mp4</uap:FileType>
+              <uap:FileType>.tif</uap:FileType>
+              <uap:FileType>.tiff</uap:FileType>
+              <uap:FileType>.targa</uap:FileType>
+              <uap:FileType>.wav</uap:FileType>
+              <uap:FileType>.wma</uap:FileType>
+              <uap:FileType>.mp3</uap:FileType>
             </uap:SupportedFileTypes>
           </uap:FileOpenPicker>
         </uap:Extension>
@@ -60,8 +67,22 @@
             <uap:SupportedFileTypes>
               <uap:FileType>.obj</uap:FileType>
               <uap:FileType>.mtl</uap:FileType>
+              <uap:FileType>.dds</uap:FileType>
+              <uap:FileType>.jpg</uap:FileType>
+              <uap:FileType>.jpeg</uap:FileType>
+              <uap:FileType>.png</uap:FileType>
+              <uap:FileType>.bmp</uap:FileType>
+              <uap:FileType>.tiff</uap:FileType>
+              <uap:FileType>.targa</uap:FileType>
             </uap:SupportedFileTypes>
           </uap:FileSavePicker>
+        </uap:Extension>
+        <uap:Extension Category="windows.mediaPlayback">
+          <uap:MediaPlayback>
+            <uap:Codec Name=".wma"/>
+            <uap:Codec Name=".wav"/>
+            <uap:Codec Name=".mp3"/>
+          </uap:MediaPlayback>
         </uap:Extension>
       </Extensions>
     </Application>
@@ -75,5 +96,6 @@
     <uap:Capability Name="videosLibrary"/>
     <uap:Capability Name="sharedUserCertificates"/>
     <uap6:Capability Name="graphicsCapture"/>
+    <uap:Capability Name="musicLibrary"/>
   </Capabilities>
 </Package>
