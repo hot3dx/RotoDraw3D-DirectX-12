@@ -94,7 +94,7 @@ Platform::String^ Hot3dxRotoDraw::ColladaFileType::LibraryMaterials(std::vector<
 //
 Platform::String^ Hot3dxRotoDraw::ColladaFileType::LibraryEffects(std::vector<Platform::String^> materialList, unsigned int count,
 	Platform::String^ profile, Platform::String^ techniqueSID, Platform::String^ transOpaque,
-	Platform::String^ effect, Platform::Array<float>^ rgbs)
+	Platform::String^ effect, Platform::Array<float>^ rgb_s)
 {
 	Platform::String^ libEffectsBegin = ref new Platform::String(L"\t<library_effects>\n");
 
@@ -123,50 +123,50 @@ Platform::String^ Hot3dxRotoDraw::ColladaFileType::LibraryEffects(std::vector<Pl
           //  <emission>  Emmisive
 		 libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t<emission>\n");
           libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t<color sid=\"emission\">");
-		  Platform::String^ emR = ref new Platform::String(std::to_wstring(rgbs->get(0)).c_str());
+		  Platform::String^ emR = ref new Platform::String(std::to_wstring(rgb_s->get(0)).c_str());
 		   libEffectsBegin->Concat(libEffectsBegin, emR); libEffectsBegin->Concat(libEffectsBegin, L"  ");
-		  Platform::String^ emG = ref new Platform::String(std::to_wstring(rgbs->get(1)).c_str());
+		  Platform::String^ emG = ref new Platform::String(std::to_wstring(rgb_s->get(1)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, emG); libEffectsBegin->Concat(libEffectsBegin, L" ");
-		  Platform::String^ emB = ref new Platform::String(std::to_wstring(rgbs->get(2)).c_str());
+		  Platform::String^ emB = ref new Platform::String(std::to_wstring(rgb_s->get(2)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, emB); libEffectsBegin->Concat(libEffectsBegin, L" ");
-		  Platform::String^ emA = ref new Platform::String(std::to_wstring(rgbs->get(3)).c_str());
+		  Platform::String^ emA = ref new Platform::String(std::to_wstring(rgb_s->get(3)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, emA); libEffectsBegin->Concat(libEffectsBegin, L"</color>");
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t</emission>\n");
 		 
 		   // <ambient>
 		 libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t<ambient>\n");
           libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t<color sid=\"ambient\">");
-		  Platform::String^ amR = ref new Platform::String(std::to_wstring(rgbs->get(4)).c_str());
+		  Platform::String^ amR = ref new Platform::String(std::to_wstring(rgb_s->get(4)).c_str());
 		   libEffectsBegin->Concat(libEffectsBegin, amR); libEffectsBegin->Concat(libEffectsBegin, L"  ");
-		  Platform::String^ amG = ref new Platform::String(std::to_wstring(rgbs->get(5)).c_str());
+		  Platform::String^ amG = ref new Platform::String(std::to_wstring(rgb_s->get(5)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, amG); libEffectsBegin->Concat(libEffectsBegin, L" ");
-		  Platform::String^ amB = ref new Platform::String(std::to_wstring(rgbs->get(6)).c_str());
+		  Platform::String^ amB = ref new Platform::String(std::to_wstring(rgb_s->get(6)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, amB); libEffectsBegin->Concat(libEffectsBegin, L" ");
-		  Platform::String^ amA = ref new Platform::String(std::to_wstring(rgbs->get(7)).c_str());
+		  Platform::String^ amA = ref new Platform::String(std::to_wstring(rgb_s->get(7)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, amA); libEffectsBegin->Concat(libEffectsBegin, L"</color>");
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t</ambient>\n");
             //  <diffuse>
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t<diffuse>\n");
           libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t<color sid=\"diffuse\">");
-		  Platform::String^ difR = ref new Platform::String(std::to_wstring(rgbs->get(8)).c_str());
+		  Platform::String^ difR = ref new Platform::String(std::to_wstring(rgb_s->get(8)).c_str());
 		   libEffectsBegin->Concat(libEffectsBegin, difR); libEffectsBegin->Concat(libEffectsBegin, L"  ");
-		  Platform::String^ difG = ref new Platform::String(std::to_wstring(rgbs->get(9)).c_str());
+		  Platform::String^ difG = ref new Platform::String(std::to_wstring(rgb_s->get(9)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, difG); libEffectsBegin->Concat(libEffectsBegin, L" ");
-		  Platform::String^ difB = ref new Platform::String(std::to_wstring(rgbs->get(10)).c_str());
+		  Platform::String^ difB = ref new Platform::String(std::to_wstring(rgb_s->get(10)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, difB); libEffectsBegin->Concat(libEffectsBegin, L" ");
-		  Platform::String^ difA = ref new Platform::String(std::to_wstring(rgbs->get(11)).c_str());
+		  Platform::String^ difA = ref new Platform::String(std::to_wstring(rgb_s->get(11)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, difA); libEffectsBegin->Concat(libEffectsBegin, L"</color>");
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t</diffuse>\n");
             // <specular>
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t<specular>\n");
           libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t<color sid=\"specular\">");
-		  Platform::String^ specR = ref new Platform::String(std::to_wstring(rgbs->get(12)).c_str());
+		  Platform::String^ specR = ref new Platform::String(std::to_wstring(rgb_s->get(12)).c_str());
 		   libEffectsBegin->Concat(libEffectsBegin, specR); libEffectsBegin->Concat(libEffectsBegin, L"  ");
-		  Platform::String^ specG = ref new Platform::String(std::to_wstring(rgbs->get(13)).c_str());
+		  Platform::String^ specG = ref new Platform::String(std::to_wstring(rgb_s->get(13)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, specG); libEffectsBegin->Concat(libEffectsBegin, L" ");
-		  Platform::String^ specB = ref new Platform::String(std::to_wstring(rgbs->get(14)).c_str());
+		  Platform::String^ specB = ref new Platform::String(std::to_wstring(rgb_s->get(14)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, specB); libEffectsBegin->Concat(libEffectsBegin, L" ");
-		  Platform::String^ specA = ref new Platform::String(std::to_wstring(rgbs->get(15)).c_str());
+		  Platform::String^ specA = ref new Platform::String(std::to_wstring(rgb_s->get(15)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, specA); libEffectsBegin->Concat(libEffectsBegin, L"</color>");
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t</specular>\n");
 		  //
@@ -174,7 +174,7 @@ Platform::String^ Hot3dxRotoDraw::ColladaFileType::LibraryEffects(std::vector<Pl
 		  // <shininess>
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t<shininess\n");
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t\t<float sid=\"shininess\">");
-		  Platform::String^ shininess = ref new Platform::String(std::to_wstring(rgbs->get(16)).c_str());
+		  Platform::String^ shininess = ref new Platform::String(std::to_wstring(rgb_s->get(16)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, shininess);
 		   libEffectsBegin->Concat(libEffectsBegin, L"</float>\n");
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t</shininess>\n");
@@ -182,13 +182,13 @@ Platform::String^ Hot3dxRotoDraw::ColladaFileType::LibraryEffects(std::vector<Pl
           //  <reflective>
           libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t<reflective\n");
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t\t<color sid=\"reflective\">");
-		  Platform::String^ reflectiveR = ref new Platform::String(std::to_wstring(rgbs->get(16)).c_str());
+		  Platform::String^ reflectiveR = ref new Platform::String(std::to_wstring(rgb_s->get(16)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, reflectiveR);
-		  Platform::String^ reflectiveG = ref new Platform::String(std::to_wstring(rgbs->get(17)).c_str());
+		  Platform::String^ reflectiveG = ref new Platform::String(std::to_wstring(rgb_s->get(17)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, reflectiveG);
-		  Platform::String^ reflectiveB = ref new Platform::String(std::to_wstring(rgbs->get(18)).c_str());
+		  Platform::String^ reflectiveB = ref new Platform::String(std::to_wstring(rgb_s->get(18)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, reflectiveB);
-		  Platform::String^ reflectiveA = ref new Platform::String(std::to_wstring(rgbs->get(19)).c_str());
+		  Platform::String^ reflectiveA = ref new Platform::String(std::to_wstring(rgb_s->get(19)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, reflectiveA);
 		   libEffectsBegin->Concat(libEffectsBegin, L"</color>\n");
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t</reflective>\n");
@@ -196,7 +196,7 @@ Platform::String^ Hot3dxRotoDraw::ColladaFileType::LibraryEffects(std::vector<Pl
 		   // <reflectivity>
           libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t<reflectivity\n");
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t\t<float sid=\"reflectivity\">");
-		  Platform::String^ reflectivity = ref new Platform::String(std::to_wstring(rgbs->get(20)).c_str());
+		  Platform::String^ reflectivity = ref new Platform::String(std::to_wstring(rgb_s->get(20)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, reflectivity);
 		   libEffectsBegin->Concat(libEffectsBegin, L"</float>\n");
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t</reflectivity>\n");
@@ -206,13 +206,13 @@ Platform::String^ Hot3dxRotoDraw::ColladaFileType::LibraryEffects(std::vector<Pl
 		  libEffectsBegin->Concat(libEffectsBegin, transOpaque);
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t\">\n");
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t\t<color sid=\"transparent\">");
-		  Platform::String^ transparentR = ref new Platform::String(std::to_wstring(rgbs->get(21)).c_str());
+		  Platform::String^ transparentR = ref new Platform::String(std::to_wstring(rgb_s->get(21)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, transparentR);
-		  Platform::String^ transparentG = ref new Platform::String(std::to_wstring(rgbs->get(22)).c_str());
+		  Platform::String^ transparentG = ref new Platform::String(std::to_wstring(rgb_s->get(22)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, transparentG);
-		  Platform::String^ transparentB = ref new Platform::String(std::to_wstring(rgbs->get(23)).c_str());
+		  Platform::String^ transparentB = ref new Platform::String(std::to_wstring(rgb_s->get(23)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, transparentB);
-		  Platform::String^ transparentA = ref new Platform::String(std::to_wstring(rgbs->get(24)).c_str());
+		  Platform::String^ transparentA = ref new Platform::String(std::to_wstring(rgb_s->get(24)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, transparentA);
 		   libEffectsBegin->Concat(libEffectsBegin, L"</color>\n");
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t</transparent>\n");
@@ -220,7 +220,7 @@ Platform::String^ Hot3dxRotoDraw::ColladaFileType::LibraryEffects(std::vector<Pl
           //  <transparency>
           libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t<transparency\n");
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t\t<float sid=\"transparency\">");
-		  Platform::String^ transparency = ref new Platform::String(std::to_wstring(rgbs->get(25)).c_str());
+		  Platform::String^ transparency = ref new Platform::String(std::to_wstring(rgb_s->get(25)).c_str());
 		  libEffectsBegin->Concat(libEffectsBegin, transparency);
 		   libEffectsBegin->Concat(libEffectsBegin, L"</float>\n");
 		  libEffectsBegin->Concat(libEffectsBegin, L"\t\t\t\t\t\t</transparency>\n");

@@ -19,6 +19,10 @@ Hot3dxRotoDraw::Hot3dxTextFileSave::Hot3dxTextFileSave(Platform::String^ filenam
 Platform::String^ Hot3dxRotoDraw::Hot3dxTextFileSave::DrawnObjectSaveHot3dxTextFile(std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes,
 	std::vector<uint16_t> indices, Platform::String^ textureImageFile, unsigned int count, VOID** nodes)
 {
+	if(nodes != NULL && count == sizeof(nodes))
+	{ 
+	     
+	}
 	Platform::String^ file = ref new Platform::String(L"HEADER:Hot3dx:DirectX12:Model:Text:20201n");
 	Platform::String^ m_ptVertexCntStr = ref new Platform::String(std::to_wstring(vertexes.size()).c_str());
 	file = file->Concat(file, "VertexType: DirectX::DXTKXAML12::VertexPositionNormalTexture");

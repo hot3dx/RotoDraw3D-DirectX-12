@@ -41,7 +41,7 @@ namespace Hot3dxRotoDraw
 		Platform::String^ LibraryMaterials(std::vector<Platform::String^> materialList, unsigned int count);
 		Platform::String^ LibraryEffects(std::vector<Platform::String^> materialList, unsigned int count,
 			Platform::String^ profile, Platform::String^ techniqueSID, Platform::String^ transOpaque,
-			Platform::String^ effect, Platform::Array<float>^ rgbs);
+			Platform::String^ effect, Platform::Array<float>^ rgb_s);
 		Platform::String^ Hot3dxRotoDraw::ColladaFileType::LibraryGeometries(Platform::String^ geoId, Platform::String^ geoNamw,
 			Platform::String^ meshSrcId, Platform::String^ floatArrayId, Platform::String^ flArrCnt
 			

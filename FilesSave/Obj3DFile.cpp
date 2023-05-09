@@ -102,11 +102,13 @@ Platform::String^ XM_CALLCONV Hot3dxRotoDraw::Obj3DFile::IndicesFaceValuesReturn
 Platform::String^ Hot3dxRotoDraw::Obj3DFile::DrawnObjectNodesSaveObjFile(unsigned int count, VOID** nodes)
 {
 	Platform::String^ file = ref new Platform::String(L"#\n#\n#\n\n");
+	VOID** Node = {};
 	for (unsigned int i = 0; i < count; i++)
 	{
-		VOID* Node = nodes[i];
+		Node[i] = nodes[i];
 		//DrawnObjectSaveObjFile(nullptr,	nullptr, nullptr, nullptr, nullptr);
 	}
+	
 	return file;
 }
 
@@ -120,6 +122,7 @@ Platform::String^ Hot3dxRotoDraw::Obj3DFile::DrawnObjectSaveObjFile(
 	Platform::String^ effectName
 )
 {
+	if(groupCount != 0){}
 	// Header
 	Platform::String^ file = ref new Platform::String(L"#\n#\n#\n\n");
 	// library file
@@ -159,9 +162,9 @@ Platform::String^ Hot3dxRotoDraw::Obj3DFile::DrawnObjectSaveObjFile(
 	file = file->Concat(file, L"\n\n");
 
 
-	//pointCount = vertexes.size();
+	pointCount = static_cast<unsigned int>(vertexes.size());
 	// Vertices Block
-	for (unsigned int i = 0; i < vertexes.size();i++)
+	for (unsigned int i = 0; i < pointCount;i++)
 	{
 		Platform::String^ aVertexStr = PointDataValuesReturnObjFileVertex(vertexes.at(i).position.x, vertexes.at(i).position.y, vertexes.at(i).position.z);
 		file = file->Concat(file, aVertexStr);
