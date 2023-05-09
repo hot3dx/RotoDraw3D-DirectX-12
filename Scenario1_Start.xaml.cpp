@@ -248,7 +248,7 @@ void Hot3dxRotoDraw::Scenario1_Start::LoadChosenSound1()
                 }
                 else
                 {
-                    _this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+                    _this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
                 }
 
                     });

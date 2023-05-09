@@ -223,7 +223,7 @@ void Hot3dxRotoDraw::Scenario11_GridorPic::IDC_PIC_TEXTURE_IMAGE1_BUTTON_Click(P
 
 				else
 				{
-					_this->_rootPage->NotifyUser("Error opening file" + file->Name, NotifyType::ErrorMessage);
+					_this->_rootPage->NotifyUser("Error opening file", NotifyType::ErrorMessage);
 
 				}
 
@@ -272,12 +272,12 @@ void Hot3dxRotoDraw::Scenario11_GridorPic::LoadChosenImage1()
 			}
 			else
 			{
-				this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+				this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 			}
 		});
 	}
 	else {
-		this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+		this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 	}
 	_rootPage->NotifyUser("Stopped", NotifyType::StatusMessage);
 }

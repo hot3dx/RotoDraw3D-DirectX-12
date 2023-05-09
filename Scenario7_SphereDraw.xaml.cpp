@@ -285,12 +285,12 @@ void Hot3dxRotoDraw::Scenario7_SphereDraw::LoadChosenImage1()
 				}
 				else
 				{
-					this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+					this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 				}
 			});
 	}
 	else {
-		this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+		this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 	}
 	_rootPage->NotifyUser("Stopped", NotifyType::StatusMessage);
 }
@@ -349,7 +349,7 @@ void Hot3dxRotoDraw::Scenario7_SphereDraw::LoadDefaultVideoImage(Platform::Strin
 
 						else
 						{
-							_this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+							_this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 
 						}
 

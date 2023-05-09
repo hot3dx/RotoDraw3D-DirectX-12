@@ -194,7 +194,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage1(Platform::String^ ima
 
 					else
 					{
-						_this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+						_this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 
 					}
 
@@ -259,7 +259,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage2(Platform::String^ ima
 
 				else
 				{
-					_this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+					_this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 
 				}
 
@@ -325,7 +325,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage3(Platform::String^ ima
 
 						else
 						{
-							_this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+							_this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 
 						}
 
@@ -390,7 +390,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage4(Platform::String^ ima
 
 						else
 						{
-							_this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+							_this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 
 						}
 
@@ -456,7 +456,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage5(Platform::String^ ima
 
 						else
 						{
-							_this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+							_this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 
 						}
 
@@ -522,7 +522,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage6(Platform::String^ ima
 
 						else
 						{
-							_this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+							_this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 
 						}
 
@@ -566,12 +566,12 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage1()
 				}
 				else
 				{
-					this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+					this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 				}
 			});
 		}
 		else {
-			this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+			this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 		}
 		
 	_rootPage->NotifyUser("Stopped", NotifyType::StatusMessage);
@@ -609,13 +609,13 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage2()
 				}
 				else
 				{
-					this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+					this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 
 				}
 			});
 		}
 		else {
-			this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+			this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 		}
 	
 	_rootPage->NotifyUser("Stopped", NotifyType::StatusMessage);
@@ -653,13 +653,13 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage3()
 				}
 				else
 				{
-					this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+					this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 
 				}
 			});
 	}
 	else {
-		this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+		this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 	}
 
 	_rootPage->NotifyUser("Stopped", NotifyType::StatusMessage);
@@ -697,13 +697,13 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage4()
 				}
 				else
 				{
-					this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+					this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 
 				}
 			});
 	}
 	else {
-		this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+		this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 	}
 
 	_rootPage->NotifyUser("Stopped", NotifyType::StatusMessage);
@@ -741,13 +741,13 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage5()
 				}
 				else
 				{
-					this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+					this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 
 				}
 			});
 	}
 	else {
-		this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+		this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 	}
 
 	_rootPage->NotifyUser("Stopped", NotifyType::StatusMessage);
@@ -785,13 +785,13 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage6()
 				}
 				else
 				{
-					this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+					this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 
 				}
 			});
 	}
 	else {
-		this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+		this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 	}
 
 	_rootPage->NotifyUser("Stopped", NotifyType::StatusMessage);
@@ -946,7 +946,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImages(unsigned int imageIdN
 						}
 						else
 						{
-							_this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+							_this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 						}
 					});
 			}
@@ -1342,7 +1342,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_IMAGE1_BUTTON_Click(Platfor
 
 						else
 						{
-							_this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+							_this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 
 
 						}
@@ -1405,7 +1405,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_IMAGE2_BUTTON_Click(Platfor
 
 						else
 						{
-							_this->_rootPage->NotifyUser("Error opening file " + file->Name, NotifyType::ErrorMessage);
+							_this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
 						}
 
 					});
