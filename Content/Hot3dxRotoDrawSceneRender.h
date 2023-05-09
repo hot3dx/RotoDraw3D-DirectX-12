@@ -4,30 +4,32 @@
 #include "Common\DeviceResources.h"
 #include "Content\ShaderStructures.h"
 #include "Common\StepTimer.h"
-#include <Graphics\AlignedNewXaml12.h>
-#include <Graphics\Hot3dxGeometry.h>
-#include <Graphics\RenderTargetStateXaml12.h>
-#include <Graphics\EffectPipelineStateDescriptionXaml12.h>
-#include <Graphics\CommonStatesXaml12.h>
-#include <Graphics\GraphicsMemoryXaml12.h>
-#include <Graphics\DescriptorHeapXaml12.h>
-#include <Graphics\EffectCommonXaml12.h>
-#include <Graphics\DDSTextureLoaderXaml12.h>
-#include <Graphics\VertexTypesXaml12.h>
-#include <Graphics\SimpleMathXaml12.h>
-#include <Graphics\ModelXaml12.h>
-#include <Graphics\PrimitiveBatchXaml12.h>
-#include <Graphics\GeometricPrimitiveXaml12.h>
+#include <AlignedNewXaml12.h>
+#include <Hot3dxGeometry.h>
+#include <RenderTargetStateXaml12.h>
+#include <EffectPipelineStateDescriptionXaml12.h>
+#include <CommonStatesXaml12.h>
+#include <GraphicsMemoryXaml12.h>
+#include <DescriptorHeapXaml12.h>
+#include <EffectCommonXaml12.h>
+#include <DDSTextureLoaderXaml12.h>
+#include <VertexTypesXaml12.h>
+#include <SimpleMathXaml12.h>
+#include <ModelXaml12.h>
+#include <PrimitiveBatchXaml12.h>
+#include <GeometricPrimitiveXaml12.h>
 #include "Content\Hot3dxDrawnObject.h"
-#include <Graphics\SpriteBatchXaml12.h>
-#include <Graphics\SpriteFontXaml12.h>
-#include <Graphics\Hot3dxCamera.h>
-#include <Graphics\PostProcessXaml12.h>
+#include <SpriteBatchXaml12.h>
+#include <SpriteFontXaml12.h>
+#include <Hot3dxCamera.h>
+#include <PostProcessXaml12.h>
 #include <Audio\AudioXaml12.h>
 #include <Audio\MediaReaderXaml12.h>
-#include <Graphics\Hot3dxGeometry.h>
-#include <Graphics\Hot3dx12Rotate.h>
+#include <Hot3dxGeometry.h>
+#include <Hot3dx12Rotate.h>
 #include "Hot3dxRotoDrawVariables.h"
+#include <mfapi.h>
+#include <mfmediaengine.h>
 #include <thread>
 #include <chrono>
 #include <assert.h>
@@ -78,11 +80,11 @@ namespace Hot3dxRotoDraw
 		float* m_fCamMove_py;
 		float* m_fCamMove_pz;
 		void CalculateSphereCV(int* n, DWORD color);
-		float  DegreesToRadians(float degree);
-		void   InitSphereVars(void);
-		void   CalculateSphere(int* count);
-		void   MoveRotateCameraXY(int direction);
-		void   MoveRotateCameraAny(float x, float y, float z);
+		//float  DegreesToRadians(float degree);
+		//void   InitSphereVars(void);
+		//void   CalculateSphere(int* count);
+		//void   MoveRotateCameraXY(int direction);
+		//void   MoveRotateCameraAny(float x, float y, float z);
 
 	};
 
@@ -98,6 +100,72 @@ namespace Hot3dxRotoDraw
 	private:
 		Platform::Array<uint16_t>^ m_PtList = ref new Platform::Array<uint16_t>(1000);
 	};
+
+	//-------------------------------------------------------------------------------------
+	class IMFNotify
+	{
+	public:
+		virtual ~IMFNotify() = default;
+
+		IMFNotify(const IMFNotify&) = delete;
+		IMFNotify& operator=(const IMFNotify&) = delete;
+
+		IMFNotify(IMFNotify&&) = delete;
+		IMFNotify& operator=(IMFNotify&&) = delete;
+
+		virtual void OnMediaEngineEvent(uint32_t meEvent) = 0;
+
+	protected:
+		IMFNotify() = default;
+	};
+
+
+	//-------------------------------------------------------------------------------------
+	class MediaEnginePlayer : public IMFNotify
+	{
+	public:
+		MediaEnginePlayer(const std::shared_ptr<DX::DeviceResources>& deviceResources) noexcept;
+		~MediaEnginePlayer();
+
+		MediaEnginePlayer(const MediaEnginePlayer&) = delete;
+		MediaEnginePlayer& operator=(const MediaEnginePlayer&) = delete;
+
+		MediaEnginePlayer(MediaEnginePlayer&&) = default;
+		MediaEnginePlayer& operator=(MediaEnginePlayer&&) = default;
+
+		void Initialize(IDXGIFactory4* dxgiFactory, ID3D12Device* device, DXGI_FORMAT format);
+		void Shutdown();
+
+		void Play();
+		void SetMuted(bool muted);
+
+		void SetSource(_In_z_ const wchar_t* sourceUri);
+
+		bool TransferFrame(HANDLE textureHandle, MFVideoNormalizedRect rect, RECT rcTarget);
+
+		// Callbacks
+		void OnMediaEngineEvent(uint32_t meEvent) override;
+
+		// Properties
+		void GetNativeVideoSize(uint32_t& cx, uint32_t& cy);
+		bool IsPlaying() const { return m_isPlaying; }
+		bool IsInfoReady() const { return m_isInfoReady; }
+		bool IsFinished() const { return m_isFinished; }
+
+	private:
+
+		Microsoft::WRL::ComPtr<ID3D11Device1>       m_device;
+		std::shared_ptr<DX::DeviceResources>          m_deviceResources;
+		Microsoft::WRL::ComPtr<IMFMediaEngine>      m_mediaEngine;
+		Microsoft::WRL::ComPtr<IMFMediaEngineEx>    m_engineEx;
+
+		MFARGB  m_bkgColor;
+
+		bool m_isPlaying;
+		bool m_isInfoReady;
+		bool m_isFinished;
+	};
+
 	// This sample renderer instantiates a basic rendering pipeline.
 	ref class RotoDrawSceneRender
 	{
@@ -217,24 +285,28 @@ namespace Hot3dxRotoDraw
 				m_bIsBasicModel = true;
 				m_bIsDualTextureModel = false;
 				m_bIsPBRModel = false;
+				m_bIsVideoTextureModel = false;
 			}break;
 			case 1:
 			{
 				m_bIsDualTextureModel = true;
 				m_bIsBasicModel = false;
 				m_bIsPBRModel = false;
+				m_bIsVideoTextureModel = false;
 			}break;
 			case 2:
 			{
 				m_bIsPBRModel = true;
 				m_bIsDualTextureModel = false;
 				m_bIsBasicModel = false;
+				m_bIsVideoTextureModel = false;
 			}break;
 			default:
 			{
-				m_bIsBasicModel = true;
+				m_bIsVideoTextureModel = true;
+				m_bIsBasicModel = false;
 				m_bIsDualTextureModel = false;
-				m_bIsPBRModel = false;\
+				m_bIsPBRModel = false;
 			}break;
 			}
 		}
@@ -367,7 +439,8 @@ namespace Hot3dxRotoDraw
 		// .txt and .hbin file writers
 		Platform::String^ DrawnObjectSaveText(Platform::String^ fileName, unsigned int objectCount);
 		Platform::String^ DrawnObjectSaveBinary();
-		void SetInitSphereVB2(int* numverts, float m_cameraradius, float m_camerarotation) { InitSphereVB2(numverts, m_cameraradius, m_camerarotation); }
+		void SetInitSphereVB2(float m_camradius, float m_camrotation) { InitSphereVB2(m_camradius, m_camrotation); }
+
 		// Texture Filename Accessors
 		void Setm_bDDS_WIC_FLAG1(bool flag) { m_bDDS_WIC_FLAG1 = flag; }
 		void Setm_bDDS_WIC_FLAG2(bool flag) { m_bDDS_WIC_FLAG2 = flag; }
@@ -426,6 +499,14 @@ namespace Hot3dxRotoDraw
 		void SetTexture6Name(Platform::String^ name) {
 			m_texture6Name = nullptr; m_texture6Name = ref new Platform::String(name->Data());
 		};
+
+		// Scenario7_Video Accessors
+		Platform::String^ GetTextureImageVideoFile() { return m_textureImageVideoFile; }
+		void SetTextureImageVideoFile(Platform::String^ fileName) {
+			m_textureImageVideoFile = nullptr;
+			m_textureImageVideoFile = ref new Platform::String(fileName->Data());
+		}
+
 		// Scenario111-GridPic Accessors
 		Platform::String^ GetTextureImageGridPicFile() { return m_textureImageGridPicFile; }
 		void SetTextureImageGridPicFile(Platform::String^ fileName) {
@@ -505,6 +586,7 @@ namespace Hot3dxRotoDraw
 		float m_fScrollDist;
 		float m_fPointSpace;
 		int m_iScrollPointSetPos;
+		float m_fScale1stLineDrawnPts;
 		float distX;
 		float distY;
 		float distZ;
@@ -565,6 +647,7 @@ namespace Hot3dxRotoDraw
 		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_shapeGridPic;
 		std::unique_ptr<Hot3dxDrawnObject>                                                  m_hot3dxDrawnObject;
 		std::unique_ptr<DirectX::DXTKXAML12::SpriteBatch>                                   m_sprites;
+		std::unique_ptr<DirectX::DXTKXAML12::SpriteBatch>                                   m_batchOpaque;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_CameraEyeFont;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_CameraAtFont;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_CameraUpFont;
@@ -588,6 +671,16 @@ namespace Hot3dxRotoDraw
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_texture1;
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_texture2;
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_textureGridPic;
+
+		// Video texture
+		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_videoTexture;
+		HANDLE                                                                  m_sharedVideoTexture;
+
+		std::unique_ptr<Hot3dxRotoDraw::MediaEnginePlayer>          m_player;
+
+		uint32_t    m_videoWidth;
+		uint32_t    m_videoHeight;
+
 		//Our IBL cubemaps
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_radianceIBL;
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_irradianceIBL;
@@ -609,7 +702,9 @@ namespace Hot3dxRotoDraw
 		Platform::String^ m_texture5Name = ref new Platform::String();
 		Platform::String^ m_texture6Name = ref new Platform::String();
 		Platform::String^ m_textureImageGridPicFile = ref new Platform::String();
-
+		Platform::String^ m_textureImageVideoFile = ref new Platform::String();
+		Platform::String^ m_sound1File = ref new Platform::String();
+		
 		// TextureFile Loader
 		void XM_CALLCONV LoadDDSOrWicTextureFile(_In_ ID3D12Device* device,
 			DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
@@ -644,6 +739,7 @@ namespace Hot3dxRotoDraw
 			DrawnObjectRMATexture,
 			DrawnObjectRadiance,
 			DrawnObjectIrradiance,
+			VideoTexture,
 			Reserve,
 			Count = 256
 		} Descriptors;
@@ -786,10 +882,10 @@ namespace Hot3dxRotoDraw
 		float  m_fCamMove_anglerotation;
 		XMFLOAT3 m_xmfSphereCenterPoint{ 0.0f, 0.0f, 0.0f };
 		XMFLOAT3 m_xmfSphereRadiusPoint{ 0.0f, 0.0f, 0.0f };
-		void CalculateSphereVPCXAxis(int* n, DWORD dwcolor, float m_cameraradius, float m_camerarotation);
-		void CalculateSphereVPCYAxis(int* n, DWORD dwcolor, float m_cameraradius, float m_camerarotation);
+		void CalculateSphereVPCXAxis(float camradius, float camrotation);
+		void CalculateSphereVPCYAxis(float camradius, float camrotation);
 		internal:
-		void InitSphereVB2(int* numVerts, float m_cameraradius, float m_camerarotation);
+		void InitSphereVB2(float m_camradius, float m_camrotation);
 
 		bool m_bArrayInit;
 
@@ -830,6 +926,8 @@ namespace Hot3dxRotoDraw
 			bool m_bIsPBRModel = false;
 			bool m_bIsBasicModel = false;
 			bool m_bIsDualTextureModel = false;
+			bool m_bIsVideoTextureModel = false;
+			bool m_bIsPlayer = false;
 
 			protected private:
 				std::unique_ptr<DirectX::DXTKXAML12::PBREffect>   m_shapeDrawnObjectPBREffect;

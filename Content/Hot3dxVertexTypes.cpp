@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "pch.h"
-#include <Graphics\VertexTypesXaml12.h>
+#include <VertexTypesXaml12.h>
 #include "Hot3dxVertexTypes.h"
 #include "Common\d3dx12.h"
 #include <d3d12.h>

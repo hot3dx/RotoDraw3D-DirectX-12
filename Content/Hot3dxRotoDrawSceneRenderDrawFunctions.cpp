@@ -12,7 +12,7 @@ uint16_t Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPoints(uint16_t n)
 	bool closed = page->m_Scene2Vars->GetOpenOrClosedChecked();
 	m_drawMode = (int)RotoDrawDrawMode::DrawSelectWithTetras;// 1;
 	//float radian = 57.29577791868204900000f; 
-	float m_fCamMove_degreeradian = 0.017453293005625408f;
+	m_fCamMove_degreeradian = 0.017453293005625408f;
 
 	m_fPointDrawGroupAngle = page->GetPointDrawGroupAngleDXP();
 	unsigned int cnt = (unsigned int)((360.0f/ m_fPointDrawGroupAngle) - page->m_Scene2Vars->GetPartialRotateAngle());
@@ -23,75 +23,93 @@ uint16_t Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPoints(uint16_t n)
 	float r = (float)(color.R * 0.00390625f);
 	float g = (float)(color.G * 0.00390625f);
 	float b = (float)(color.B * 0.00390625f);
-
+	
+	m_fScale1stLineDrawnPts = 1.33f;
 	uint16_t k = n;
-	for (unsigned int j = 0; j < 1; j++)
-	{
+	
 		IncrementPtGroups();
-
-		for (unsigned int i = 0; i < m_iPointCount; i++)
+		if (m_bIsYAxis)
 		{
-			DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
-			vertices.push_back(vpc);
-			m_PtGroupList.at(0)->SetPtList(i, k);
-			k++;
-		}
-	}
-
-	if (m_bIsYAxis)
-	{
-		for (unsigned int j = 1; j < cnt; j++)
-		{
-			IncrementPtGroups();
-
 			for (unsigned int i = 0; i < m_iPointCount; i++)
 			{
-				//float pointRadius = posX->get(i);
-				float aa = (float)j * a;
-				float x = m_hot3dxRotate->xCoordofYRot3(posX->get(i), posZ->get(i), aa);
-				float z = m_hot3dxRotate->zCoordofYRot3(posX->get(i), posZ->get(i), aa);
-				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(x, posY->get(i), z), XMFLOAT4(r,g,b,alpha) };
+				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i) * m_fScale1stLineDrawnPts, posY->get(i), posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 				vertices.push_back(vpc);
-				m_PtGroupList.at(j)->SetPtList(i, k);
+				m_PtGroupList.at(0)->SetPtList(i, k);
 				k++;
-			} // eo for i
-		}// eo for j
+			}
 
-	}
-	else  // if (m_bIsYAxis)
-	{
-		for (unsigned int j = 1; j < cnt; j++)
+			for (unsigned int j = 1; j < cnt; j++)
+			{
+				IncrementPtGroups();
+
+				for (unsigned int i = 0; i < m_iPointCount; i++)
+				{
+					float aa = (float)j * a;
+					float x = m_hot3dxRotate->xCoordofYRot3f(posX->get(i), posZ->get(i), aa);
+					float z = m_hot3dxRotate->zCoordofYRot3f(posX->get(i), posZ->get(i), aa);
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(x * m_fScale1stLineDrawnPts, posY->get(i), z * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
+					vertices.push_back(vpc);
+					m_PtGroupList.at(j)->SetPtList(i, k);
+					k++;
+				} // eo for i
+			}// eo for j
+
+			if (closed == true)
+			{
+				IncrementPtGroups();
+				if (m_bIsYAxis)
+				{
+					size_t sz = m_PtGroupList.size() - 1;
+					for (unsigned int i = 0; i < m_iPointCount; i++)
+					{
+						DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i) * m_fScale1stLineDrawnPts, posY->get(i), posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
+						vertices.push_back(vpc);
+						m_PtGroupList.at(sz)->SetPtList(i, k);
+						k++;
+					}
+				}
+			}
+		}
+		else
 		{
-			IncrementPtGroups();
-
 			for (unsigned int i = 0; i < m_iPointCount; i++)
 			{
-				//float pointRadius = posX->get(i);
-				float aa = (float)j * a;
-				float y = m_hot3dxRotate->yCoordofXRot3(posY->get(i), posZ->get(i), aa);
-				float z = m_hot3dxRotate->zCoordofXRot3(posY->get(i), posZ->get(i), aa);
-				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), y, z), XMFLOAT4(r,g,b,alpha) };
+				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i) * m_fScale1stLineDrawnPts, posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 				vertices.push_back(vpc);
-				m_PtGroupList.at(j)->SetPtList(i, k);
+				m_PtGroupList.at(0)->SetPtList(i, k);
 				k++;
-			} // eo for i
-		}// eo for j
-	}
-	if (closed == true)
-	{
-		IncrementPtGroups();
+			}
 
-		size_t sz = m_PtGroupList.size() - 1;
-		for (unsigned int i = 0; i < m_iPointCount; i++)
-		{
-			DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
-			vertices.push_back(vpc);
-			m_PtGroupList.at(sz)->SetPtList(i, k);
-			k++;
+			for (unsigned int j = 1; j < cnt; j++)
+			{
+				IncrementPtGroups();
+
+				for (unsigned int i = 0; i < m_iPointCount; i++)
+				{
+					float aa = (float)j * a;
+					float y = m_hot3dxRotate->yCoordofXRot3f(posY->get(i), posZ->get(i), aa);
+					float z = m_hot3dxRotate->zCoordofXRot3f(posY->get(i), posZ->get(i), aa);
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), y * m_fScale1stLineDrawnPts, z * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
+					vertices.push_back(vpc);
+					m_PtGroupList.at(j)->SetPtList(i, k);
+					k++;
+				} // eo for i
+			}// eo for j
+
+			if (closed == true)
+			{
+				size_t sz = m_PtGroupList.size() - 1;
+				for (unsigned int i = 0; i < m_iPointCount; i++)
+				{
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i) * m_fScale1stLineDrawnPts, posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
+					vertices.push_back(vpc);
+					m_PtGroupList.at(sz)->SetPtList(i, k);
+					k++;
+				}
+
+			}// EO if (closed == true)
 		}
-	}// EO if (closed == true)
-	size_t szv = vertices.size();
-
+		
 	m_iTotalPointCount = vertices.size();
 	m_iGroupCount = (unsigned int)m_PtGroupList.size();
 	return k;
@@ -104,7 +122,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTop()
 	bool closed = page->m_Scene2Vars->GetOpenOrClosedChecked();
 	m_drawMode = (int)RotoDrawDrawMode::DrawSelectWithTetras;// 1;
 	//float radian = 57.29577791868204900000f; 
-	float m_fCamMove_degreeradian = 0.017453293005625408f;
+	m_fCamMove_degreeradian = 0.017453293005625408f;
 	//float degree = (2 * PI * radian) / 360.0f;
 	m_fPointDrawGroupAngle = page->GetPointDrawGroupAngleDXP();
 	unsigned int cnt = (unsigned int)((360.0f / m_fPointDrawGroupAngle) - page->m_Scene2Vars->GetPartialRotateAngle());
@@ -116,7 +134,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTop()
 	float r = (float)(color.R * 0.00390625f);
 	float g = (float)(color.G * 0.00390625f);
 	float b = (float)(color.B * 0.00390625f);
-
+	m_fScale1stLineDrawnPts = 1.33f;
 	uint16_t k = 0;
 
 	if (m_bIsYAxis)
@@ -129,16 +147,16 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTop()
 			{
 				if (i == 0)
 				{
-					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i + 1), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i) * m_fScale1stLineDrawnPts, posY->get(i + 1), posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
 				else
 				{
 					float aa = (float)j * a;
-					float x = m_hot3dxRotate->xCoordofYRot3(posX->get(i), posZ->get(i), aa);
-					float z = m_hot3dxRotate->zCoordofYRot3(posX->get(i), posZ->get(i), aa);
-					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(x, posY->get(i), z), XMFLOAT4(r,g,b,alpha) };
+					float x = m_hot3dxRotate->xCoordofYRot3f(posX->get(i), posZ->get(i), aa);
+					float z = m_hot3dxRotate->zCoordofYRot3f(posX->get(i), posZ->get(i), aa);
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(x * m_fScale1stLineDrawnPts, posY->get(i), z * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -152,7 +170,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTop()
 			IncrementPtGroups();
 			for (unsigned int i = 0; i < m_iPointCount; i++)
 			{
-				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i) * m_fScale1stLineDrawnPts, posY->get(i), posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 				vertices.push_back(vpc);
 				m_PtGroupList.at(j)->SetPtList(i, k);
 				k++;
@@ -169,16 +187,16 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTop()
 			{
 				if (i == 0)
 				{
-					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i) * m_fScale1stLineDrawnPts, posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
 				else
 				{
 					float aa = (float)j * a;
-					float y = m_hot3dxRotate->yCoordofXRot3(posY->get(i), posZ->get(i), aa);
-					float z = m_hot3dxRotate->zCoordofXRot3(posY->get(i), posZ->get(i), aa);
-					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), y, z), XMFLOAT4(r,g,b,alpha) };
+					float y = m_hot3dxRotate->yCoordofXRot3f(posY->get(i), posZ->get(i), aa);
+					float z = m_hot3dxRotate->zCoordofXRot3f(posY->get(i), posZ->get(i), aa);
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), y * m_fScale1stLineDrawnPts, z * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -192,7 +210,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTop()
 			IncrementPtGroups();
 			for (unsigned int i = 0; i < m_iPointCount; i++)
 			{
-				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i) * m_fScale1stLineDrawnPts, posY->get(i), posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 				vertices.push_back(vpc);
 				m_PtGroupList.at(j)->SetPtList(i, k);
 				k++;
@@ -212,7 +230,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsBottom()
 	bool closed = page->m_Scene2Vars->GetOpenOrClosedChecked();
 	m_drawMode = (int)RotoDrawDrawMode::DrawSelectWithTetras;// 1;
 	//float radian = 57.29577791868204900000f; 
-	float m_fCamMove_degreeradian = 0.017453293005625408f;
+	m_fCamMove_degreeradian = 0.017453293005625408f;
 
 	//float degree = (2 * PI * radian) / 360.0f;
 	m_fPointDrawGroupAngle = page->GetPointDrawGroupAngleDXP();
@@ -225,7 +243,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsBottom()
 	float r = (float)(color.R * 0.00390625f);
 	float g = (float)(color.G * 0.00390625f);
 	float b = (float)(color.B * 0.00390625f);
-
+	m_fScale1stLineDrawnPts = 1.33f;
 	uint16_t k = 0;
 
 	if (m_bIsYAxis)
@@ -238,16 +256,16 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsBottom()
 			{
 				if (i == (m_iPointCount - 1))
 				{
-					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i) * m_fScale1stLineDrawnPts, posY->get(i), posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
 				else
 				{
 					float aa = (float)j * a;
-					float x = m_hot3dxRotate->xCoordofYRot3(posX->get(i), posZ->get(i), aa);
-					float z = m_hot3dxRotate->zCoordofYRot3(posX->get(i), posZ->get(i), aa);
-					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(x, posY->get(i), z), XMFLOAT4(r,g,b,alpha) };
+					float x = m_hot3dxRotate->xCoordofYRot3f(posX->get(i), posZ->get(i), aa);
+					float z = m_hot3dxRotate->zCoordofYRot3f(posX->get(i), posZ->get(i), aa);
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(x * m_fScale1stLineDrawnPts, posY->get(i), z * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -261,13 +279,13 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsBottom()
 			IncrementPtGroups();
 			for (unsigned int i = 0; i < m_iPointCount; i++)
 			{
-				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i) * m_fScale1stLineDrawnPts, posY->get(i), posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 				vertices.push_back(vpc);
 				m_PtGroupList.at(j)->SetPtList(i, k);
 				k++;
 			} // eo for i
 		}// EO if (closed == true)
-	}
+	} // eo  if (m_bIsYAxis)
 	else // if (m_bIsYAxis)
 	{
 		for (unsigned int j = 0; j < cnt; j++)
@@ -278,16 +296,16 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsBottom()
 			{
 				if (i == m_iPointCount - 1)
 				{
-					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i) * m_fScale1stLineDrawnPts, posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
 				else
 				{
 					float aa = (float)j * a;
-					float y = m_hot3dxRotate->yCoordofXRot3(posY->get(i), posZ->get(i), aa);
-					float z = m_hot3dxRotate->zCoordofXRot3(posY->get(i), posZ->get(i), aa);
-					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), y, z), XMFLOAT4(r,g,b,alpha) };
+					float y = m_hot3dxRotate->yCoordofXRot3f(posY->get(i), posZ->get(i), aa);
+					float z = m_hot3dxRotate->zCoordofXRot3f(posY->get(i), posZ->get(i), aa);
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), y * m_fScale1stLineDrawnPts, z * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -301,14 +319,14 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsBottom()
 			IncrementPtGroups();
 			for (unsigned int i = 0; i < m_iPointCount; i++)
 			{
-				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i) * m_fScale1stLineDrawnPts, posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 				vertices.push_back(vpc);
 				m_PtGroupList.at(j)->SetPtList(i, k);
 				k++;
 			} // eo for i
 		}// EO if (closed == true)
 
-	}
+	} //eo else (m_bIsYAxis)
 
 	m_iTotalPointCount = vertices.size();
 	m_iGroupCount = (unsigned int)m_PtGroupList.size();
@@ -322,7 +340,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTopBottom()
 	bool closed = page->m_Scene2Vars->GetOpenOrClosedChecked();
 	m_drawMode = (int)RotoDrawDrawMode::DrawSelectWithTetras;// 1;
 	//float radian = 57.29577791868204900000f; 
-	float m_fCamMove_degreeradian = 0.017453293005625408f;
+	m_fCamMove_degreeradian = 0.017453293005625408f;
 	//float degree = (2 * PI * radian) / 360.0f;
 	m_fPointDrawGroupAngle = m_vars->GetDXPage()->GetPointDrawGroupAngleDXP();
 	unsigned int cnt = (unsigned int)((360.0f / m_fPointDrawGroupAngle) - page->m_Scene2Vars->GetPartialRotateAngle());
@@ -334,7 +352,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTopBottom()
 	float r = (float)(color.R * 0.00390625f);
 	float g = (float)(color.G * 0.00390625f);
 	float b = (float)(color.B * 0.00390625f);
-
+	m_fScale1stLineDrawnPts = 1.33f;
 	uint16_t k = 0;
 
 	if (m_bIsYAxis)
@@ -347,16 +365,16 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTopBottom()
 			{
 				if (i == (m_iPointCount - 1))
 				{
-					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i) * m_fScale1stLineDrawnPts, posY->get(i), posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
 				else
 				{
 					float aa = (float)j * a;
-					float x = m_hot3dxRotate->xCoordofYRot3(posX->get(i), posZ->get(i), aa);
-					float z = m_hot3dxRotate->zCoordofYRot3(posX->get(i), posZ->get(i), aa);
-					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(x, posY->get(i), z), XMFLOAT4(r,g,b,alpha) };
+					float x = m_hot3dxRotate->xCoordofYRot3f(posX->get(i), posZ->get(i), aa);
+					float z = m_hot3dxRotate->zCoordofYRot3f(posX->get(i), posZ->get(i), aa);
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(x * m_fScale1stLineDrawnPts, posY->get(i), z * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -370,7 +388,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTopBottom()
 			IncrementPtGroups();
 			for (unsigned int i = 0; i < m_iPointCount; i++)
 			{
-				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i) * m_fScale1stLineDrawnPts, posY->get(i), posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 				vertices.push_back(vpc);
 				m_PtGroupList.at(j)->SetPtList(i, k);
 				k++;
@@ -387,16 +405,16 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTopBottom()
 			{
 				if (i == m_iPointCount - 1)
 				{
-					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i) * m_fScale1stLineDrawnPts, posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
 				else
 				{
 					float aa = (float)j * a;
-					float y = m_hot3dxRotate->yCoordofXRot3(posY->get(i), posZ->get(i), aa);
-					float z = m_hot3dxRotate->zCoordofXRot3(posY->get(i), posZ->get(i), aa);
-					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), y, z), XMFLOAT4(r,g,b,alpha) };
+					float y = m_hot3dxRotate->yCoordofXRot3f(posY->get(i), posZ->get(i), aa);
+					float z = m_hot3dxRotate->zCoordofXRot3f(posY->get(i), posZ->get(i), aa);
+					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), y * m_fScale1stLineDrawnPts, z * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
 					m_PtGroupList.at(j)->SetPtList(i, k);
 				}
@@ -410,7 +428,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTopBottom()
 			IncrementPtGroups();
 			for (unsigned int i = 0; i < m_iPointCount; i++)
 			{
-				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)), XMFLOAT4(r,g,b,alpha) };
+				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i) * m_fScale1stLineDrawnPts, posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 				vertices.push_back(vpc);
 				m_PtGroupList.at(j)->SetPtList(i, k);
 				k++;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include <Graphics\VertexTypesXaml12.h>
+#include <VertexTypesXaml12.h>
 #include "Common\d3dx12.h"
 #include <memory>
 #include <vector>
@@ -54,7 +54,7 @@ namespace DirectX
         void ComputeCylinderDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float height, float diameter, size_t tessellation, bool rhcoords);
         void ComputeConeDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float diameter, float height, size_t tessellation, bool rhcoords);
         void ComputeTorusDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float diameter, float thickness, size_t tessellation, bool rhcoords);
-        void ComputeTetrahedronDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float size, bool rhcoords);
+        void ComputeTetrahedronDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float size, size_t tessellation, bool rhcoords, bool isTop);
         void ComputeOctahedronDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float size, bool rhcoords);
         void ComputeDodecahedronDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float size, bool rhcoords);
         void ComputeIcosahedronDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float size, bool rhcoords);

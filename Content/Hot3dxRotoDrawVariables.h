@@ -1,8 +1,10 @@
 #pragma once
 
 #include <pch.h>
+#include "Scenario1_Start.xaml.h"
 #include "Scenario2_Normal.xaml.h"
 #include "Scenario5_MatsTexs.xaml.h"
+#include "Scenario7_SphereDraw.xaml.h"
 #include "Scenario10_Sculpt.xaml.h"
 #include "Scenario11_GridorPic.xaml.h"
 
@@ -75,6 +77,69 @@ namespace Hot3dxRotoDraw
 	{
 		StatusMessage,
 		ErrorMessage
+	};
+
+	public ref class Scenario1Vars sealed
+	{
+	public:
+		virtual ~Scenario1Vars() {}
+
+		Scenario1_Start^ GetScenario1Page() { return _scenario1Page; }
+		void SetScenario1Page(Scenario1_Start^ s) { _scenario1Page = s; }
+	internal:
+		Scenario1Vars() {}
+
+		Windows::Storage::StorageFile^ GetFile1() { return fileImage1; }
+		void SetFile1(Windows::Storage::StorageFile^ file) { fileImage1 = file; }
+		Platform::String^ GetTextureImage1File() { return fileName1; }// m_textureImage1File
+		void SetTextureImage1File(Platform::String^ fileName) {
+			fileName1 = nullptr;
+			fileName1 = ref new Platform::String(fileName->Data());
+			fileName1 = fileName;
+		}
+
+		Windows::Storage::StorageFile^ GetFileSound() { return fileImageSound; }
+		void SetFileSound(Windows::Storage::StorageFile^ file) { fileImageSound = file; }
+		Platform::String^ GetSoundTextureImage1File() { return fileNameSound; }// m_textureImage1File
+		void SetFileNameSound(Platform::String^ fileName) {
+			fileNameSound = nullptr;
+			fileNameSound = ref new Platform::String(fileName->Data());
+			fileNameSound = fileName;
+		}
+
+		Windows::Storage::FileProperties::StorageItemThumbnail^ GetThumbnailSoundDXP1() { return m_thumbnailSoundDXP; }
+		void SetThumbnailSoundDXP1(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail) { m_thumbnailSoundDXP = thumbnail; }
+		BitmapImage^ GetBitmapImageSoundDXP1() { return bitmapImageSoundDXP1; }
+		void SetbitmapImageSoundDXP1(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail)
+		{
+			bitmapImageSoundDXP1 = ref new BitmapImage();
+			bitmapImageSoundDXP1->SetSourceAsync(thumbnail);
+		}
+
+		Windows::Storage::FileProperties::StorageItemThumbnail^ GetThumbnailDXP1() { return m_thumbnailDXP1; }
+		void SetThumbnailDXP1(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail) { m_thumbnailDXP1 = thumbnail; }
+		Windows::UI::Xaml::Media::Imaging::BitmapImage^ GetBitmapImageDXP1() { return bitmapImageDXP1; }
+		void SetbitmapImageDXP1(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail)
+		{
+			bitmapImageDXP1 = ref new BitmapImage();
+			bitmapImageDXP1->SetSourceAsync(thumbnail);
+		}
+
+		
+	private:
+
+		Scenario1_Start^ _scenario1Page;
+		Windows::Storage::StorageFile^ fileImage1;
+		Windows::Storage::FileProperties::StorageItemThumbnail^ m_thumbnailDXP1;
+		Platform::String^ fileName1;
+		Windows::UI::Xaml::Media::Imaging::BitmapImage^ bitmapImageDXP1;
+
+		Windows::Storage::FileProperties::StorageItemThumbnail^ m_thumbnailSoundDXP;
+		Windows::UI::Xaml::Media::Imaging::BitmapImage^ bitmapImageSoundDXP1;
+		Windows::Storage::StorageFile^ fileImageSound;
+		Platform::String^ fileNameSound;
+
+				
 	};
 
 	public ref class Scenario2Vars sealed
@@ -429,7 +494,9 @@ namespace Hot3dxRotoDraw
 		
 
 	private:
+		Scenario1_Start^ _scenario1Page;
 		Scenario5_MatsTexs^ _scenario5Page;
+		Scenario7_SphereDraw^ _scenario7Page;
 		Scenario11_GridorPic^ _scenario11Page;
 		
 		Windows::Storage::StorageFile^ fileImage1;
@@ -482,6 +549,79 @@ namespace Hot3dxRotoDraw
 
 	}; 
 
+	public ref class Scenario7Vars sealed
+	{
+	public:
+		virtual ~Scenario7Vars() {}
+	internal:
+		Scenario7Vars() {
+
+			m_bVideoChecked = false;
+			Platform::String^ wcfileName = ref new Platform::String();
+
+		}
+
+
+		//Accessors
+		Scenario7_SphereDraw^ GetScenario7Page() { return _scenario7Page; }
+		void SetScenario7Page(Scenario7_SphereDraw^ s) { _scenario7Page = s; }
+
+		// Hot3dxRotoDrawSceneRender Texture Filename Accessors Scenario5_MatsTexs stuff
+		Windows::Storage::StorageFile^ GetFile1() { return fileImage1; }
+		void SetFile1(Windows::Storage::StorageFile^ file) { fileImage1 = file; }
+		Platform::String^ GetTextureImage1File() { return fileName1; }// m_textureImage1File
+		void SetTextureImage1File(Platform::String^ fileName) {
+			fileName1 = nullptr;
+			fileName1 = ref new Platform::String(fileName->Data());
+			fileName1 = fileName;
+		}
+
+		Windows::Storage::StorageFile^ GetFileVideo() { return fileImageVideo; }
+		void SetFileVideo(Windows::Storage::StorageFile^ file) { fileImageVideo = file; }
+		Platform::String^ GetVideoTextureImage1File() { return fileNameVideo; }// m_textureImage1File
+		void SetVideoTextureImage1File(Platform::String^ fileName) {
+			fileNameVideo = nullptr;
+			fileNameVideo = ref new Platform::String(fileName->Data());
+			fileNameVideo = fileName;
+		}
+
+		Windows::Storage::FileProperties::StorageItemThumbnail^ GetThumbnailVideoDXP1() { return m_thumbnailVideoDXP; }
+		void SetThumbnailVideoDXP1(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail) { m_thumbnailVideoDXP = thumbnail; }
+		BitmapImage^ GetBitmapImageVideoDXP1() { return bitmapImageVideoDXP1; }
+		void SetbitmapImageVideoDXP1(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail)
+		{
+			bitmapImageVideoDXP1 = ref new BitmapImage();
+			bitmapImageVideoDXP1->SetSourceAsync(thumbnail);
+		}
+
+		Windows::Storage::FileProperties::StorageItemThumbnail^ GetThumbnailDXP1() { return m_thumbnailDXP1; }
+		void SetThumbnailDXP1(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail) { m_thumbnailDXP1 = thumbnail; }
+		Windows::UI::Xaml::Media::Imaging::BitmapImage^ GetBitmapImageDXP1() { return bitmapImageDXP1; }
+		void SetbitmapImageDXP1(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail)
+		{
+			bitmapImageDXP1 = ref new BitmapImage();
+			bitmapImageDXP1->SetSourceAsync(thumbnail);
+		}
+
+		bool GetVideoChecked() { return m_bVideoChecked; }
+		void SetVideoChecked(bool b) { m_bVideoChecked = b; }
+
+	private:
+
+		Scenario7_SphereDraw^ _scenario7Page;
+		Windows::Storage::StorageFile^ fileImage1;
+		Windows::Storage::FileProperties::StorageItemThumbnail^ m_thumbnailDXP1;
+		Platform::String^ fileName1;
+		Windows::UI::Xaml::Media::Imaging::BitmapImage^ bitmapImageDXP1;
+
+		Windows::Storage::FileProperties::StorageItemThumbnail^ m_thumbnailVideoDXP;
+		Windows::UI::Xaml::Media::Imaging::BitmapImage^ bitmapImageVideoDXP1;
+		Windows::Storage::StorageFile^ fileImageVideo;
+		Platform::String^ fileNameVideo;
+
+		bool m_bVideoChecked;
+	};
+
 	public ref class Scenario10Vars sealed
 	{
 	public:
@@ -529,6 +669,7 @@ namespace Hot3dxRotoDraw
 
 		}
 
+		
 
 		//Accessors
 		Scenario11_GridorPic^ GetScenario11Page() { return _scenario11Page; }
@@ -577,6 +718,33 @@ namespace Hot3dxRotoDraw
 		bool GetPicChecked() { return m_bPicChecked; }
 		void SetPicChecked(bool b) { m_bPicChecked = b; }
 
+		bool GetScreenGrabDDSChecked() { return m_bScreenGrabDDS; }
+		void SetScreenGrabDDSChecked(bool b) { m_bScreenGrabDDS = b; }
+
+		bool GetScreenGrabBMPChecked() { return m_bScreenGrabBMP; }
+		void SetScreenGrabBMPChecked(bool b) { m_bScreenGrabBMP = b; }
+
+		bool GetScreenGrabPNGChecked() { return m_bScreenGrabPNG; }
+		void SetScreenGrabPNGChecked(bool b) { m_bScreenGrabPNG = b; }
+
+		bool GetScreenGrabICOChecked() { return m_bScreenGrabICO; }
+		void SetScreenGrabICOChecked(bool b) { m_bScreenGrabICO = b; }
+
+		bool GetScreenGrabJPGChecked() { return m_bScreenGrabJPG; }
+		void SetScreenGrabJPGChecked(bool b) { m_bScreenGrabJPG = b; }
+
+		bool GetScreenGrabTIFChecked() { return m_bScreenGrabTIF; }
+		void SetScreenGrabTIFChecked(bool b) { m_bScreenGrabTIF = b; }
+
+		bool GetScreenGrabGIFChecked() { return m_bScreenGrabGIF; }
+		void SetScreenGrabGIFChecked(bool b) { m_bScreenGrabGIF = b; }
+
+		bool GetScreenGrabWMPChecked() { return m_bScreenGrabWMP; }
+		void SetScreenGrabWMPChecked(bool b) { m_bScreenGrabWMP = b; }
+
+		unsigned int GetGuidFormatForScreenGrabVars() {	return m_guidFormat; }
+		void SetGuidFormatForScreenGrabVars(unsigned int i) { m_guidFormat = i; }
+
 	private:
 
 		Scenario11_GridorPic^ _scenario11Page;
@@ -592,5 +760,15 @@ namespace Hot3dxRotoDraw
 
 		bool m_bGridChecked;
 		bool m_bPicChecked;
+
+		bool m_bScreenGrabDDS;
+		bool m_bScreenGrabBMP;
+		bool m_bScreenGrabPNG;
+		bool m_bScreenGrabICO;
+		bool m_bScreenGrabJPG;
+		bool m_bScreenGrabTIF;
+		bool m_bScreenGrabGIF;
+		bool m_bScreenGrabWMP;
+		unsigned int m_guidFormat;
 	};
 }

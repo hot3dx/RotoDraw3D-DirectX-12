@@ -11,13 +11,13 @@
 #include "Hot3dxDrawnObject.h"
 #include "Hot3dxObjectGeometry.h"
 #include "Hot3dxVertexTypes.h"
-#include <Graphics\CommonStatesXaml12.h>
-#include <Graphics\DirectXHelpersXaml12.h>
-#include <Graphics\EffectsXaml12.h>
-#include <Graphics\GeometryXaml12.h>
-#include <Graphics\GraphicsMemoryXaml12.h>
-#include <Graphics\PlatformHelpersXaml12.h>
-#include <Graphics\MyResourceUploadBatchXaml12.h>
+#include <CommonStatesXaml12.h>
+#include <DirectXHelpersXaml12.h>
+#include <EffectsXaml12.h>
+#include <GeometryXaml12.h>
+#include <GraphicsMemoryXaml12.h>
+#include <PlatformHelpersXaml12.h>
+#include <MyResourceUploadBatchXaml12.h>
 
 using namespace DirectX;
 using namespace DirectX::DXTKXAML12;
@@ -975,7 +975,7 @@ std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> __cdecl Hot3dxRotoDraw::Hot3d
 std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> __cdecl Hot3dxRotoDraw::Hot3dxDrawnObject::CreateDrawnObjectTangent(
     const std::vector<Hot3dxRotoDraw::VertexPositionNormalTextureTangent> vertices, 
     const std::vector<uint16_t>& indices, 
-    ID3D12Device* device)
+    _In_opt_ ID3D12Device* device)
 {
     // Extra validation
     if (vertices.empty() || indices.empty())
@@ -1008,7 +1008,7 @@ std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> __cdecl Hot3dxRotoDraw::Hot3d
 std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> __cdecl Hot3dxRotoDraw::Hot3dxDrawnObject::CreateDrawnObjectColorTangent(
     const std::vector<DirectX::DXTKXAML12::VertexPositionNormalColorTexture> vertices,
     const std::vector<uint16_t>& indices,
-    ID3D12Device* device)
+    _In_opt_ ID3D12Device* device)
 {
     // Extra validation
     if (vertices.empty() || indices.empty())
@@ -1041,7 +1041,7 @@ std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> __cdecl Hot3dxRotoDraw::Hot3d
 std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> __cdecl Hot3dxRotoDraw::Hot3dxDrawnObject::CreateCustomDualTexture(
     const std::vector<DirectX::DXTKXAML12::VertexPositionDualTexture>& vertices,
     const std::vector<uint16_t>& indices,
-    ID3D12Device* device)
+    _In_opt_ ID3D12Device* device)
 {
     // Extra validation
     if (vertices.empty() || indices.empty())
@@ -1074,7 +1074,7 @@ std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> __cdecl Hot3dxRotoDraw::Hot3d
 std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> __cdecl Hot3dxRotoDraw::Hot3dxDrawnObject::CreateDrawnObjectDualTexture(
     const std::vector<DirectX::DXTKXAML12::VertexPositionDualTexture>& vertices,
     const std::vector<uint16_t>& indices,
-    ID3D12Device* device)
+    _In_opt_ ID3D12Device* device)
 {
     // Extra validation
     if (vertices.empty() || indices.empty())
@@ -1144,7 +1144,7 @@ std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> Hot3dxRotoDraw::Hot3dxDrawnOb
 std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> __cdecl Hot3dxRotoDraw::Hot3dxDrawnObject::CreateDrawnObjectColor(
     const std::vector<DirectX::DXTKXAML12::VertexPositionColor>& vertices,
     const std::vector<uint16_t>& indices,
-    ID3D12Device* device)
+    _In_opt_ ID3D12Device* device)
 {
     // Extra validation
     if (vertices.empty() || indices.empty())
@@ -1176,7 +1176,7 @@ std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> __cdecl Hot3dxRotoDraw::Hot3d
 std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> __cdecl Hot3dxRotoDraw::Hot3dxDrawnObject::CreateDrawnObjectTexture(
     const std::vector<VertexPositionNormalTexture>& vertices,
     const std::vector<uint16_t>& indices,
-    ID3D12Device* device)
+    _In_opt_ ID3D12Device* device)
 {
     // Extra validation
     if (vertices.empty() || indices.empty())
@@ -1208,7 +1208,7 @@ std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> __cdecl Hot3dxRotoDraw::Hot3d
 std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> __cdecl Hot3dxRotoDraw::Hot3dxDrawnObject::CreateDrawnObjectColorTexture(
     const std::vector<VertexPositionNormalColorTexture>& vertices,
     const std::vector<uint16_t>& indices,
-    ID3D12Device* device)
+    _In_opt_ ID3D12Device* device)
 {
     // Extra validation
     if (vertices.empty() || indices.empty())
