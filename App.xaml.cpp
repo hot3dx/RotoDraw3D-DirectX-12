@@ -44,7 +44,7 @@ static void Partial_LaunchCompleted(LaunchActivatedEventArgs^ e) { }
 /// Initializes the singleton application object.  This is the first line of authored code
 /// executed, and as such is the logical equivalent of main() or WinMain().
 /// </summary>
-App::App()
+Hot3dxRotoDraw::App::App()
 {
 	InitializeComponent();
 	Suspending += ref new SuspendingEventHandler(this, &App::OnSuspending);
@@ -65,7 +65,7 @@ App::App()
 /// search results, and so forth.
 /// </summary>
 /// <param name="e">Details about the launch request and process.</param>
-void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ e)
+void Hot3dxRotoDraw::App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ e)
 {
 #if _DEBUG
 	if (IsDebuggerPresent())
@@ -73,7 +73,6 @@ void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEvent
 		DebugSettings->EnableFrameRateCounter = true;
 	}
 #endif
-
 	auto rootFrame = dynamic_cast<Frame^>(Window::Current->Content);
 
 	// Do not repeat app initialization when the Window already has content,
@@ -105,9 +104,9 @@ void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEvent
 
 	if (e->PreviousExecutionState == ApplicationExecutionState::Terminated)
 	{
-		m_directXPage->LoadInternalState(ApplicationData::Current->LocalSettings->Values);
+				m_directXPage->LoadInternalState(ApplicationData::Current->LocalSettings->Values);
 	}
-
+	
 	// Ensure the current window is active
 	Window::Current->Activate();
 }
@@ -118,7 +117,7 @@ void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEvent
 /// </summary>
 /// <param name="sender">The source of the suspend request.</param>
 /// <param name="e">Details about the suspend request.</param>
-void App::OnSuspending(Object^ sender, SuspendingEventArgs^ e)
+void Hot3dxRotoDraw::App::OnSuspending(Object^ sender, SuspendingEventArgs^ e)
 {
 	(void)sender;	// Unused parameter
 	(void)e;	// Unused parameter
@@ -131,7 +130,7 @@ void App::OnSuspending(Object^ sender, SuspendingEventArgs^ e)
 /// </summary>
 /// <param name="sender">The source of the resume request.</param>
 /// <param name="args">Details about the resume request.</param>
-void App::OnResuming(Object^ sender, Object^ args)
+void Hot3dxRotoDraw::App::OnResuming(Object^ sender, Object^ args)
 {
 	(void)sender; // Unused parameter
 	(void)args; // Unused parameter
@@ -144,7 +143,7 @@ void App::OnResuming(Object^ sender, Object^ args)
 /// </summary>
 /// <param name="sender">The Frame which failed navigation</param>
 /// <param name="e">Details about the navigation failure</param>
-void App::OnNavigationFailed(Platform::Object^ sender, Windows::UI::Xaml::Navigation::NavigationFailedEventArgs^ e)
+void Hot3dxRotoDraw::App::OnNavigationFailed(Platform::Object^ sender, Windows::UI::Xaml::Navigation::NavigationFailedEventArgs^ e)
 {
 	throw ref new FailureException("Failed to load Page " + e->SourcePageType.Name);
 }
@@ -152,7 +151,7 @@ void App::OnNavigationFailed(Platform::Object^ sender, Windows::UI::Xaml::Naviga
 
 // DisplayInformation event handlers.
 // ReAdded 3/9/19 10:32 am
-std::shared_ptr<DX::DeviceResources> App::GetDeviceResources()
+std::shared_ptr<DX::DeviceResources> Hot3dxRotoDraw::App::GetDeviceResources()
 {
 	if (m_deviceResources != nullptr && m_deviceResources->IsDeviceRemoved())
 	{

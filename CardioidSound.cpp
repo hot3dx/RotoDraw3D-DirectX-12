@@ -123,7 +123,7 @@ HRESULT CardioidSound::SetEnvironment(HrtfEnvironment environment)
 // is relative to the listener's head (listener is always at {0, 0, 0}).
 //
 _Use_decl_annotations_
-HRESULT CardioidSound::OnUpdate(float x, float y, float z, float pitch, float yaw, float roll)
+HRESULT CardioidSound::OnUpdate(_In_ float x, _In_ float y, _In_ float z, _In_ float pitch, _In_ float yaw, _In_ float roll)
 {
     auto hr = S_OK;
     if (_hrtfParams)
@@ -141,7 +141,7 @@ HRESULT CardioidSound::OnUpdate(float x, float y, float z, float pitch, float ya
 
 // Helper to translate from pitch, yaw, roll to the rotation matrix.
 _Use_decl_annotations_
-HrtfOrientation CardioidSound::OrientationFromAngles(float pitch, float yaw, float roll)
+HrtfOrientation CardioidSound::OrientationFromAngles(_In_ float pitch, _In_ float yaw, _In_ float roll)
 {
     // Negate all angles for right handed coordinate system.
     DirectX::XMFLOAT3 angles{ -pitch, -yaw, -roll };

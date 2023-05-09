@@ -25,12 +25,12 @@ public:
 
     HRESULT Start();
     HRESULT Stop();
-    HRESULT OnUpdate(_In_ float x, _In_ float, _In_ float z, _In_ float pitch, _In_ float yaw, _In_ float roll);
+    HRESULT OnUpdate(_In_ float x, _In_ float y, _In_ float z, _In_ float pitch, _In_ float yaw, _In_ float roll);
     HRESULT SetEnvironment(_In_ HrtfEnvironment environment);
     HrtfEnvironment GetEnvironment() { return _environment; }
 
 private:
-    HrtfOrientation OrientationFromAngles(float pitch, float yaw, float roll);
+    HrtfOrientation OrientationFromAngles(_In_ float pitch, _In_ float yaw, _In_ float roll);
 
 private:
     AudioFileReader                 _audioFile;
