@@ -962,7 +962,7 @@ void DirectXPage::OnKeyDown(Windows::UI::Core::CoreWindow^ /*window*/, Windows::
 				}// eo if create_task
 				else
 				{
-					NotifyUser(L"ScreenGrab File Save Failure Error" + file->Path, NotifyType::StatusMessage);
+					NotifyUser(L"ScreenGrab File Save Failure Error", NotifyType::StatusMessage);
 				}
 			});
 			
