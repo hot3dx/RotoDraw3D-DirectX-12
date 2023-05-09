@@ -15,6 +15,8 @@ namespace Windows {
                 ref class StackPanel;
                 ref class Border;
                 ref class TextBlock;
+                ref class TextBox;
+                ref class Image;
                 ref class Slider;
                 ref class ComboBox;
             }
@@ -50,7 +52,8 @@ namespace Hot3dxRotoDraw
         private: ::Windows::UI::Xaml::Controls::TextBlock^ text6Block1;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ text6Block2;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ text6Block3;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ SwitchMenuSidesTextBlock;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ txtContentProps;
+        private: ::Windows::UI::Xaml::Controls::Image^ SoundFile1;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ textBlock2;
         private: ::Windows::UI::Xaml::Controls::Slider^ RotationSpeedSlider;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ textBlock1;
@@ -59,6 +62,7 @@ namespace Hot3dxRotoDraw
         private: ::Windows::UI::Xaml::Controls::Slider^ RadiusSlider;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ textBlock3;
         private: ::Windows::UI::Xaml::Controls::Slider^ HeightSlider;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ SwitchMenuSidesTextBlock;
     };
 }
 

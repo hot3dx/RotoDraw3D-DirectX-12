@@ -10,20 +10,54 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+
     <Grid x:ConnectionId='2' x:Name="RootGrid" Margin="0,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel x:ConnectionId='3' x:Name="HeaderPanel" HorizontalAlignment="Left" Height="600" Width="500" Margin="0,0,0,0" VerticalAlignment="Top" Background="Green">
-            <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
-            <TextBlock x:ConnectionId='4' x:Name="IDC_DESCRIPTION_STATIC" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Sculpt Data Area" VerticalAlignment="Top" RenderTransformOrigin="0.667,-11.258" TextDecorations="Underline"/>
+        <StackPanel x:ConnectionId='3' x:Name="HeaderPanel" HorizontalAlignment="Left" Height="600" Width="500" Margin="0,0,0,0" VerticalAlignment="Top" Background="LightGreen">
+            <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}" FontSize="10" FontStyle="Italic"/>
 
-            <TextBlock x:ConnectionId='5' x:Name="m_sculptText" HorizontalAlignment="Left" Margin="0,5,0,0" TextWrapping="Wrap" Text="Sculpt Topics"/>
-            <TextBox x:ConnectionId='6' x:Name="m_sculptTextBox" Text="Sculpt Topics" TextWrapping="Wrap" RenderTransformOrigin="0.455,-1.562"                                         Height="90"/>
-            <TextBlock x:ConnectionId='7' x:Name="m_sculptFilesText" HorizontalAlignment="Left" Margin="0,5,0,0" TextWrapping="Wrap" Text="Sculpt Files"/>
-            <TextBox x:ConnectionId='8' x:Name="m_sculptFilesTextBox" Text="Sculpt Files" TextWrapping="Wrap" RenderTransformOrigin="0.455,-1.562"                                              Height="460"/>
+            <TextBlock x:ConnectionId='4' x:Name="m_sculptText" HorizontalAlignment="Left" Margin="5,1,0,0" TextWrapping="Wrap" Text="Sculpt - ObjectMust Be Drawn First!" FontWeight="Bold"/>
+            <CheckBox x:ConnectionId='5' x:Name="checkBoxSculptBool" Content="Enable Sculpt"  HorizontalAlignment="Left" Margin="5,1,0,0" FontSize="12"                                    Background="#FFECFF00"/>
+            <TextBlock x:ConnectionId='6' x:Name="m_sculptMovementLock" HorizontalAlignment="Left" Margin="5,0,0,0" TextWrapping="Wrap" Text="Sculpt MovementDirection Locks!" FontSize="12" FontWeight="Bold"/>
+            <CheckBox x:ConnectionId='7' x:Name="checkBoxSculptXBool" Content="Lock X Direction" HorizontalAlignment="Left" Margin="5,1,0,0" FontSize="12"                                     BorderBrush="#FFECFF00" Background="#FFECFF00"/>
+            <CheckBox x:ConnectionId='8' x:Name="checkBoxSculptYBool" Content="Lock Y Direction" HorizontalAlignment="Left" Margin="135,-37,0,0" FontSize="12"                                     Background="#FFECFF00"/>
+            <CheckBox x:ConnectionId='9' x:Name="checkBoxSculptZBool" Content="Lock Z Direction" HorizontalAlignment="Left" Margin="270,-37,0,0" FontSize="12"                                     Background="#FFECFF00"/>
+            <TextBlock x:ConnectionId='10' x:Name="m_sculptObjectData" Text="Group Count    Points Per Group   Point Count" TextWrapping="Wrap"  Margin="5,1,0,0" FontSize="12" FontWeight="Bold"/>
+            <TextBox x:ConnectionId='11' x:Name="textBoxGroupCount"  Margin="5,1,0,0" TextWrapping="Wrap" Text="0"  HorizontalAlignment="Left" FontSize="12" Height="25" Width="75"                                            />
+            <TextBox x:ConnectionId='12' x:Name="textBoxPointsPerGroup"  Margin="95,-25,0,0" TextWrapping="Wrap" Text="0"  HorizontalAlignment="Left" FontSize="12" Height="25" Width="75"                                                />
+            <TextBox x:ConnectionId='13' x:Name="textBoxPointCount"  Margin="195,-25,0,0" TextWrapping="Wrap" Text="0"  HorizontalAlignment="Left" FontSize="12" Height="25" Width="75"                                            />
+            <TextBlock x:ConnectionId='14' x:Name="m_selectedSculptObjectData" Text="Group Selected  Point Selected   Selected Point Count  Point: X  Y  Z Values" TextWrapping="Wrap"  Margin="5,5,0,0" FontSize="12" FontWeight="Bold"/>
+            <TextBox x:ConnectionId='15' x:Name="textBoxGroupSelected"  Margin="5,1,0,0" TextWrapping="Wrap" Text="0"  HorizontalAlignment="Left" FontSize="12" Height="25" Width="75"                                               />
+            <TextBox x:ConnectionId='16' x:Name="textBoxPointSelected"  Margin="95,-25,0,0" TextWrapping="Wrap" Text="0"  HorizontalAlignment="Left" FontSize="12" Height="25" Width="75"                                               />
+            <TextBox x:ConnectionId='17' x:Name="textBoxSelectedPointCount"  Margin="195,-25,0,0" TextWrapping="Wrap" Text="0"  HorizontalAlignment="Left" FontSize="12" Height="25" Width="75"                                                    />
+            <TextBox x:ConnectionId='18' x:Name="textBoxSelectedPointX"  Margin="285,-25,0,0" TextWrapping="Wrap" Text="0"  HorizontalAlignment="Left" FontSize="12" Height="25" Width="40"                                             />
+            <TextBox x:ConnectionId='19' x:Name="textBoxSelectedPointY"  Margin="340,-25,0,0" TextWrapping="Wrap" Text="0"  HorizontalAlignment="Left" FontSize="12" Height="25" Width="40"                                             />
+            <TextBox x:ConnectionId='20' x:Name="textBoxSelectedPointZ"  Margin="395,-25,0,0" TextWrapping="Wrap" Text="0"  HorizontalAlignment="Left" FontSize="12" Height="25" Width="40"                                             />
+            <TextBlock x:ConnectionId='21' x:Name="m_selectedGroup" Text="Group Selected 0" TextWrapping="Wrap"  Margin="5,15,0,0" Width="90" Height="30" FontSize="12" FontWeight="Bold" HorizontalAlignment="Left"/>
+            <Slider x:ConnectionId='22' x:Name="slider_SelectedGroup" Width="360" Value="0" Maximum="359" Margin="80,-30,0,0"                                                />
+            <TextBlock x:ConnectionId='23' x:Name="m_selectedPoint" Text="Point Selected 0" TextWrapping="Wrap"  Margin="5,15,0,0" Width="90" Height="30" FontSize="12" FontWeight="Bold" HorizontalAlignment="Left"/>
+            <Slider x:ConnectionId='24' x:Name="slider_SelectedPoint" Width="360" Value="0" Maximum="359" Margin="80,-30,0,0"                                                />
+            <TextBlock x:ConnectionId='25' x:Name="RotateXTextBlock" Text="X:"  Margin="5,5,0,0" Width="10" HorizontalAlignment="Left" FontSize="12" FontWeight="Bold"/>
+            <TextBox x:ConnectionId='26' x:Name="GRIDCAM_XROTATE_EDIT" HorizontalAlignment="Center" Margin="-80,-15,0,0" Text="0.0" VerticalAlignment="Top" Width="112"                                                 BorderBrush="#FFF36A0B" InputScope="Number"/>
+            <Slider x:ConnectionId='27' x:Name="slider_RotateXGridCam" Width="360" Value="1" Maximum="359" Margin="-90,0,0,0"                                             />
+            <TextBlock x:ConnectionId='28' x:Name="RotateYTextBlock" Text="Y:"  Margin="5,10,0,0" Width="10" HorizontalAlignment="Left" FontSize="12" FontWeight="Bold"/>
+            <TextBox x:ConnectionId='29' x:Name="GRIDCAM_YROTATE_EDIT" HorizontalAlignment="Center" Margin="-80,-20,0,0" Text="0.0" VerticalAlignment="Top" Width="112"                                                 BorderBrush="#FFF36A0B" InputScope="Number"/>
+            <Slider x:ConnectionId='30' x:Name="slider_RotateYGridCam" Width="360" Value="1" Maximum="359"  Margin="-90,0,0,0"                                             />
+            <TextBlock x:ConnectionId='31' x:Name="RotateZTextBlock" Text="Z:"  Margin="5,10,0,0" Width="10" HorizontalAlignment="Left" FontSize="12" FontWeight="Bold"/>
+            <TextBox x:ConnectionId='32' x:Name="GRIDCAM_ZROTATE_EDIT" HorizontalAlignment="Center" Margin="-80,-20,0,0" Text="0.0" VerticalAlignment="Top" Width="112"                                                 BorderBrush="#FFF36A0B" InputScope="Number"/>
+            <Slider x:ConnectionId='33' x:Name="slider_RotateZGridCam" Width="360" Value="1" Maximum="359"  Margin="-90,0,0,0"                                             />
+
+
+            <TextBox x:ConnectionId='34' x:Name="m_sculptTextBox" Text="Sculpt Topics" TextWrapping="Wrap"  Margin="0,5,0,0" RenderTransformOrigin="0.455,-1.562"                                         Height="20"/>
+            <TextBlock x:ConnectionId='35' x:Name="m_sculptFilesText" HorizontalAlignment="Left" Margin="0,5,0,0" TextWrapping="Wrap" Text="Sculpt Files"/>
+            <TextBox x:ConnectionId='36' x:Name="m_sculptFilesTextBox" Text="Sculpt Files" TextWrapping="Wrap" RenderTransformOrigin="0.455,-1.562"                                              Height="20"/>
+            <TextBlock x:ConnectionId='37' x:Name="IDC_DESCRIPTION_STATIC" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Sculpt Data Area" VerticalAlignment="Top" RenderTransformOrigin="0.667,-11.258" TextDecorations="Underline"/>
+
+
 
         </StackPanel>
     </Grid>

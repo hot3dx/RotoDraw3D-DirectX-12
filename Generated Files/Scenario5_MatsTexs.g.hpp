@@ -67,174 +67,543 @@ void ::Hot3dxRotoDraw::Scenario5_MatsTexs::Connect(int __connectionId, ::Platfor
         break;
     case 9:
         {
-            this->IDC_CREATE_PALETTE_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            this->filePath3TextBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
     case 10:
         {
-            this->IDC_OPEN_PALETTE_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            this->textureFileTextBlock3 = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
     case 11:
         {
-            this->IDC_ADD_MATERIAL_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            this->filePath4TextBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
     case 12:
         {
-            this->IDC_SAVE_PALETTE_BUTTON2 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            this->textureFileTextBlock4 = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
     case 13:
         {
-            this->IDC_SET_MATERIAL_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            this->filePath5TextBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
     case 14:
         {
-            this->IDC_ADD_DELETEMATERIAL_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            this->textureFileTextBlock5 = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
     case 15:
         {
-            this->textBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+            this->filePath6TextBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
     case 16:
         {
-            this->IDC_NUM_MATERIALS_EDIT = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
+            this->textureFileTextBlock6 = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
     case 17:
         {
-            this->textBlock2 = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+            this->IDC_CREATE_PALETTE_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
         }
         break;
     case 18:
         {
-            this->IDC_CURRENT_MATERIAL_slider1 = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
+            this->IDC_OPEN_PALETTE_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
         }
         break;
     case 19:
         {
-            this->IDC_CURRENT_MATERIAL_slider2 = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
+            this->IDC_ADD_MATERIAL_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
         }
         break;
     case 20:
         {
-            this->IDC_CURRENT_MATERIAL_slider3 = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
+            this->IDC_SAVE_PALETTE_BUTTON2 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
         }
         break;
     case 21:
         {
-            this->IDC_CURRENT_MATERIAL_slider4 = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
+            this->IDC_SET_MATERIAL_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
         }
         break;
     case 22:
         {
-            this->IDC_CURRENT_MATERIAL_EDIT = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
+            this->IDC_ADD_DELETEMATERIAL_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
         }
         break;
     case 23:
+        {
+            this->textBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+        }
+        break;
+    case 24:
+        {
+            this->IDC_NUM_MATERIALS_EDIT = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
+        }
+        break;
+    case 25:
+        {
+            this->textBlock2 = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+        }
+        break;
+    case 26:
+        {
+            this->IDC_CURRENT_MATERIAL_slider1 = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
+        }
+        break;
+    case 27:
+        {
+            this->IDC_CURRENT_MATERIAL_slider2 = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
+        }
+        break;
+    case 28:
+        {
+            this->IDC_CURRENT_MATERIAL_slider3 = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
+        }
+        break;
+    case 29:
+        {
+            this->IDC_CURRENT_MATERIAL_slider4 = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
+        }
+        break;
+    case 30:
+        {
+            this->IDC_CURRENT_MATERIAL_EDIT = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
+        }
+        break;
+    case 31:
         {
             this->MaterialListControl = safe_cast<::Windows::UI::Xaml::Controls::ListBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::ListBox^>(this->MaterialListControl))->SelectionChanged += ref new ::Windows::UI::Xaml::Controls::SelectionChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario5_MatsTexs::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::Controls::SelectionChangedEventArgs^))&Scenario5_MatsTexs::MaterialListControl_SelectionChanged);
         }
         break;
-    case 24:
+    case 32:
         {
             this->MaterialListControlData = safe_cast<::Windows::UI::Xaml::Controls::ListBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::ListBox^>(this->MaterialListControlData))->SelectionChanged += ref new ::Windows::UI::Xaml::Controls::SelectionChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario5_MatsTexs::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::Controls::SelectionChangedEventArgs^))&Scenario5_MatsTexs::MaterialListControlData_SelectionChanged);
         }
         break;
-    case 25:
+    case 33:
         {
             this->textBlock12 = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
-    case 26:
+    case 34:
         {
             this->IDC_NAME_SET_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
         }
         break;
-    case 27:
+    case 35:
         {
             this->IDC_NAME_SET_EDIT = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
         }
         break;
-    case 28:
+    case 36:
         {
             this->IDC_TEXTURE_FILENAME_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
         }
         break;
-    case 29:
+    case 37:
         {
             this->IDC_CLEAR_TEXTURE_FILENAME_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
         }
         break;
-    case 30:
+    case 38:
         {
             this->textBlock13 = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
-    case 31:
+    case 39:
         {
             this->textBlock14 = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
-    case 32:
+    case 40:
         {
             this->IDC_POWER_SLIDER = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
         }
         break;
-    case 33:
+    case 41:
+        {
+            this->IDC_OTHERS_SLIDER = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
+        }
+        break;
+    case 42:
+        {
+            this->IDC_D3DMATERIAL_DISPLAY = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+        }
+        break;
+    case 43:
         {
             this->ID_COLOR_ADD_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
         }
         break;
-    case 34:
+    case 44:
         {
             this->scrollBar = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
         }
         break;
-    case 35:
+    case 45:
         {
             this->TextureImage1 = safe_cast<::Windows::UI::Xaml::Controls::Image^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Image^>(this->TextureImage1))->Loaded += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario5_MatsTexs::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario5_MatsTexs::TextureImage1_Loaded);
         }
         break;
-    case 36:
+    case 46:
+        {
+            this->TextureImage2 = safe_cast<::Windows::UI::Xaml::Controls::Image^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Image^>(this->TextureImage2))->Loaded += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario5_MatsTexs::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario5_MatsTexs::TextureImage2_Loaded);
+        }
+        break;
+    case 47:
         {
             this->IDC_TEXTURE_IMAGE1_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_TEXTURE_IMAGE1_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario5_MatsTexs::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario5_MatsTexs::IDC_TEXTURE_IMAGE1_BUTTON_Click);
         }
         break;
-    case 37:
+    case 48:
         {
             this->IDC_TEXTURE_IMAGE2_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_TEXTURE_IMAGE2_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario5_MatsTexs::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario5_MatsTexs::IDC_TEXTURE_IMAGE2_BUTTON_Click);
         }
         break;
-    case 38:
+    case 49:
         {
-            this->TextureImage2 = safe_cast<::Windows::UI::Xaml::Controls::Image^>(__target);
+            this->TextureRMAImage3 = safe_cast<::Windows::UI::Xaml::Controls::Image^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Image^>(this->TextureRMAImage3))->Loaded += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario5_MatsTexs::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario5_MatsTexs::TextureImage3_Loaded);
         }
         break;
-    case 39:
+    case 50:
+        {
+            this->TextureEMMisiveImage4 = safe_cast<::Windows::UI::Xaml::Controls::Image^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Image^>(this->TextureEMMisiveImage4))->Loaded += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario5_MatsTexs::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario5_MatsTexs::TextureImage4_Loaded);
+        }
+        break;
+    case 51:
+        {
+            this->IDC_TEXTURE_RMA_IMAGE3_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_TEXTURE_RMA_IMAGE3_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario5_MatsTexs::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario5_MatsTexs::IDC_TEXTURE_RMA_IMAGE3_BUTTON_Click);
+        }
+        break;
+    case 52:
+        {
+            this->IDC_TEXTURE_EMMISIVE_IMAGE4_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_TEXTURE_EMMISIVE_IMAGE4_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario5_MatsTexs::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario5_MatsTexs::IDC_TEXTURE_EMMISIVE_IMAGE4_BUTTON_Click);
+        }
+        break;
+    case 53:
+        {
+            this->TextureRadianceImage5 = safe_cast<::Windows::UI::Xaml::Controls::Image^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Image^>(this->TextureRadianceImage5))->Loaded += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario5_MatsTexs::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario5_MatsTexs::TextureImage5_Loaded);
+        }
+        break;
+    case 54:
+        {
+            this->TextureIrradianceImage6 = safe_cast<::Windows::UI::Xaml::Controls::Image^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Image^>(this->TextureIrradianceImage6))->Loaded += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario5_MatsTexs::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario5_MatsTexs::TextureImage6_Loaded);
+        }
+        break;
+    case 55:
+        {
+            this->IDC_TEXTURE_RADIANCE_IMAGE5_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_TEXTURE_RADIANCE_IMAGE5_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario5_MatsTexs::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario5_MatsTexs::IDC_TEXTURE_RADIANCE_IMAGE5_BUTTON_Click);
+        }
+        break;
+    case 56:
+        {
+            this->IDC_TEXTURE_IRRADIANCE_IMAGE6_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_TEXTURE_IRRADIANCE_IMAGE6_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario5_MatsTexs::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario5_MatsTexs::IDC_TEXTURE_IRRADIANCE_IMAGE6_BUTTON_Click);
+        }
+        break;
+    case 57:
+        {
+            this->v0 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 58:
+        {
+            this->v1 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 59:
+        {
+            this->v2 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 60:
+        {
+            this->v3 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 61:
+        {
+            this->v4 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 62:
+        {
+            this->v5 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 63:
+        {
+            this->v6 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 64:
+        {
+            this->v7 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 65:
+        {
+            this->v8 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 66:
+        {
+            this->v9 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 67:
+        {
+            this->v10 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 68:
+        {
+            this->v11 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 69:
+        {
+            this->v12 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 70:
+        {
+            this->v13 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 71:
+        {
+            this->v15 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 72:
+        {
+            this->v16 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 73:
+        {
+            this->v17 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 74:
+        {
+            this->v18 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 75:
+        {
+            this->v19 = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 76:
         {
             this->matName = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
         }
         break;
-    case 40:
+    case 77:
         {
             this->rgba_A = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
         }
         break;
+    case 78:
+        {
+            this->rgba_R = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 79:
+        {
+            this->rgba_G = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 80:
+        {
+            this->rgba_B = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 81:
+        {
+            this->Alpha = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 82:
+        {
+            this->Power = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 83:
+        {
+            this->SP_R = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 84:
+        {
+            this->SP_G = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 85:
+        {
+            this->SP_B = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 86:
+        {
+            this->AMB_R = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 87:
+        {
+            this->AMB_G = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 88:
+        {
+            this->AMB_B = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 89:
+        {
+            this->EMM_R = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 90:
+        {
+            this->EMM_G = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 91:
+        {
+            this->EMM_B = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 92:
+        {
+            this->DIF_R = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 93:
+        {
+            this->DIF_G = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
+    case 94:
+        {
+            this->DIF_B = safe_cast<::Windows::UI::Xaml::Controls::ListBoxItem^>(__target);
+        }
+        break;
     }
     _contentLoaded = true;
+}
+
+void ::Hot3dxRotoDraw::Scenario5_MatsTexs::UnloadObject(::Windows::UI::Xaml::DependencyObject^ unloadableObject)
+{
+    if (unloadableObject != nullptr)
+    {
+        // Scenario5_MatsTexs.xaml line 121
+        if (unloadableObject == this->TextureImage1)
+        {
+            this->DisconnectUnloadedObject(45);
+        }
+        // Scenario5_MatsTexs.xaml line 122
+        if (unloadableObject == this->TextureImage2)
+        {
+            this->DisconnectUnloadedObject(46);
+        }
+        // Scenario5_MatsTexs.xaml line 125
+        if (unloadableObject == this->TextureRMAImage3)
+        {
+            this->DisconnectUnloadedObject(49);
+        }
+        // Scenario5_MatsTexs.xaml line 126
+        if (unloadableObject == this->TextureEMMisiveImage4)
+        {
+            this->DisconnectUnloadedObject(50);
+        }
+        // Scenario5_MatsTexs.xaml line 129
+        if (unloadableObject == this->TextureRadianceImage5)
+        {
+            this->DisconnectUnloadedObject(53);
+        }
+        // Scenario5_MatsTexs.xaml line 130
+        if (unloadableObject == this->TextureIrradianceImage6)
+        {
+            this->DisconnectUnloadedObject(54);
+        }
+        ::Windows::UI::Xaml::Markup::XamlMarkupHelper::UnloadObject(unloadableObject);
+    }
+}
+
+void ::Hot3dxRotoDraw::Scenario5_MatsTexs::DisconnectUnloadedObject(int connectionId)
+{
+    switch(connectionId)
+    {
+        case 45: // Scenario5_MatsTexs.xaml line 121
+        {
+            this->TextureImage1 = nullptr;
+            break;
+        }
+        case 46: // Scenario5_MatsTexs.xaml line 122
+        {
+            this->TextureImage2 = nullptr;
+            break;
+        }
+        case 49: // Scenario5_MatsTexs.xaml line 125
+        {
+            this->TextureRMAImage3 = nullptr;
+            break;
+        }
+        case 50: // Scenario5_MatsTexs.xaml line 126
+        {
+            this->TextureEMMisiveImage4 = nullptr;
+            break;
+        }
+        case 53: // Scenario5_MatsTexs.xaml line 129
+        {
+            this->TextureRadianceImage5 = nullptr;
+            break;
+        }
+        case 54: // Scenario5_MatsTexs.xaml line 130
+        {
+            this->TextureIrradianceImage6 = nullptr;
+            break;
+        }
+        default:
+        {
+            throw ref new ::Platform::InvalidArgumentException("Invalid connectionId.");
+        }
+    }
 }
 
 ::Windows::UI::Xaml::Markup::IComponentConnector^ ::Hot3dxRotoDraw::Scenario5_MatsTexs::GetBindingConnector(int __connectionId, ::Platform::Object^ __target)

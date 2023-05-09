@@ -68,33 +68,40 @@ void ::Hot3dxRotoDraw::Scenario3_FileIO::Connect(int __connectionId, ::Platform:
         break;
     case 8:
         {
+            this->IDC_SAVE_MTL_BUTTON4 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_SAVE_MTL_BUTTON4))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario3_FileIO::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario3_FileIO::Save_Material_Button_Click);
+        }
+        break;
+    case 9:
+        {
             this->IDC_SAVE_OBJ_MTL_BUTTON3 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_SAVE_OBJ_MTL_BUTTON3))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario3_FileIO::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario3_FileIO::Save_Obj_Material_Button_Click);
         }
         break;
-    case 9:
+    case 10:
         {
             this->IDC_SAVEAS_BUTTON3 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_SAVEAS_BUTTON3))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario3_FileIO::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario3_FileIO::SaveAs_Button_Click);
         }
         break;
-    case 10:
+    case 11:
         {
             this->IDC_SAVEALL_BUTTON3 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_SAVEALL_BUTTON3))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario3_FileIO::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario3_FileIO::SaveAll_Button_Click);
         }
         break;
-    case 11:
+    case 12:
         {
             this->IDC_SAVE_TEXTURE_BUTTON3 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_SAVE_TEXTURE_BUTTON3))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario3_FileIO::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario3_FileIO::Save_Texture_Button_Click);
         }
         break;
-    case 12:
+    case 13:
         {
             this->IDC_DESCRIPTION_STATIC = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }

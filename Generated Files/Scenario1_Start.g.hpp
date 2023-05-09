@@ -67,101 +67,142 @@ void ::Hot3dxRotoDraw::Scenario1_Start::Connect(int __connectionId, ::Platform::
         break;
     case 9:
         {
-            this->SwitchMenuSidesTextBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+            ::Windows::UI::Xaml::Controls::Button^ element9 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(element9))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario1_Start::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario1_Start::PlayButton_Click);
         }
         break;
     case 10:
         {
-            this->textBlock2 = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+            ::Windows::UI::Xaml::Controls::Button^ element10 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(element10))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario1_Start::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario1_Start::StopButton_Click);
         }
         break;
     case 11:
         {
-            ::Windows::UI::Xaml::Controls::Button^ element11 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(element11))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario1_Start::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario1_Start::LeftMenusButton_Click);
+            this->txtContentProps = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
         }
         break;
     case 12:
+        {
+            ::Windows::UI::Xaml::Controls::Button^ element12 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(element12))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario1_Start::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario1_Start::LoadButton_Click);
+        }
+        break;
+    case 13:
+        {
+            this->SoundFile1 = safe_cast<::Windows::UI::Xaml::Controls::Image^>(__target);
+        }
+        break;
+    case 14:
+        {
+            this->textBlock2 = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(this->textBlock2))->SelectionChanged += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario1_Start::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario1_Start::textBlock2_SelectionChanged);
+        }
+        break;
+    case 15:
         {
             this->RotationSpeedSlider = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Slider^>(this->RotationSpeedSlider))->ValueChanged += ref new ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario1_Start::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^))&Scenario1_Start::RotationSpeedSlider_ValueChanged);
         }
         break;
-    case 13:
-        {
-            ::Windows::UI::Xaml::Controls::Button^ element13 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(element13))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario1_Start::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario1_Start::RightMenusButton_Click);
-        }
-        break;
-    case 14:
+    case 16:
         {
             this->textBlock1 = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
-    case 15:
+    case 17:
         {
             this->EnvironmentComboBox = safe_cast<::Windows::UI::Xaml::Controls::ComboBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::ComboBox^>(this->EnvironmentComboBox))->SelectionChanged += ref new ::Windows::UI::Xaml::Controls::SelectionChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario1_Start::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::Controls::SelectionChangedEventArgs^))&Scenario1_Start::EnvironmentComboBox_SelectionChanged);
         }
         break;
-    case 16:
+    case 18:
         {
-            ::Windows::UI::Xaml::Controls::Button^ element16 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(element16))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario1_Start::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario1_Start::MenuViewButton_Click);
-        }
-        break;
-    case 17:
-        {
-            ::Windows::UI::Xaml::Controls::Button^ element17 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(element17))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario1_Start::*)
+            ::Windows::UI::Xaml::Controls::Button^ element18 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(element18))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario1_Start::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario1_Start::FullViewButton_Click);
         }
         break;
-    case 18:
+    case 19:
         {
             this->textBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
-    case 19:
+    case 20:
         {
             this->RadiusSlider = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Slider^>(this->RadiusSlider))->ValueChanged += ref new ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario1_Start::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^))&Scenario1_Start::RadiusSlider_ValueChanged);
         }
         break;
-    case 20:
+    case 21:
         {
             this->textBlock3 = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
-    case 21:
+    case 22:
         {
             this->HeightSlider = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Slider^>(this->HeightSlider))->ValueChanged += ref new ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario1_Start::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^))&Scenario1_Start::HeightSlider_ValueChanged);
         }
         break;
-    case 22:
-        {
-            ::Windows::UI::Xaml::Controls::Button^ element22 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(element22))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario1_Start::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario1_Start::PlayButton_Click);
-        }
-        break;
     case 23:
         {
             ::Windows::UI::Xaml::Controls::Button^ element23 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Button^>(element23))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario1_Start::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario1_Start::StopButton_Click);
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario1_Start::LeftMenusButton_Click);
+        }
+        break;
+    case 24:
+        {
+            ::Windows::UI::Xaml::Controls::Button^ element24 = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(element24))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario1_Start::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario1_Start::RightMenusButton_Click);
+        }
+        break;
+    case 25:
+        {
+            this->SwitchMenuSidesTextBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
     }
     _contentLoaded = true;
+}
+
+void ::Hot3dxRotoDraw::Scenario1_Start::UnloadObject(::Windows::UI::Xaml::DependencyObject^ unloadableObject)
+{
+    if (unloadableObject != nullptr)
+    {
+        // Scenario1_Start.xaml line 49
+        if (unloadableObject == this->SoundFile1)
+        {
+            this->DisconnectUnloadedObject(13);
+        }
+        ::Windows::UI::Xaml::Markup::XamlMarkupHelper::UnloadObject(unloadableObject);
+    }
+}
+
+void ::Hot3dxRotoDraw::Scenario1_Start::DisconnectUnloadedObject(int connectionId)
+{
+    switch(connectionId)
+    {
+        case 13: // Scenario1_Start.xaml line 49
+        {
+            this->SoundFile1 = nullptr;
+            break;
+        }
+        default:
+        {
+            throw ref new ::Platform::InvalidArgumentException("Invalid connectionId.");
+        }
+    }
 }
 
 ::Windows::UI::Xaml::Markup::IComponentConnector^ ::Hot3dxRotoDraw::Scenario1_Start::GetBindingConnector(int __connectionId, ::Platform::Object^ __target)

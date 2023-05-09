@@ -55,7 +55,7 @@ namespace Hot3dxRotoDraw
         private: ::Windows::UI::Xaml::Controls::Image^ Hot3dxLogo;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ Header;
         private: ::Windows::UI::Xaml::Controls::FontIcon^ Hamburger;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ Hot3dxRotoDraw3DX12;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ Kubed3DHot3dxMaker3DX12;
         private: ::Windows::UI::Xaml::Controls::ListBox^ ScenarioControl;
         private: ::Windows::UI::Xaml::Controls::StackPanel^ FooterPanel;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ Copyright;

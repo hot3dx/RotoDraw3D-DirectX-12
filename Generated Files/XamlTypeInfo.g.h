@@ -57,7 +57,6 @@ namespace XamlTypeInfo
             ::Windows::UI::Xaml::Markup::IXamlType^ GetXamlTypeByName(::Platform::String^ typeName);
             ::Windows::UI::Xaml::Markup::IXamlType^ GetXamlTypeByType(::Windows::UI::Xaml::Interop::TypeName t);
             ::Windows::UI::Xaml::Markup::IXamlMember^ GetMemberByLongName(::Platform::String^ longMemberName);
-            void AddOtherProvider(::Windows::UI::Xaml::Markup::IXamlMetadataProvider^ otherProvider);
 
         private:
             CriticalSection _xamlTypesCriticalSection;
@@ -397,3 +396,4 @@ namespace XamlTypeInfo
         };
     }
 }
+

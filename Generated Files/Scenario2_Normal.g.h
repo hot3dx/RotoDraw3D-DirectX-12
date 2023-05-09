@@ -15,9 +15,10 @@ namespace Windows {
                 ref class StackPanel;
                 ref class Border;
                 ref class TextBlock;
-                ref class CheckBox;
                 ref class TextBox;
                 ref class Slider;
+                ref class CheckBox;
+                ref class ComboBox;
                 ref class Button;
             }
         }
@@ -59,7 +60,6 @@ namespace Hot3dxRotoDraw
         private: ::Windows::UI::Xaml::Controls::Border^ ErrorBorder;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ StatusBlock;
         private: ::Windows::UI::Xaml::Controls::StackPanel^ left;
-        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_BACKGROUND_DRAW_CHECKBOX;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ IDC_POINT_SPACE_STATIC;
         private: ::Windows::UI::Xaml::Controls::TextBox^ PointSpacingTextBox;
         private: ::Windows::UI::Xaml::Controls::Slider^ IDC_SLIDER;
@@ -67,6 +67,12 @@ namespace Hot3dxRotoDraw
         private: ::Windows::UI::Xaml::Controls::TextBox^ PartialRotateTextBox;
         private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_CLOSED_OR_OPEN_CHECKBOX;
         private: ::Windows::UI::Xaml::Controls::Slider^ IDC_PARTIAL_ROTATE_SLIDER;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ m_RastDescTextBlock;
+        private: ::Windows::UI::Xaml::Controls::ComboBox^ RasterDescComboBox;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ m_SamplIndexWrapTextBlock;
+        private: ::Windows::UI::Xaml::Controls::ComboBox^ SamplIndexWrapComboBox;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ m_EffectDescTextBlock;
+        private: ::Windows::UI::Xaml::Controls::ComboBox^ EffectDescComboBox;
         private: ::Windows::UI::Xaml::Controls::Button^ IDC_SET_COLORS_BUTTON;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ IDC_FACES_STATIC;
         private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_EXTERIOR_FACES_CHECKBOX;

@@ -10,6 +10,7 @@
 #include "XamlTypeInfo.g.h"
 
 #include "App.xaml.h"
+#include "ContentDialog1.xaml.h"
 #include "DirectXPage.xaml.h"
 #include "Scenario10_Sculpt.xaml.h"
 #include "Scenario11_GridorPic.xaml.h"
@@ -24,6 +25,7 @@
 #include "Scenario9_Rotate.xaml.h"
 #include "XamlBindingInfo.g.hpp"
 #include "App.g.hpp"
+#include "ContentDialog1.g.hpp"
 #include "DirectXPage.g.hpp"
 #include "Scenario10_Sculpt.g.hpp"
 #include "Scenario11_GridorPic.g.hpp"
@@ -62,24 +64,6 @@ template<typename T>
 }
 
 template<typename TDeclaringType, typename TValue>
-::Platform::Object^ GetValueTypeMember_Version(::Platform::Object^ instance)
-{
-    return ref new ::Platform::Box<TValue>(safe_cast<TDeclaringType^>(instance)->Version);
-}
-
-template<typename TDeclaringType, typename TValue>
-::Platform::Object^ GetValueTypeMember_UseCompactResources(::Platform::Object^ instance)
-{
-    return ref new ::Platform::Box<TValue>(safe_cast<TDeclaringType^>(instance)->UseCompactResources);
-}
-
-template<typename TDeclaringType, typename TValue>
-::Platform::Object^ GetValueTypeMember_ControlsResourcesVersion(::Platform::Object^ instance)
-{
-    return ref new ::Platform::Box<TValue>(safe_cast<TDeclaringType^>(instance)->ControlsResourcesVersion);
-}
-
-template<typename TDeclaringType, typename TValue>
 ::Platform::Object^ GetValueTypeMember_IsExpanded(::Platform::Object^ instance)
 {
     return ref new ::Platform::Box<TValue>(safe_cast<TDeclaringType^>(instance)->IsExpanded);
@@ -104,6 +88,12 @@ template<typename TDeclaringType, typename TValue>
 }
 
 template<typename TDeclaringType>
+::Platform::Object^ GetReferenceTypeMember_Foreground(::Platform::Object^ instance)
+{
+    return safe_cast<TDeclaringType^>(instance)->Foreground;
+}
+
+template<typename TDeclaringType>
 ::Platform::Object^ GetReferenceTypeMember_Content(::Platform::Object^ instance)
 {
     return safe_cast<TDeclaringType^>(instance)->Content;
@@ -122,24 +112,6 @@ template<typename TDeclaringType>
 }
 
 template<typename TDeclaringType, typename TValue>
-void SetEnumMember_Version(::Platform::Object^ instance, ::Platform::Object^ value)
-{
-    safe_cast<TDeclaringType^>(instance)->Version = safe_cast<::Platform::IBox<TValue>^>(value)->Value;
-}
-
-template<typename TDeclaringType, typename TValue>
-void SetEnumMember_ControlsResourcesVersion(::Platform::Object^ instance, ::Platform::Object^ value)
-{
-    safe_cast<TDeclaringType^>(instance)->ControlsResourcesVersion = safe_cast<::Platform::IBox<TValue>^>(value)->Value;
-}
-
-template<typename TDeclaringType, typename TValue>
-void SetValueTypeMember_UseCompactResources(::Platform::Object^ instance, ::Platform::Object^ value)
-{
-    safe_cast<TDeclaringType^>(instance)->UseCompactResources = safe_cast<::Platform::IBox<TValue>^>(value)->Value;
-}
-
-template<typename TDeclaringType, typename TValue>
 void SetValueTypeMember_IsExpanded(::Platform::Object^ instance, ::Platform::Object^ value)
 {
     safe_cast<TDeclaringType^>(instance)->IsExpanded = safe_cast<::Platform::IBox<TValue>^>(value)->Value;
@@ -149,6 +121,12 @@ template<typename TDeclaringType, typename TValue>
 void SetValueTypeMember_HasUnrealizedChildren(::Platform::Object^ instance, ::Platform::Object^ value)
 {
     safe_cast<TDeclaringType^>(instance)->HasUnrealizedChildren = safe_cast<::Platform::IBox<TValue>^>(value)->Value;
+}
+
+template<typename TDeclaringType, typename TValue>
+void SetReferenceTypeMember_Foreground(::Platform::Object^ instance, ::Platform::Object^ value)
+{
+    safe_cast<TDeclaringType^>(instance)->Foreground = safe_cast<TValue^>(value);
 }
 
 template<typename TDeclaringType, typename TValue>
@@ -208,23 +186,23 @@ const TypeInfo TypeInfos[] =
     TypeInfo_Flags_IsSystemType | TypeInfo_Flags_None,
     -1,
     //   3
-    L"System.Enum", L"",
-    nullptr, nullptr, nullptr, nullptr,
-    4, // System.ValueType
-    0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
-    TypeInfo_Flags_None,
-    -1,
-    //   4
-    L"System.ValueType", L"",
-    nullptr, nullptr, nullptr, nullptr,
-    1, // Object
-    0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
-    TypeInfo_Flags_None,
-    -1,
-    //   5
     L"Hot3dxRotoDraw.DirectXPage", L"",
     &ActivateType<::Hot3dxRotoDraw::DirectXPage>, nullptr, nullptr, nullptr,
     6, // Windows.UI.Xaml.Controls.Page
+    0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
+    TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
+    -1,
+    //   4
+    L"Windows.UI.Xaml.Media.Brush", L"",
+    nullptr, nullptr, nullptr, nullptr,
+    -1,
+    0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
+    TypeInfo_Flags_IsSystemType | TypeInfo_Flags_None,
+    -1,
+    //   5
+    L"Hot3dxRotoDraw.ContentDialog1", L"",
+    nullptr, nullptr, nullptr, nullptr,
+    21, // Windows.UI.Xaml.Controls.ContentDialog
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
@@ -292,87 +270,80 @@ const TypeInfo TypeInfos[] =
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
     //  15
-    L"Windows.UI.Xaml.ResourceDictionary", L"",
-    nullptr, nullptr, nullptr, nullptr,
-    -1,
-    0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
-    TypeInfo_Flags_IsSystemType | TypeInfo_Flags_None,
-    -1,
-    //  16
     L"Hot3dxRotoDraw.Scenario11_GridorPic", L"",
     &ActivateType<::Hot3dxRotoDraw::Scenario11_GridorPic>, nullptr, nullptr, nullptr,
     6, // Windows.UI.Xaml.Controls.Page
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
-    //  17
+    //  16
     L"Hot3dxRotoDraw.Scenario4_MySettings", L"",
     &ActivateType<::Hot3dxRotoDraw::Scenario4_MySettings>, nullptr, nullptr, nullptr,
     6, // Windows.UI.Xaml.Controls.Page
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
-    //  18
+    //  17
     L"Hot3dxRotoDraw.Scenario7_SphereDraw", L"",
     &ActivateType<::Hot3dxRotoDraw::Scenario7_SphereDraw>, nullptr, nullptr, nullptr,
     6, // Windows.UI.Xaml.Controls.Page
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
-    //  19
+    //  18
     L"Windows.UI.Xaml.Controls.UserControl", L"",
     nullptr, nullptr, nullptr, nullptr,
     -1,
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
     TypeInfo_Flags_IsSystemType | TypeInfo_Flags_None,
     -1,
-    //  20
+    //  19
     L"Hot3dxRotoDraw.Scenario6_ColorPicker", L"",
     &ActivateType<::Hot3dxRotoDraw::Scenario6_ColorPicker>, nullptr, nullptr, nullptr,
     6, // Windows.UI.Xaml.Controls.Page
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
-    //  21
-    L"Microsoft.UI.Xaml.Controls.TreeViewNode", L"",
-    &ActivateType<::Microsoft::UI::Xaml::Controls::TreeViewNode>, nullptr, nullptr, nullptr,
+    //  20
+    L"Microsoft.UI.Xaml.Controls.IconSource", L"",
+    nullptr, nullptr, nullptr, nullptr,
     13, // Windows.UI.Xaml.DependencyObject
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
     TypeInfo_Flags_IsBindable | TypeInfo_Flags_None,
     -1,
+    //  21
+    L"Windows.UI.Xaml.Controls.ContentDialog", L"",
+    nullptr, nullptr, nullptr, nullptr,
+    -1,
+    1, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
+    TypeInfo_Flags_IsSystemType | TypeInfo_Flags_None,
+    -1,
     //  22
-    L"Microsoft.UI.Xaml.Controls.StylesVersion", L"",
-    nullptr, nullptr, nullptr, &FromStringConverter<::Microsoft::UI::Xaml::Controls::StylesVersion>,
-    3, // System.Enum
-    7, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
-    TypeInfo_Flags_None,
+    L"Windows.UI.Xaml.Controls.ContentControl", L"",
+    nullptr, nullptr, nullptr, nullptr,
+    -1,
+    1, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
+    TypeInfo_Flags_IsSystemType | TypeInfo_Flags_None,
     -1,
     //  23
-    L"Microsoft.UI.Xaml.Controls.XamlControlsResources", L"",
-    &ActivateType<::Microsoft::UI::Xaml::Controls::XamlControlsResources>, nullptr, &DictionaryAdd<::Microsoft::UI::Xaml::Controls::XamlControlsResources, ::Platform::Object^, ::Platform::Object^>, nullptr,
-    15, // Windows.UI.Xaml.ResourceDictionary
-    7, 2, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
-    TypeInfo_Flags_None,
+    L"Microsoft.UI.Xaml.Controls.TreeViewNode", L"",
+    &ActivateType<::Microsoft::UI::Xaml::Controls::TreeViewNode>, nullptr, nullptr, nullptr,
+    13, // Windows.UI.Xaml.DependencyObject
+    1, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
+    TypeInfo_Flags_IsBindable | TypeInfo_Flags_None,
     -1,
     //  24
-    L"Microsoft.UI.Xaml.Controls.ControlsResourcesVersion", L"",
-    nullptr, nullptr, nullptr, &FromStringConverter<::Microsoft::UI::Xaml::Controls::ControlsResourcesVersion>,
-    3, // System.Enum
-    10, 2, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
-    TypeInfo_Flags_None,
-    -1,
-    //  25
     L"Windows.Foundation.Collections.IVector`1<Microsoft.UI.Xaml.Controls.TreeViewNode>", L"",
     nullptr, &CollectionAdd<::Windows::Foundation::Collections::IVector<::Microsoft::UI::Xaml::Controls::TreeViewNode^>, ::Microsoft::UI::Xaml::Controls::TreeViewNode^>, nullptr, nullptr,
     -1,
-    10, 4, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
+    8, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
     TypeInfo_Flags_IsReturnTypeStub | TypeInfo_Flags_None,
     -1,
     //  Last type here is for padding
     L"", L"",
     nullptr, nullptr, nullptr, nullptr,
     -1, 
-    10, 4, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
+    8, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_None,
 };
 
@@ -389,77 +360,77 @@ const UINT TypeInfoLookup[] = {
       3,   //   9
       3,   //  10
       3,   //  11
-      4,   //  12
-      4,   //  13
-      4,   //  14
-      4,   //  15
-      4,   //  16
-      5,   //  17
-      5,   //  18
-      5,   //  19
-      5,   //  20
-      5,   //  21
-      5,   //  22
-      5,   //  23
-      5,   //  24
-      5,   //  25
-      5,   //  26
-      6,   //  27
-      6,   //  28
-      6,   //  29
+      3,   //  12
+      3,   //  13
+      3,   //  14
+      3,   //  15
+      3,   //  16
+      3,   //  17
+      3,   //  18
+      3,   //  19
+      3,   //  20
+      3,   //  21
+      3,   //  22
+      3,   //  23
+      3,   //  24
+      3,   //  25
+      3,   //  26
+      4,   //  27
+      5,   //  28
+      5,   //  29
       8,   //  30
       9,   //  31
      12,   //  32
      14,   //  33
      15,   //  34
-     16,   //  35
-     19,   //  36
-     21,   //  37
+     15,   //  35
+     18,   //  36
+     20,   //  37
      21,   //  38
-     21,   //  39
-     22,   //  40
-     23,   //  41
-     23,   //  42
-     23,   //  43
-     23,   //  44
-     23,   //  45
-     23,   //  46
-     23,   //  47
-     23,   //  48
+     22,   //  39
+     24,   //  40
+     24,   //  41
+     24,   //  42
+     24,   //  43
+     24,   //  44
+     24,   //  45
+     24,   //  46
+     24,   //  47
+     24,   //  48
      24,   //  49
      24,   //  50
      24,   //  51
-     25,   //  52
-     25,   //  53
-     25,   //  54
-     25,   //  55
-     25,   //  56
-     25,   //  57
-     25,   //  58
-     25,   //  59
-     25,   //  60
-     25,   //  61
-     25,   //  62
-     25,   //  63
-     25,   //  64
-     25,   //  65
-     25,   //  66
-     25,   //  67
-     25,   //  68
-     25,   //  69
-     25,   //  70
-     25,   //  71
-     25,   //  72
-     25,   //  73
-     25,   //  74
-     25,   //  75
-     25,   //  76
-     25,   //  77
-     25,   //  78
-     25,   //  79
-     25,   //  80
-     25,   //  81
-     26,   //  82
+     24,   //  52
+     24,   //  53
+     24,   //  54
+     24,   //  55
+     24,   //  56
+     24,   //  57
+     24,   //  58
+     24,   //  59
+     24,   //  60
+     24,   //  61
+     24,   //  62
+     24,   //  63
+     24,   //  64
+     24,   //  65
+     24,   //  66
+     24,   //  67
+     24,   //  68
+     24,   //  69
+     24,   //  70
+     24,   //  71
+     24,   //  72
+     24,   //  73
+     24,   //  74
+     24,   //  75
+     24,   //  76
+     24,   //  77
+     24,   //  78
+     24,   //  79
+     24,   //  80
+     24,   //  81
+     25,   //  82
 };
 
 const TypeInfo* GetTypeInfo(::Platform::String^ typeName)
@@ -478,20 +449,6 @@ const TypeInfo* GetTypeInfo(::Platform::String^ typeName)
     return nullptr;
 }
 
-struct EnumValueInfo
-{
-    PCWSTR name;
-    int eValue;
-};
-
-const EnumValueInfo EnumValues[] =
-{ 
-    L"Latest", (int) ::Microsoft::UI::Xaml::Controls::StylesVersion::Latest,
-    L"WinUI_2dot5", (int) ::Microsoft::UI::Xaml::Controls::StylesVersion::WinUI_2dot5,
-    L"Version1", (int) ::Microsoft::UI::Xaml::Controls::ControlsResourcesVersion::Version1,
-    L"Version2", (int) ::Microsoft::UI::Xaml::Controls::ControlsResourcesVersion::Version2,
-};
-
 struct MemberInfo 
 {
     PCWSTR shortName;
@@ -506,76 +463,62 @@ struct MemberInfo
 
 const MemberInfo MemberInfos[] = 
 {
-    //   0 - Microsoft.UI.Xaml.Controls.TreeViewNode.IsExpanded
+    //   0 - Microsoft.UI.Xaml.Controls.IconSource.Foreground
+    L"Foreground",
+    &GetReferenceTypeMember_Foreground<::Microsoft::UI::Xaml::Controls::IconSource>,
+    &SetReferenceTypeMember_Foreground<::Microsoft::UI::Xaml::Controls::IconSource, ::Windows::UI::Xaml::Media::Brush>,
+    4, // Windows.UI.Xaml.Media.Brush
+    -1,
+    false, true,  false,
+    //   1 - Microsoft.UI.Xaml.Controls.TreeViewNode.IsExpanded
     L"IsExpanded",
     &GetValueTypeMember_IsExpanded<::Microsoft::UI::Xaml::Controls::TreeViewNode, ::Platform::Boolean>,
     &SetValueTypeMember_IsExpanded<::Microsoft::UI::Xaml::Controls::TreeViewNode, ::Platform::Boolean>,
     2, // Boolean
     -1,
     false, true,  false,
-    //   1 - Microsoft.UI.Xaml.Controls.TreeViewNode.HasUnrealizedChildren
+    //   2 - Microsoft.UI.Xaml.Controls.TreeViewNode.HasUnrealizedChildren
     L"HasUnrealizedChildren",
     &GetValueTypeMember_HasUnrealizedChildren<::Microsoft::UI::Xaml::Controls::TreeViewNode, ::Platform::Boolean>,
     &SetValueTypeMember_HasUnrealizedChildren<::Microsoft::UI::Xaml::Controls::TreeViewNode, ::Platform::Boolean>,
     2, // Boolean
     -1,
     false, false, false,
-    //   2 - Microsoft.UI.Xaml.Controls.TreeViewNode.Content
+    //   3 - Microsoft.UI.Xaml.Controls.TreeViewNode.Content
     L"Content",
     &GetReferenceTypeMember_Content<::Microsoft::UI::Xaml::Controls::TreeViewNode>,
     &SetReferenceTypeMember_Content<::Microsoft::UI::Xaml::Controls::TreeViewNode, ::Platform::Object>,
     1, // Object
     -1,
     false, true,  false,
-    //   3 - Microsoft.UI.Xaml.Controls.TreeViewNode.Children
+    //   4 - Microsoft.UI.Xaml.Controls.TreeViewNode.Children
     L"Children",
     &GetReferenceTypeMember_Children<::Microsoft::UI::Xaml::Controls::TreeViewNode>,
     nullptr,
-    25, // Windows.Foundation.Collections.IVector`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
+    24, // Windows.Foundation.Collections.IVector`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
     -1,
     true,  false, false,
-    //   4 - Microsoft.UI.Xaml.Controls.TreeViewNode.Depth
+    //   5 - Microsoft.UI.Xaml.Controls.TreeViewNode.Depth
     L"Depth",
     &GetValueTypeMember_Depth<::Microsoft::UI::Xaml::Controls::TreeViewNode, ::default::int32>,
     nullptr,
     0, // Int32
     -1,
     true,  true,  false,
-    //   5 - Microsoft.UI.Xaml.Controls.TreeViewNode.HasChildren
+    //   6 - Microsoft.UI.Xaml.Controls.TreeViewNode.HasChildren
     L"HasChildren",
     &GetValueTypeMember_HasChildren<::Microsoft::UI::Xaml::Controls::TreeViewNode, ::Platform::Boolean>,
     nullptr,
     2, // Boolean
     -1,
     true,  true,  false,
-    //   6 - Microsoft.UI.Xaml.Controls.TreeViewNode.Parent
+    //   7 - Microsoft.UI.Xaml.Controls.TreeViewNode.Parent
     L"Parent",
     &GetReferenceTypeMember_Parent<::Microsoft::UI::Xaml::Controls::TreeViewNode>,
     nullptr,
-    21, // Microsoft.UI.Xaml.Controls.TreeViewNode
+    23, // Microsoft.UI.Xaml.Controls.TreeViewNode
     -1,
     true,  false, false,
-    //   7 - Microsoft.UI.Xaml.Controls.XamlControlsResources.Version
-    L"Version",
-    &GetValueTypeMember_Version<::Microsoft::UI::Xaml::Controls::XamlControlsResources, ::Microsoft::UI::Xaml::Controls::StylesVersion>,
-    &SetEnumMember_Version<::Microsoft::UI::Xaml::Controls::XamlControlsResources, ::Microsoft::UI::Xaml::Controls::StylesVersion>,
-    22, // Microsoft.UI.Xaml.Controls.StylesVersion
-    -1,
-    false, true,  false,
-    //   8 - Microsoft.UI.Xaml.Controls.XamlControlsResources.UseCompactResources
-    L"UseCompactResources",
-    &GetValueTypeMember_UseCompactResources<::Microsoft::UI::Xaml::Controls::XamlControlsResources, ::Platform::Boolean>,
-    &SetValueTypeMember_UseCompactResources<::Microsoft::UI::Xaml::Controls::XamlControlsResources, ::Platform::Boolean>,
-    2, // Boolean
-    -1,
-    false, true,  false,
-    //   9 - Microsoft.UI.Xaml.Controls.XamlControlsResources.ControlsResourcesVersion
-    L"ControlsResourcesVersion",
-    &GetValueTypeMember_ControlsResourcesVersion<::Microsoft::UI::Xaml::Controls::XamlControlsResources, ::Microsoft::UI::Xaml::Controls::ControlsResourcesVersion>,
-    &SetEnumMember_ControlsResourcesVersion<::Microsoft::UI::Xaml::Controls::XamlControlsResources, ::Microsoft::UI::Xaml::Controls::ControlsResourcesVersion>,
-    24, // Microsoft.UI.Xaml.Controls.ControlsResourcesVersion
-    -1,
-    false, true,  false,
 };
 
 PCWSTR GetShortName(PCWSTR longName)
@@ -667,12 +610,6 @@ const MemberInfo* GetMemberInfo(::Platform::String^ longMemberName)
         {
             userType->AddMemberName(::Platform::StringReference(MemberInfos[i].shortName));
             nextMemberIndex++;
-        }
-        for (int i = pTypeInfo->firstEnumValueIndex; i < pNextTypeInfo->firstEnumValueIndex; i++)
-        {
-            userType->AddEnumValue(
-                ::Platform::StringReference(EnumValues[i].name),
-                ::Windows::Foundation::PropertyValue::CreateInt32(EnumValues[i].eValue));
         }
         return userType;
     }

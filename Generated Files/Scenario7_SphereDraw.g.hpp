@@ -76,6 +76,37 @@ void ::Hot3dxRotoDraw::Scenario7_SphereDraw::Connect(int __connectionId, ::Platf
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario7_SphereDraw::DrawSphereButton_Click);
         }
         break;
+    case 10:
+        {
+            this->VideoTextureImage1 = safe_cast<::Windows::UI::Xaml::Controls::Image^>(__target);
+        }
+        break;
+    case 11:
+        {
+            this->m_videoFilesTextBox = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
+        }
+        break;
+    case 12:
+        {
+            this->IDC_VIDEO_TEXTURE_IMAGE1_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_VIDEO_TEXTURE_IMAGE1_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario7_SphereDraw::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario7_SphereDraw::IDC_VIDEO_TEXTURE_IMAGE1_BUTTON_Click);
+        }
+        break;
+    case 13:
+        {
+            this->IDC_SHOW_VIDEO_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_SHOW_VIDEO_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario7_SphereDraw::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario7_SphereDraw::IDC_SHOW_VIDEO_BUTTON_Click);
+        }
+        break;
+    case 14:
+        {
+            this->IDC_VIDEO_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_VIDEO_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario7_SphereDraw::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario7_SphereDraw::IDC_VIDEO_CHECKBOX_Checked);
+        }
+        break;
     }
     _contentLoaded = true;
 }

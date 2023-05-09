@@ -15,8 +15,8 @@ namespace Windows {
                 ref class StackPanel;
                 ref class TextBlock;
                 ref class TextBox;
-                ref class CheckBox;
                 ref class Image;
+                ref class CheckBox;
                 ref class Button;
             }
         }
@@ -51,10 +51,17 @@ namespace Hot3dxRotoDraw
         private: ::Windows::UI::Xaml::Controls::TextBox^ m_gridorPicTextBox;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ m_gridorPicFilesText;
         private: ::Windows::UI::Xaml::Controls::TextBox^ m_gridorPicFilesTextBox;
-        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_GRID_OR_PIC_CHECKBOX;
         private: ::Windows::UI::Xaml::Controls::Image^ PicTextureImage1;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_GRID_OR_PIC_CHECKBOX;
         private: ::Windows::UI::Xaml::Controls::Button^ IDC_PIC_TEXTURE_IMAGE1_BUTTON;
         private: ::Windows::UI::Xaml::Controls::Button^ IDC_SHOW_BACKGROUND_PIC_BUTTON;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_PIC_CHECKBOX;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_SCREENGRAB_DDS_CHECKBOX;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_SCREENGRAB_BMP_CHECKBOX;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_SCREENGRAB_PNG_CHECKBOX;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_SCREENGRAB_JPG_CHECKBOX;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_SCREENGRAB_TIFF_CHECKBOX;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_SCREENGRAB_GIF_CHECKBOX;
     };
 }
 

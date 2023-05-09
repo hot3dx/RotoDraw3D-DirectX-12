@@ -11,9 +11,6 @@ namespace Windows {
     namespace UI {
         namespace Xaml {
             namespace Controls {
-                ref class Grid;
-                ref class StackPanel;
-                ref class Button;
                 ref class TextBlock;
             }
         }
@@ -23,7 +20,7 @@ namespace Windows {
 namespace Hot3dxRotoDraw
 {
     [::Windows::Foundation::Metadata::WebHostHidden]
-    partial ref class Scenario3_FileIO : public ::Windows::UI::Xaml::Controls::Page, 
+    partial ref class ContentDialog1 : public ::Windows::UI::Xaml::Controls::ContentDialog, 
         public ::Windows::UI::Xaml::Markup::IComponentConnector,
         public ::Windows::UI::Xaml::Markup::IComponentConnector2
     {
@@ -39,20 +36,9 @@ namespace Hot3dxRotoDraw
     private:
         bool _contentLoaded;
     
-        class Scenario3_FileIO_obj1_Bindings;
+        class ContentDialog1_obj1_Bindings;
     
-        private: ::Windows::UI::Xaml::Controls::Grid^ RootGrid;
-        private: ::Windows::UI::Xaml::Controls::StackPanel^ panel;
-        private: ::Windows::UI::Xaml::Controls::StackPanel^ panel1;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_New_BUTTON3;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_OPEN_BUTTON3;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_SAVE_BUTTON3;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_SAVE_MTL_BUTTON4;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_SAVE_OBJ_MTL_BUTTON3;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_SAVEAS_BUTTON3;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_SAVEALL_BUTTON3;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_SAVE_TEXTURE_BUTTON3;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ IDC_DESCRIPTION_STATIC;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ textBlock;
     };
 }
 

@@ -27,14 +27,22 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-     <StackPanel x:ConnectionId='3' x:Name="HeaderPanel" HorizontalAlignment="Left" Height="600" Width="500" Margin="0,0,0,0" VerticalAlignment="Top" Background="Green">
+     <StackPanel x:ConnectionId='3' x:Name="HeaderPanel" HorizontalAlignment="Left" Height="550" Width="400" Margin="0,0,0,0" VerticalAlignment="Top" Background="LightGreen">
         <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
         <TextBlock x:ConnectionId='4' x:Name="IDC_DESCRIPTION_STATIC" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Draw a Sphere" VerticalAlignment="Top" RenderTransformOrigin="0.667,-11.258" TextDecorations="Underline"/>
         <TextBlock x:ConnectionId='5' x:Name="m_SphereRadius" HorizontalAlignment="Left" Margin="0,5,0,0" TextWrapping="Wrap" Text="Sphere Radius"/>
-        <TextBox x:ConnectionId='6' x:Name="m_SphereRadiusTextBox" Text="81.000000" TextWrapping="Wrap" RenderTransformOrigin="0.455,-1.562"                                              />
+        <TextBox x:ConnectionId='6' x:Name="m_SphereRadiusTextBox" Text="5.000000" TextWrapping="Wrap" RenderTransformOrigin="0.455,-1.562"                                              />
         <TextBlock x:ConnectionId='7' x:Name="PointSpacing" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" Text="Point Spacing"/>
-        <TextBox x:ConnectionId='8' x:Name="m_PointSpaceTextBox" Text="10.000000" TextWrapping="Wrap" RenderTransformOrigin="0.455,-2.562"                                              />
+        <TextBox x:ConnectionId='8' x:Name="m_PointSpaceTextBox" Text="5.00000" TextWrapping="Wrap" RenderTransformOrigin="0.455,-2.562"                                              />
         <Button x:ConnectionId='9' x:Name="DrawSphereButton" Content="Draw Sphere" HorizontalAlignment="Left" Margin="0,5,0,0" RenderTransformOrigin="0.629,4.75"                                AutomationProperties.HelpText="Press to Draw a new sphere"/>
+       
+         <Image x:ConnectionId='10' x:Name="VideoTextureImage1" Source="ms-appx::///Assets/Textures/SampleVideo.mp4" HorizontalAlignment="Left" Height="200" Margin="180,20,0,0" VerticalAlignment="Top" Width="200" FocusVisualPrimaryBrush="#FF18ED18" FocusVisualSecondaryBrush="#FFBCF5BC"/>
+        <TextBlock Text="Video Texture File Path" Style="{StaticResource SampleHeaderTextStyle}" Width="137" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,-190,0,0" Height="24"/>
+        <TextBox x:ConnectionId='11' x:Name="m_videoFilesTextBox" Text="Assets/Texture/SampleVideo.mp4" TextWrapping="Wrap" Width="136" Height="80" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-165,0,0" />
+            
+        <Button x:ConnectionId='12' x:Name="IDC_VIDEO_TEXTURE_IMAGE1_BUTTON" Content="1) Add Video Texture" Margin="5,-70,0,0" VerticalAlignment="Top" Height="30" Width="140"                                               BorderBrush="#FF266B26" Background="#FFF1F30B"/>
+        <Button x:ConnectionId='13' x:Name="IDC_SHOW_VIDEO_BUTTON" Content="2) Show&#xD;&#xA; Video Texture" Margin="5,-20,0,0" Height="72" Width="140"                                     BorderBrush="#FF266B26" Background="#FFF1F30B"/>
+        <CheckBox x:ConnectionId='14' x:Name="IDC_VIDEO_CHECKBOX" IsChecked="False" Content="3) Video Texture&#xD;&#xA; Shows if Checked" HorizontalAlignment="Left" Margin="10,10,0,0"                                    Background="#FFD1F30B" FocusVisualPrimaryBrush="#FFF36A0B" BorderBrush="#FF266B26"/>
         </StackPanel>
         </Grid>
 </Page>

@@ -16,6 +16,8 @@ namespace Windows {
                 ref class TextBlock;
                 ref class TextBox;
                 ref class Button;
+                ref class Image;
+                ref class CheckBox;
             }
         }
     }
@@ -50,6 +52,11 @@ namespace Hot3dxRotoDraw
         private: ::Windows::UI::Xaml::Controls::TextBlock^ PointSpacing;
         private: ::Windows::UI::Xaml::Controls::TextBox^ m_PointSpaceTextBox;
         private: ::Windows::UI::Xaml::Controls::Button^ DrawSphereButton;
+        private: ::Windows::UI::Xaml::Controls::Image^ VideoTextureImage1;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ m_videoFilesTextBox;
+        private: ::Windows::UI::Xaml::Controls::Button^ IDC_VIDEO_TEXTURE_IMAGE1_BUTTON;
+        private: ::Windows::UI::Xaml::Controls::Button^ IDC_SHOW_VIDEO_BUTTON;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_VIDEO_CHECKBOX;
     };
 }
 

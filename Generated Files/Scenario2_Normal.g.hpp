@@ -57,157 +57,186 @@ void ::Hot3dxRotoDraw::Scenario2_Normal::Connect(int __connectionId, ::Platform:
         break;
     case 7:
         {
-            this->IDC_BACKGROUND_DRAW_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_BACKGROUND_DRAW_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario2_Normal::IDC_BACKGROUND_DRAW_CHECKBOX_checked);
-        }
-        break;
-    case 8:
-        {
             this->IDC_POINT_SPACE_STATIC = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
-    case 9:
+    case 8:
         {
             this->PointSpacingTextBox = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->PointSpacingTextBox))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario2_Normal::PointSpacingTextBox_TextChanged);
         }
         break;
-    case 10:
+    case 9:
         {
             this->IDC_SLIDER = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Slider^>(this->IDC_SLIDER))->ValueChanged += ref new ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^))&Scenario2_Normal::IDC_SLIDER_ValueChanged);
         }
         break;
-    case 11:
+    case 10:
         {
             this->IDC_PARTIAL_ROTATE_STATIC = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
-    case 12:
+    case 11:
         {
             this->PartialRotateTextBox = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->PartialRotateTextBox))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario2_Normal::PartialRotateTextBox_TextChanged);
         }
         break;
-    case 13:
+    case 12:
         {
             this->IDC_CLOSED_OR_OPEN_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_CLOSED_OR_OPEN_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario2_Normal::IDC_CLOSED_OR_OPEN_CHECKBOX_Checked);
         }
         break;
-    case 14:
+    case 13:
         {
             this->IDC_PARTIAL_ROTATE_SLIDER = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Slider^>(this->IDC_PARTIAL_ROTATE_SLIDER))->ValueChanged += ref new ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^))&Scenario2_Normal::IDC_PARTIAL_ROTATE_SLIDER_ValueChanged);
         }
         break;
+    case 14:
+        {
+            this->m_RastDescTextBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+        }
+        break;
     case 15:
+        {
+            this->RasterDescComboBox = safe_cast<::Windows::UI::Xaml::Controls::ComboBox^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::ComboBox^>(this->RasterDescComboBox))->SelectionChanged += ref new ::Windows::UI::Xaml::Controls::SelectionChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::SelectionChangedEventArgs^))&Scenario2_Normal::RasterDescComboBox_SelectionChanged);
+        }
+        break;
+    case 16:
+        {
+            this->m_SamplIndexWrapTextBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+        }
+        break;
+    case 17:
+        {
+            this->SamplIndexWrapComboBox = safe_cast<::Windows::UI::Xaml::Controls::ComboBox^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::ComboBox^>(this->SamplIndexWrapComboBox))->SelectionChanged += ref new ::Windows::UI::Xaml::Controls::SelectionChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::SelectionChangedEventArgs^))&Scenario2_Normal::SamplIndexWrapComboBox_SelectionChanged);
+        }
+        break;
+    case 18:
+        {
+            this->m_EffectDescTextBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+        }
+        break;
+    case 19:
+        {
+            this->EffectDescComboBox = safe_cast<::Windows::UI::Xaml::Controls::ComboBox^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::ComboBox^>(this->EffectDescComboBox))->SelectionChanged += ref new ::Windows::UI::Xaml::Controls::SelectionChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::SelectionChangedEventArgs^))&Scenario2_Normal::EffectDescComboBox_SelectionChanged);
+        }
+        break;
+    case 20:
         {
             this->IDC_SET_COLORS_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_SET_COLORS_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario2_Normal::IDC_SET_COLORS_BUTTON_Click);
         }
         break;
-    case 16:
+    case 21:
         {
             this->IDC_FACES_STATIC = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
-    case 17:
+    case 22:
         {
             this->IDC_EXTERIOR_FACES_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_EXTERIOR_FACES_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario2_Normal::IDC_EXTERIOR_FACES_CHECKBOX_Checked);
         }
         break;
-    case 18:
+    case 23:
         {
             this->IDC_INTERIOR_FACES_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_INTERIOR_FACES_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario2_Normal::IDC_INTERIOR_FACES_CHECKBOX_Checked);
         }
         break;
-    case 19:
+    case 24:
         {
             this->IDC_COPY_FLIP_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_COPY_FLIP_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario2_Normal::IDC_COPY_FLIP_BUTTON_Click);
         }
         break;
-    case 20:
+    case 25:
         {
             this->IDC_SET_POINTS_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_SET_POINTS_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario2_Normal::IDC_SET_POINTS_BUTTON_Click);
         }
         break;
-    case 21:
+    case 26:
         {
             this->IDC_ROTATION_STATIC = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
-    case 22:
+    case 27:
         {
             this->IDC_ROTATION_EDIT = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->IDC_ROTATION_EDIT))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario2_Normal::IDC_ROTATION_EDIT_TextChanged);
         }
         break;
-    case 23:
+    case 28:
         {
             this->IDC_CLIP_STATIC2 = safe_cast<::Windows::UI::Xaml::Shapes::Rectangle^>(__target);
         }
         break;
-    case 24:
+    case 29:
         {
             this->IDC_CLEAR_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_CLEAR_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario2_Normal::IDC_CLEAR_BUTTON_Click);
         }
         break;
-    case 25:
+    case 30:
         {
             this->IDC_Advanced_STATIC = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
-    case 26:
+    case 31:
         {
             this->IDC_FIRST_TO_LAST_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_FIRST_TO_LAST_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario2_Normal::IDC_FIRST_TO_LAST_CHECKBOX_Checked);
         }
         break;
-    case 27:
+    case 32:
         {
             this->IDC_X_OR_Y_AXIS_STATIC = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
-    case 28:
+    case 33:
         {
             this->IDC_AXIS_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_AXIS_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario2_Normal::IDC_AXIS_CHECKBOX_Checked);
         }
         break;
-    case 29:
+    case 34:
         {
             this->IDC_DRAW_LINE_FIRST_STATIC = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
-    case 30:
+    case 35:
         {
             this->IDC_TOP_OR_LEFT_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_TOP_OR_LEFT_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario2_Normal::IDC_TOP_OR_LEFT_CHECKBOX_Checked);
         }
         break;
-    case 31:
+    case 36:
         {
             this->IDC_BOTTOM_OR_RIGHT_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_BOTTOM_OR_RIGHT_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario2_Normal::*)
