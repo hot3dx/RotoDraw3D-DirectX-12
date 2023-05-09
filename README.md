@@ -5,6 +5,10 @@ PackageManifest Capability Settings for read writes!
 Rememeber most errors are caused by not being in the correct Directory for x64 Release/Debug and win32 Release/Debug
 and The Assets did not copy into the Hot3dxRotoDraw...AppX\\Assets\\...Directories so hand copy!
 Windows 11 22H2, Visual Studio 2022 C\C++ 17, build 143 (can be rolled back to Windows 10 by retargeting)
+Nuget Dependencies:
+Microsoft.UI.Xaml          2.8.4
+Microsoft.Web.WebView2     1.0.1774.30
+WinPixEventRuntime         1.0.230302001
 
 # New Version 1/9/23
 
