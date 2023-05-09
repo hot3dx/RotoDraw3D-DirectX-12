@@ -11,24 +11,24 @@
 // Or C://Hot3dx
 // 
 
-#include <Graphics\AlignedNewXaml12.h>
-#include <Graphics\RenderTargetStateXaml12.h>
-#include <Graphics\EffectPipelineStateDescriptionXaml12.h>
-#include <Graphics\CommonStatesXaml12.h>
-#include <Graphics\GraphicsMemoryXaml12.h>
-#include <Graphics\DescriptorHeapXaml12.h>
-#include <Graphics\EffectCommonXaml12.h>
-#include <Graphics\VertexTypesXaml12.h>
-#include <Graphics\SimpleMathXaml12.h>
-#include <Graphics\ModelXaml12.h>
-#include <Graphics\PrimitiveBatchXaml12.h>
-#include <Graphics\GeometricPrimitiveXaml12.h>
-#include <Graphics\SpriteBatchXaml12.h>
-#include <Graphics\SpriteFontXaml12.h>
-#include <Graphics\Hot3dxCamera.h>
+#include <AlignedNewXaml12.h>
+#include <RenderTargetStateXaml12.h>
+#include <EffectPipelineStateDescriptionXaml12.h>
+#include <CommonStatesXaml12.h>
+#include <GraphicsMemoryXaml12.h>
+#include <DescriptorHeapXaml12.h>
+#include <EffectCommonXaml12.h>
+#include <VertexTypesXaml12.h>
+#include <SimpleMathXaml12.h>
+#include <ModelXaml12.h>
+#include <PrimitiveBatchXaml12.h>
+#include <GeometricPrimitiveXaml12.h>
+#include <SpriteBatchXaml12.h>
+#include <SpriteFontXaml12.h>
+#include <Hot3dxCamera.h>
 #include <Audio\AudioXaml12.h>
 #include <Audio\MediaReaderXaml12.h>
-#include <Graphics\Hot3dxGeometry.h>
+#include <Hot3dxGeometry.h>
 
 // Renders Direct2D and 3D content on the screen.
 namespace Hot3dxRotoDraw

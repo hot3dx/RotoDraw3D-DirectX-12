@@ -32,8 +32,6 @@ Hot3dxRotoDrawMain::~Hot3dxRotoDrawMain()
 {
 	// Deregister device notification
 	m_deviceResources->RegisterDeviceNotify(nullptr);
-	
-	
 }
 
 void Hot3dxRotoDrawMain::CreateDeviceDependentResources()
@@ -198,14 +196,40 @@ void Hot3dxRotoDrawMain::OnDeviceRestored()
 
 void Hot3dxRotoDraw::Hot3dxRotoDrawMain::WindowActivationChanged(Windows::UI::Core::CoreWindowActivationState activationState)
 {  
+	unsigned int val = static_cast<unsigned int>(activationState);
+	switch (val)
+	{
+	case 0://Windows::UI::Core::CoreWindowActivationState::CodeActivated:
+		break;
+	case 1://Windows::UI::Core::CoreWindowActivationState::Deactivated:
+		break;
+	case 2://Windows::UI::Core::CoreWindowActivationState::PointerActivated:
+		break;
+	default:
+		break;
+	};
 }
 
 void Hot3dxRotoDraw::Hot3dxRotoDrawMain::KeyDown(Windows::System::VirtualKey key)
 {
+	int Key = static_cast<int>(key);
+	switch (Key)
+	{
+	case 20:
+	default:
+		break;
+	};
 }
 
 void Hot3dxRotoDraw::Hot3dxRotoDrawMain::KeyUp(Windows::System::VirtualKey key)
 {
+	int Key = static_cast<int>(key);
+	switch (Key)
+	{
+	case 20:
+	default:
+		break;
+	};
 }
 
 void Hot3dxRotoDraw::Hot3dxRotoDrawMain::ProcessInput()

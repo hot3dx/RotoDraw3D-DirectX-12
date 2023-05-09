@@ -59,6 +59,9 @@
     <Filter Include="FilesSave">
       <UniqueIdentifier>{3198dbfc-6528-4d8d-817b-d643e9aa6cb1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Help">
+      <UniqueIdentifier>{b60e01c1-e4b1-4eb2-ad90-ba1f2ff865b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -78,7 +81,6 @@
     <ClCompile Include="Content\Hot3dxDrawnObject.cpp">
       <Filter>Content</Filter>
     </ClCompile>
-    <ClCompile Include="Hot3dxRotoDrawConfiguration.cpp" />
     <ClCompile Include="Scenario5_MatsTexsConfig.cpp" />
     <ClCompile Include="FilesSave\ColladaFileType.cpp">
       <Filter>FilesSave</Filter>
@@ -104,6 +106,9 @@
     <ClCompile Include="Content\Hot3dxVertexTypes.cpp">
       <Filter>Content</Filter>
     </ClCompile>
+    <ClCompile Include="Content\MediaEnginePlayer.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hot3dxRotoDrawMain.h" />
@@ -123,7 +128,6 @@
     <ClInclude Include="Content\Hot3dxDrawnObject.h">
       <Filter>Content</Filter>
     </ClInclude>
-    <ClInclude Include="Hot3dxRotoDrawConfiguration.h" />
     <ClInclude Include="Scenario5_MatsTexsConfig.h" />
     <ClInclude Include="FilesSave\ColladaFileType.h">
       <Filter>FilesSave</Filter>
@@ -394,6 +398,9 @@
     <None Include="Package.StoreAssociation.xml" />
     <None Include="Hot3dxJeffKubitz1341389885DER.pfx" />
     <None Include="Certificate1341389885.pfx" />
+    <None Include="Help\HelpSettingDialog.htm">
+      <Filter>Help</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\musicmono_adpcm.wav">
@@ -410,6 +417,9 @@
     </Media>
     <Media Include="Assets\ADPCMdroid.xwb">
       <Filter>Assets</Filter>
+    </Media>
+    <Media Include="Assets\Textures\SampleVideo.mp4">
+      <Filter>Assets\Textures</Filter>
     </Media>
   </ItemGroup>
   <ItemGroup>

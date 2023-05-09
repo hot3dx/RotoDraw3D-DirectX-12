@@ -18,7 +18,7 @@
 
 #include "Common\DeviceResources.h"
 #include "Hot3dxRotoDrawMain.h"
-#include "Hot3dxRotoDrawConfiguration.h"
+
 #include "Content\Hot3dxRotoDrawVariables.h"
 
 #include <xapo.h>
@@ -28,8 +28,15 @@
 using namespace DirectX;
 using namespace DirectX::DXTKXAML12;
 
+value struct Scenario;
+
 namespace Hot3dxRotoDraw
 {
+	public value struct Scenario
+	{
+		Platform::String^ Title;
+		Platform::String^ ClassName;
+	};
 
 	/// <summary>
 	/// A page that hosts a DirectX SwapChainPanel.
@@ -155,7 +162,19 @@ namespace Hot3dxRotoDraw
 		}
 
 		void SET_SPHERE_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e,
-			float m_cameraradius, float m_camerarotation);
+			float cameraradius, float camerarotation);
+
+		// Sound Filename Accessors
+		Windows::Storage::StorageFile^ GetSound1FileDXP() { return m_Scene1Vars->GetFileSound(); }
+		Platform::String^ GetSoundFilePathDXP() { return m_backgroundMusic; }
+		void SetFileSound1DXP(Platform::String^ fileName) {
+			Platform::String^ file = m_Scene1Vars->GetFileSound()->Path;// = nullptr;
+			file = ref new Platform::String(fileName->Data());
+			m_Scene1Vars->SetFileNameSound(fileName);
+			m_backgroundMusic = ref new Platform::String(fileName->Data());
+		}
+
+
 
 		// Texture Filename Accessors
 		void Setm_bDDS_WIC_FLAGDXP1(bool flag) { m_main->GetSceneRenderer()->Setm_bDDS_WIC_FLAG1(flag); }
@@ -260,7 +279,13 @@ namespace Hot3dxRotoDraw
 #endif // _DEBUG
 			
 		}
-
+		// Scenario7_SphereDraw
+		Platform::String^ GetVideoTextureImageFileDXP() { return m_main->GetSceneRenderer()->GetTextureImageVideoFile(); }
+		void SetVideoTextureImageFileDXP(Platform::String^ fileName) {
+			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImageVideoFile();// = nullptr;
+			file = ref new Platform::String(fileName->Data());
+			m_main->GetSceneRenderer()->SetTextureImageVideoFile(fileName);
+		}
 		// Scenario11_GridorPic
 		Platform::String^ GetGridPicTextureImageFileDXP() { return m_main->GetSceneRenderer()->GetTextureImageGridPicFile(); }
 		void SetGridPicTextureImageFileDXP(Platform::String^ fileName) {
@@ -335,6 +360,7 @@ namespace Hot3dxRotoDraw
 			OutputDebugString(L"\n\n Folder Name\n");
 			*/
 			return m_sDirPathDXP; }
+
 		void SetProgramDirPathDXP()
 		{
 			auto folder = Windows::ApplicationModel::Package::Current->InstalledLocation;
@@ -422,10 +448,14 @@ namespace Hot3dxRotoDraw
 			return m_main->GetSceneRenderer()->DrawnObjectSaveBinary();
 		}
 
+		
+
 		void FullScreen_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 
+		Scenario1Vars^ GetScene1Vars() { return m_Scene1Vars; }
 		Scenario2Vars^ GetScene2Vars() { return m_Scene2Vars; }
 		Scenario5Vars^ GetScene5Vars() { return m_Scene5Vars; }
+		Scenario7Vars^ GetScene7Vars() { return m_Scene7Vars; }
 		Scenario10Vars^ GetScene10Vars() { return m_Scene10Vars; }
 		Scenario11Vars^ GetScene11Vars() { return m_Scene11Vars; }
 
@@ -564,15 +594,41 @@ namespace Hot3dxRotoDraw
 		void MyFilePathDXP(Platform::String^ image);
 		Platform::String^ m_sDirPathDXP = ref new Platform::String();
 		
+		
 	internal:
 		static DirectXPage^ Current;
 		void NotifyUser(Platform::String^ strMessage, NotifyType type);
+		Scenario1Vars^ m_Scene1Vars = ref new Scenario1Vars();
 		Scenario2Vars^ m_Scene2Vars = ref new Scenario2Vars();
 		Scenario5Vars^ m_Scene5Vars = ref new Scenario5Vars();
+		Scenario7Vars^ m_Scene7Vars = ref new Scenario7Vars();
 		Scenario10Vars^ m_Scene10Vars = ref new Scenario10Vars();
 		Scenario11Vars^ m_Scene11Vars = ref new Scenario11Vars();
 
+		static property Platform::String^ FEATURE_NAME
+		{
+			Platform::String^ get()
+			{
+				return "Kubed3D Hot3dx Maker2 12";
+			}
+		}
+
+
+
+		static property Platform::Array<Scenario>^ scenarios
+		{
+			Platform::Array<Scenario>^ get()
+			{
+				return scenariosInner;
+			}
+		}
+
+		Platform::String^ m_backgroundMusic = ref new Platform::String(L"");
+
 	private:
+
+		static Platform::Array<Scenario>^ scenariosInner;
+
 		void ScenarioFrame_Navigated(Platform::Object^ sender, Windows::UI::Xaml::Navigation::NavigationEventArgs^ e);
 
 		void OnTimerTickDXP(Object^ sender, Object^ e);
