@@ -28,7 +28,7 @@ namespace DX
             throw Platform::Exception::CreateException(hr);
         }
     }
-
+    
     // Function that reads from a binary file asynchronously.
     inline Concurrency::task<std::vector<mybyte>> ReadDataAsync(const std::wstring& filename)
     {

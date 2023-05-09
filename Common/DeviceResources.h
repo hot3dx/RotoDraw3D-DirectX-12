@@ -87,7 +87,7 @@ namespace DX
 		unsigned int                GetDeviceOptions() const { return m_options; }
 		D3D12_RECT                  GetScissorRect() const { return m_scissorRect; }
 		Platform::Agile<Windows::UI::Core::CoreWindow^> GetCoreWindow() { return m_window; }
-		void                        SetCoreWindow(Windows::UI::Core::CoreWindow^ window) { m_window = window; }
+		void                        SetCoreWindow(Windows::UI::Core::CoreWindow^ window) { m_window = { window }; }
 		void                        SetScissorRect(LONG x, LONG y, LONG width, LONG height) {
 			m_scissorRect.left = x; m_scissorRect.top = y; m_scissorRect.right = width; m_scissorRect.bottom = height;
 		}
