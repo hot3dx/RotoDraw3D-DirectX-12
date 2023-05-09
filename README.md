@@ -1,3 +1,11 @@
+# New Version 05-09-2023
+
+What's New: VideoTexture and ScreenGrab
+PackageManifest Capability Settings for read writes!
+Rememeber most errors are caused by not being in the correct Directory for x64 Release/Debug and win32 Release/Debug
+and The Assets did not copy into the Hot3dxRotoDraw...AppX\\Assets\\...Directories so hand copy!
+Windows 11 22H2, Visual Studio 2022 C\C++ 17, build 143 (can be rolled back to Windows 10 by retargeting)
+
 # New Version 1/9/23
 
 Gone are the problems loading files from other directories and their subfolders like Documents, Pictures, Object 3D, Videos
