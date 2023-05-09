@@ -2,7 +2,7 @@
 
 #include "Generated Files\Scenario11_GridorPic.g.h"
 #include "DirectXPage.xaml.h"
-#include "Hot3dxRotoDrawConfiguration.h"
+
 #include "Content\Hot3dxRotoDrawVariables.h"
 
 using namespace Platform;
@@ -45,7 +45,7 @@ namespace Hot3dxRotoDraw
 
     private:
 
-        Hot3dxRotoDraw::DirectXPage^ _rootPage;
+        DirectXPage^ _rootPage;
         bool _initialized = false;
 
         void IDC_GRID_OR_PIC_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
@@ -70,9 +70,19 @@ namespace Hot3dxRotoDraw
         Platform::String^ fileNameGridPic;
         Windows::UI::Xaml::Media::Imaging::BitmapImage^ bitmapImageGridPicDXP;
 
+        void IDC_SCREENGRAB_DDS_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void IDC_SCREENGRAB_BMP_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void IDC_SCREENGRAB_PNG_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        //void IDC_SCREENGRAB_ICO_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void IDC_SCREENGRAB_JPG_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void IDC_SCREENGRAB_TIFF_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void IDC_SCREENGRAB_GIF_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        //void IDC_SCREENGRAB_WMP_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+
     protected:
         virtual void OnNavigatedTo(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e) override;
 
+        
      };
 
     

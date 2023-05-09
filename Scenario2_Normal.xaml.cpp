@@ -39,7 +39,7 @@ using namespace concurrency;
 
 Scenario2_Normal^ Scenario2_Normal::Current = nullptr;
 
-Scenario2_Normal::Scenario2_Normal() : _rootPage(DirectXPage::Current)
+Hot3dxRotoDraw::Scenario2_Normal::Scenario2_Normal() : _rootPage(DirectXPage::Current)
    // m_iEffectDescSelectedIndex(0),//L"Basic Effect"),
    // m_iRasterDescIndex(0),//L"CullNone"),
    // m_iSamplWrapIndex(0)//L"Anisotropic Wrap")
@@ -87,7 +87,7 @@ Scenario2_Normal::Scenario2_Normal() : _rootPage(DirectXPage::Current)
     
 
 
-Scenario2_Normal::~Scenario2_Normal()
+Hot3dxRotoDraw::Scenario2_Normal::~Scenario2_Normal()
 {
    
 }
@@ -97,7 +97,7 @@ void Hot3dxRotoDraw::Scenario2_Normal::OnNavigatedTo(Windows::UI::Xaml::Navigati
     Scenario2_Normal::Current = this;
     IDC_TOP_OR_LEFT_CHECKBOX->IsChecked = false;// (nullptr, false);
     IDC_BOTTOM_OR_RIGHT_CHECKBOX->IsChecked = false;
-    unsigned int val = EffectDescComboBox->SelectedIndex::get();
+    //unsigned int val = EffectDescComboBox->SelectedIndex::get();
     m_iEffectDescSelectedIndex = _rootPage->GetEffectIndexDXP();
     //Platform::String^ s1 = ref new Platform::String(L"\nVAL is: ");
     //OutputDebugString(s1->Concat(s1, ref new Platform::String(std::to_wstring(m_iEffectDescSelectedIndex).c_str()))->ToString()->Data());
@@ -156,7 +156,7 @@ void Hot3dxRotoDraw::Scenario2_Normal::IDC_PARTIAL_ROTATE_SLIDER_ValueChanged(Pl
 
 void Hot3dxRotoDraw::Scenario2_Normal::PartialRotateTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
 {
-    float DenomOf360 = std::wcstof(IDC_ROTATION_EDIT->Text->Data(), nullptr);
+    DenomOf360 = std::wcstof(IDC_ROTATION_EDIT->Text->Data(), nullptr);
     m_fPointGroupsCount = static_cast<unsigned int>(360.0f / DenomOf360);
     
     IDC_PARTIAL_ROTATE_STATIC->Text = ref new Platform::String(std::to_wstring(m_fPointGroupsCount).c_str());// PartialRotateTextBox->Text->Data());
@@ -213,7 +213,7 @@ void Scenario2_Normal::IDC_CLEAR_BUTTON_Click(Platform::Object^ sender, Windows:
     _rootPage->IDC_CLEAR_BUTTON_Click(sender, e);    
 }
 
-void Scenario2_Normal::IDC_SET_COLORS_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+void Hot3dxRotoDraw::Scenario2_Normal::IDC_SET_COLORS_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
     SolidColorBrush^ brush = ref new SolidColorBrush(_rootPage->m_Scene2Vars->GetPointColor());
      IDC_CLIP_STATIC2->Fill = brush;
@@ -431,7 +431,7 @@ void Hot3dxRotoDraw::Scenario2_Normal::EffectDescComboBox_SelectionChanged(Platf
     if (_rootPage->GetPointCount() == 0)
     {
         unsigned int val = m_iEffectDescSelectedIndex = EffectDescComboBox->SelectedIndex::get();
-        //_rootPage->SetEffectIndexRenderer(val);
+        _rootPage->SetEffectIndexRenderer(val);
         //Platform::String^ s1 = ref new Platform::String(L"\nVAL is: ");
         //OutputDebugString(s1->Concat(s1, ref new Platform::String(std::to_wstring(m_iEffectDescSelectedIndex).c_str()))->ToString()->Data());
         Platform::Object^ s;
@@ -445,6 +445,9 @@ void Hot3dxRotoDraw::Scenario2_Normal::EffectDescComboBox_SelectionChanged(Platf
             break;
         case 2:
             s = ref new Platform::String(L"PBR Effect");
+            break;
+        case 3:
+            s = ref new Platform::String(L"VideoTexture Effect");
             break;
         }
 

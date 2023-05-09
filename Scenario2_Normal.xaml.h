@@ -17,7 +17,7 @@
 #include "CardioidSound.h"
 #include "Common\DeviceResources.h"
 #include "Hot3dxRotoDrawMain.h"
-#include "Hot3dxRotoDrawConfiguration.h"
+
 
 using namespace Windows::UI::Xaml;
 

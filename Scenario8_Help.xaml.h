@@ -14,7 +14,7 @@
 
 #include "Scenario8_Help.g.h"
 #include "DirectXPage.xaml.h"
-#include "Hot3dxRotoDrawConfiguration.h"
+
 
 
 using namespace Windows::Foundation;
@@ -34,7 +34,7 @@ namespace Hot3dxRotoDraw
 
      private:
 
-        DirectXPage^ _rootPage;
+         Hot3dxRotoDraw::DirectXPage^ _rootPage;
         bool                            _initialized = false;
 
        void HelpTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);

@@ -86,7 +86,7 @@ namespace Hot3dxRotoDraw
         unsigned int imageIdNums;
         void LoadChosenImages();
 
-        void Hot3dxRotoDraw::Scenario5_MatsTexs::SetMaterialTypesStrings();
+        void SetMaterialTypesStrings();
         void SetSingleMaterialTypesStringListboxItem(Platform::Object^ sender, unsigned int i,
             MaterialList const& s, MaterialTypes m,
             Windows::UI::Xaml::Controls::TextBlock^ textBlock);
@@ -94,13 +94,13 @@ namespace Hot3dxRotoDraw
 
 
         static void DisplayResult(Windows::UI::Xaml::Controls::Image^ image, Windows::UI::Xaml::Controls::TextBlock^ textBlock,
-            Platform::String^ thumbnailModeName, size_t size,
+            Platform::String^ thumbnailModeName,
             Windows::Storage::IStorageItem^ item, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail,
             bool isGroup);
 
         void MaterialListControl_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e);
         void MaterialListControlData_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e);
-        void MySc5FilePath(Platform::String^ image);
+        void MySc5FilePath(Platform::String^ image){ m_sSc5DirPath = image; }
         Platform::String^ m_sSc5DirPath;
 
         bool m_firstOrSecondImage;

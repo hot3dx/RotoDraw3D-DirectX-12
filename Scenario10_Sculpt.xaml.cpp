@@ -265,7 +265,7 @@ void  Hot3dxRotoDraw::Scenario10_Sculpt::SculptFilesTextBox_TextChanged(Platform
 {
 
 }
-
+/*
 void  Hot3dxRotoDraw::Scenario10_Sculpt::GetObjectVertexIndexData(
 	unsigned int pointCount,
 	unsigned int groupCount,
@@ -279,6 +279,7 @@ void  Hot3dxRotoDraw::Scenario10_Sculpt::GetObjectVertexIndexData(
 
 }
 
+
 void  Hot3dxRotoDraw::Scenario10_Sculpt::SetObjectVertexIndexData(
 	unsigned int pointCount,
 	unsigned int groupCount,
@@ -291,7 +292,7 @@ void  Hot3dxRotoDraw::Scenario10_Sculpt::SetObjectVertexIndexData(
 {
 
 }
-
+*/
 void Hot3dxRotoDraw::Scenario10_Sculpt::SelectedGroupSlider_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
 {
 	unsigned int selectedGroup = m_iselectedGroup = static_cast<unsigned int>(slider_SelectedGroup->Value::get());

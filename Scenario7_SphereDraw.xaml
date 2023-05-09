@@ -35,6 +35,14 @@
         <TextBlock x:Name="PointSpacing" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" Text="Point Spacing"/>
         <TextBox x:Name="m_PointSpaceTextBox" Text="5.00000" TextWrapping="Wrap" RenderTransformOrigin="0.455,-2.562" TextChanged="PointSpacingTextBox_TextChanged"/>
         <Button x:Name="DrawSphereButton" Content="Draw Sphere" HorizontalAlignment="Left" Margin="0,5,0,0" RenderTransformOrigin="0.629,4.75" Click="DrawSphereButton_Click" AutomationProperties.HelpText="Press to Draw a new sphere"/>
+       
+         <Image x:Name="VideoTextureImage1" Source="ms-appx::///Assets/Textures/SampleVideo.mp4" HorizontalAlignment="Left" Height="200" Margin="180,20,0,0" VerticalAlignment="Top" Width="200" FocusVisualPrimaryBrush="#FF18ED18" FocusVisualSecondaryBrush="#FFBCF5BC"/>
+        <TextBlock Text="Video Texture File Path" Style="{StaticResource SampleHeaderTextStyle}" Width="137" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,-190,0,0" Height="24"/>
+        <TextBox x:Name="m_videoFilesTextBox" Text="Assets/Texture/SampleVideo.mp4" TextWrapping="Wrap" Width="136" Height="80" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,-165,0,0" />
+            
+        <Button x:Name="IDC_VIDEO_TEXTURE_IMAGE1_BUTTON" Content="1) Add Video Texture" Margin="5,-70,0,0" VerticalAlignment="Top" Height="30" Width="140" Click="IDC_VIDEO_TEXTURE_IMAGE1_BUTTON_Click" BorderBrush="#FF266B26" Background="#FFF1F30B"/>
+        <Button x:Name="IDC_SHOW_VIDEO_BUTTON" Content="2) Show&#xD;&#xA; Video Texture" Margin="5,-20,0,0" Height="72" Width="140" Click="IDC_SHOW_VIDEO_BUTTON_Click" BorderBrush="#FF266B26" Background="#FFF1F30B"/>
+        <CheckBox x:Name="IDC_VIDEO_CHECKBOX" IsChecked="False" Content="3) Video Texture&#xD;&#xA; Shows if Checked" HorizontalAlignment="Left" Margin="10,10,0,0" Click="IDC_VIDEO_CHECKBOX_Checked" Background="#FFD1F30B" FocusVisualPrimaryBrush="#FFF36A0B" BorderBrush="#FF266B26"/>
         </StackPanel>
         </Grid>
 </Page>

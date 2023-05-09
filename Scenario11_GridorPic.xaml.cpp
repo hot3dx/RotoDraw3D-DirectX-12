@@ -58,6 +58,48 @@ Hot3dxRotoDraw::Scenario11_GridorPic::Scenario11_GridorPic() : _rootPage(DirectX
 	vars->SetPicChecked(false);
 	Scenario11_GridorPic::Current = this;
 	_rootPage->m_Scene11Vars->SetScenario11Page(this);
+
+	IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked::set(false);
+	IDC_SCREENGRAB_DDS_CHECKBOX->SetValue(IDC_SCREENGRAB_DDS_CHECKBOX->IsCheckedProperty,
+		IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked);
+
+	IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked::set(false);
+	IDC_SCREENGRAB_BMP_CHECKBOX->SetValue(IDC_SCREENGRAB_BMP_CHECKBOX->IsCheckedProperty,
+		IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked);
+
+	IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked::set(false);
+	IDC_SCREENGRAB_PNG_CHECKBOX->SetValue(IDC_SCREENGRAB_PNG_CHECKBOX->IsCheckedProperty,
+		IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked);
+
+	//IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked::set(false);
+	//IDC_SCREENGRAB_ICO_CHECKBOX->SetValue(IDC_SCREENGRAB_ICO_CHECKBOX->IsCheckedProperty,
+	//	IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked);
+
+	IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked::set(false);
+	IDC_SCREENGRAB_JPG_CHECKBOX->SetValue(IDC_SCREENGRAB_JPG_CHECKBOX->IsCheckedProperty,
+		IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked);
+
+	IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked::set(false);
+	IDC_SCREENGRAB_TIFF_CHECKBOX->SetValue(IDC_SCREENGRAB_TIFF_CHECKBOX->IsCheckedProperty,
+		IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked);
+
+	IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked::set(false);
+	IDC_SCREENGRAB_GIF_CHECKBOX->SetValue(IDC_SCREENGRAB_GIF_CHECKBOX->IsCheckedProperty,
+		IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked);
+
+	//IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked::set(false);
+	//IDC_SCREENGRAB_WMP_CHECKBOX->SetValue(IDC_SCREENGRAB_WMP_CHECKBOX->IsCheckedProperty,
+	//	IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked);
+	vars->SetScreenGrabDDSChecked(false);
+	vars->SetScreenGrabBMPChecked(false);
+	vars->SetScreenGrabPNGChecked(false);
+	vars->SetScreenGrabICOChecked(false);
+	vars->SetScreenGrabJPGChecked(false);
+	vars->SetScreenGrabTIFChecked(false);
+	vars->SetScreenGrabGIFChecked(false);
+	vars->SetScreenGrabWMPChecked(false);
+
+
 }
 
 Hot3dxRotoDraw::Scenario11_GridorPic::~Scenario11_GridorPic()
@@ -137,8 +179,8 @@ void Hot3dxRotoDraw::Scenario11_GridorPic::IDC_PIC_TEXTURE_IMAGE1_BUTTON_Click(P
 	const unsigned int size = int(PicTextureImage1->ActualHeight);
 	if (size > 0)
 	{
-		bool fastThumbnail = false;
-		ThumbnailOptions thumbnailOptions = ThumbnailOptions::UseCurrentScale;
+		fastThumbnail = false;
+		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 	
 	create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
@@ -210,7 +252,7 @@ void Hot3dxRotoDraw::Scenario11_GridorPic::LoadChosenImage1()
 
 	if (size > 0)
 	{
-		bool fastThumbnail = false;
+		fastThumbnail = false;
 		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 	
@@ -249,3 +291,371 @@ void Hot3dxRotoDraw::Scenario11_GridorPic::OnNavigatedTo(Windows::UI::Xaml::Navi
 	_rootPage->m_Scene11Vars->SetScenario11Page(this);
 }
 
+void Hot3dxRotoDraw::Scenario11_GridorPic::IDC_SCREENGRAB_DDS_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	Scenario11Vars^ vars = _rootPage->m_Scene11Vars;
+	if (IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked->Value)
+	{
+		vars->SetScreenGrabDDSChecked(true);
+		vars->SetScreenGrabBMPChecked(false);
+		vars->SetScreenGrabPNGChecked(false);
+		vars->SetScreenGrabICOChecked(false);
+		vars->SetScreenGrabJPGChecked(false);
+		vars->SetScreenGrabTIFChecked(false);
+		vars->SetScreenGrabGIFChecked(false);
+		vars->SetScreenGrabWMPChecked(false);
+
+		IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_BMP_CHECKBOX->SetValue(IDC_SCREENGRAB_BMP_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_PNG_CHECKBOX->SetValue(IDC_SCREENGRAB_PNG_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked);
+
+		//IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked::set(false);
+		//IDC_SCREENGRAB_ICO_CHECKBOX->SetValue(IDC_SCREENGRAB_ICO_CHECKBOX->IsCheckedProperty,
+		//	IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_JPG_CHECKBOX->SetValue(IDC_SCREENGRAB_JPG_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_TIFF_CHECKBOX->SetValue(IDC_SCREENGRAB_TIFF_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_GIF_CHECKBOX->SetValue(IDC_SCREENGRAB_GIF_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked);
+
+		//IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked::set(false);
+		//IDC_SCREENGRAB_WMP_CHECKBOX->SetValue(IDC_SCREENGRAB_WMP_CHECKBOX->IsCheckedProperty,
+		//	IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked);
+		vars->SetGuidFormatForScreenGrabVars(7);
+		_rootPage->NotifyUser("ScreenGrab to DDS Picked", NotifyType::StatusMessage);
+	}
+}
+
+void Hot3dxRotoDraw::Scenario11_GridorPic::IDC_SCREENGRAB_BMP_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	Scenario11Vars^ vars = _rootPage->m_Scene11Vars;
+	if (IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked->Value)
+	{
+		vars->SetScreenGrabBMPChecked(true);
+		vars->SetScreenGrabDDSChecked(false);
+		vars->SetScreenGrabPNGChecked(false);
+		vars->SetScreenGrabICOChecked(false);
+		vars->SetScreenGrabJPGChecked(false);
+		vars->SetScreenGrabTIFChecked(false);
+		vars->SetScreenGrabGIFChecked(false);
+		vars->SetScreenGrabWMPChecked(false);
+
+		IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_DDS_CHECKBOX->SetValue(IDC_SCREENGRAB_DDS_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_PNG_CHECKBOX->SetValue(IDC_SCREENGRAB_PNG_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked);
+
+		//IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked::set(false);
+		//IDC_SCREENGRAB_ICO_CHECKBOX->SetValue(IDC_SCREENGRAB_ICO_CHECKBOX->IsCheckedProperty,
+		//	IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_JPG_CHECKBOX->SetValue(IDC_SCREENGRAB_JPG_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_TIFF_CHECKBOX->SetValue(IDC_SCREENGRAB_TIFF_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_GIF_CHECKBOX->SetValue(IDC_SCREENGRAB_GIF_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked);
+
+		//IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked::set(false);
+		//IDC_SCREENGRAB_WMP_CHECKBOX->SetValue(IDC_SCREENGRAB_WMP_CHECKBOX->IsCheckedProperty,
+		//	IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked);
+		vars->SetGuidFormatForScreenGrabVars(0);
+		_rootPage->NotifyUser("ScreenGrab to BMP Picked", NotifyType::StatusMessage);
+	}
+}
+
+void Hot3dxRotoDraw::Scenario11_GridorPic::IDC_SCREENGRAB_PNG_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	Scenario11Vars^ vars = _rootPage->m_Scene11Vars;
+	if (IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked->Value)
+	{
+		vars->SetScreenGrabPNGChecked(true);
+		vars->SetScreenGrabDDSChecked(false);
+		vars->SetScreenGrabBMPChecked(false);
+		vars->SetScreenGrabICOChecked(false);
+		vars->SetScreenGrabJPGChecked(false);
+		vars->SetScreenGrabTIFChecked(false);
+		vars->SetScreenGrabGIFChecked(false);
+		vars->SetScreenGrabWMPChecked(false);
+
+		IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_DDS_CHECKBOX->SetValue(IDC_SCREENGRAB_DDS_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_BMP_CHECKBOX->SetValue(IDC_SCREENGRAB_BMP_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked);
+
+		//IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked::set(false);
+		//IDC_SCREENGRAB_ICO_CHECKBOX->SetValue(IDC_SCREENGRAB_ICO_CHECKBOX->IsCheckedProperty,
+		//	IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_JPG_CHECKBOX->SetValue(IDC_SCREENGRAB_JPG_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_TIFF_CHECKBOX->SetValue(IDC_SCREENGRAB_TIFF_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_GIF_CHECKBOX->SetValue(IDC_SCREENGRAB_GIF_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked);
+
+		//IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked::set(false);
+		//IDC_SCREENGRAB_WMP_CHECKBOX->SetValue(IDC_SCREENGRAB_WMP_CHECKBOX->IsCheckedProperty,
+		//	IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked);
+		vars->SetGuidFormatForScreenGrabVars(1);
+		_rootPage->NotifyUser("ScreenGrab to PNG Picked", NotifyType::StatusMessage);
+	}
+}
+/*
+void Hot3dxRotoDraw::Scenario11_GridorPic::IDC_SCREENGRAB_ICO_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	Scenario11Vars^ vars = _rootPage->m_Scene11Vars;
+	if (IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked->Value)
+	{
+		vars->SetScreenGrabICOChecked(true);
+		vars->SetScreenGrabDDSChecked(false);
+		vars->SetScreenGrabBMPChecked(false);
+		vars->SetScreenGrabPNGChecked(false);
+		vars->SetScreenGrabJPGChecked(false);
+		vars->SetScreenGrabTIFChecked(false);
+		vars->SetScreenGrabGIFChecked(false);
+		vars->SetScreenGrabWMPChecked(false);
+
+		IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_DDS_CHECKBOX->SetValue(IDC_SCREENGRAB_DDS_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_BMP_CHECKBOX->SetValue(IDC_SCREENGRAB_BMP_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_PNG_CHECKBOX->SetValue(IDC_SCREENGRAB_PNG_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_JPG_CHECKBOX->SetValue(IDC_SCREENGRAB_JPG_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_TIFF_CHECKBOX->SetValue(IDC_SCREENGRAB_TIFF_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_GIF_CHECKBOX->SetValue(IDC_SCREENGRAB_GIF_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_WMP_CHECKBOX->SetValue(IDC_SCREENGRAB_WMP_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked);
+		vars->SetGuidFormatForScreenGrabVars(2);
+		_rootPage->NotifyUser("ScreenGrab to ICO Picked", NotifyType::StatusMessage);
+	}
+}
+*/
+void Hot3dxRotoDraw::Scenario11_GridorPic::IDC_SCREENGRAB_JPG_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	Scenario11Vars^ vars = _rootPage->m_Scene11Vars;
+	if (IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked->Value)
+	{
+		vars->SetScreenGrabJPGChecked(true);
+		vars->SetScreenGrabDDSChecked(false);
+		vars->SetScreenGrabBMPChecked(false);
+		vars->SetScreenGrabPNGChecked(false);
+		vars->SetScreenGrabICOChecked(false);
+		vars->SetScreenGrabTIFChecked(false);
+		vars->SetScreenGrabGIFChecked(false);
+		vars->SetScreenGrabWMPChecked(false);
+
+		IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_DDS_CHECKBOX->SetValue(IDC_SCREENGRAB_DDS_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_BMP_CHECKBOX->SetValue(IDC_SCREENGRAB_BMP_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_PNG_CHECKBOX->SetValue(IDC_SCREENGRAB_PNG_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked);
+
+		//IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked::set(false);
+		//IDC_SCREENGRAB_ICO_CHECKBOX->SetValue(IDC_SCREENGRAB_ICO_CHECKBOX->IsCheckedProperty,
+		//	IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_TIFF_CHECKBOX->SetValue(IDC_SCREENGRAB_TIFF_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_GIF_CHECKBOX->SetValue(IDC_SCREENGRAB_GIF_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked);
+
+		//IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked::set(false);
+		//IDC_SCREENGRAB_WMP_CHECKBOX->SetValue(IDC_SCREENGRAB_WMP_CHECKBOX->IsCheckedProperty,
+		//	IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked);
+		vars->SetGuidFormatForScreenGrabVars(3);
+		_rootPage->NotifyUser("ScreenGrab to JPG Picked", NotifyType::StatusMessage);
+	}
+}
+
+void Hot3dxRotoDraw::Scenario11_GridorPic::IDC_SCREENGRAB_TIFF_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	Scenario11Vars^ vars = _rootPage->m_Scene11Vars;
+	if (IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked->Value)
+	{
+		vars->SetScreenGrabTIFChecked(true);
+		vars->SetScreenGrabDDSChecked(false);
+		vars->SetScreenGrabBMPChecked(false);
+		vars->SetScreenGrabPNGChecked(false);
+		vars->SetScreenGrabICOChecked(false);
+		vars->SetScreenGrabJPGChecked(false);
+		vars->SetScreenGrabGIFChecked(false);
+		vars->SetScreenGrabWMPChecked(false);
+
+		IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_DDS_CHECKBOX->SetValue(IDC_SCREENGRAB_DDS_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_BMP_CHECKBOX->SetValue(IDC_SCREENGRAB_BMP_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_PNG_CHECKBOX->SetValue(IDC_SCREENGRAB_PNG_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked);
+
+		//IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked::set(false);
+		//IDC_SCREENGRAB_ICO_CHECKBOX->SetValue(IDC_SCREENGRAB_ICO_CHECKBOX->IsCheckedProperty,
+		//	IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_JPG_CHECKBOX->SetValue(IDC_SCREENGRAB_JPG_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_GIF_CHECKBOX->SetValue(IDC_SCREENGRAB_GIF_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked);
+
+		//IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked::set(false);
+		//IDC_SCREENGRAB_WMP_CHECKBOX->SetValue(IDC_SCREENGRAB_WMP_CHECKBOX->IsCheckedProperty,
+		//	IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked);
+		vars->SetGuidFormatForScreenGrabVars(4);
+		_rootPage->NotifyUser("ScreenGrab to TIF Picked", NotifyType::StatusMessage);
+	}
+}
+
+void Hot3dxRotoDraw::Scenario11_GridorPic::IDC_SCREENGRAB_GIF_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	Scenario11Vars^ vars = _rootPage->m_Scene11Vars;
+	if (IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked->Value)
+	{
+		vars->SetScreenGrabGIFChecked(true);
+		vars->SetScreenGrabDDSChecked(false);
+		vars->SetScreenGrabBMPChecked(false);
+		vars->SetScreenGrabPNGChecked(false);
+		vars->SetScreenGrabICOChecked(false);
+		vars->SetScreenGrabJPGChecked(false);
+		vars->SetScreenGrabTIFChecked(false);
+		vars->SetScreenGrabWMPChecked(false);
+
+		IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_DDS_CHECKBOX->SetValue(IDC_SCREENGRAB_DDS_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_BMP_CHECKBOX->SetValue(IDC_SCREENGRAB_BMP_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_PNG_CHECKBOX->SetValue(IDC_SCREENGRAB_PNG_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked);
+
+		//IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked::set(false);
+		//IDC_SCREENGRAB_ICO_CHECKBOX->SetValue(IDC_SCREENGRAB_ICO_CHECKBOX->IsCheckedProperty,
+		//	IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_JPG_CHECKBOX->SetValue(IDC_SCREENGRAB_JPG_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_TIFF_CHECKBOX->SetValue(IDC_SCREENGRAB_TIFF_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked);
+
+		//IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked::set(false);
+		//IDC_SCREENGRAB_WMP_CHECKBOX->SetValue(IDC_SCREENGRAB_WMP_CHECKBOX->IsCheckedProperty,
+		//	IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked);
+		vars->SetGuidFormatForScreenGrabVars(5);
+		_rootPage->NotifyUser("ScreenGrab to GIF Picked", NotifyType::StatusMessage);
+	}
+}
+/*
+void Hot3dxRotoDraw::Scenario11_GridorPic::IDC_SCREENGRAB_WMP_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	Scenario11Vars^ vars = _rootPage->m_Scene11Vars;
+	if (IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked->Value)
+	{
+		vars->SetScreenGrabWMPChecked(true);
+		vars->SetScreenGrabDDSChecked(false);
+		vars->SetScreenGrabBMPChecked(false);
+		vars->SetScreenGrabPNGChecked(false);
+		vars->SetScreenGrabICOChecked(false);
+		vars->SetScreenGrabJPGChecked(false);
+		vars->SetScreenGrabTIFChecked(false);
+		vars->SetScreenGrabGIFChecked(false);
+
+		IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_DDS_CHECKBOX->SetValue(IDC_SCREENGRAB_DDS_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_BMP_CHECKBOX->SetValue(IDC_SCREENGRAB_BMP_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_PNG_CHECKBOX->SetValue(IDC_SCREENGRAB_PNG_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_ICO_CHECKBOX->SetValue(IDC_SCREENGRAB_ICO_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_JPG_CHECKBOX->SetValue(IDC_SCREENGRAB_JPG_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_TIFF_CHECKBOX->SetValue(IDC_SCREENGRAB_TIFF_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_GIF_CHECKBOX->SetValue(IDC_SCREENGRAB_GIF_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked);
+		vars->SetGuidFormatForScreenGrabVars(6);
+		_rootPage->NotifyUser("ScreenGrab to WMP Picked", NotifyType::StatusMessage);
+	}
+}
+*/

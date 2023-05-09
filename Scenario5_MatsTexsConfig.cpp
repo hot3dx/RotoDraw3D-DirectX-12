@@ -6,7 +6,7 @@
 using namespace Hot3dxRotoDraw;
 
 
-Platform::Array<Hot3dxRotoDraw::MaterialList>^ Scenario5_MatsTexs::materialListsInner = ref new Platform::Array<Hot3dxRotoDraw::MaterialList>
+Platform::Array<Hot3dxRotoDraw::MaterialList>^ Hot3dxRotoDraw::Scenario5_MatsTexs::materialListsInner = ref new Platform::Array<Hot3dxRotoDraw::MaterialList>
 {
     { "matName: ", "" },
     { "A: ", "" }, 

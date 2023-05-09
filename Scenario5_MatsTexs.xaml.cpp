@@ -116,7 +116,8 @@ Hot3dxRotoDraw::Scenario5_MatsTexs::~Scenario5_MatsTexs()
 
 }
 
-void Hot3dxRotoDraw::Scenario5_MatsTexs::DisplayResult(Image^ image, TextBlock^ textBlock, String^ thumbnailModeName, size_t size, IStorageItem^ item, StorageItemThumbnail^ thumbnail, bool isGroup)
+void Hot3dxRotoDraw::Scenario5_MatsTexs::DisplayResult(Image^ image, TextBlock^ textBlock, String^ thumbnailModeName,
+	IStorageItem^ item, StorageItemThumbnail^ thumbnail, bool isGroup)
 {
 	BitmapImage^ bitmapImage = ref new BitmapImage();
 
@@ -169,7 +170,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage1(Platform::String^ ima
 				
 				if (size > 0)
 				{
-					bool fastThumbnail = false;
+					fastThumbnail = false;
 					thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 				}
 				Hot3dxRotoDraw::Scenario5_MatsTexs^ _this = this;
@@ -183,7 +184,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage1(Platform::String^ ima
 							_this->_rootPage->SetTextureImage1FileDXP(file->Path);
 							vars->SetTextureImage1File(file->Path);
 							vars->SetThumbnailDXP1(thumbnail);
-							DisplayResult(_this->TextureImage1, _this->filePath1TextBlock, thumbnailModeName, size, file, thumbnail, false);
+							DisplayResult(_this->TextureImage1, _this->filePath1TextBlock, thumbnailModeName, file, thumbnail, false);
 							vars->SetbitmapImageDXP1(vars->GetThumbnailDXP1());
 							vars->GetBitmapImageDXP1()->SetSource(vars->GetThumbnailDXP1());
 						
@@ -235,7 +236,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage2(Platform::String^ ima
 
 			if (size > 0)
 			{
-				bool fastThumbnail = false;
+				fastThumbnail = false;
 				thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 			}
 			Hot3dxRotoDraw::Scenario5_MatsTexs^ _this = this;
@@ -249,7 +250,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage2(Platform::String^ ima
 						_this->_rootPage->SetTextureImage2FileDXP(file->Path);
 						vars->SetTextureImage2File(file->Path);
 						vars->SetThumbnailDXP2(thumbnail);
-						DisplayResult(_this->TextureImage2, _this->filePath2TextBlock, thumbnailModeName, size, file, thumbnail, false);
+						DisplayResult(_this->TextureImage2, _this->filePath2TextBlock, thumbnailModeName, file, thumbnail, false);
 						vars->SetbitmapImageDXP2(vars->GetThumbnailDXP2());
 						vars->GetBitmapImageDXP2()->SetSource(vars->GetThumbnailDXP2());
 					_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
@@ -301,7 +302,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage3(Platform::String^ ima
 
 				if (size > 0)
 				{
-					bool fastThumbnail = false;
+					fastThumbnail = false;
 					thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 				}
 				Hot3dxRotoDraw::Scenario5_MatsTexs^ _this = this;
@@ -315,7 +316,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage3(Platform::String^ ima
 							_this->_rootPage->SetTextureImage3FileDXP(file->Path);
 							vars->SetTextureImage3File(file->Path);
 							vars->SetThumbnailDXP3(thumbnail);
-							DisplayResult(_this->TextureRMAImage3, _this->filePath3TextBlock, thumbnailModeName, size, file, thumbnail, false);
+							DisplayResult(_this->TextureRMAImage3, _this->filePath3TextBlock, thumbnailModeName, file, thumbnail, false);
 							vars->SetbitmapImageDXP3(vars->GetThumbnailDXP3());
 							vars->GetBitmapImageDXP3()->SetSource(vars->GetThumbnailDXP3());
 							_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
@@ -366,7 +367,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage4(Platform::String^ ima
 
 				if (size > 0)
 				{
-					bool fastThumbnail = false;
+					fastThumbnail = false;
 					thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 				}
 				Hot3dxRotoDraw::Scenario5_MatsTexs^ _this = this;
@@ -380,7 +381,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage4(Platform::String^ ima
 							_this->_rootPage->SetTextureImage4FileDXP(file->Path);
 							vars->SetTextureImage4File(file->Path);
 							vars->SetThumbnailDXP4(thumbnail);
-							DisplayResult(_this->TextureEMMisiveImage4, _this->filePath4TextBlock, thumbnailModeName, size, file, thumbnail, false);
+							DisplayResult(_this->TextureEMMisiveImage4, _this->filePath4TextBlock, thumbnailModeName, file, thumbnail, false);
 							vars->SetbitmapImageDXP4(vars->GetThumbnailDXP4());
 							vars->GetBitmapImageDXP4()->SetSource(vars->GetThumbnailDXP4());
 							_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
@@ -431,7 +432,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage5(Platform::String^ ima
 
 				if (size > 0)
 				{
-					bool fastThumbnail = false;
+					fastThumbnail = false;
 					thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 				}
 				Hot3dxRotoDraw::Scenario5_MatsTexs^ _this = this;
@@ -445,7 +446,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage5(Platform::String^ ima
 							_this->_rootPage->SetTextureImage5FileDXP(file->Path);
 							vars->SetTextureImage5File(file->Path);
 							vars->SetThumbnailDXP5(thumbnail);
-							DisplayResult(_this->TextureRadianceImage5, _this->filePath5TextBlock, thumbnailModeName, size, file, thumbnail, false);
+							DisplayResult(_this->TextureRadianceImage5, _this->filePath5TextBlock, thumbnailModeName, file, thumbnail, false);
 							vars->SetbitmapImageDXP5(vars->GetThumbnailDXP5());
 							vars->GetBitmapImageDXP5()->SetSource(vars->GetThumbnailDXP5());
 
@@ -497,7 +498,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage6(Platform::String^ ima
 
 				if (size > 0)
 				{
-					bool fastThumbnail = false;
+					fastThumbnail = false;
 					thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 				}
 				Hot3dxRotoDraw::Scenario5_MatsTexs^ _this = this;
@@ -511,7 +512,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImage6(Platform::String^ ima
 							_this->_rootPage->SetTextureImage6FileDXP(file->Path);
 							vars->SetTextureImage6File(file->Path);
 							vars->SetThumbnailDXP6(thumbnail);
-							DisplayResult(_this->TextureIrradianceImage6, _this->filePath6TextBlock, thumbnailModeName, size, file, thumbnail, false);
+							DisplayResult(_this->TextureIrradianceImage6, _this->filePath6TextBlock, thumbnailModeName, file, thumbnail, false);
 							vars->SetbitmapImageDXP6(vars->GetThumbnailDXP6());
 							vars->GetBitmapImageDXP6()->SetSource(vars->GetThumbnailDXP6());
 
@@ -546,7 +547,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage1()
 
 		if (size > 0)
 		{
-			bool fastThumbnail = false;
+			fastThumbnail = false;
 			thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 		}
 
@@ -558,7 +559,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage1()
 			{
 				if (thumbnail != nullptr)
 				{
-					DisplayResult(this->TextureImage1, this->filePath1TextBlock, thumbnailModeName, size, file, thumbnail, false);
+					DisplayResult(this->TextureImage1, this->filePath1TextBlock, thumbnailModeName, file, thumbnail, false);
 					
 					this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
 					this->textureFileTextBlock1->Text = file->Path;
@@ -589,7 +590,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage2()
 
 		if (size > 0)
 		{
-			bool fastThumbnail = false;
+			fastThumbnail = false;
 			thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 		}
 
@@ -601,7 +602,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage2()
 			{
 				if (thumbnail != nullptr)
 				{
-					DisplayResult(this->TextureImage2, this->filePath2TextBlock, thumbnailModeName, size, file, thumbnail, false);
+					DisplayResult(this->TextureImage2, this->filePath2TextBlock, thumbnailModeName, file, thumbnail, false);
 					
 					this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
 					this->textureFileTextBlock2->Text = file->Path;
@@ -633,7 +634,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage3()
 
 	if (size > 0)
 	{
-		bool fastThumbnail = false;
+		fastThumbnail = false;
 		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
@@ -645,7 +646,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage3()
 			{
 				if (thumbnail != nullptr)
 				{
-					DisplayResult(this->TextureRMAImage3, this->filePath3TextBlock, thumbnailModeName, size, file, thumbnail, false);
+					DisplayResult(this->TextureRMAImage3, this->filePath3TextBlock, thumbnailModeName, file, thumbnail, false);
 
 					this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
 					this->textureFileTextBlock3->Text = file->Path;
@@ -677,7 +678,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage4()
 
 	if (size > 0)
 	{
-		bool fastThumbnail = false;
+		fastThumbnail = false;
 		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
@@ -689,7 +690,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage4()
 			{
 				if (thumbnail != nullptr)
 				{
-					DisplayResult(this->TextureEMMisiveImage4, this->filePath4TextBlock, thumbnailModeName, size, file, thumbnail, false);
+					DisplayResult(this->TextureEMMisiveImage4, this->filePath4TextBlock, thumbnailModeName, file, thumbnail, false);
 
 					this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
 					this->textureFileTextBlock4->Text = file->Path;
@@ -721,7 +722,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage5()
 
 	if (size > 0)
 	{
-		bool fastThumbnail = false;
+		fastThumbnail = false;
 		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
@@ -733,7 +734,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage5()
 			{
 				if (thumbnail != nullptr)
 				{
-					DisplayResult(this->TextureRadianceImage5, this->filePath5TextBlock, thumbnailModeName, size, file, thumbnail, false);
+					DisplayResult(this->TextureRadianceImage5, this->filePath5TextBlock, thumbnailModeName, file, thumbnail, false);
 
 					this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
 					this->textureFileTextBlock5->Text = file->Path;
@@ -765,7 +766,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage6()
 
 	if (size > 0)
 	{
-		bool fastThumbnail = false;
+		fastThumbnail = false;
 		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
@@ -777,7 +778,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImage6()
 			{
 				if (thumbnail != nullptr)
 				{
-					DisplayResult(this->TextureIrradianceImage6, this->filePath6TextBlock, thumbnailModeName, size, file, thumbnail, false);
+					DisplayResult(this->TextureIrradianceImage6, this->filePath6TextBlock, thumbnailModeName, file, thumbnail, false);
 
 					this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
 					this->textureFileTextBlock6->Text = file->Path;
@@ -850,7 +851,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImages(unsigned int imageIdN
 				
 				if (size > 0)
 				{
-					bool fastThumbnail = false;
+					fastThumbnail = false;
 					thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 				}
 				
@@ -869,7 +870,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImages(unsigned int imageIdN
 								_this->_rootPage->SetTextureImage1FileDXP(file->Path);
 								vars->SetTextureImage1File(file->Path);
 								vars->SetThumbnailDXP1(thumbnail);
-								DisplayResult(_this->TextureImage1, _this->filePath1TextBlock, thumbnailModeName, size, file, thumbnail, false);
+								DisplayResult(_this->TextureImage1, _this->filePath1TextBlock, thumbnailModeName, file, thumbnail, false);
 								vars->SetbitmapImageDXP1(vars->GetThumbnailDXP1());
 								vars->GetBitmapImageDXP1()->SetSource(vars->GetThumbnailDXP1());
 								_this->textureFileTextBlock1->Text = file->Path;
@@ -882,7 +883,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImages(unsigned int imageIdN
 								_this->_rootPage->SetTextureImage2FileDXP(file->Path);
 								vars->SetTextureImage2File(file->Path);
 								vars->SetThumbnailDXP2(thumbnail);
-								DisplayResult(_this->TextureImage2, _this->filePath2TextBlock, thumbnailModeName, size, file, thumbnail, false);
+								DisplayResult(_this->TextureImage2, _this->filePath2TextBlock, thumbnailModeName, file, thumbnail, false);
 								vars->SetbitmapImageDXP2(vars->GetThumbnailDXP2());
 								vars->GetBitmapImageDXP2()->SetSource(vars->GetThumbnailDXP2());
 								_this->textureFileTextBlock2->Text = file->Path;
@@ -895,7 +896,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImages(unsigned int imageIdN
 								_this->_rootPage->SetTextureImage3FileDXP(file->Path);
 								vars->SetTextureImage3File(file->Path);
 								vars->SetThumbnailDXP3(thumbnail);
-								DisplayResult(_this->TextureRMAImage3, _this->filePath3TextBlock, thumbnailModeName, size, file, thumbnail, false);
+								DisplayResult(_this->TextureRMAImage3, _this->filePath3TextBlock, thumbnailModeName, file, thumbnail, false);
 								vars->SetbitmapImageDXP3(vars->GetThumbnailDXP3());
 								vars->GetBitmapImageDXP3()->SetSource(vars->GetThumbnailDXP3());
 								_this->textureFileTextBlock3->Text = file->Path;
@@ -908,7 +909,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImages(unsigned int imageIdN
 								_this->_rootPage->SetTextureImage4FileDXP(file->Path);
 								vars->SetTextureImage4File(file->Path);
 								vars->SetThumbnailDXP4(thumbnail);
-								DisplayResult(_this->TextureEMMisiveImage4, _this->filePath4TextBlock, thumbnailModeName, size, file, thumbnail, false);
+								DisplayResult(_this->TextureEMMisiveImage4, _this->filePath4TextBlock, thumbnailModeName, file, thumbnail, false);
 								vars->SetbitmapImageDXP4(vars->GetThumbnailDXP4());
 								vars->GetBitmapImageDXP4()->SetSource(vars->GetThumbnailDXP4());
 								_this->textureFileTextBlock4->Text = file->Path;
@@ -921,7 +922,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImages(unsigned int imageIdN
 								_this->_rootPage->SetTextureImage5FileDXP(file->Path);
 								vars->SetTextureImage5File(file->Path);
 								vars->SetThumbnailDXP5(thumbnail);
-								DisplayResult(_this->TextureRadianceImage5, _this->filePath5TextBlock, thumbnailModeName, size, file, thumbnail, false);
+								DisplayResult(_this->TextureRadianceImage5, _this->filePath5TextBlock, thumbnailModeName, file, thumbnail, false);
 								vars->SetbitmapImageDXP5(vars->GetThumbnailDXP5());
 								vars->GetBitmapImageDXP5()->SetSource(vars->GetThumbnailDXP5());
 								_this->textureFileTextBlock5->Text = file->Path;
@@ -934,7 +935,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadDefaultImages(unsigned int imageIdN
 								_this->_rootPage->SetTextureImage6FileDXP(file->Path);
 								vars->SetTextureImage6File(file->Path);
 								vars->SetThumbnailDXP6(thumbnail);
-								DisplayResult(_this->TextureIrradianceImage6, _this->filePath6TextBlock, thumbnailModeName, size, file, thumbnail, false);
+								DisplayResult(_this->TextureIrradianceImage6, _this->filePath6TextBlock, thumbnailModeName, file, thumbnail, false);
 								vars->SetbitmapImageDXP6(vars->GetThumbnailDXP6());
 								vars->GetBitmapImageDXP6()->SetSource(vars->GetThumbnailDXP6());
 								_this->textureFileTextBlock6->Text = file->Path;
@@ -960,14 +961,15 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::LoadChosenImages()
 }
 
 void Hot3dxRotoDraw::Scenario5_MatsTexs::SetSingleMaterialTypesStringListboxItem(Platform::Object^ sender, unsigned int i, MaterialList const& s, MaterialTypes m,
-	     Windows::UI::Xaml::Controls::TextBlock^ textBlock)
+	     Windows::UI::Xaml::Controls::TextBlock^ textBlockL)
 {
+	
 	ListBox^ materialListBox = safe_cast<ListBox^>(sender); //as ListBox;
 	ListBoxItem^ item = dynamic_cast<ListBoxItem^>(materialListBox->SelectedItem);
 	if (item != nullptr)
 	{
 		// Clear the status block when changing scenarios
-		_rootPage->NotifyUser("", NotifyType::StatusMessage);
+		_rootPage->NotifyUser("index: " + i + " of: " + s.dataName, NotifyType::StatusMessage);
 
 		// Navigate to the selected scenario.
 		TypeName materialType = { item->Name, TypeKind::Custom };
@@ -986,7 +988,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::SetMaterialTypesStrings()
 	for (auto const& s : materials)// DirectXPage::Current->materials)
 	{
 		// Create a textBlock to hold the content and apply the ListItemTextStyle from Styles.xaml
-		TextBlock^ textBlock = ref new TextBlock();
+		textBlock = ref new TextBlock();
 		ListBoxItem^ item = ref new ListBoxItem();
 		auto style = App::Current->Resources->Lookup("ListItemTextStyle");
 
@@ -1099,7 +1101,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::SetMaterialTypesDataStrings()
 	for (auto const& s : materials)// DirectXPage::Current->materials)
 	{
 		// Create a textBlock to hold the content and apply the ListItemTextStyle from Styles.xaml
-		TextBlock^ textBlock = ref new TextBlock();
+		textBlock = ref new TextBlock();
 		ListBoxItem^ item = ref new ListBoxItem();
 		auto style = App::Current->Resources->Lookup("ListItemTextStyle");
 
@@ -1311,8 +1313,8 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_IMAGE1_BUTTON_Click(Platfor
 	const unsigned int size = int(TextureImage1->ActualHeight);
 	if (size > 0)
 	{
-		bool fastThumbnail = false;
-		ThumbnailOptions thumbnailOptions = ThumbnailOptions::UseCurrentScale;
+		fastThumbnail = false;
+	    thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
 	create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
@@ -1331,7 +1333,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_IMAGE1_BUTTON_Click(Platfor
 							_this->_rootPage->SetTextureImage1FileDXP(file->Path);
 							vars->SetTextureImage1File(file->Path);
 							vars->SetThumbnailDXP1(thumbnail);
-							DisplayResult(_this->TextureImage1, _this->filePath1TextBlock, thumbnailModeName, size, file, thumbnail, false);
+							DisplayResult(_this->TextureImage1, _this->filePath1TextBlock, thumbnailModeName, file, thumbnail, false);
 							vars->SetbitmapImageDXP1(vars->GetThumbnailDXP1());
 							vars->GetBitmapImageDXP1()->SetSource(vars->GetThumbnailDXP1());
 							_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
@@ -1375,8 +1377,8 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_IMAGE2_BUTTON_Click(Platfor
 	const unsigned int size = int(TextureImage2->ActualHeight);
 	if (size > 0)
 	{
-		bool fastThumbnail = false;
-		ThumbnailOptions thumbnailOptions = ThumbnailOptions::UseCurrentScale;
+		fastThumbnail = false;
+		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
 	create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
@@ -1394,7 +1396,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_IMAGE2_BUTTON_Click(Platfor
 							_this->_rootPage->SetTextureImage2FileDXP(file->Path);
 							vars->SetTextureImage2File(file->Path);
 							vars->SetThumbnailDXP2(thumbnail);
-							DisplayResult(_this->TextureImage2, _this->filePath2TextBlock, thumbnailModeName, size, file, thumbnail, false);
+							DisplayResult(_this->TextureImage2, _this->filePath2TextBlock, thumbnailModeName, file, thumbnail, false);
 							vars->SetbitmapImageDXP2(vars->GetThumbnailDXP2());
 							vars->GetBitmapImageDXP2()->SetSource(vars->GetThumbnailDXP2());
 							_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
@@ -1436,8 +1438,8 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_RMA_IMAGE3_BUTTON_Click(Pla
 	const unsigned int size = int(TextureRMAImage3->ActualHeight);
 	if (size > 0)
 	{
-		bool fastThumbnail = false;
-		ThumbnailOptions thumbnailOptions = ThumbnailOptions::UseCurrentScale;
+		fastThumbnail = false;
+		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
 	create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
@@ -1455,7 +1457,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_RMA_IMAGE3_BUTTON_Click(Pla
 							_this->_rootPage->SetTextureImage3FileDXP(file->Path);
 							vars->SetTextureImage3File(file->Path);
 							vars->SetThumbnailDXP3(thumbnail);
-							DisplayResult(_this->TextureRMAImage3, _this->filePath3TextBlock, thumbnailModeName, size, file, thumbnail, false);
+							DisplayResult(_this->TextureRMAImage3, _this->filePath3TextBlock, thumbnailModeName, file, thumbnail, false);
 							vars->SetbitmapImageDXP3(vars->GetThumbnailDXP3());
 							vars->GetBitmapImageDXP3()->SetSource(vars->GetThumbnailDXP3());
 							_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
@@ -1494,8 +1496,8 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_EMMISIVE_IMAGE4_BUTTON_Clic
 	const unsigned int size = int(TextureEMMisiveImage4->ActualHeight);
 	if (size > 0)
 	{
-		bool fastThumbnail = false;
-		ThumbnailOptions thumbnailOptions = ThumbnailOptions::UseCurrentScale;
+		fastThumbnail = false;
+		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
 	create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
@@ -1513,7 +1515,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_EMMISIVE_IMAGE4_BUTTON_Clic
 							_this->_rootPage->SetTextureImage4FileDXP(file->Path);
 							vars->SetTextureImage4File(file->Path);
 							vars->SetThumbnailDXP4(thumbnail);
-							DisplayResult(_this->TextureEMMisiveImage4, _this->filePath4TextBlock, thumbnailModeName, size, file, thumbnail, false);
+							DisplayResult(_this->TextureEMMisiveImage4, _this->filePath4TextBlock, thumbnailModeName, file, thumbnail, false);
 							vars->SetbitmapImageDXP4(vars->GetThumbnailDXP4());
 							vars->GetBitmapImageDXP4()->SetSource(vars->GetThumbnailDXP4());
 							_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
@@ -1552,8 +1554,8 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_RADIANCE_IMAGE5_BUTTON_Clic
 	const unsigned int size = int(TextureRadianceImage5->ActualHeight);
 	if (size > 0)
 	{
-		bool fastThumbnail = false;
-		ThumbnailOptions thumbnailOptions = ThumbnailOptions::UseCurrentScale;
+		fastThumbnail = false;
+		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
 	create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
@@ -1571,7 +1573,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_RADIANCE_IMAGE5_BUTTON_Clic
 							_this->_rootPage->SetTextureImage5FileDXP(file->Path);
 							vars->SetTextureImage5File(file->Path);
 							vars->SetThumbnailDXP5(thumbnail);
-							DisplayResult(_this->TextureRadianceImage5, _this->filePath5TextBlock, thumbnailModeName, size, file, thumbnail, false);
+							DisplayResult(_this->TextureRadianceImage5, _this->filePath5TextBlock, thumbnailModeName, file, thumbnail, false);
 							vars->SetbitmapImageDXP5(vars->GetThumbnailDXP5());
 							vars->GetBitmapImageDXP5()->SetSource(vars->GetThumbnailDXP5());
 							_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
@@ -1610,8 +1612,8 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_IRRADIANCE_IMAGE6_BUTTON_Cl
 	const unsigned int size = int(TextureIrradianceImage6->ActualHeight);
 	if (size > 0)
 	{
-		bool fastThumbnail = false;
-		ThumbnailOptions thumbnailOptions = ThumbnailOptions::UseCurrentScale;
+	    fastThumbnail = false;
+		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
 	create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
@@ -1629,7 +1631,7 @@ void Hot3dxRotoDraw::Scenario5_MatsTexs::IDC_TEXTURE_IRRADIANCE_IMAGE6_BUTTON_Cl
 							_this->_rootPage->SetTextureImage6FileDXP(file->Path);
 							vars->SetTextureImage6File(file->Path);
 							vars->SetThumbnailDXP6(thumbnail);
-							DisplayResult(_this->TextureIrradianceImage6, _this->filePath6TextBlock, thumbnailModeName, size, file, thumbnail, false);
+							DisplayResult(_this->TextureIrradianceImage6, _this->filePath6TextBlock, thumbnailModeName, file, thumbnail, false);
 							vars->SetbitmapImageDXP6(vars->GetThumbnailDXP6());
 							vars->GetBitmapImageDXP6()->SetSource(vars->GetThumbnailDXP6());
 							_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);

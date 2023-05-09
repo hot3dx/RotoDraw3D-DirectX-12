@@ -19,115 +19,120 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,0,0" Height="570" Width="500">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,0,0" Height="950" Width="500">
+    <GridView VerticalAlignment="Top" HorizontalAlignment="Left">
+        <Grid x:Name="RootGrid" Margin="0,0,0,-49" CanBeScrollAnchor="True" Height="950" Width="500" HorizontalAlignment="Center" Background="LightGreen">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="95"/>
+                <RowDefinition Height="805"/>
 
-    <Grid x:Name="RootGrid" Margin="0,-120,0,0" CanBeScrollAnchor="True" Height="570" Width="500" HorizontalAlignment="Left" Background="LightGreen">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MinHeight="570"/>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <TextBox x:Name="IDC_PALETTE_FILE_NAME_EDIT" HorizontalAlignment="Left" Margin="1,5,0,0" Text="Palette FileName" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="115" FontSize="9"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="118,5,0,0" Text="Sample Edit Filename Box" VerticalAlignment="Top" Width="380" Height="25" FontSize="9"/>
-        <TextBlock x:Name="filePath1TextBlock" HorizontalAlignment="Left" Margin="1,35,0,0" Text="FilePath:1" VerticalAlignment="Top" Height="14" Width="80" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"/>
-        <TextBlock x:Name="textureFileTextBlock1" HorizontalAlignment="Left" Margin="80,35,0,0" Text="File Path 1" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="403" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"/>
-        <TextBlock x:Name="filePath2TextBlock" HorizontalAlignment="Left" Margin="1,50,0,0" Text="FilePath:2" VerticalAlignment="Top" Height="14" Width="80" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"/>
-        <TextBlock x:Name="textureFileTextBlock2" HorizontalAlignment="Left" Margin="80,50,0,0" Text="File Path 2" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="403" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"/>
-        <TextBlock x:Name="filePath3TextBlock" HorizontalAlignment="Left" Margin="1,65,0,0" Text="FilePath:3" VerticalAlignment="Top" Height="14" Width="80" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"/>
-        <TextBlock x:Name="textureFileTextBlock3" HorizontalAlignment="Left" Margin="80,65,0,0" Text="File Path 3" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="403" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"/>
-        <TextBlock x:Name="filePath4TextBlock" HorizontalAlignment="Left" Margin="1,80,0,0" Text="FilePath:4" VerticalAlignment="Top" Height="14" Width="80" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"/>
-        <TextBlock x:Name="textureFileTextBlock4" HorizontalAlignment="Left" Margin="80,80,0,0" Text="File Path 4" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="403" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"/>
-        <TextBlock x:Name="filePath5TextBlock" HorizontalAlignment="Left" Margin="1,95,0,0" Text="FilePath:5" VerticalAlignment="Top" Height="14" Width="80" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"/>
-        <TextBlock x:Name="textureFileTextBlock5" HorizontalAlignment="Left" Margin="80,95,0,0" Text="File Path 5" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="403" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"/>
-        <TextBlock x:Name="filePath6TextBlock" HorizontalAlignment="Left" Margin="1,110,0,0" Text="FilePath:6" VerticalAlignment="Top" Height="14" Width="80" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"/>
-        <TextBlock x:Name="textureFileTextBlock6" HorizontalAlignment="Left" Margin="80,110,0,0" Text="File Path 6" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="403" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"/>
-        <Button x:Name="IDC_CREATE_PALETTE_BUTTON" Content="Create Palette" Margin="10,125,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.645,0.438" Width="80" Height="23" FontSize="8"/>
-        <Button x:Name="IDC_OPEN_PALETTE_BUTTON" Content="Open Palette" Margin="98,125,0,0" VerticalAlignment="Top" Width="80" Height="23" FontSize="8"/>
-        <Button x:Name="IDC_ADD_MATERIAL_BUTTON" Content="Add Material" Margin="10,150,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.435,0.75" Width="80" Height="23" FontSize="8"/>
-        <Button x:Name="IDC_SAVE_PALETTE_BUTTON2" Content="Save Palette" Margin="98,150,0,0" VerticalAlignment="Top" Width="80" Height="23" FontSize="8"/>
-        <Button x:Name="IDC_SET_MATERIAL_BUTTON" Content="Set Material" Margin="185,125,0,0" VerticalAlignment="Top" Width="80" Height="23" FontSize="8"/>
-        <Button x:Name="IDC_ADD_DELETEMATERIAL_BUTTON" Content="Delete Material" Margin="185,150,0,0" VerticalAlignment="Top" Width="80" Height="23" FontSize="9"/>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="175,205,0,0" Text="Number of Materials" TextWrapping="Wrap" VerticalAlignment="Top" Height="29" Width="131"/>
-        <TextBox x:Name="IDC_NUM_MATERIALS_EDIT" HorizontalAlignment="Left" Margin="181,240,0,0" Text="1" VerticalAlignment="Top" Width="109" Height="32"/>
-        <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Margin="21,175,0,0" Text="Current Material" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" Width="150"/>
-        <Slider x:Name="IDC_CURRENT_MATERIAL_slider1" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top" Width="110" Height="32" Background="Yellow"/>
-        <Slider x:Name="IDC_CURRENT_MATERIAL_slider2" HorizontalAlignment="Left" Margin="10,225,0,0" VerticalAlignment="Top" Width="110" Height="32" Background="Yellow"/>
-        <Slider x:Name="IDC_CURRENT_MATERIAL_slider3" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top" Width="110" Height="32" Background="Yellow"/>
-        <Slider x:Name="IDC_CURRENT_MATERIAL_slider4" HorizontalAlignment="Left" Margin="10,275,0,0" VerticalAlignment="Top" Width="110" Height="32" Background="Yellow"/>
-        <TextBox x:Name="IDC_CURRENT_MATERIAL_EDIT" HorizontalAlignment="Left" Text="Current Material" VerticalAlignment="Top" Margin="130,175,0,0" Height="25" Width="160" FontSize="10" Background="#FF66B366"/>
-        <ListBox x:Name="MaterialListControl" SelectionChanged="MaterialListControl_SelectionChanged" AutomationProperties.Name="MaterialLists"
-                 SelectionMode="Single" HorizontalAlignment="Left" Background="Transparent" BorderThickness="0"
-                 VerticalAlignment="Top" Margin="1,310,0,0" Width="59" Height="252" SingleSelectionFollowsFocus="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Hidden" CanBeScrollAnchor="True">
-
-            <ListBoxItem x:Name="matName" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="59"/>
-            <ListBoxItem x:Name="rgba_A" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-            <ListBoxItem Background="#FF66B366" HorizontalAlignment="Left" FontSize="9" Width="59"/>
-        </ListBox>
-        <ListBox x:Name="MaterialListControlData" SelectionChanged="MaterialListControlData_SelectionChanged" AutomationProperties.Name="MaterialLists"
-                 SelectionMode="Single" HorizontalAlignment="Left" Background="Transparent" BorderThickness="0"
-                 VerticalAlignment="Top" Margin="61,310,0,0" Width="111" Height="252" SingleSelectionFollowsFocus="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible">
-
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-            <ListBoxItem Background="#FF4A934A" HorizontalAlignment="Left" FontSize="9" Width="111"/>
-        </ListBox>
-        <TextBlock x:Name="textBlock12" HorizontalAlignment="Center" Margin="0,426,0,0" Text="FileName" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="132"/>
-        <Button x:Name="IDC_NAME_SET_BUTTON" Content="==Set Name" Margin="182,280,0,0" VerticalAlignment="Top" Height="32" Width="100"/>
-        <TextBox x:Name="IDC_NAME_SET_EDIT" HorizontalAlignment="Left" Margin="180,320,0,0" Text="Enter Name" VerticalAlignment="Top" Width="100" Height="32"/>
-        <Button x:Name="IDC_TEXTURE_FILENAME_BUTTON" Content="Texture Name" Margin="182,360,0,0" VerticalAlignment="Top" Height="25" Width="100" FontSize="10"/>
-        <Button x:Name="IDC_CLEAR_TEXTURE_FILENAME_BUTTON" Content="Clear" Margin="182,395,0,0" VerticalAlignment="Top" Height="25" Width="52" FontSize="10"/>
-        <TextBlock x:Name="textBlock13" HorizontalAlignment="Left" Margin="180,515,0,0" Text="Power" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="38"/>
-        <TextBlock x:Name="textBlock14" HorizontalAlignment="Left" Margin="321,515,0,0" Text="Others" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="41"/>
-        <Slider x:Name="IDC_POWER_SLIDER" HorizontalAlignment="Left" Margin="227,510,0,0" VerticalAlignment="Top" Width="82" Height="25" Background="Yellow"/>
-        <Slider x:Name="IDC_OTHERS_SLIDER" HorizontalAlignment="Left" Margin="371,510,0,0" VerticalAlignment="Top" Width="82" Height="25" Background="Yellow"/>
-        <TextBlock x:Name="IDC_D3DMATERIAL_DISPLAY" HorizontalAlignment="Left" Margin="458,705,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="256" Width="256" FocusVisualPrimaryBrush="White" Foreground="White"/>
-        <Button x:Name="ID_COLOR_ADD_BUTTON" Content="Add Custom Colors" Margin="181,460,0,0" VerticalAlignment="Top" Height="25" Width="115" FontSize="10"/>
-        <Slider  x:Name="scrollBar" HorizontalAlignment="Left" Margin="180,540,0,0" VerticalAlignment="Top" Width="300" Height="25" Background="Yellow" Orientation="Horizontal"/>
-        <Image x:Name="TextureImage1" Source="ms-appx:///Assets/Textures/fire.dds" x:Load="True" Loaded="TextureImage1_Loaded" HorizontalAlignment="Left" Height="75" Margin="305,128,0,0" VerticalAlignment="Top" Width="75"/>
-        <Image x:Name="TextureImage2" Source="ms-appx:///Assets/Textures/sphere.png"  x:Load="True" Loaded="TextureImage2_Loaded" HorizontalAlignment="Left" Height="75" Margin="385,128,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="IDC_TEXTURE_IMAGE1_BUTTON" Content="Add Texture 1" Margin="318,212,0,0" VerticalAlignment="Top" Height="22" Width="135" FontSize="8" Click="IDC_TEXTURE_IMAGE1_BUTTON_Click"/>
-        <Button x:Name="IDC_TEXTURE_IMAGE2_BUTTON" Content="Add Texture 2/Dual Tex" Margin="318,238,0,0" VerticalAlignment="Top" Height="22" Width="135" FontSize="8" Click="IDC_TEXTURE_IMAGE2_BUTTON_Click"/>
-        <Image x:Name="TextureRMAImage3" Source="ms-appx:///Assets/Textures/Floor_RMA.DDS" x:Load="True" Loaded="TextureImage3_Loaded" HorizontalAlignment="Left" Height="75" Margin="305,268,0,0" VerticalAlignment="Top" Width="75"/>
-        <Image x:Name="TextureEMMisiveImage4" Source="ms-appx:///Assets/Textures/Floor_Normal.DDS" x:Load="True" Loaded="TextureImage4_Loaded" HorizontalAlignment="Left" Height="75" Margin="385,268,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="IDC_TEXTURE_RMA_IMAGE3_BUTTON" Content="Add Texture 3/RMA" Margin="318,348,0,0" VerticalAlignment="Top" Height="22" Width="135" FontSize="8" Click="IDC_TEXTURE_RMA_IMAGE3_BUTTON_Click"/>
-        <Button x:Name="IDC_TEXTURE_EMMISIVE_IMAGE4_BUTTON" Content="Add Texture 4/Normal" Margin="318,374,0,0" VerticalAlignment="Top" Height="22" Width="135" FontSize="8" Click="IDC_TEXTURE_EMMISIVE_IMAGE4_BUTTON_Click"/>
-        <Image x:Name="TextureRadianceImage5" Source="ms-appx:///Assets/Textures/WHITE_CUBEMAP_R.DDS"  x:Load="True" Loaded="TextureImage5_Loaded" HorizontalAlignment="Left" Height="75" Margin="305,405,0,0" VerticalAlignment="Top" Width="75"/>
-        <Image x:Name="TextureIrradianceImage6" Source="ms-appx:///Assets/Textures/WHITE_CUBEMAP_IR.DDS"  x:Load="True" Loaded="TextureImage6_Loaded" HorizontalAlignment="Left" Height="75" Margin="385,405,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="IDC_TEXTURE_RADIANCE_IMAGE5_BUTTON" Content="Add Tex/Radiance" Margin="318,485,0,0" VerticalAlignment="Top" Height="22" Width="75" FontSize="8" Click="IDC_TEXTURE_RADIANCE_IMAGE5_BUTTON_Click"/>
-        <Button x:Name="IDC_TEXTURE_IRRADIANCE_IMAGE6_BUTTON" Content="Tex/Irradiance" Margin="398,485,0,0" VerticalAlignment="Top" Height="22" Width="75" FontSize="8" Click="IDC_TEXTURE_IRRADIANCE_IMAGE6_BUTTON_Click"/>
+            </Grid.RowDefinitions>
 
 
-    </Grid>
+            <TextBox x:Name="IDC_PALETTE_FILE_NAME_EDIT" HorizontalAlignment="Left" Margin="1,5,0,0" Text="Palette FileName" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="115" FontSize="9" Grid.Row="0"/>
+            <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="118,5,0,0" Text="Sample Edit Filename Box" VerticalAlignment="Top" Width="380" Height="25" FontSize="9" Grid.Row="0"/>
+            <TextBlock x:Name="filePath1TextBlock" HorizontalAlignment="Left" Margin="1,5,0,0" Text="FilePath:1" VerticalAlignment="Top" Height="14" Width="80" FontSize="9" FocusVisualPrimaryBrush="#FF66B366" Grid.Row="1"/>
+            <TextBlock x:Name="textureFileTextBlock1" HorizontalAlignment="Left" Margin="80,5,0,0" Text="File Path 1" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="403" FontSize="9" FocusVisualPrimaryBrush="#FF66B366" Grid.Row="1"/>
+            <TextBlock x:Name="filePath2TextBlock" HorizontalAlignment="Left" Margin="1,20,0,0" Text="FilePath:2" VerticalAlignment="Top" Height="14" Width="80" FontSize="9" FocusVisualPrimaryBrush="#FF66B366" Grid.Row="1"/>
+            <TextBlock x:Name="textureFileTextBlock2" HorizontalAlignment="Left" Margin="80,20,0,0" Text="File Path 2" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="403" FontSize="9" FocusVisualPrimaryBrush="#FF66B366" Grid.Row="1"/>
+            <TextBlock x:Name="filePath3TextBlock" HorizontalAlignment="Left" Margin="1,35,0,0" Text="FilePath:3" VerticalAlignment="Top" Height="14" Width="80" FontSize="9" FocusVisualPrimaryBrush="#FF66B366" Grid.Row="1"/>
+            <TextBlock x:Name="textureFileTextBlock3" HorizontalAlignment="Left" Margin="80,35,0,0" Text="File Path 3" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="403" FontSize="9" FocusVisualPrimaryBrush="#FF66B366" Grid.Row="1"/>
+            <TextBlock x:Name="filePath4TextBlock" HorizontalAlignment="Left" Margin="1,50,0,0" Text="FilePath:4" VerticalAlignment="Top" Height="14" Width="80" FontSize="9" FocusVisualPrimaryBrush="#FF66B366" Grid.Row="1" />
+            <TextBlock x:Name="textureFileTextBlock4" HorizontalAlignment="Left" Margin="80,50,0,0" Text="File Path 4" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="403" FontSize="9" FocusVisualPrimaryBrush="#FF66B366" Grid.Row="1" />
+            <TextBlock x:Name="filePath5TextBlock" HorizontalAlignment="Left" Margin="1,65,0,0" Text="FilePath:5" VerticalAlignment="Top" Height="14" Width="80" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"  Grid.Row="1"/>
+            <TextBlock x:Name="textureFileTextBlock5" HorizontalAlignment="Left" Margin="80,65,0,0" Text="File Path 5" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="403" FontSize="9" FocusVisualPrimaryBrush="#FF66B366" Grid.Row="1" />
+            <TextBlock x:Name="filePath6TextBlock" HorizontalAlignment="Left" Margin="1,80,0,0" Text="FilePath:6" VerticalAlignment="Top" Height="14" Width="80" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"  Grid.Row="1"/>
+            <TextBlock x:Name="textureFileTextBlock6" HorizontalAlignment="Left" Margin="80,80,0,0" Text="File Path 6" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="403" FontSize="9" FocusVisualPrimaryBrush="#FF66B366"  Grid.Row="1"/>
+            <Button x:Name="IDC_CREATE_PALETTE_BUTTON" Content="Create Palette" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.645,0.438" Width="80" Height="23" FontSize="8" Grid.Row="2"/>
+            <Button x:Name="IDC_OPEN_PALETTE_BUTTON" Content="Open Palette" Margin="98,10,0,0" VerticalAlignment="Top" Width="80" Height="23" FontSize="8" Grid.Row="2"/>
+            <Button x:Name="IDC_ADD_MATERIAL_BUTTON" Content="Add Material" Margin="10,35,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.435,0.75" Width="80" Height="23" FontSize="8" Grid.Row="2"/>
+            <Button x:Name="IDC_SAVE_PALETTE_BUTTON2" Content="Save Palette" Margin="98,35,0,0" VerticalAlignment="Top" Width="80" Height="23" FontSize="8" Grid.Row="2"/>
+            <Button x:Name="IDC_SET_MATERIAL_BUTTON" Content="Set Material" Margin="185,10,0,0" VerticalAlignment="Top" Width="80" Height="23" FontSize="8" Grid.Row="2"/>
+            <Button x:Name="IDC_ADD_DELETEMATERIAL_BUTTON" Content="Delete Material" Margin="185,35,0,0" VerticalAlignment="Top" Width="80" Height="23" FontSize="9" Grid.Row="2"/>
+            <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="175,90,0,0" Text="Number of Materials" TextWrapping="Wrap" VerticalAlignment="Top" Height="29" Width="131" Grid.Row="2"/>
+            <TextBox x:Name="IDC_NUM_MATERIALS_EDIT" HorizontalAlignment="Left" Margin="181,125,0,0" Text="1" VerticalAlignment="Top" Width="109" Height="32" Grid.Row="2"/>
+            <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Margin="21,63,0,0" Text="Current Material" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="104" Grid.Row="2"/>
+            <Slider x:Name="IDC_CURRENT_MATERIAL_slider1" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Width="110" Height="32" Background="Yellow" Grid.Row="2"/>
+            <Slider x:Name="IDC_CURRENT_MATERIAL_slider2" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Width="110" Height="32" Background="Yellow" Grid.Row="2"/>
+            <Slider x:Name="IDC_CURRENT_MATERIAL_slider3" HorizontalAlignment="Left" Margin="10,135,0,0" VerticalAlignment="Top" Width="110" Height="32" Background="Yellow" Grid.Row="2"/>
+            <Slider x:Name="IDC_CURRENT_MATERIAL_slider4" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" Width="110" Height="32" Background="Yellow" Grid.Row="2"/>
+            <TextBox x:Name="IDC_CURRENT_MATERIAL_EDIT" HorizontalAlignment="Left" Text="Current Material" VerticalAlignment="Top" Margin="130,60,0,0" Height="25" Width="160" FontSize="10" Background="#FF66B366" Grid.Row="2"/>
+            <ListBox x:Name="MaterialListControl" SelectionChanged="MaterialListControl_SelectionChanged" AutomationProperties.Name="MaterialLists"
+                 SelectionMode="Single" HorizontalAlignment="Left" Background="#FF66B366" BorderThickness="2"
+                 VerticalAlignment="Top" Margin="1,195,0,0" Width="75" Height="900" SingleSelectionFollowsFocus="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible" CanBeScrollAnchor="True" Grid.Row="2">
+
+                <ListBoxItem x:Name="matName" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="rgba_A" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="rgba_R" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="rgba_G" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="rgba_B" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="Alpha" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="Power" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="SP_R" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="SP_G" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="SP_B" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="AMB_R" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="AMB_G" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="AMB_B" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="EMM_R" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="EMM_G" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="EMM_B" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="DIF_R" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="DIF_G" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+                <ListBoxItem x:Name="DIF_B" Background="#FF66B366" HorizontalAlignment="Left" FontSize="7" Width="75" Height="15"/>
+            </ListBox>
+            <ListBox x:Name="MaterialListControlData" SelectionChanged="MaterialListControlData_SelectionChanged" AutomationProperties.Name="MaterialLists"
+                 SelectionMode="Single" HorizontalAlignment="Left" Background="#FF4A934A" BorderThickness="2"
+                 VerticalAlignment="Top" Margin="76,195,0,0" Width="96" Height="900" SingleSelectionFollowsFocus="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.Row="2">
+
+                <ListBoxItem x:Name="v0" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v1" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v2" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v3" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v4" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v5" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v6" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v7" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v8" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v9" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v10" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v11" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v12" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v13" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v15" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v16" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v17" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v18" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+                <ListBoxItem x:Name="v19" Background="#FF4A934A" HorizontalAlignment="Left" FontSize="7" Width="96" Height="15"/>
+            </ListBox>
+            <TextBlock x:Name="textBlock12" HorizontalAlignment="Center" Margin="0,311,0,0" Text="FileName" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="132" Grid.Row="2"/>
+            <Button x:Name="IDC_NAME_SET_BUTTON" Content="==Set Name" Margin="182,165,0,0" VerticalAlignment="Top" Height="32" Width="100" Grid.Row="2"/>
+            <TextBox x:Name="IDC_NAME_SET_EDIT" HorizontalAlignment="Left" Margin="180,205,0,0" Text="Enter Name" VerticalAlignment="Top" Width="100" Height="32" Grid.Row="2"/>
+            <Button x:Name="IDC_TEXTURE_FILENAME_BUTTON" Content="Texture Name" Margin="182,245,0,0" VerticalAlignment="Top" Height="25" Width="100" FontSize="10" Grid.Row="2"/>
+            <Button x:Name="IDC_CLEAR_TEXTURE_FILENAME_BUTTON" Content="Clear" Margin="182,280,0,0" VerticalAlignment="Top" Height="25" Width="52" FontSize="10" Grid.Row="2"/>
+            <TextBlock x:Name="textBlock13" HorizontalAlignment="Left" Margin="180,400,0,0" Text="Power" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="38" Grid.Row="2"/>
+            <TextBlock x:Name="textBlock14" HorizontalAlignment="Left" Margin="321,400,0,0" Text="Others" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="41" Grid.Row="2"/>
+            <Slider x:Name="IDC_POWER_SLIDER" HorizontalAlignment="Left" Margin="227,395,0,0" VerticalAlignment="Top" Width="82" Height="25" Background="Yellow" Grid.Row="2"/>
+            <Slider x:Name="IDC_OTHERS_SLIDER" HorizontalAlignment="Left" Margin="371,395,0,0" VerticalAlignment="Top" Width="82" Height="25" Background="Yellow" Grid.Row="2"/>
+            <TextBlock x:Name="IDC_D3DMATERIAL_DISPLAY" HorizontalAlignment="Left" Margin="210,465,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="256" Width="256" FocusVisualPrimaryBrush="White" Foreground="White" Grid.Row="2"/>
+            <Button x:Name="ID_COLOR_ADD_BUTTON" Content="Add Custom Colors" Margin="181,345,0,0" VerticalAlignment="Top" Height="25" Width="115" FontSize="10" Grid.Row="2"/>
+            <Slider  x:Name="scrollBar" HorizontalAlignment="Left" Margin="180,425,0,0" VerticalAlignment="Top" Width="300" Height="25" Background="Yellow" Orientation="Horizontal" Grid.Row="2"/>
+            <Image x:Name="TextureImage1" Source="ms-appx:///Assets/Textures/fire.dds" x:Load="True" Loaded="TextureImage1_Loaded" HorizontalAlignment="Left" Height="75" Margin="305,13,0,0" VerticalAlignment="Top" Width="75" Grid.Row="2"/>
+            <Image x:Name="TextureImage2" Source="ms-appx:///Assets/Textures/sphere.png"  x:Load="True" Loaded="TextureImage2_Loaded" HorizontalAlignment="Left" Height="75" Margin="385,13,0,0" VerticalAlignment="Top" Width="75" Grid.Row="2"/>
+            <Button x:Name="IDC_TEXTURE_IMAGE1_BUTTON" Content="Add Texture 1" Margin="318,97,0,0" VerticalAlignment="Top" Height="22" Width="135" FontSize="8" Click="IDC_TEXTURE_IMAGE1_BUTTON_Click" Grid.Row="2"/>
+            <Button x:Name="IDC_TEXTURE_IMAGE2_BUTTON" Content="Add Texture 2/Dual Tex" Margin="318,123,0,0" VerticalAlignment="Top" Height="22" Width="135" FontSize="8" Click="IDC_TEXTURE_IMAGE2_BUTTON_Click" Grid.Row="2"/>
+            <Image x:Name="TextureRMAImage3" Source="ms-appx:///Assets/Textures/Floor_RMA.DDS" x:Load="True" Loaded="TextureImage3_Loaded" HorizontalAlignment="Left" Height="75" Margin="305,153,0,0" VerticalAlignment="Top" Width="75" Grid.Row="2"/>
+            <Image x:Name="TextureEMMisiveImage4" Source="ms-appx:///Assets/Textures/Floor_Normal.DDS" x:Load="True" Loaded="TextureImage4_Loaded" HorizontalAlignment="Left" Height="75" Margin="385,153,0,0" VerticalAlignment="Top" Width="75" Grid.Row="2"/>
+            <Button x:Name="IDC_TEXTURE_RMA_IMAGE3_BUTTON" Content="Add Texture 3/RMA" Margin="318,233,0,0" VerticalAlignment="Top" Height="22" Width="135" FontSize="8" Click="IDC_TEXTURE_RMA_IMAGE3_BUTTON_Click" Grid.Row="2"/>
+            <Button x:Name="IDC_TEXTURE_EMMISIVE_IMAGE4_BUTTON" Content="Add Texture 4/Normal" Margin="318,259,0,0" VerticalAlignment="Top" Height="22" Width="135" FontSize="8" Click="IDC_TEXTURE_EMMISIVE_IMAGE4_BUTTON_Click" Grid.Row="2"/>
+            <Image x:Name="TextureRadianceImage5" Source="ms-appx:///Assets/Textures/WHITE_CUBEMAP_R.DDS"  x:Load="True" Loaded="TextureImage5_Loaded" HorizontalAlignment="Left" Height="75" Margin="305,290,0,0" VerticalAlignment="Top" Width="75" Grid.Row="2"/>
+            <Image x:Name="TextureIrradianceImage6" Source="ms-appx:///Assets/Textures/WHITE_CUBEMAP_IR.DDS"  x:Load="True" Loaded="TextureImage6_Loaded" HorizontalAlignment="Left" Height="75" Margin="385,290,0,0" VerticalAlignment="Top" Width="75" Grid.Row="2"/>
+            <Button x:Name="IDC_TEXTURE_RADIANCE_IMAGE5_BUTTON" Content="Add Tex/Radiance" Margin="318,370,0,0" VerticalAlignment="Top" Height="22" Width="75" FontSize="8" Click="IDC_TEXTURE_RADIANCE_IMAGE5_BUTTON_Click" Grid.Row="2"/>
+            <Button x:Name="IDC_TEXTURE_IRRADIANCE_IMAGE6_BUTTON" Content="Tex/Irradiance" Margin="398,370,0,0" VerticalAlignment="Top" Height="22" Width="75" FontSize="8" Click="IDC_TEXTURE_IRRADIANCE_IMAGE6_BUTTON_Click" Grid.Row="2"/>
+
+
+
+        </Grid>
+    </GridView>
 </Page>

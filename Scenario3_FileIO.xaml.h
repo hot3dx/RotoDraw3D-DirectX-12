@@ -14,7 +14,7 @@
 
 #include "Scenario3_FileIO.g.h"
 #include "DirectXPage.xaml.h"
-#include "Hot3dxRotoDrawConfiguration.h"
+
 
 using namespace Windows::Foundation;
 using namespace Windows::UI::Xaml;
@@ -32,7 +32,7 @@ namespace Hot3dxRotoDraw
         virtual ~Scenario3_FileIO();
     private:
         
-        DirectXPage^ _rootPage;
+        Hot3dxRotoDraw::DirectXPage^ _rootPage;
         bool                            _initialized = false;
         Windows::Storage::StorageFile^ mtlFilename;
         

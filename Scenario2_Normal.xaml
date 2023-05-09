@@ -91,6 +91,7 @@
                     <x:String>Basic Effect</x:String>
                     <x:String>Dual Texture Effect</x:String>
                     <x:String>PBR Effect</x:String>
+                    <x:String>Video Texture Effect</x:String>
                 </ComboBox>
             </StackPanel>
             <StackPanel>

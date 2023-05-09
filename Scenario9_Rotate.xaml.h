@@ -14,7 +14,7 @@
 
 #include "Scenario9_Rotate.g.h"
 #include "DirectXPage.xaml.h"
-#include "Hot3dxRotoDrawConfiguration.h"
+
 
 using namespace Windows::Foundation;
 using namespace Windows::UI::Xaml;
@@ -39,7 +39,7 @@ namespace Hot3dxRotoDraw
 
     private:
 
-        DirectXPage^ _rootPage;
+        Hot3dxRotoDraw::DirectXPage^ _rootPage;
         bool                            _initialized = false;
 
         void IDC_SetRotate_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);

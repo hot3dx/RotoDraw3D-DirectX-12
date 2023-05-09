@@ -14,7 +14,7 @@
 
 #include "Scenario6_ColorPicker.g.h"
 #include "DirectXPage.xaml.h"
-#include "Hot3dxRotoDrawConfiguration.h"
+
 #include <Generated Files\Scenario6_ColorPicker.g.h>
 
 using namespace Windows::Foundation;
@@ -37,7 +37,7 @@ namespace Hot3dxRotoDraw
     
     private:
 
-        DirectXPage^ _rootPage;
+        Hot3dxRotoDraw::DirectXPage^ _rootPage;
         bool                            _initialized = false;
 
         void ContentDialog_PrimaryButtonClick(Windows::UI::Xaml::Controls::ContentDialog^ sender, Windows::UI::Xaml::Controls::ContentDialogButtonClickEventArgs^ args);

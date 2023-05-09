@@ -17,7 +17,7 @@ using namespace Windows::UI::Xaml::Navigation;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-Hot3dxRotoDraw::Scenario6_ColorPicker::Scenario6_ColorPicker() : _rootPage(DirectXPage::Current)
+Hot3dxRotoDraw::Scenario6_ColorPicker::Scenario6_ColorPicker() : _rootPage(Hot3dxRotoDraw::DirectXPage::Current)
 {
 	InitializeComponent();
 	

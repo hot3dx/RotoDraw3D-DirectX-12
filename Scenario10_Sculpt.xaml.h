@@ -14,7 +14,7 @@
 
 #include "Generated Files\Scenario10_Sculpt.g.h"
 #include "DirectXPage.xaml.h"
-#include "Hot3dxRotoDrawConfiguration.h"
+
 
 
 using namespace Windows::Foundation;
@@ -66,8 +66,8 @@ namespace Hot3dxRotoDraw
 
         void SculptTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
         void SculptFilesTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
-        void GetObjectVertexIndexData(unsigned int pointCount, unsigned int groupCount, std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes, std::vector<uint16_t> indices, Platform::String^ mtlObjFilename, Platform::String^ nodeName, Platform::String^ effectName);
-        void SetObjectVertexIndexData(unsigned int pointCount, unsigned int groupCount, std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes, std::vector<uint16_t> indices, Platform::String^ mtlObjFilename, Platform::String^ nodeName, Platform::String^ effectName);
+        //void GetObjectVertexIndexData(unsigned int pointCount, unsigned int groupCount, std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes, std::vector<uint16_t> indices, Platform::String^ mtlObjFilename, Platform::String^ nodeName, Platform::String^ effectName);
+        //void SetObjectVertexIndexData(unsigned int pointCount, unsigned int groupCount, std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes, std::vector<uint16_t> indices, Platform::String^ mtlObjFilename, Platform::String^ nodeName, Platform::String^ effectName);
 
         void ROTATE_X_GridCam_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
         void ROTATE_Y_GridCam_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);

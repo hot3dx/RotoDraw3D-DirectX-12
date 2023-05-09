@@ -14,7 +14,7 @@
 
 #include "Scenario7_SphereDraw.g.h"
 #include "DirectXPage.xaml.h"
-#include "Hot3dxRotoDrawConfiguration.h"
+
 
 
 using namespace Windows::Foundation;
@@ -35,12 +35,9 @@ namespace Hot3dxRotoDraw
         Windows::UI::Xaml::Controls::TextBox^ GetSphereRadiusTextBox() { return m_SphereRadiusTextBox; }
         Windows::UI::Xaml::Controls::TextBox^ GetPointSpaceTextBox() { return m_PointSpaceTextBox; }
 
-    private:
-        //void StartButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-       //void OnTimerTick(Object^ sender, Object^ e);
-        //void RadiusSlider_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
-        //void AngularVelocitySlider_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
-         // void HeightSlider_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
+    internal:
+        static Scenario7_SphereDraw^ Current;
+        Platform::String^ wcfileName;
 
     private:
 
@@ -60,6 +57,34 @@ namespace Hot3dxRotoDraw
         float m_camerarotation;
         float m_anglerotation;
         int m_iPointCount;
+
+        ///////////////  video
+
+        void IDC_VIDEO_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void VideoTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
+
+        void VideoFilesTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
+        void DisplayResultVideo(Windows::UI::Xaml::Controls::Image^ image,
+            Windows::UI::Xaml::Controls::TextBox^ textBox,
+            Platform::String^ thumbnailModeName, size_t size,
+            Windows::Storage::IStorageItem^ item,
+            Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, bool isGroup);
+        void IDC_VIDEO_TEXTURE_IMAGE1_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void IDC_SHOW_VIDEO_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+
+        void LoadChosenImage1();
+        void LoadDefaultVideoImage(Platform::String^ imagePath);
+
+        bool m_VideoImage;
+        Platform::String^ m_dirPath;
+        Windows::Storage::StorageFile^ fileImageVideo;
+        Windows::Storage::FileProperties::StorageItemThumbnail^ m_thumbnailVideoDXP;
+        Platform::String^ fileNameVideo;
+        Windows::UI::Xaml::Media::Imaging::BitmapImage^ bitmapImageVideoDXP;
+
+    protected:
+        virtual void OnNavigatedTo(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e) override;
+
     };
 }
 
