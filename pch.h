@@ -54,12 +54,16 @@
 #include <stdint.h>
 
 #define XAUDIO2_HELPER_FUNCTIONS 1
+#include <x3daudio.h>
 #include <xaudio2.h>
 #include <xaudio2fx.h>
 #include <xapo.h>
+#include <xapobase.h>
+#include <xapofx.h>
 #include <hrtfapoapi.h>
 
 #include <mmreg.h>
+
 #include <mfidl.h>
 #include <mfapi.h>
 #include <mfreadwrite.h>
