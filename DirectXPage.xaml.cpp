@@ -202,7 +202,7 @@ void Hot3dxRotoDraw::DirectXPage::LoadInternalState(IPropertySet^ state)
 void Hot3dxRotoDraw::DirectXPage::AudioInitialize()
 {
 
-	auto hr = _startDXP.Initialize(m_backgroundMusic->Data()); //L"Assets//Audiorezout_Entering.mp3");// LiteSatGroovy.mp3");// musicmono_adpcm.wav");
+	auto hr = _startDXP.Initialize((LPCWSTR)m_backgroundMusic->Data()); //L"Assets//Audiorezout_Entering.mp3");// LiteSatGroovy.mp3");// musicmono_adpcm.wav");
 	if (SUCCEEDED(hr))
 	{
 		_timerDXP = ref new DispatcherTimer();
