@@ -344,6 +344,12 @@ namespace Hot3dxRotoDraw
 		std::vector<float> GetTextureU() { return textureU; }
 		std::vector<float> GetTextureV() { return textureV; }
 
+		//void XM_CALLCONV SetLinePoints(unsigned int lineId);
+		void XM_CALLCONV CalculateLinePointsTranslate(float xMove, float yMove, float zMove);
+		void XM_CALLCONV CalculateAllLinesPointsTranslate(float xMove, float yMove, float zMove);
+		//void XM_CALLCONV CalculateLinePointsRotations(float xAngle, float yAngle, float zAngle);
+		//void XM_CALLCONV CalculateAllLinesPointsRotations(float xAngle, float yAngle, float zAngle);
+		
 		void ViewMatrix(XMFLOAT4X4 M, wchar_t* str);
 
 		// Accessors

@@ -544,8 +544,10 @@ void RotoDrawSceneRender::Update(DX::StepTimer const& timer)
 				}
 			}
 		}
-		m_sprites->SetViewport(m_sceneDeviceResources->GetScreenViewport());
-		
+		if (m_vars->GetDXPage()->m_Scene11Vars->GetGridChecked() == true)
+		{
+			m_sprites->SetViewport(m_sceneDeviceResources->GetScreenViewport());
+		}
 		PIXEndEvent();
 		
 	}
@@ -871,20 +873,20 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawPointsOne(XMFLOAT3 cur
 				{
 					if (cursorPos.x - m_previousPosX > 0)
 					{
-						cursorPos.x = m_previousPosX + (m_fPointSpace * sqrtf(2.0f));
+						cursorPos.x = m_previousPosX + m_fPointSpace;
 					}
 					else if (cursorPos.x - m_previousPosX < 0)
 					{
-						cursorPos.x = m_previousPosX - (m_fPointSpace * sqrtf(2.0f));
+						cursorPos.x = m_previousPosX - m_fPointSpace;
 					}
 
 					if (cursorPos.y - m_previousPosY > 0)
 					{
-						cursorPos.y = m_previousPosY + (m_fPointSpace * sqrtf(2.0f));
+						cursorPos.y = m_previousPosY + m_fPointSpace;
 					}
 					else if (cursorPos.y - m_previousPosY < 0)
 					{
-						cursorPos.y = m_previousPosY - (m_fPointSpace * sqrtf(2.0f));
+						cursorPos.y = m_previousPosY - m_fPointSpace;
 					}
 				} // if (m_vars->GetDXPage()->GetIfLeftShiftKeyHeldDraw45Line())
 			}// if (m_iPointCount > 0)
@@ -1371,6 +1373,7 @@ bool RotoDrawSceneRender::Render()
 		const XMVECTORF32 xaxis12 = { 10.f, 0.f, 0.f };
 		const XMVECTORF32 yaxis12 = { 0.f, 10.f, 0.f };
 		const XMVECTORF32 zaxis12 = { 0.f, 0.f, 0.f };
+		
 	}
 	///////////////////////////////////////
 	// Set the descriptor heaps
@@ -1538,69 +1541,9 @@ bool RotoDrawSceneRender::Render()
 		PIXEndEvent(commandList);
 	*/
 	}
-	// Draw sprite
-	PIXBeginEvent(commandList, PIX_COLOR_DEFAULT, L"Draw sprite");
-	m_sprites->Begin(commandList);
 
-	// Put MousePosition on screen
-	Platform::String^ m_fontString = nullptr;
-	m_MousePosFont->DrawString(m_sprites.get(),
-		ObjectXYZPositionString(m_fontString, "Mouse ", m_posX, m_posY, m_posZ)->Data(),
-		XMFLOAT2(10, 10), Colors::Yellow);
-
-	// Put Camera Eye on screen
-	Platform::String^ m_fontStringCameraEye = nullptr;
-	m_CameraEyeFont->DrawString(m_sprites.get(),
-		ObjectXYZPositionString(m_fontStringCameraEye, "Camera Eye ", m_EyeX, m_EyeY, m_EyeZ)->Data(),
-		XMFLOAT2(10, 30), Colors::DarkSeaGreen);
-
-	// Put Camera At on screen
-	Platform::String^ m_fontStringCameraAt = nullptr;
-	m_CameraAtFont->DrawString(m_sprites.get(),
-		ObjectXYZPositionString(m_fontStringCameraAt, "Camera At  ", m_LookAtX, m_LookAtY, m_LookAtZ)->Data(),
-		XMFLOAT2(10, 60), Colors::Beige);
-
-	// Put Camera Up on screen
-	Platform::String^ m_fontStringCameraUp = nullptr;
-	m_CameraUpFont->DrawString(m_sprites.get(),
-		ObjectXYZPositionString(m_fontStringCameraUp, "Camera Up  ", m_UpX, m_UpY, m_UpZ)->Data(),
-		XMFLOAT2(10, 90), Colors::DarkOrchid);
-
-	// Put Camera Up on screen
-	Platform::String^ m_fontStringPointCount = nullptr;
-	m_PointCountFont->DrawString(m_sprites.get(),
-		PointCountString(m_fontStringPointCount, "Pt Cnt", m_iPointCount)->Data(),
-		XMFLOAT2(10, 650), Colors::Black);
-
-	Platform::String^ m_fontStringTotalPointCount = nullptr;
-	m_TotalPointCountFont->DrawString(m_sprites.get(),
-		PointCountString(m_fontStringTotalPointCount, "#Pts", (unsigned int)m_iTotalPointCount)->Data(),
-		XMFLOAT2(180, 650), Colors::Black);
-
-	Platform::String^ m_fontStringFaceCount = nullptr;
-	m_FaceCountFont->DrawString(m_sprites.get(),
-		PointCountString(m_fontStringFaceCount, "#Faces", (unsigned int)indices.size() / 3)->Data(),
-		XMFLOAT2(360, 650), Colors::Black);
-
-	Platform::String^ m_fontStringGroupCount = nullptr;
-	m_GroupCountFont->DrawString(m_sprites.get(),
-		PointCountString(m_fontStringGroupCount, "#Groups", (unsigned int)m_iGroupCount)->Data(),
-		XMFLOAT2(540, 650), Colors::Black);
-
-	Platform::String^ m_fontStringSelectedPoint = nullptr;
-	m_SelectedPointNumberFont->DrawString(m_sprites.get(),
-		PointCountString(m_fontStringSelectedPoint, "Sel Pt", (unsigned int)m_SelIndexOne)->Data(),
-		XMFLOAT2(720, 650), Colors::Black);
-	/*
-	Platform::String^ m_fontStringLineCount = nullptr;
-	m_GroupCountFont->DrawString(m_sprites.get(),
-		PointCountString(m_fontStringGroupCount, "#Lines", (unsigned int)m_iLineCount)->Data(),
-		XMFLOAT2(540, 950), Colors::Black);
-*/
-	m_sprites->End();
-
-	PIXEndEvent(commandList);
-		
+	DrawSprites(commandList);
+	
 	PIXEndEvent(commandList);
 	//////////////////////////////////////
 	
@@ -1809,74 +1752,73 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridXY(FXMVECTOR xAxis
 
 void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawSprites(ID3D12GraphicsCommandList* commandList)
 {
-	if (m_loadingComplete == true) {
-
 		ID3D12DescriptorHeap* heaps[] = { m_resourceDescriptors->Heap(), m_states->Heap() };
 		commandList->SetDescriptorHeaps(_countof(heaps), heaps);
 		//auto commandList = m_sceneDeviceResources->GetCommandList();
-		PIXBeginEvent(commandList, PIX_COLOR_DEFAULT, L"Draw sprites");
 		// Draw sprite
+		PIXBeginEvent(commandList, PIX_COLOR_DEFAULT, L"Draw sprite");
 		m_sprites->Begin(commandList);
-		//m_sprites->Draw(m_resourceDescriptors->GetGpuHandle(static_cast<size_t>(Descriptors::SeaFloor)), GetTextureSize(m_texture1.Get()), XMFLOAT2(1, 1));
+
 		// Put MousePosition on screen
 		Platform::String^ m_fontString = nullptr;
 		m_MousePosFont->DrawString(m_sprites.get(),
 			ObjectXYZPositionString(m_fontString, "Mouse ", m_posX, m_posY, m_posZ)->Data(),
-			XMFLOAT2(10, 10), Colors::Black);
-		/*
-		Platform::String^ m_fontCursorString = nullptr;
-		m_CursorPosFont->DrawString(m_sprites.get(),
-			ObjectXYZPositionString(m_fontCursorString, "Cursor ", pointC.x, pointC.y, m_posZ)->Data(),
-			XMFLOAT2(550, 10), Colors::Black);
-	*/
-	// Put Camera Eye on screen
+			XMFLOAT2(10, 10), Colors::OrangeRed);
+
+		// Put Camera Eye on screen
 		Platform::String^ m_fontStringCameraEye = nullptr;
 		m_CameraEyeFont->DrawString(m_sprites.get(),
 			ObjectXYZPositionString(m_fontStringCameraEye, "Camera Eye ", m_EyeX, m_EyeY, m_EyeZ)->Data(),
-			XMFLOAT2(10, 30), Colors::Black);
+			XMFLOAT2(10, 30), Colors::DarkSeaGreen);
 
 		// Put Camera At on screen
 		Platform::String^ m_fontStringCameraAt = nullptr;
 		m_CameraAtFont->DrawString(m_sprites.get(),
 			ObjectXYZPositionString(m_fontStringCameraAt, "Camera At  ", m_LookAtX, m_LookAtY, m_LookAtZ)->Data(),
-			XMFLOAT2(10, 60), Colors::Black);
+			XMFLOAT2(10, 60), Colors::BlueViolet);
 
 		// Put Camera Up on screen
 		Platform::String^ m_fontStringCameraUp = nullptr;
 		m_CameraUpFont->DrawString(m_sprites.get(),
 			ObjectXYZPositionString(m_fontStringCameraUp, "Camera Up  ", m_UpX, m_UpY, m_UpZ)->Data(),
-			XMFLOAT2(10, 90), Colors::Black);
+			XMFLOAT2(10, 90), Colors::DarkOrchid);
 
 		// Put Camera Up on screen
 		Platform::String^ m_fontStringPointCount = nullptr;
 		m_PointCountFont->DrawString(m_sprites.get(),
 			PointCountString(m_fontStringPointCount, "Pt Cnt", m_iPointCount)->Data(),
-			XMFLOAT2(10, 150), Colors::Black);
+			XMFLOAT2(10, 350), Colors::Black);
 
 		Platform::String^ m_fontStringTotalPointCount = nullptr;
 		m_TotalPointCountFont->DrawString(m_sprites.get(),
 			PointCountString(m_fontStringTotalPointCount, "#Pts", (unsigned int)m_iTotalPointCount)->Data(),
-			XMFLOAT2(10, 180), Colors::Black);
+			XMFLOAT2(10, 450), Colors::Black);
 
 		Platform::String^ m_fontStringFaceCount = nullptr;
 		m_FaceCountFont->DrawString(m_sprites.get(),
 			PointCountString(m_fontStringFaceCount, "#Faces", (unsigned int)indices.size() / 3)->Data(),
-			XMFLOAT2(10, 210), Colors::Black);
+			XMFLOAT2(10, 550), Colors::Black);
 
 		Platform::String^ m_fontStringGroupCount = nullptr;
 		m_GroupCountFont->DrawString(m_sprites.get(),
 			PointCountString(m_fontStringGroupCount, "#Groups", (unsigned int)m_iGroupCount)->Data(),
-			XMFLOAT2(10, 240), Colors::Black);
+			XMFLOAT2(10, 650), Colors::Black);
 
 		Platform::String^ m_fontStringSelectedPoint = nullptr;
 		m_SelectedPointNumberFont->DrawString(m_sprites.get(),
 			PointCountString(m_fontStringSelectedPoint, "Sel Pt", (unsigned int)m_SelIndexOne)->Data(),
-			XMFLOAT2(10, 270), Colors::Black);
+			XMFLOAT2(10, 750), Colors::Black);
+		/*
+		Platform::String^ m_fontStringLineCount = nullptr;
+		m_GroupCountFont->DrawString(m_sprites.get(),
+			PointCountString(m_fontStringGroupCount, "#Lines", (unsigned int)m_iLineCount)->Data(),
+			XMFLOAT2(540, 950), Colors::Black);
+	*/
 
 		m_sprites->End();
 
 		PIXEndEvent(commandList);
-	}
+	
 }
 void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridXZ(FXMVECTOR xAxis, FXMVECTOR zAxis, FXMVECTOR origin, size_t xdivs, size_t ydivs, GXMVECTOR color)
 {
@@ -1936,6 +1878,58 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridXZ(FXMVECTOR xAxis
 	m_batch->End();
 	
 	PIXEndEvent(commandList);
+}
+
+void Hot3dxRotoDraw::RotoDrawSceneRender::CalculateLinePointsTranslate(float xMove, float yMove, float zMove)
+{
+	size_t m_iLineCount = static_cast<unsigned int>(m_PtGroupList.size());
+
+	for (size_t j = 0; j < m_iLineCount; ++j)
+	{
+		unsigned int cnt = m_PtGroupList.at(j)->GetPtList()->Length;
+		for (unsigned int i = 0; i < cnt; ++i)
+		{
+			DirectX::DXTKXAML12::VertexPositionColor v1 =
+				vertices.at(m_PtGroupList.at(j)->GetListPt(i));
+
+			v1.position.x += xMove;
+			v1.position.y += yMove;
+			v1.position.z += zMove;
+
+			vertices.at(m_PtGroupList.at(j)->GetListPt(i)).position = v1.position;
+		} // eofor(unsigned int i = 0;
+	}
+	m_vars->GetDXPage()->NotifyUser("Line Points Transormation Complete", NotifyType::StatusMessage);
+
+	m_sceneDeviceResources->WaitForGpu();
+	//m_loadingDrawnLineObjectComplete = true;
+}
+
+void Hot3dxRotoDraw::RotoDrawSceneRender::CalculateAllLinesPointsTranslate(float xMove, float yMove, float zMove)
+{
+	size_t m_iLineCount = static_cast<unsigned int>(m_PtGroupList.size());
+	size_t j = m_iLineCount - 1;
+
+	unsigned int cnt = m_PtGroupList.at(j)->GetPtList()->Length;
+
+	for (unsigned int i = 0; i < cnt; ++i)
+	{
+		DirectX::DXTKXAML12::VertexPositionColor v1 =
+			vertices.at(m_PtGroupList.at(j)->GetListPt(i));
+
+		v1.position.x += xMove;
+		v1.position.y += yMove;
+		v1.position.z += zMove;
+
+		vertices.at(m_PtGroupList.at(j)->GetListPt(i)).position = v1.position;
+	} // eofor(unsigned int i = 0;
+
+	m_vars->GetDXPage()->NotifyUser("Line Points Transormation Complete", NotifyType::StatusMessage);
+
+	m_sceneDeviceResources->WaitForGpu();
+	//m_loadingDrawnLineObjectComplete = true;
+
+	//m_vars->GetDXPage()->NotifyUser("\nReady to draw = true" + m_iLineCount, NotifyType::StatusMessage);
 }
 
 void Hot3dxRotoDraw::RotoDrawSceneRender::ViewMatrix(XMFLOAT4X4 m, wchar_t* str)
@@ -2099,10 +2093,10 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridPicRectangle()
 	//m_bDDS_WIC_FLAGGridPic = false;
 	m_bDDS_WIC_FLAGGridPicComplete = false;
 	DirectX::DXTKXAML12::VertexCollection vCol;
-	vCol.push_back(DirectX::DXTKXAML12::VertexPositionNormalTexture(XMFLOAT3(-10.5f, 10.5f, 0.0f), XMFLOAT3(0.000000f, 1.000000f, -0.000000f), XMFLOAT2(0.0000f, 0.0000f)));// , vPNT[3]);
-	vCol.push_back(DirectX::DXTKXAML12::VertexPositionNormalTexture(XMFLOAT3(10.5f, 10.5f, 0.0f), XMFLOAT3(0.999894f, 0.000000f, -0.014547f), XMFLOAT2(1.00000f, 0.0000f)));
-	vCol.push_back(DirectX::DXTKXAML12::VertexPositionNormalTexture(XMFLOAT3(10.5f, -10.5f, 0.0f), XMFLOAT3(0.000000f, 1.000000f, -0.000000f), XMFLOAT2(1.00000f, 1.00000f)));
-	vCol.push_back(DirectX::DXTKXAML12::VertexPositionNormalTexture(XMFLOAT3(-10.5f, -10.5f, 0.0f), XMFLOAT3(0.014547f, 0.000000f, -0.999894f), XMFLOAT2(0.0000f, 1.000000f)));
+	vCol.push_back(DirectX::DXTKXAML12::VertexPositionNormalTexture(XMFLOAT3(-20.0f, 20.0f, 0.0f), XMFLOAT3(0.000000f, 1.000000f, -0.000000f), XMFLOAT2(0.0000f, 0.0000f)));// , vPNT[3]);
+	vCol.push_back(DirectX::DXTKXAML12::VertexPositionNormalTexture(XMFLOAT3(20.0f, 20.0f, 0.0f), XMFLOAT3(0.999894f, 0.000000f, -0.014547f), XMFLOAT2(1.00000f, 0.0000f)));
+	vCol.push_back(DirectX::DXTKXAML12::VertexPositionNormalTexture(XMFLOAT3(20.0f, -20.0f, 0.0f), XMFLOAT3(0.000000f, 1.000000f, -0.000000f), XMFLOAT2(1.00000f, 1.00000f)));
+	vCol.push_back(DirectX::DXTKXAML12::VertexPositionNormalTexture(XMFLOAT3(-20.0f, -20.0f, 0.0f), XMFLOAT3(0.014547f, 0.000000f, -0.999894f), XMFLOAT2(0.0000f, 1.000000f)));
 	IndexCollectionColor vColColor = { 0,1,2,2,3,0 };
 	m_shapeGridPic = GeometricPrimitive::CreateCustom(vCol, vColColor, m_sceneDeviceResources->GetD3DDevice());
 
