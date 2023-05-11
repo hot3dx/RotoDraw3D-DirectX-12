@@ -17,7 +17,7 @@
 #include <wincodec.h>
 // Uses NuGet.org package WinPixEventRuntime 1.0.200127001
 // and Microsoft.UI.Xaml.2.5.0-prerelease.200812001
-#include <pix3.h>
+#include <\Hot3dxRotoDraw\packages\WinPixEventRuntime.1.0.230302001\Include\WinPixEventRuntime\pix3.h>
 #include <DirectXColors.h>
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>
@@ -55,15 +55,14 @@
 
 #define XAUDIO2_HELPER_FUNCTIONS 1
 #include <x3daudio.h>
-#include <xaudio2.h>
 #include <xaudio2fx.h>
+#include <xaudio2.h>
 #include <xapo.h>
 #include <xapobase.h>
 #include <xapofx.h>
 #include <hrtfapoapi.h>
 
 #include <mmreg.h>
-
 #include <mfidl.h>
 #include <mfapi.h>
 #include <mfreadwrite.h>

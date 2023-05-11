@@ -379,6 +379,7 @@
     <Page Include="Scenario10_Sculpt.xaml" />
     <Page Include="Scenario11_GridorPic.xaml" />
     <Page Include="ContentDialog1.xaml" />
+    <Page Include="Scenario12_Translate.xaml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\cursor1.cur">
@@ -416,6 +417,12 @@
       <Filter>Assets</Filter>
     </Media>
     <Media Include="Assets\ADPCMdroid.xwb">
+      <Filter>Assets</Filter>
+    </Media>
+    <Media Include="Assets\LiteSatGroovy.mp3">
+      <Filter>Assets</Filter>
+    </Media>
+    <Media Include="Assets\Audiorezout_Entering.mp3">
       <Filter>Assets</Filter>
     </Media>
     <Media Include="Assets\Textures\SampleVideo.mp4">

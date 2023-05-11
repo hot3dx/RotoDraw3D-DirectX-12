@@ -309,6 +309,12 @@ namespace Hot3dxRotoDraw
 		float Get_zTranslateDrawnObject() { return m_zTranslateDrawnObject; }
 		void Set_zTranslateDrawnObject(float z) { m_zTranslateDrawnObject = z; }
 
+		void SetTranslateLineValues() {
+			m_main->GetSceneRenderer()->CalculateLinePointsTranslate(m_xTranslateDrawnObject, m_yTranslateDrawnObject, m_zTranslateDrawnObject);
+		}
+		void SetTranslateAllLinesValues() {
+			m_main->GetSceneRenderer()->CalculateAllLinesPointsTranslate(m_xTranslateDrawnObject, m_yTranslateDrawnObject, m_zTranslateDrawnObject);
+		}
 		// Rotate Variables
 		float Get_xRotateDrawnObject() { return m_xRotateDrawnObject; }
 		void Set_xRotateDrawnObject(float x) { m_xRotateDrawnObject = x; }

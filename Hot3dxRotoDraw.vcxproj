@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="16.9.4" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.props" Condition="Exists('packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.props')" />
+  <Import Project="packages\Microsoft.UI.Xaml.2.8.4\build\native\Microsoft.UI.Xaml.props" Condition="Exists('packages\Microsoft.UI.Xaml.2.8.4\build\native\Microsoft.UI.Xaml.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -304,7 +304,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
-      <AdditionalDependencies>DirectXToolKitXaml12.lib; d3d12.lib;dxgi.lib;dxguid.lib;d2d1.lib;windowscodecs.lib; dwrite.lib;xaudio2.lib;xinput.lib;mfcore.lib;mfplat.lib;mfreadwrite.lib;mfuuid.lib;mincore.lib; %(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DirectXToolKitXaml12.lib; d3d12.lib;dxgi.lib;dxguid.lib;d2d1.lib;windowscodecs.lib; dwrite.lib;XAudio2.lib;xinput.lib;mfcore.lib;mfplat.lib;mfreadwrite.lib;mfuuid.lib;mincore.lib; %(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(RootDir)\DirectXToolKitXaml12\x64\Release; %(AdditionalLibraryDirectories); $(VCInstallDir)\lib\store\amd64; $(VCInstallDir)\lib\amd64</AdditionalLibraryDirectories>
       <AdditionalOptions>
       </AdditionalOptions>
@@ -439,6 +439,8 @@
     <Media Include="Assets\MonoSound.wav" />
     <Media Include="Assets\musicmono_adpcm.wav" />
     <Media Include="Assets\ADPCMdroid.xwb" />
+    <Media Include="Assets\LiteSatGroovy.mp3" />
+    <Media Include="Assets\Audiorezout_Entering.mp3" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\credits.txt" />
@@ -483,6 +485,9 @@
     </ClInclude>
     <ClInclude Include="Scenario11_GridorPic.xaml.h">
       <DependentUpon>Scenario11_GridorPic.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="Scenario12_Translate.xaml.h">
+      <DependentUpon>Scenario12_Translate.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="Scenario1_Start.xaml.h">
       <DependentUpon>Scenario1_Start.xaml</DependentUpon>
@@ -555,6 +560,9 @@
     </ClCompile>
     <ClCompile Include="Scenario11_GridorPic.xaml.cpp">
       <DependentUpon>Scenario11_GridorPic.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="Scenario12_Translate.xaml.cpp">
+      <DependentUpon>Scenario12_Translate.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="Scenario1_Start.xaml.cpp">
       <DependentUpon>Scenario1_Start.xaml</DependentUpon>
@@ -753,6 +761,9 @@
     <Page Include="Scenario11_GridorPic.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Scenario12_Translate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Scenario1_Start.xaml" />
     <Page Include="Scenario2_Normal.xaml" />
     <Page Include="Scenario3_FileIO.xaml" />
@@ -775,17 +786,17 @@
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ImageContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\MeshContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ShaderGraphContentTask.targets" />
-    <Import Project="packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets" Condition="Exists('packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets')" />
-    <Import Project="packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.targets')" />
-    <Import Project="packages\Microsoft.Web.WebView2.1.0.1462.37\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('packages\Microsoft.Web.WebView2.1.0.1462.37\build\native\Microsoft.Web.WebView2.targets')" />
+    <Import Project="packages\Microsoft.UI.Xaml.2.8.4\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('packages\Microsoft.UI.Xaml.2.8.4\build\native\Microsoft.UI.Xaml.targets')" />
+    <Import Project="packages\WinPixEventRuntime.1.0.230302001\build\WinPixEventRuntime.targets" Condition="Exists('packages\WinPixEventRuntime.1.0.230302001\build\WinPixEventRuntime.targets')" />
+    <Import Project="packages\Microsoft.Web.WebView2.1.0.1774.30\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('packages\Microsoft.Web.WebView2.1.0.1774.30\build\native\Microsoft.Web.WebView2.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\WinPixEventRuntime.1.0.220810001\build\WinPixEventRuntime.targets'))" />
-    <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.props'))" />
-    <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.8.1\build\native\Microsoft.UI.Xaml.targets'))" />
-    <Error Condition="!Exists('packages\Microsoft.Web.WebView2.1.0.1462.37\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Web.WebView2.1.0.1462.37\build\native\Microsoft.Web.WebView2.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.8.4\build\native\Microsoft.UI.Xaml.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.8.4\build\native\Microsoft.UI.Xaml.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.8.4\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.8.4\build\native\Microsoft.UI.Xaml.targets'))" />
+    <Error Condition="!Exists('packages\WinPixEventRuntime.1.0.230302001\build\WinPixEventRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\WinPixEventRuntime.1.0.230302001\build\WinPixEventRuntime.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.Web.WebView2.1.0.1774.30\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Web.WebView2.1.0.1774.30\build\native\Microsoft.Web.WebView2.targets'))" />
   </Target>
 </Project>

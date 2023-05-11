@@ -43,6 +43,7 @@ Platform::Array<Hot3dxRotoDraw::Scenario>^ Hot3dxRotoDraw::DirectXPage::scenario
 	{ "Draw!", "Hot3dxRotoDraw.Scenario2_Normal" },
 	{ "Scale Object", "Hot3dxRotoDraw.Scenario4_MySettings" },
 	{ "Rotate Object", "Hot3dxRotoDraw.Scenario9_Rotate" },
+	{ "Move Object", "Hot3dxRotoDraw.Scenario12_Translate" },
 	{ "FileIO", "Hot3dxRotoDraw.Scenario3_FileIO" },
 	{ "Settings", "Hot3dxRotoDraw.Scenario1_Start" },
 	{ "SphereDraw", "Hot3dxRotoDraw.Scenario7_SphereDraw" },
@@ -76,7 +77,7 @@ Hot3dxRotoDraw::DirectXPage::DirectXPage() :
 	m_bIfLeftShiftKeyHeldDrawStraightLine(false),
 	m_bIfLeftShiftKeyHeldDraw45Line(false),
 	m_bIfRightShiftKeySphereRadius(false),
-	m_backgroundMusic(L"Assets//Audiorezout_Entering.mp3"),//;// LiteSatGroovy.mp3");// musicmono_adpcm.wav");
+    m_backgroundMusic(ref new Platform::String(L"Assets//Audiorezout_Entering.mp3")),//;// LiteSatGroovy.mp3");// musicmono_adpcm.wav");
 	m_coreInput(nullptr)
 {
 	InitializeComponent();
@@ -202,7 +203,7 @@ void Hot3dxRotoDraw::DirectXPage::LoadInternalState(IPropertySet^ state)
 void Hot3dxRotoDraw::DirectXPage::AudioInitialize()
 {
 
-	auto hr = _startDXP.Initialize((LPCWSTR)m_backgroundMusic->Data()); //L"Assets//Audiorezout_Entering.mp3");// LiteSatGroovy.mp3");// musicmono_adpcm.wav");
+	auto hr = _startDXP.Initialize(static_cast<LPCWSTR>(m_backgroundMusic->Data())); //L"Assets//Audiorezout_Entering.mp3");// LiteSatGroovy.mp3");// musicmono_adpcm.wav");
 	if (SUCCEEDED(hr))
 	{
 		_timerDXP = ref new DispatcherTimer();
@@ -236,7 +237,7 @@ void Hot3dxRotoDraw::DirectXPage::AudioStop()
 	{
 		_startDXP.Stop();
 		_timerDXP->Stop();
-		NotifyUser("Stopped", NotifyType::StatusMessage);
+		NotifyUser("Audio Stopped", NotifyType::StatusMessage);
 	}
 }
 
@@ -631,6 +632,7 @@ void DirectXPage::RotatePitch(float deg)
 	m_main->GetSceneRenderer()->Setm_EyeY(XMVectorGetY(mEye));
 	m_main->GetSceneRenderer()->Setm_EyeZ(XMVectorGetZ(mEye));
 }
+
 void DirectXPage::OnKeyDown(Windows::UI::Core::CoreWindow^ /*window*/, Windows::UI::Core::KeyEventArgs^ args)
 {
 	auto Key = args->VirtualKey;
@@ -764,233 +766,276 @@ void DirectXPage::OnKeyDown(Windows::UI::Core::CoreWindow^ /*window*/, Windows::
 	}break;
 	case VirtualKey::N:
 	{
-		m_bIfRightShiftKeyHeldDrawStraightLine = true;
+		CoreWindow^ w = Window::Current->CoreWindow;
+		auto ctrlState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Control);
+		auto isCtrlDown = ctrlState != CoreVirtualKeyStates::None;
+		auto shiftState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Shift);
+		auto isShiftDown = shiftState != CoreVirtualKeyStates::None;
+		if (isCtrlDown && isShiftDown)
+		{
+			m_bIfRightShiftKeyHeldDrawStraightLine = true;
+		}
 	}break;
 	case VirtualKey::M:
 	{
-		m_bIfLeftShiftKeyHeldDrawStraightLine = true;
+		CoreWindow^ w = Window::Current->CoreWindow;
+		auto ctrlState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Control);
+		auto isCtrlDown = ctrlState != CoreVirtualKeyStates::None;
+		auto shiftState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Shift);
+		auto isShiftDown = shiftState != CoreVirtualKeyStates::None;
+		if (isCtrlDown && isShiftDown)
+		{
+			m_bIfLeftShiftKeyHeldDrawStraightLine = true;
+		}
 	}break;
 	case VirtualKey::L:
 	{
-		m_bIfLeftShiftKeyHeldDraw45Line = true;
+		CoreWindow^ w = Window::Current->CoreWindow;
+		auto ctrlState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Control);
+		auto isCtrlDown = ctrlState != CoreVirtualKeyStates::None;
+		auto shiftState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Shift);
+		auto isShiftDown = shiftState != CoreVirtualKeyStates::None;
+		if (isCtrlDown && isShiftDown)
+		{
+			m_bIfLeftShiftKeyHeldDraw45Line = true;
+		}
 	}break;
 	case VirtualKey::K:
 	{
-		m_bIfRightShiftKeySphereRadius = true;
+		CoreWindow^ w = Window::Current->CoreWindow;
+		auto ctrlState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Control);
+		auto isCtrlDown = ctrlState != CoreVirtualKeyStates::None;
+		auto shiftState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Shift);
+		auto isShiftDown = shiftState != CoreVirtualKeyStates::None;
+		if (isCtrlDown && isShiftDown)
+		{
+			m_bIfRightShiftKeySphereRadius = true;
+		}
 	}break;
-	case VirtualKey::Control:
-	case VirtualKey::O:
+	case VirtualKey::B:
 	{
-		
-		// loads default top image
-		FileSavePicker^ pick = ref new  FileSavePicker();
-		pick->SuggestedStartLocation = PickerLocationId::PicturesLibrary;
-
-		auto plainTextExtensions = ref new Platform::Collections::Vector<Platform::String^>();
-		Platform::String^ type = ref new Platform::String(L"Windows Bitmap");
-		plainTextExtensions->Append(".bmp");
-		pick->FileTypeChoices->Insert(type, plainTextExtensions);
-
-		auto plainTextExtensions1 = ref new Platform::Collections::Vector<Platform::String^>();
-		Platform::String^ type1 = ref new Platform::String(L"PNG");
-		plainTextExtensions1->Append(".png");
-		pick->FileTypeChoices->Insert(type1, plainTextExtensions1);
-
-		auto plainTextExtensions2 = ref new Platform::Collections::Vector<Platform::String^>();
-		Platform::String^ type2 = ref new Platform::String(L"JPEG");
-		plainTextExtensions2->Append(".jpg");
-		pick->FileTypeChoices->Insert(type2, plainTextExtensions2);
-
-		auto plainTextExtensions3 = ref new Platform::Collections::Vector<Platform::String^>();
-		Platform::String^ type3 = ref new Platform::String(L"TIFF");
-		plainTextExtensions3->Append(".tiff");
-		pick->FileTypeChoices->Insert(type3, plainTextExtensions3);
-
-		auto plainTextExtensions4 = ref new Platform::Collections::Vector<Platform::String^>();
-		Platform::String^ type4 = ref new Platform::String(L"GIF");
-		plainTextExtensions4->Append(".gif");
-		pick->FileTypeChoices->Insert(type4, plainTextExtensions4);
-
-		auto plainTextExtensions5 = ref new Platform::Collections::Vector<Platform::String^>();
-		Platform::String^ type6 = ref new Platform::String(L"Direct Draw Surface");
-		plainTextExtensions5->Append(".dds");
-		pick->FileTypeChoices->Insert(type6, plainTextExtensions5);
-
-		pick->SuggestedFileName = ref new Platform::String(L"RotoDrawScreenShot");
-		Platform::String^ fileNameS = ref new Platform::String();
-		Platform::String^ s = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Release\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\");
-		//s = L"Assets\\Textures\\";//GetProgramDirPathDXP();
-		Platform::String^ sfile = ref new Platform::String(s->Data());
-		sfile = sfile->Concat(sfile, fileNameS);
-
-
-		create_task(pick->PickSaveFileAsync()).then([this](StorageFile^ file)
-			{
-				if (file != nullptr)
-				{
-					D3D12_RESOURCE_STATES beforeState = D3D12_RESOURCE_STATE_RENDER_TARGET;
-					D3D12_RESOURCE_STATES afterState = D3D12_RESOURCE_STATE_RENDER_TARGET;
-					std::function<void(IPropertyBag2*)> setCustomProps = nullptr;
-					GUID guidContainerFormat;
-					bool forceSRGB = false;
-					const GUID* targetFormat = (const GUID*)NULL;
-					unsigned int guidFormat = m_Scene11Vars->GetGuidFormatForScreenGrabVars();
-					switch (guidFormat)
-					{
-					case 0:
-					{
-						guidContainerFormat = GUID_ContainerFormatBmp;
-						SaveWICTextureToFile(
-							m_deviceResources->GetCommandQueue(),
-							m_deviceResources->GetRenderTarget(),
-							guidContainerFormat,
-							file->Path->Data(),
-							beforeState,
-							afterState,
-							targetFormat,
-							setCustomProps,
-							forceSRGB
-						);
-					}break;
-					case 1:
-					{
-						guidContainerFormat = GUID_ContainerFormatPng;
-						SaveWICTextureToFile(
-							m_deviceResources->GetCommandQueue(),
-							m_deviceResources->GetRenderTarget(),
-							guidContainerFormat,
-							file->Path->Data(),
-							beforeState,
-							afterState,
-							targetFormat,
-							setCustomProps,
-							forceSRGB
-						);
-					}break;
-					case 2:
-					{
-						guidContainerFormat = GUID_ContainerFormatIco;
-						SaveWICTextureToFile(
-							m_deviceResources->GetCommandQueue(),
-							m_deviceResources->GetRenderTarget(),
-							guidContainerFormat,
-							file->Path->Data(),
-							beforeState,
-							afterState,
-							targetFormat,
-							setCustomProps,
-							forceSRGB
-						);
-					}break;
-					case 3:
-					{
-						guidContainerFormat = GUID_ContainerFormatJpeg;
-						SaveWICTextureToFile(
-							m_deviceResources->GetCommandQueue(),
-							m_deviceResources->GetRenderTarget(),
-							guidContainerFormat,
-							file->Path->Data(),
-							beforeState,
-							afterState,
-							targetFormat,
-							setCustomProps,
-							forceSRGB
-						);
-					}break;
-					case 4:
-					{
-						guidContainerFormat = GUID_ContainerFormatTiff;
-						SaveWICTextureToFile(
-							m_deviceResources->GetCommandQueue(),
-							m_deviceResources->GetRenderTarget(),
-							guidContainerFormat,
-							file->Path->Data(),//fileNameW,
-							beforeState,
-							afterState,
-							targetFormat,
-							setCustomProps,
-							forceSRGB
-						);
-						forceSRGB = true;
-					}break;
-					case 5:
-					{
-						//const wchar_t* fileNameW = L"C:\\Users\\hot3d\\Pictures\\ScreenShots\\ScreenGrab.gif";
-						guidContainerFormat = GUID_ContainerFormatGif;
-						SaveWICTextureToFile(
-							m_deviceResources->GetCommandQueue(),
-							m_deviceResources->GetRenderTarget(),
-							guidContainerFormat,
-							file->Path->Data(),//fileNameW,
-							beforeState,
-							afterState,
-							targetFormat,
-							setCustomProps,
-							forceSRGB
-						);
-					}	break;
-					case 6:
-					{
-						//const wchar_t* fileNameW = L"C:\\Users\\hot3d\\Pictures\\ScreenShots\\ScreenGrab.wmp";
-						guidContainerFormat = GUID_ContainerFormatWmp;
-						SaveWICTextureToFile(
-							m_deviceResources->GetCommandQueue(),
-							m_deviceResources->GetRenderTarget(),
-							guidContainerFormat,
-							file->Path->Data(),//fileNameW,
-							beforeState,
-							afterState,
-							targetFormat,
-							setCustomProps,
-							forceSRGB
-						);
-					}break;
-					default:
-					{
-						guidContainerFormat = GUID_ContainerFormatDds;
-						DirectX::SaveDDSTextureToFile(
-							m_deviceResources->GetCommandQueue(),
-							m_deviceResources->GetRenderTarget(),
-							file->Path->Data(),//fileNameW,fileName->Data(),
-							beforeState,
-							afterState);
-					}break;
-				}
-
-
-					NotifyUser(L"ScreenGrab File Saved" + file->Path, NotifyType::StatusMessage);
-				}// eo if create_task
-				else
-				{
-					NotifyUser(L"ScreenGrab File Save Failure Error", NotifyType::StatusMessage);
-				}
-			});
+		CoreWindow^ w = Window::Current->CoreWindow;
+		auto ctrlState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Control);
+		auto isCtrlDown = ctrlState != CoreVirtualKeyStates::None;
+		auto shiftState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Shift);
+		auto isShifDown = shiftState != CoreVirtualKeyStates::None;
+		if (isCtrlDown && isShifDown)
+		{
 			
-					//eo switch ctrlswitch
-		/* ScreenGrab* grab = new ScreenGrab();
-		    grab->SaveDDSTextureToFile(
-			m_deviceResources->GetCommandQueue(),
-			m_deviceResources->GetRenderTarget(),
-			fileName,
-			beforeState,
-			afterState);// noexcept
+				// loads default top image
+				FileSavePicker^ pick = ref new  FileSavePicker();
+				pick->SuggestedStartLocation = PickerLocationId::PicturesLibrary;
 
-		grab->SaveWICTextureToFile(
-			m_deviceResources->GetCommandQueue(),
-			m_deviceResources->GetRenderTarget(),
-			guidContainerFormat,
-			fileNameW,
-			beforeState,
-			afterState,
-			targetFormat,
-			setCustomProps,
-			forceSRGB
-		);
-		*/
-	}break; // eo VirtualKey O
-	}// eo VirtualKey::Control:
-//} // eo KeyDown switch
-//}
+				auto plainTextList = ref new Platform::Collections::Vector<Platform::String^>();
+				Platform::String^ typeList = ref new Platform::String(L"Choose From: dds, bmp, png, jpg, tiff, gif");
+				plainTextList->Append(".bmp");
+				pick->FileTypeChoices->Insert(typeList, plainTextList);
+
+				auto plainTextExtensions = ref new Platform::Collections::Vector<Platform::String^>();
+				Platform::String^ type = ref new Platform::String(L"Windows Bitmap");
+				plainTextExtensions->Append(".bmp");
+				pick->FileTypeChoices->Insert(type, plainTextExtensions);
+
+				auto plainTextExtensions1 = ref new Platform::Collections::Vector<Platform::String^>();
+				Platform::String^ type1 = ref new Platform::String(L"PNG");
+				plainTextExtensions1->Append(".png");
+				pick->FileTypeChoices->Insert(type1, plainTextExtensions1);
+
+				auto plainTextExtensions2 = ref new Platform::Collections::Vector<Platform::String^>();
+				Platform::String^ type2 = ref new Platform::String(L"JPEG");
+				plainTextExtensions2->Append(".jpg");
+				pick->FileTypeChoices->Insert(type2, plainTextExtensions2);
+
+				auto plainTextExtensions3 = ref new Platform::Collections::Vector<Platform::String^>();
+				Platform::String^ type3 = ref new Platform::String(L"TIFF");
+				plainTextExtensions3->Append(".tiff");
+				pick->FileTypeChoices->Insert(type3, plainTextExtensions3);
+
+				auto plainTextExtensions4 = ref new Platform::Collections::Vector<Platform::String^>();
+				Platform::String^ type4 = ref new Platform::String(L"GIF");
+				plainTextExtensions4->Append(".gif");
+				pick->FileTypeChoices->Insert(type4, plainTextExtensions4);
+
+				auto plainTextExtensions5 = ref new Platform::Collections::Vector<Platform::String^>();
+				Platform::String^ type6 = ref new Platform::String(L"Direct Draw Surface");
+				plainTextExtensions5->Append(".dds");
+				pick->FileTypeChoices->Insert(type6, plainTextExtensions5);
+
+				pick->SuggestedFileName = ref new Platform::String(L"RotoDrawScreenShot");
+				Platform::String^ fileNameS = ref new Platform::String();
+				Platform::String^ s = ref new Platform::String(L"C:\\Hot3dxRotoDraw\\x64\\Release\\Hot3dxRotoDraw\\AppX\\Assets\\Textures\\");
+				//s = L"Assets\\Textures\\";//GetProgramDirPathDXP();
+				Platform::String^ sfile = ref new Platform::String(s->Data());
+				sfile = sfile->Concat(sfile, fileNameS);
+
+
+				create_task(pick->PickSaveFileAsync()).then([this](StorageFile^ file)
+					{
+						if (file != nullptr)
+						{
+							D3D12_RESOURCE_STATES beforeState = D3D12_RESOURCE_STATE_RENDER_TARGET;
+							D3D12_RESOURCE_STATES afterState = D3D12_RESOURCE_STATE_RENDER_TARGET;
+							std::function<void(IPropertyBag2*)> setCustomProps = nullptr;
+							GUID guidContainerFormat;
+							bool forceSRGB = false;
+							const GUID* targetFormat = (const GUID*)NULL;
+							unsigned int guidFormat = m_Scene11Vars->GetGuidFormatForScreenGrabVars();
+							switch (guidFormat)
+							{
+							case 0:
+							{
+								guidContainerFormat = GUID_ContainerFormatBmp;
+								SaveWICTextureToFile(
+									m_deviceResources->GetCommandQueue(),
+									m_deviceResources->GetRenderTarget(),
+									guidContainerFormat,
+									file->Path->Data(),
+									beforeState,
+									afterState,
+									targetFormat,
+									setCustomProps,
+									forceSRGB
+								);
+							}break;
+							case 1:
+							{
+								guidContainerFormat = GUID_ContainerFormatPng;
+								SaveWICTextureToFile(
+									m_deviceResources->GetCommandQueue(),
+									m_deviceResources->GetRenderTarget(),
+									guidContainerFormat,
+									file->Path->Data(),
+									beforeState,
+									afterState,
+									targetFormat,
+									setCustomProps,
+									forceSRGB
+								);
+							}break;
+							case 2:
+							{
+								guidContainerFormat = GUID_ContainerFormatIco;
+								SaveWICTextureToFile(
+									m_deviceResources->GetCommandQueue(),
+									m_deviceResources->GetRenderTarget(),
+									guidContainerFormat,
+									file->Path->Data(),
+									beforeState,
+									afterState,
+									targetFormat,
+									setCustomProps,
+									forceSRGB
+								);
+							}break;
+							case 3:
+							{
+								guidContainerFormat = GUID_ContainerFormatJpeg;
+								SaveWICTextureToFile(
+									m_deviceResources->GetCommandQueue(),
+									m_deviceResources->GetRenderTarget(),
+									guidContainerFormat,
+									file->Path->Data(),
+									beforeState,
+									afterState,
+									targetFormat,
+									setCustomProps,
+									forceSRGB
+								);
+							}break;
+							case 4:
+							{
+								guidContainerFormat = GUID_ContainerFormatTiff;
+								SaveWICTextureToFile(
+									m_deviceResources->GetCommandQueue(),
+									m_deviceResources->GetRenderTarget(),
+									guidContainerFormat,
+									file->Path->Data(),//fileNameW,
+									beforeState,
+									afterState,
+									targetFormat,
+									setCustomProps,
+									forceSRGB
+								);
+								forceSRGB = true;
+							}break;
+							case 5:
+							{
+								//const wchar_t* fileNameW = L"C:\\Users\\hot3d\\Pictures\\ScreenShots\\ScreenGrab.gif";
+								guidContainerFormat = GUID_ContainerFormatGif;
+								SaveWICTextureToFile(
+									m_deviceResources->GetCommandQueue(),
+									m_deviceResources->GetRenderTarget(),
+									guidContainerFormat,
+									file->Path->Data(),//fileNameW,
+									beforeState,
+									afterState,
+									targetFormat,
+									setCustomProps,
+									forceSRGB
+								);
+							}	break;
+							case 6:
+							{
+								//const wchar_t* fileNameW = L"C:\\Users\\hot3d\\Pictures\\ScreenShots\\ScreenGrab.wmp";
+								guidContainerFormat = GUID_ContainerFormatWmp;
+								SaveWICTextureToFile(
+									m_deviceResources->GetCommandQueue(),
+									m_deviceResources->GetRenderTarget(),
+									guidContainerFormat,
+									file->Path->Data(),//fileNameW,
+									beforeState,
+									afterState,
+									targetFormat,
+									setCustomProps,
+									forceSRGB
+								);
+							}break;
+							default:
+							{
+								guidContainerFormat = GUID_ContainerFormatDds;
+								DirectX::SaveDDSTextureToFile(
+									m_deviceResources->GetCommandQueue(),
+									m_deviceResources->GetRenderTarget(),
+									file->Path->Data(),//fileNameW,fileName->Data(),
+									beforeState,
+									afterState);
+							}break;
+							}
+
+
+							NotifyUser(L"ScreenGrab File Saved" + file->Path, NotifyType::StatusMessage);
+						}// eo if create_task
+						else
+						{
+							NotifyUser(L"ScreenGrab File Save Failure Error", NotifyType::StatusMessage);
+						}
+					});
+
+				//eo switch ctrlswitch
+	/* ScreenGrab* grab = new ScreenGrab();
+		grab->SaveDDSTextureToFile(
+		m_deviceResources->GetCommandQueue(),
+		m_deviceResources->GetRenderTarget(),
+		fileName,
+		beforeState,
+		afterState);// noexcept
+
+	grab->SaveWICTextureToFile(
+		m_deviceResources->GetCommandQueue(),
+		m_deviceResources->GetRenderTarget(),
+		guidContainerFormat,
+		fileNameW,
+		beforeState,
+		afterState,
+		targetFormat,
+		setCustomProps,
+		forceSRGB
+	);
+	*/
+			}break; // eo VirtualKey O
+
+		} //eo if (isCtrlDown && isShifDown)
+	} // eo VirtualKey::B:
 }
 
 void DirectXPage::OnKeyUp(Windows::UI::Core::CoreWindow^ /*window*/, Windows::UI::Core::KeyEventArgs^ args)
@@ -1000,19 +1045,51 @@ void DirectXPage::OnKeyUp(Windows::UI::Core::CoreWindow^ /*window*/, Windows::UI
 	{
 	case VirtualKey::N:
 	{
-		m_bIfRightShiftKeyHeldDrawStraightLine = false;
+		CoreWindow^ w = Window::Current->CoreWindow;
+		auto ctrlState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Control);
+		auto isCtrlDown = ctrlState != CoreVirtualKeyStates::None;
+		auto shiftState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Shift);
+		auto isShiftDown = shiftState != CoreVirtualKeyStates::None;
+		if (isCtrlDown && isShiftDown)
+		{
+			m_bIfRightShiftKeyHeldDrawStraightLine = false;
+		}
 	}break;
 	case VirtualKey::M:
 	{
-		m_bIfLeftShiftKeyHeldDrawStraightLine = false;
+		CoreWindow^ w = Window::Current->CoreWindow;
+		auto ctrlState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Control);
+		auto isCtrlDown = ctrlState != CoreVirtualKeyStates::None;
+		auto shiftState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Shift);
+		auto isShiftDown = shiftState != CoreVirtualKeyStates::None;
+		if (isCtrlDown && isShiftDown)
+		{
+			m_bIfLeftShiftKeyHeldDrawStraightLine = false;
+		}
 	}break;
 	case VirtualKey::L:
 	{
-		m_bIfLeftShiftKeyHeldDraw45Line = false;
+		CoreWindow^ w = Window::Current->CoreWindow;
+		auto ctrlState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Control);
+		auto isCtrlDown = ctrlState != CoreVirtualKeyStates::None;
+		auto shiftState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Shift);
+		auto isShiftDown = shiftState != CoreVirtualKeyStates::None;
+		if (isCtrlDown && isShiftDown)
+		{
+			m_bIfLeftShiftKeyHeldDraw45Line = false;
+		}
 	}break;
 	case VirtualKey::K:
 	{
-		m_bIfRightShiftKeySphereRadius = false;
+		CoreWindow^ w = Window::Current->CoreWindow;
+		auto ctrlState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Control);
+		auto isCtrlDown = ctrlState != CoreVirtualKeyStates::None;
+		auto shiftState = w->GetForCurrentThread()->GetKeyState(VirtualKey::Shift);
+		auto isShiftDown = shiftState != CoreVirtualKeyStates::None;
+		if (isCtrlDown && isShiftDown)
+		{
+			m_bIfRightShiftKeySphereRadius = false;
+		}
 	}break;
 	}// eo switch(Key
 	if (static_cast<UINT>(args->VirtualKey) < 256)
@@ -1020,6 +1097,7 @@ void DirectXPage::OnKeyUp(Windows::UI::Core::CoreWindow^ /*window*/, Windows::UI
 		m_main->GetSceneRenderer()->SetRotateKeyPressed(false);
 	}
 }
+
 void Hot3dxRotoDraw::DirectXPage::IDC_SET_POINTS_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	m_main->GetSceneRenderer()->SetPoints();
