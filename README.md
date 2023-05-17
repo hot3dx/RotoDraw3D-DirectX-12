@@ -68,8 +68,12 @@ Setup for pen, mouse, or touchpad. a pen is best
 ### The text collada and obj file writers allow importation into the fbx Visual Studio modeller
 ### and import into Blender. Can be edited in Notepad 
 
-Bitcoin donations accepted:
+# Bitcoin and Steem donations accepted:
 BTC 32HVJHEXh9bMLVkmoSE1d389q2Q1YvfrNE
+
+
+Steem
+@jeff-kubitz
 
 
 ## KNOWN ISSUES
@@ -112,7 +116,7 @@ Left-Right Horizontal (y axis Rotation for object view
 
 F - exits FullScreen mode button clicked in Settings Page
 
-Shift N, M, L hold down while drawing draw horizontal, Vertical, 45 degree angle lines
+Ctrl + Shift N, M, L hold down while drawing draw horizontal, Vertical, 45 degree angle lines
 
 Z-X, C-V - adjust width and height ratios so the mouse matches the cursor for your screen size
 
