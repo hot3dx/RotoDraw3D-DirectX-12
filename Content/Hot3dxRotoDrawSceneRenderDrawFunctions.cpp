@@ -70,7 +70,7 @@ uint16_t Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPoints(uint16_t n)
 				}
 			}
 		}
-		else
+		else if (!m_bIsYAxis)
 		{
 			for (unsigned int i = 0; i < m_iPointCount; i++)
 			{
@@ -98,21 +98,24 @@ uint16_t Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPoints(uint16_t n)
 
 			if (closed == true)
 			{
-				size_t sz = m_PtGroupList.size() - 1;
-				for (unsigned int i = 0; i < m_iPointCount; i++)
+				IncrementPtGroups();
+				if (!m_bIsYAxis)
 				{
-					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i) * m_fScale1stLineDrawnPts, posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
-					vertices.push_back(vpc);
-					m_PtGroupList.at(sz)->SetPtList(i, k);
-					k++;
+					size_t sz = m_PtGroupList.size() - 1;
+					for (unsigned int i = 0; i < m_iPointCount; i++)
+					{
+						DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i) * m_fScale1stLineDrawnPts, posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
+						vertices.push_back(vpc);
+						m_PtGroupList.at(sz)->SetPtList(i, k);
+						k++;
+					}
 				}
-
 			}// EO if (closed == true)
 		}
-		
-	m_iTotalPointCount = vertices.size();
-	m_iGroupCount = (unsigned int)m_PtGroupList.size();
-	return k;
+
+		m_iTotalPointCount = vertices.size();
+		m_iGroupCount = (unsigned int)m_PtGroupList.size();
+		return k;
 }
 
 void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTop()
@@ -177,7 +180,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTop()
 			} // eo for i
 		}// EO if (closed == true)
 	}
-	else  // if (m_bIsYAxis)
+	else if (!m_bIsYAxis)
 	{
 		for (unsigned int j = 0; j < cnt; j++)
 		{
@@ -210,7 +213,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPointsTop()
 			IncrementPtGroups();
 			for (unsigned int i = 0; i < m_iPointCount; i++)
 			{
-				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i) * m_fScale1stLineDrawnPts, posY->get(i), posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
+				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i), posY->get(i) * m_fScale1stLineDrawnPts, posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 				vertices.push_back(vpc);
 				m_PtGroupList.at(j)->SetPtList(i, k);
 				k++;

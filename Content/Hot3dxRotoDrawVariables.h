@@ -7,7 +7,8 @@
 #include "Scenario7_SphereDraw.xaml.h"
 #include "Scenario10_Sculpt.xaml.h"
 #include "Scenario11_GridorPic.xaml.h"
-
+#include "Content\Hot3dxRotoDrawSceneRender.h"
+#include "Content\Hot3dxVertexTypes.h"
 
 namespace Hot3dxRotoDraw
 {
@@ -171,6 +172,9 @@ namespace Hot3dxRotoDraw
 		bool GetBottomOrRightChecked() { return m_bBottomOrRightChecked; }
 		void SetBottomOrRightChecked(bool b) { m_bBottomOrRightChecked = b; }
 		
+		bool GetColorOnlyNoTexture() { return m_bColorOnlyNoTextureChecked; }
+		void SetColorOnlyNoTexture(bool b) { m_bColorOnlyNoTextureChecked = b; }
+		
 		Windows::UI::Color GetPointColor() { return m_pointColor; }
 		void SetPointColor(Windows::UI::Color b) { m_pointColor = b; }
 		
@@ -194,6 +198,8 @@ namespace Hot3dxRotoDraw
 		bool m_bAxisChecked;
 		bool m_bTopOrLeftChecked;
 		bool m_bBottomOrRightChecked;
+		bool m_bColorOnlyNoTextureChecked;
+
 		Windows::UI::Color m_pointColor;
 		//Windows::UI::Xaml::Controls::TextBox^ m_PointSpaceTextBox;
 		bool m_bOpenOrClosedChecked;
@@ -279,7 +285,7 @@ namespace Hot3dxRotoDraw
 			r1 = 255; g1 = 255; b1 = 255; a1 = 255;
 			r2 = 255; g2 = 255; b2 = 255; a2 = 255;
 
-			float ar[14] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,1.0f, 1.0f, 1.0f };
+			float ar[14] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f };
 			
 
 			// initialize materials with ar[] values
@@ -647,13 +653,70 @@ namespace Hot3dxRotoDraw
 		bool GetSculptZChecked() { return m_bSculptZChecked; }
 		void SetSculptZChecked(bool b) { m_bSculptZChecked = b; }
 
+		std::vector<DirectX::DXTKXAML12::VertexPositionColor> GetVerticesHRV() { return verticesHRV; }
+		void SetVerticesHRV(const std::vector<DirectX::DXTKXAML12::VertexPositionColor> verts, size_t size) {
+			verticesHRV.clear();
+			verticesHRV.reserve(size);
+			for (size_t i = 0; i < size; i++) { verticesHRV.at(i) = verts.at(i); }
+		}
+		XMFLOAT3 GetVertexPositionHRV(size_t i) { return verticesHRV.at(i).position; }
+		void SetVertexPositionHRV(size_t i, DirectX::DXTKXAML12::VertexPositionColor position) { verticesHRV.at(i).position = position.position; }
+	
+		std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> GetVertexesHRV() { return vertexesHRV; }
+				void SetVertexesHRV(std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> verts, size_t size) { 
+			vertexesHRV.clear();
+			vertexesHRV.reserve(size);
+			for (size_t i = 0; i < size; i++) { vertexesHRV.at(i) = verts.at(i); }
+		}
+
+		XMFLOAT3 GetVertexesPositionHRV(size_t i) { return vertexesHRV.at(i).position; }
+		void SetVertexesPositionHRV(size_t i, DirectX::DXTKXAML12::VertexPositionNormalTexture position) { vertexesHRV.at(i).position = position.position; }
+
+		std::vector<DirectX::DXTKXAML12::VertexPositionDualTexture> GetVerticesDualHRV() { return verticesDualHRV; }
+		void SetVerticesDualHRV(std::vector<DirectX::DXTKXAML12::VertexPositionDualTexture> verts, size_t size) {
+			verticesDualHRV.clear();
+			verticesDualHRV.reserve(size);
+			for (size_t i = 0; i < size; i++) { verticesDualHRV.at(i) = verts.at(i); }
+		}
+
+		XMFLOAT3 GetVertexPositionDualHRV(size_t i) { return verticesDualHRV.at(i).position; }
+		void SetVertexPositionDualHRV(size_t i, DirectX::DXTKXAML12::VertexPositionDualTexture position) { verticesDualHRV.at(i).position = position.position; }
+
+		std::vector<Hot3dxRotoDraw::VertexPositionNormalTextureTangent> GetVerticesPBR() { return verticesPBRHRV; }
+		void SetVerticesPBRHRV(std::vector<Hot3dxRotoDraw::VertexPositionNormalTextureTangent> verts, size_t size) {
+			verticesPBRHRV.clear();
+			verticesPBRHRV.reserve(size);
+			for (size_t i = 0; i < size; i++) { verticesPBRHRV.at(i) = verts.at(i); }
+		}
+
+		XMFLOAT3 GetVertexositionPBRHRV(size_t i) { return verticesPBRHRV.at(i).position; }
+		void SetVertexPositionPBRHRV(size_t i, Hot3dxRotoDraw::VertexPositionNormalTextureTangent position) { verticesPBRHRV.at(i).position = position.position; }
+
+		XMFLOAT3 GetVertexositionSculptRV(size_t i) { return verticesSculptHRV.at(i).position; }
+		void SetVertexPositionSculptHRV(size_t i, DirectX::DXTKXAML12::VertexPositionColor position) { verticesSculptHRV.at(i).position = position.position; }
+
+		Platform::Array<unsigned int>^ GetPtGrpList() { return ptgrplist; }
+		void SetPtGrpList(Platform::Array<unsigned int>^ list) { ptgrplist=list; }
+		Platform::Array<unsigned int>^ ptgrplist = ref new Platform::Array<unsigned int>(0);
+
 	private:
 
 		Scenario10_Sculpt^ _scenario10Page;
+
 		bool m_bSculptChecked;
 		bool m_bSculptXChecked;
 		bool m_bSculptYChecked;
 		bool m_bSculptZChecked;
+
+		std::vector<DirectX::DXTKXAML12::VertexPositionColor> verticesHRV;
+		std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexesHRV;
+		std::vector<DirectX::DXTKXAML12::VertexPositionDualTexture> verticesDualHRV;
+		std::vector<Hot3dxRotoDraw::VertexPositionNormalTextureTangent> verticesPBRHRV;
+		std::vector<DirectX::DXTKXAML12::VertexPositionColor> verticesSculptHRV;
+		//std::vector<DirectX::DXTKXAML12::VertexPositionNormalColorTexture> verticesPBR;
+		std::vector<uint16_t> indices;
+		std::vector<float> textureU;
+
 	};
 
 	public ref class Scenario11Vars sealed

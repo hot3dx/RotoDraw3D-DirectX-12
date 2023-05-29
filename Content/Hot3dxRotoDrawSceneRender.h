@@ -286,6 +286,7 @@ namespace Hot3dxRotoDraw
 				m_bIsDualTextureModel = false;
 				m_bIsPBRModel = false;
 				m_bIsVideoTextureModel = false;
+				m_bIsSculptWireframe = false;
 			}break;
 			case 1:
 			{
@@ -293,6 +294,7 @@ namespace Hot3dxRotoDraw
 				m_bIsBasicModel = false;
 				m_bIsPBRModel = false;
 				m_bIsVideoTextureModel = false;
+				m_bIsSculptWireframe = false;
 			}break;
 			case 2:
 			{
@@ -300,10 +302,20 @@ namespace Hot3dxRotoDraw
 				m_bIsDualTextureModel = false;
 				m_bIsBasicModel = false;
 				m_bIsVideoTextureModel = false;
+				m_bIsSculptWireframe = false;
+			}break;
+			case 3:
+			{
+				m_bIsVideoTextureModel = true;
+				m_bIsBasicModel = false;
+				m_bIsDualTextureModel = false;
+				m_bIsPBRModel = false;
+				m_bIsSculptWireframe = false;
 			}break;
 			default:
 			{
-				m_bIsVideoTextureModel = true;
+				m_bIsSculptWireframe = true;
+				m_bIsVideoTextureModel = false;
 				m_bIsBasicModel = false;
 				m_bIsDualTextureModel = false;
 				m_bIsPBRModel = false;
@@ -311,9 +323,11 @@ namespace Hot3dxRotoDraw
 			}
 		}
 		void XM_CALLCONV InitDrawnObjectSingleTexture();
-		void XM_CALLCONV InitDrawnObjectPBRSingleTexture();
+		void XM_CALLCONV InitDrawnObjectPBRFiveTextures();
 		void XM_CALLCONV InitDrawnObjectDualTexture();
 		void XM_CALLCONV InitDrawnObjectVideoTexture();
+		void XM_CALLCONV InitDrawnObjectSculptWireframe();
+
 		Platform::String^ m_hot3dxDirPath = ref new Platform::String();
 		void CameraReset();
 		void XM_CALLCONV ClearDrawnObject();
@@ -334,11 +348,17 @@ namespace Hot3dxRotoDraw
 
 		// Not Yet Used Draws Mesh Points 
 		unsigned int GetPointCount() { return m_iPointCount; }
+		size_t GetTotalPointCount() { return m_iTotalPointCount; }
 		void XM_CALLCONV SetPoints(); // RotoDraw3D old SetPointsButton Function
 		unsigned int GetGroupCount() { return m_iGroupCount; }
 		std::vector<Hot3dxRotoDraw::PtGroups^> GetPtGroupList() { return m_PtGroupList; }
+		Hot3dxRotoDraw::PtGroups^ GetPtGrpList(size_t i) { return m_PtGroupList.at(i); }
 		Platform::Array<uint16_t>^ GetPtGroupListList() { return m_PtGroupList.at(0)->GetPtList(); }
 		std::vector<DirectX::DXTKXAML12::VertexPositionColor> GetVertices() { return vertices; }
+		unsigned int GetVerticeColorIndex(unsigned int j, unsigned int i) { return m_PtGroupList.at(static_cast<size_t>(j))->GetListPt(i); }
+		DirectX::XMFLOAT3 GetVerticeColor(size_t j) { return vertices.at(j).position; }
+		void SetVerticeColor(size_t j, DirectX::XMFLOAT3 posit) { vertices.at(j).position = posit; };
+		std::vector<DirectX::DXTKXAML12::VertexPositionColor> GetVerticesColor() { return vertices; }
 		std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> GetVertexes() { return vertexes; }
 		std::vector<uint16_t> GetIndices() { return indices; }
 		std::vector<float> GetTextureU() { return textureU; }
@@ -456,6 +476,11 @@ namespace Hot3dxRotoDraw
 			m_textureImage1File = nullptr;
 			m_textureImage1File = ref new Platform::String(fileName->Data());
 		}
+		Platform::String^ GetTextureImage1FileName() { return m_texture1Name; }
+		void SetTextureImage1FileName(Platform::String^ fileName) {
+			m_texture1Name = nullptr;
+			m_texture1Name = ref new Platform::String(fileName->Data());
+		}
 		Platform::String^ GetTextureImage2File() { return m_textureImage2File; }
 		void SetTextureImage2File(Platform::String^ fileName) {
 			m_textureImage2File = nullptr;
@@ -522,6 +547,7 @@ namespace Hot3dxRotoDraw
 
 		bool GetIsYAxis() { return m_bIsYAxis; }
 		void SetIsYAxis(bool b) { m_bIsYAxis = b; }
+		
 
 	private:
 
@@ -543,6 +569,7 @@ namespace Hot3dxRotoDraw
 		float* XM_CALLCONV GetU(XMVECTOR v, Platform::Array<float>^ box);
 		// Needed to Get DirectXPage^
 		Hot3dxRotoDrawVariables^ m_vars;
+		
 
 	protected private:
 
@@ -569,8 +596,8 @@ namespace Hot3dxRotoDraw
 		Platform::Array<unsigned int>^ m_iTempGroup = ref new Platform::Array<unsigned int>(10000);
 		Platform::Array<float>^ m_iTempMouseX = ref new Platform::Array<float>(10000);
 		Platform::Array<float>^ m_iTempMouseY = ref new Platform::Array<float>(10000);
-
-		std::vector<Hot3dxRotoDraw::PtGroups^> m_PtGroupList;// = ref new Platform::Array<PtGroups>(360);
+		
+		std::vector<Hot3dxRotoDraw::PtGroups^> m_PtGroupList;
 		std::vector<DirectX::DXTKXAML12::VertexPositionColor> vertices;
 		std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes;
 		std::vector<DirectX::DXTKXAML12::VertexPositionDualTexture> verticesDual;
@@ -670,8 +697,9 @@ namespace Hot3dxRotoDraw
 		std::unique_ptr<DirectX::DXTKXAML12::AlphaTestEffect>                               m_shapeDrawnObjectAlphaEffect;
 		std::unique_ptr<DirectX::DXTKXAML12::PrimitiveBatch<DirectX::DXTKXAML12::VertexPositionColor>> m_shapeDrawnObject;
 		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_shapeDrawnObjectTex;
+		std::unique_ptr<Hot3dxDrawnObject>                            m_shapeDrawnObjectSculpt;
 		std::unique_ptr<DirectX::DXTKXAML12::PrimitiveBatch<Hot3dxRotoDraw::VertexPositionNormalTextureTangent>> m_shapeDrawnObjectPBR;
-		std::shared_ptr<DirectX::DXTKXAML12::ResourceUploadBatch>                           mesourceUploadDrawnObject;
+		//std::shared_ptr<DirectX::DXTKXAML12::ResourceUploadBatch>                           m_resourceUploadDrawnObject;
 		std::unique_ptr<DirectX::DXTKXAML12::GraphicsMemory>                                m_graphicsMemoryDrawnObject;
 
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_texture1;
@@ -934,13 +962,14 @@ namespace Hot3dxRotoDraw
 			bool m_bIsDualTextureModel = false;
 			bool m_bIsVideoTextureModel = false;
 			bool m_bIsPlayer = false;
+			bool m_bIsSculptWireframe = false;
 
 			protected private:
 				std::unique_ptr<DirectX::DXTKXAML12::PBREffect>   m_shapeDrawnObjectPBREffect;
 				//Model resources
 				
 				std::vector<std::shared_ptr<DirectX::DXTKXAML12::IEffect>>  m_modelNormal;
-				//std::unique_ptr<DirectX::DXTKXAML12::DescriptorPile>        m_resDescPile;
+				std::unique_ptr<DirectX::DXTKXAML12::DescriptorPile>        m_resDescPile;
 				std::unique_ptr<DirectX::DXTKXAML12::DescriptorHeap>        m_rtvHeap;
 				std::unique_ptr<DirectX::DXTKXAML12::ToneMapPostProcess>    m_toneMap;
 				std::unique_ptr<DirectX::DXTKXAML12::ToneMapPostProcess>    m_HDR10;

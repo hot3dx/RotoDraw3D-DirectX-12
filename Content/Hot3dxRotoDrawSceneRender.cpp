@@ -37,6 +37,7 @@
 #include "FilesSave\Obj3DFile.h"
 #include "FilesSave\Hot3dxTextFileSave.h"
 #include <VertexTypesXaml12.h>
+#include <DescriptorHeapXaml12.h>
 
 #include <stdlib.h>
 #include "Hot3dxObjectGeometry.h"
@@ -119,6 +120,7 @@ RotoDrawSceneRender::RotoDrawSceneRender(const std::shared_ptr<DX::DeviceResourc
 	m_bIsBasicModel(true),
 	m_bIsDualTextureModel(false),
 	m_bIsVideoTextureModel(false),
+	m_bIsSculptWireframe(false),
 	m_bIsPlayer(false),
 	m_sharedVideoTexture(nullptr),
 	m_videoWidth(0),
@@ -131,7 +133,7 @@ RotoDrawSceneRender::RotoDrawSceneRender(const std::shared_ptr<DX::DeviceResourc
 
 {
 	if (m_IsLeftHanded) { m_EyeZ = -m_fCameraDistance; }
-
+	
 	LoadState();
 	ZeroMemory(&m_constantBufferData, sizeof(m_constantBufferData));
 
@@ -167,9 +169,11 @@ void RotoDrawSceneRender::CreateDeviceDependentResources()
 
 			return;
 		}
-
-
-
+		m_resourceUpload.reset();
+		m_graphicsMemory.reset();
+		m_states.reset();
+		m_resourceDescriptors.reset();
+		m_sprites.reset();
 		mediaReader = ref new MediaReader();
 		auto targetHitSound = mediaReader->LoadMedia("Assets\\hit.wav");
 
@@ -185,20 +189,36 @@ void RotoDrawSceneRender::CreateDeviceDependentResources()
 			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
 			D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE,
 			static_cast<size_t>(Descriptors::Count));
+		/*
+		// create heaps
+		m_resDescPile = std::make_unique<DirectX::DXTKXAML12::DescriptorPile>(device,
+			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
+			D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE,
+			128, // Maximum descriptors for both static and dynamic
+			static_cast<size_t>(PBRDescriptors::Reserve));
+		m_rtvHeap = std::make_unique<DescriptorHeap>(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, D3D12_DESCRIPTOR_HEAP_FLAG_NONE, 1);
+		// Set up HDR render target.
+		
+		//RenderTargetState backBufferRts(Sample::GetBackBufferFormat(), Sample::GetDepthFormat());
+		// Above translates to:
+		RenderTargetState backBufferRts(DXGI_FORMAT_R10G10B10A2_UNORM, DXGI_FORMAT_D32_FLOAT);
 
+		// HDR10 signal
+		m_HDR10 = std::make_unique<DirectX::DXTKXAML12::ToneMapPostProcess>(device, backBufferRts,
+			DirectX::DXTKXAML12::ToneMapPostProcess::None, DirectX::DXTKXAML12::ToneMapPostProcess::ST2084);
 
-
+		// Tonemap for SDR signal
+		m_toneMap = std::make_unique<DirectX::DXTKXAML12::ToneMapPostProcess>(device, backBufferRts,
+			DirectX::DXTKXAML12::ToneMapPostProcess::ACESFilmic, DirectX::DXTKXAML12::ToneMapPostProcess::SRGB);
+		*/
+		m_batch = std::make_unique<DirectX::DXTKXAML12::PrimitiveBatch<DirectX::DXTKXAML12::VertexPositionColor>>(device);
 
 		m_batch = std::make_unique<DirectX::DXTKXAML12::PrimitiveBatch<DirectX::DXTKXAML12::VertexPositionColor>>(device);
 
 		m_shapeTetra = DirectX::DXTKXAML12::GeometricPrimitive::CreateTetrahedron(0.5f);
 
 		m_shapeDrawnObject = std::make_unique<DirectX::DXTKXAML12::PrimitiveBatch<DirectX::DXTKXAML12::VertexPositionColor>>(device);
-
 		
-
-		//m_shapeDrawnObjectPBREffect = std::make_unique<DirectX::DXTKXAML12::BasicEffect>(device);
-
 	// SDKMESH has to use clockwise winding with right-handed coordinates, so textures are flipped in U
 		{
 
@@ -378,10 +398,10 @@ void RotoDrawSceneRender::CreateWindowSizeDependentResources()
 
 	// This is a simple example of change that can be made when the app is in
 	// portrait or snapped view.
-	if (aspectRatio < 1.0f)
-	{
-		fovAngleY *= 2.0f;
-	}
+	//if (aspectRatio < 1.0f)
+	//{
+	//	fovAngleY *= 2.0f;
+	//}
 
 	// Note that the OrientationTransform3D matrix is post-multiplied here
 	// in order to correctly orient the scene to match the display orientation.
@@ -537,8 +557,9 @@ void RotoDrawSceneRender::Update(DX::StepTimer const& timer)
 					m_dualTextureEffect->SetWorld(DirectX::XMMatrixIdentity());
 				}
 			}
-			else{
+			else if (m_bIsPBRModel == true) {
 				if (m_shapeDrawnObjectPBREffect) {
+					//m_sprites->SetViewport(m_sceneDeviceResources->GetScreenViewport());
 					m_shapeDrawnObjectPBREffect->SetView(XMLoadFloat4x4(&m_view4x4));
 					m_shapeDrawnObjectPBREffect->SetWorld(DirectX::XMMatrixIdentity());
 				}
@@ -548,6 +569,7 @@ void RotoDrawSceneRender::Update(DX::StepTimer const& timer)
 		{
 			m_sprites->SetViewport(m_sceneDeviceResources->GetScreenViewport());
 		}
+		
 		PIXEndEvent();
 		
 	}
@@ -687,15 +709,16 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::OnDeviceLost()
 	m_shapeDrawnObjectEffect.reset();
 	m_shapeDrawnObjectPBREffect.reset();
 	m_dualTextureEffect.reset();
+	//m_shapeDrawnObjectPBR.reset();
+	//m_shapeDrawnObjectPBREffect.reset();
 	//m_modelEffects.clear();
 	//m_modelResources.reset();
 	m_sprites.reset();
-	//m_resourceDescriptors.reset();
+	m_resourceDescriptors.reset();
 	//m_resDescPile.reset();
-	m_rtvHeap.reset();
+	//m_rtvHeap.reset();
 	m_states.reset();
 	m_graphicsMemory.reset();
-	m_resourceDescriptors.reset();
 	pos.clear();
 	pos.resize(0);
 
@@ -823,10 +846,11 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::MouseCursorRender(float po
 						DirectX::XMVectorSetX(mouse3dPos, XMVectorGetX(intersect));
 						DirectX::XMVectorSetY(mouse3dPos, XMVectorGetX(intersect));
 						DirectX::XMVectorSetZ(mouse3dPos, z);
-						m_posX = XMVectorGetX(mouse3dPos);
-						m_posY = XMVectorGetY(mouse3dPos);
-						m_posZ = XMVectorGetZ(mouse3dPos);
-				   
+						/* causes mouse to read wrong so this function sucks
+						//m_posX = XMVectorGetX(mouse3dPos);
+						//m_posY = XMVectorGetY(mouse3dPos);
+						//m_posZ = XMVectorGetZ(mouse3dPos);
+				        */
 								
 			}
 	    }
@@ -1269,13 +1293,14 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::SetPoints()
 				
 				if (m_bIsBasicModel == true) { InitDrawnObjectSingleTexture(); }
 				else if (m_bIsDualTextureModel == true) { InitDrawnObjectDualTexture(); }
-				else if (m_bIsPBRModel == true) { InitDrawnObjectPBRSingleTexture(); }
+				else if (m_bIsPBRModel == true) { InitDrawnObjectPBRFiveTextures(); }
 				else if (m_bIsVideoTextureModel == true) { InitDrawnObjectVideoTexture(); }
 				m_iDrawMode = 2;
 		});
 
 	// Run task on a dedicated high priority background thread.
 	m_drawObjectWorker = ThreadPool::RunAsync(drawItemHandler, WorkItemPriority::High, WorkItemOptions::TimeSliced);
+	//m_drawObjectWorker->Completed::get();
 }
 
 bool RotoDrawSceneRender::RenderPBR(DirectX::XMMATRIX localDrawnObject)
@@ -1339,14 +1364,7 @@ bool RotoDrawSceneRender::Render()
 	{
 		return false;
 	}
-	if (m_bIsVideoTextureModel == true && m_shapeDrawnObjectEffect) {
-		RECT r = { 0, 0, long(m_videoWidth), long(m_videoHeight) };
-		MFVideoNormalizedRect rect = { 0.0f, 0.0f, 1.0f, 1.0f };
-		if (m_bIsPlayer)//&& m_player->IsPlaying() == true && m_player->IsInfoReady())
-		{
-			m_player->TransferFrame(m_sharedVideoTexture, rect, r);
-		}
-	}
+	
 	// Prepare the command list to render a new frame.
 	m_sceneDeviceResources->Prepare();
 	Clear();
@@ -1373,7 +1391,7 @@ bool RotoDrawSceneRender::Render()
 		const XMVECTORF32 xaxis12 = { 10.f, 0.f, 0.f };
 		const XMVECTORF32 yaxis12 = { 0.f, 10.f, 0.f };
 		const XMVECTORF32 zaxis12 = { 0.f, 0.f, 0.f };
-		
+		//DrawSprites(commandList);
 	}
 	///////////////////////////////////////
 	// Set the descriptor heaps
@@ -1411,10 +1429,7 @@ bool RotoDrawSceneRender::Render()
 		//DrawLineOnlyObject(xaxis12, yaxis12, zaxis12, color);
 		DrawLineOnlyObject(color);
 	}
-
-	
-
-	
+		
 	if (m_loadingDrawnObjectComplete)
 	{
 		
@@ -1459,12 +1474,27 @@ bool RotoDrawSceneRender::Render()
 			if (m_dualTextureEffect) {
 				m_dualTextureEffect->SetWorld(localDrawnObject);
 				m_dualTextureEffect->Apply(commandList);
-				m_shapeDrawnObjectTex->Draw(commandList);
+				//m_shapeDrawnObjectTex->Draw(commandList);
+				m_hot3dxDrawnObject->Draw(commandList);
 			}
 		}
 		else if (m_bIsPBRModel == true)
 		{
 			if (m_shapeDrawnObjectPBREffect) {
+				/*
+				auto vp = m_sceneDeviceResources->GetScreenViewport();
+				m_batchOpaque->SetViewport(vp);
+				RECT output{ 0, 0, long(m_sceneDeviceResources->GetOutputSize().Width), long(m_sceneDeviceResources->GetOutputSize().Height) };
+				RECT safeRect = DirectX::DXTKXAML12::SimpleMath::Viewport::ComputeTitleSafeArea(output.right, output.bottom);
+				m_batchOpaque->Begin(commandList);
+
+				m_batchOpaque->Draw(
+					m_resourceDescriptors->GetGpuHandle(static_cast<size_t>(PBRDescriptors::NormalTex)),
+					XMUINT2(vp.Width, vp.Height),
+					XMFLOAT2(float(safeRect.left), float(safeRect.top)), nullptr, Colors::White);
+				m_batchOpaque->End();
+				*/
+				//RenderPBR(localDrawnObject);
 				m_shapeDrawnObjectPBREffect->SetWorld(localDrawnObject);
 				m_shapeDrawnObjectPBREffect->Apply(commandList);
 				m_hot3dxDrawnObject->Draw(commandList);
@@ -1491,10 +1521,17 @@ bool RotoDrawSceneRender::Render()
 			    m_shapeDrawnObjectTex->Draw(commandList);
 			}
 		}
-		
+		else if (m_bIsSculptWireframe == true)
+		{
+			if (m_shapeDrawnObjectEffect) {
+
+				m_shapeDrawnObjectEffect->SetWorld(localDrawnObject);
+				m_shapeDrawnObjectEffect->Apply(commandList);
+				m_shapeDrawnObjectSculpt->Draw(commandList);
+			}
+		}
 		PIXEndEvent(commandList);
 	}
-
 	
 		//PIXEndEvent(commandList);
 	
@@ -1542,12 +1579,26 @@ bool RotoDrawSceneRender::Render()
 	*/
 	}
 
-	DrawSprites(commandList);
+	PIXEndEvent(commandList);
+
+	// Show the new frame.
+	PIXBeginEvent(m_sceneDeviceResources->GetCommandQueue(), PIX_COLOR_DEFAULT, L"Present");
+	if (m_bIsVideoTextureModel == true) {
+		RECT r = { 0, 0, long(m_videoWidth), long(m_videoHeight) };
+		MFVideoNormalizedRect rect = { 0.0f, 0.0f, 1.0f, 1.0f };
+		if (m_bIsPlayer && m_player->IsPlaying() == true)// && m_player->IsInfoReady())
+		{
+			m_player->TransferFrame(m_sharedVideoTexture, rect, r);
+		}
+	}
+	if (m_vars->GetDXPage()->m_Scene11Vars->GetGridChecked() == true)
+	{
+		m_sprites->SetViewport(m_sceneDeviceResources->GetScreenViewport());
+		DrawSprites(commandList);
+	}
 	
 	PIXEndEvent(commandList);
 	//////////////////////////////////////
-	
-	// Show the new frame.
 	PIXBeginEvent(m_sceneDeviceResources->GetCommandQueue(), PIX_COLOR_DEFAULT, L"Present");
 
 	m_sceneDeviceResources->Present();
@@ -1612,7 +1663,11 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::Draw3DCursorXY(XMFLOAT3 cu
 			DirectX::DXTKXAML12::VertexPositionColor v5(XMVectorSet(posCursor.x, posCursor.y, posCursor.z - len, 0.0f), color3);
 			DirectX::DXTKXAML12::VertexPositionColor v6(XMVectorSet(posCursor.x, posCursor.y, posCursor.z + len, 0.0f), color3);
 			m_batch->DrawLine(v5, v6);
-
+			
+			if (checkDistance(curPos.x, curPos.y, curPos.z, m_vars->GetDXPage()->GetPointSpacingDXP()))
+				m_posX = curPos.x;
+			    m_posY = curPos.y;
+			    m_posZ = curPos.z;
 			if (m_bLButtonDown)
 			{
 				if(checkDistance(curPos.x, curPos.y, curPos.z, m_vars->GetDXPage()->GetPointSpacingDXP()))
@@ -1752,7 +1807,8 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridXY(FXMVECTOR xAxis
 
 void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawSprites(ID3D12GraphicsCommandList* commandList)
 {
-		ID3D12DescriptorHeap* heaps[] = { m_resourceDescriptors->Heap(), m_states->Heap() };
+	
+		ID3D12DescriptorHeap* heaps[] = { m_resourceDescriptors->Heap(), m_states->Heap()};
 		commandList->SetDescriptorHeaps(_countof(heaps), heaps);
 		//auto commandList = m_sceneDeviceResources->GetCommandList();
 		// Draw sprite
@@ -1813,10 +1869,17 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawSprites(ID3D12Graphics
 		m_GroupCountFont->DrawString(m_sprites.get(),
 			PointCountString(m_fontStringGroupCount, "#Lines", (unsigned int)m_iLineCount)->Data(),
 			XMFLOAT2(540, 950), Colors::Black);
-	*/
+	
+		const D3D12_VIEWPORT viewport = m_sceneDeviceResources->GetScreenViewport();
 
+		m_sprites->SetViewport(viewport);
+
+		m_sprites->SetRotation(m_sceneDeviceResources->GetRotation());
+		DirectX::XMUINT2 texDim{ (uint32_t)viewport.Width, (uint32_t)viewport.Height };
+		m_sprites->Draw(m_resourceDescriptors->GetGpuHandle((size_t)PBRDescriptors::PicTex), texDim, Colors::Black);
+		*/
 		m_sprites->End();
-
+		
 		PIXEndEvent(commandList);
 	
 }
@@ -2141,534 +2204,6 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridPicRectangle()
 	m_drawMode = m_drawMode == (int)RotoDrawDrawMode::DrawLineOnlyObject;
 }
 
-void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectSingleTexture()
-{
-	if (m_loadingDrawnObjectComplete == false)
-	{
-		auto device = m_sceneDeviceResources->GetD3DDevice();
-
-		if (!device)
-		{
-			return;
-		}
-	size_t cnt = vertices.size();
-	DirectX::DXTKXAML12::VertexPositionColor* vpc = vertices.data();
-	// Makes the Box Frame Dimensions float* box is created 
-	InitDimensionsBox();
-	CreateDimensions(&vpc->position, cnt);
-	GetUVPercent();
-
-	for (size_t i = 0; i < cnt; i++)
-	{
-	    XMVECTOR n = DirectX::XMVector3Normalize(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f));
-		if (i > textureU.size()) { textureU.push_back(0.0f); }
-		if (i > textureV.size()) { textureV.push_back(0.0f); }
-		DirectX::DXTKXAML12::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(textureU.at(i), textureV.at(i)) };
-		vertexes.push_back(vpnt);
-	}
-
-	if (vertices.size() <= 0)return;
-	if (indices.size() == 0)return;
-	m_shapeDrawnObjectTex = GeometricPrimitive::CreateCustom(vertexes, indices, device);
-	{
-		DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadDrawnObject = new DirectX::DXTKXAML12::ResourceUploadBatch(device);
-
-		// Begin Resource Upload
-		m_resourceUploadDrawnObject->BeginXaml();
-
-		if (m_bDDS_WIC_FLAG1 == true)
-		{
-			LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1, GetMsgTypes(0), GetMessages(0));
-		} // If there is a failure here it is because the open file dialog is not in the project directory
-
-		DirectX::DXTKXAML12::CreateShaderResourceView(device, m_DrawnMeshTexture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture1)));
-		
-		RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());
-		
-		// Each effect object must be proceeded by its own 
-		// EffectPipelineStateDescription pd 
-		// even if the EffectPipelineStateDescription pd is the same
-		
-		{
-			EffectPipelineStateDescription pdSDOE(
-				&GeometricPrimitive::VertexType::InputLayout,
-				CommonStates::Opaque,
-				CommonStates::DepthDefault,
-				GetCommonStatesRasterizerDescp12(m_iCullNoneToWireframe),
-				rtState,
-				D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE				
-			);
-			
-			//Transparent materials
-			EffectPipelineStateDescription pdAlphaSDOE(
-				&GeometricPrimitive::VertexType::InputLayout,
-				CommonStates::AlphaBlend,
-				CommonStates::DepthDefault,
-				GetCommonStatesRasterizerDescp12(m_iCullNoneToWireframe),
-				rtState);
-			
-			// Vertex Position Color
-			EffectPipelineStateDescription pdVPC(
-		        &DirectX::DXTKXAML12::VertexPositionColor::InputLayout,
-		    	DirectX::DXTKXAML12::CommonStates::Opaque,
-		    	DirectX::DXTKXAML12::CommonStates::DepthNone,
-		        DirectX::DXTKXAML12::CommonStates::CullNone,
-		    	rtState,
-		     	D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE);
-			
-			m_shapeDrawnObjectEffect = std::make_unique<BasicEffect>(device, EffectFlags::PerPixelLighting | EffectFlags::Texture, pdSDOE);
-			//m_shapeDrawnObjectEffect = std::make_unique<BasicEffect>(device, EffectFlags::PerPixelLighting | EffectFlags::Texture, pdAlphaSDOE);
-			//m_shapeDrawnObjectEffect = std::make_unique<BasicEffect>(device, EffectFlags::VertexColor, pdVPC);
-			
-			m_shapeDrawnObjectEffect->EnableDefaultLighting();
-			m_shapeDrawnObjectEffect->SetDiffuseColor(XMVECTOR{ 1.0f,1.0f ,1.0f,1.0f });
-			m_shapeDrawnObjectEffect->SetTexture(m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::DrawnObjectTexture1)), GetWrapType(m_states.get(), m_iSamplIndexWrap));
-		}
-		auto loaded = m_resourceUploadDrawnObject->EndXaml(m_sceneDeviceResources->GetCommandQueue());
-		WaitForSingleObject(m_resourceUploadDrawnObject->GetGPUHandle(), INFINITE);
-
-		m_shapeDrawnObjectEffect->SetProjection(XMLoadFloat4x4(&m_projection4x4));
-		m_sceneDeviceResources->WaitForGpu();
-		loaded.then([this]()
-			{
-				m_loadingDrawnObjectComplete = true;
-		        m_bIsBasicModel = true;
-		    });
-	}
-	}
-}
-
-void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRSingleTexture()
-{
-	if (m_loadingDrawnObjectComplete == false)
-	{
-		
-		auto device = m_sceneDeviceResources->GetD3DDevice();
-
-		if (!device)
-		{
-			return;
-		}
-		size_t cnt = vertices.size();
-		DirectX::DXTKXAML12::VertexPositionColor* vpc = vertices.data();
-		// Makes the Box Frame Dimensions float* box is created 
-		InitDimensionsBox();
-		CreateDimensions(&vpc->position, cnt);
-		GetUVPercent();
-		
-		//verticesPBR.resize(0);
-		for (size_t i = 0; i < cnt; i++)
-		{
-			
-			XMVECTOR n = DirectX::XMVector3Normalize(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f));
-			if (i > textureU.size()) { textureU.push_back(0.0f); }
-			if (i > textureV.size()) { textureV.push_back(0.0f); }
-			XMVECTOR incident = DirectX::XMVECTOR(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f));
-			float a = XMVectorGetX(n) * cosf(vertices.at(i).position.x);
-			float b = XMVectorGetY(n) * sinf(vertices.at(i).position.y);
-			XMVECTOR t = { a, b, XMVectorGetZ(n) * tanf(vertices.at(i).position.z) };
-			XMVECTOR tan = XMVector3Cross(incident, n); // XMVector4Reflect(incident, n);
-			
-			
-			Hot3dxRotoDraw::VertexPositionNormalTextureTangent vpntt = Hot3dxRotoDraw::VertexPositionNormalTextureTangent(XMFLOAT3(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n), XMVectorGetY(n), XMVectorGetZ(n)), XMFLOAT2(textureU.at(i), textureV.at(i)),
-				XMFLOAT4(XMVectorGetW(tan), XMVectorGetX(tan), XMVectorGetY(tan), XMVectorGetZ(tan)) );
-			/*
-			DirectX::DXTKXAML12::VertexPositionNormalColorTexture vpntt = DirectX::DXTKXAML12::VertexPositionNormalColorTexture(
-				XMFLOAT3(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z), 
-				XMFLOAT3(XMVectorGetX(n), XMVectorGetY(n), XMVectorGetZ(n)), 
-				XMFLOAT4(XMVectorGetW(tan), XMVectorGetX(tan), XMVectorGetY(tan), XMVectorGetZ(tan)),
-				XMFLOAT2(textureU.at(i), textureV.at(i))
-				);
-			*/	
-			verticesPBR.push_back(vpntt);
-			
-		}
-		
-		if (verticesPBR.size() <= 0)return;
-		if (indices.size() == 0)return;
-
-		// Set the descriptor heaps
-		//m_hot3dxDrawnObject = Works no texture coordinates - Hot3dxDrawnObject::CreateCustom(vertices, indices, device);
-		//m_hot3dxDrawnObject = Hot3dxDrawnObject::CreateCustomTangent(verticesPBR, indices, device);
-		m_hot3dxDrawnObject = Hot3dxDrawnObject::CreateDrawnObjectTangent(verticesPBR, indices, device);// fixed - oh yeah baby
-		//m_shapeDrawnObjectTex = GeometricPrimitive::CreateCustom(vertexes, indices, device);
-		{
-			DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadDrawnObject = new DirectX::DXTKXAML12::ResourceUploadBatch(device);
-			m_resourceUploadDrawnObject->BeginXaml();
-
-			if (m_bDDS_WIC_FLAG1 == true)
-			{
-				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), m_DrawnMeshTexture1.ReleaseAndGetAddressOf(), GetMsgTypes(0), GetMessages(0));
-				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage4File->Data(), m_NormalTexture.ReleaseAndGetAddressOf(), GetMsgTypes(0), GetMessages(0));
-				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage3File->Data(), m_RMATexture.ReleaseAndGetAddressOf(), GetMsgTypes(0), GetMessages(0));
-				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage5File->Data(), m_radianceIBL.ReleaseAndGetAddressOf(), GetMsgTypes(0), GetMessages(0));
-				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage6File->Data(), m_irradianceIBL.ReleaseAndGetAddressOf(), GetMsgTypes(0), GetMessages(0));
-			} // If there is a failure here it is because the open file dialog is not in the project directory
-
-						
-			//Push mesh texture to resource stores
-			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_DrawnMeshTexture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(PBRDescriptors::PicTex)));
-			//Push normal texture to resource stores
-			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_NormalTexture.Get(), m_resourceDescriptors->GetCpuHandle(size_t(PBRDescriptors::NormalTex)));
-			//Push rma texture to resource stores
-			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_RMATexture.Get(), m_resourceDescriptors->GetCpuHandle(size_t(PBRDescriptors::RMATex)));
-			//Push radiance texture to resource stores
-			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_radianceIBL.Get(), m_resourceDescriptors->GetCpuHandle(size_t(PBRDescriptors::RadianceTex)), false);
-			//Push irradiance texture to resource stores
-			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_irradianceIBL.Get(), m_resourceDescriptors->GetCpuHandle(size_t(PBRDescriptors::IrradianceTex)), false);
-			
-
-			RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());
-			// Each effect object must be proceeded by its own 
-			// EffectPipelineStateDescription pd 
-			// even if the EffectPipelineStateDescription pd is the same
-			//Get effect factory - shouldn't this be per model?! It's currently shared around everything which seems a little odd
-			DirectX::DXTKXAML12::IEffectFactory* fxFactory = nullptr;
-			
-			auto m_fxFactoryPBR = std::make_unique<DirectX::DXTKXAML12::PBREffectFactory>(m_resourceDescriptors->Heap(), m_states->Heap());
-			fxFactory = m_fxFactoryPBR.get();
-			
-			D3D12_INPUT_LAYOUT_DESC inputLayout = VertexPositionNormalTextureTangent::InputLayout;
-			EffectPipelineStateDescription pdPBR(
-				&inputLayout,
-				CommonStates::Opaque,
-				CommonStates::DepthDefault,
-				GetCommonStatesRasterizerDescp12(m_iCullNoneToWireframe),
-				rtState,
-				D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
-			//Transparent materials
-			
-			D3D12_INPUT_LAYOUT_DESC inputLayoutA = VertexPositionNormalTextureTangent::InputLayout;
-			EffectPipelineStateDescription pdAlphaPBR(
-				&inputLayoutA,
-				CommonStates::AlphaBlend,
-				CommonStates::DepthDefault,
-				GetCommonStatesRasterizerDescp12(m_iCullNoneToWireframe),
-				rtState,
-				D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
-			//DirectX::DXTKXAML12::IEffectFactory::EffectInfo einfo = DirectX::DXTKXAML12::IEffectFactory::EffectInfo();
-			//fxFactory->CreateEffect(einfo, pdPBR, pdAlphaPBR, inputLayout, 5, 5);
-			m_shapeDrawnObjectPBREffect = std::make_unique<DirectX::DXTKXAML12::PBREffect>(device, EffectFlags::Texture | EffectFlags::None, pdPBR, false, true);
-			//m_shapeDrawnObjectPBREffect = std::make_unique<DirectX::DXTKXAML12::PBREffect>(device, EffectFlags::None, pdAlphaPBR);
-
-			m_shapeDrawnObjectPBREffect->SetSurfaceTextures(m_resourceDescriptors->GetGpuHandle(size_t(PBRDescriptors::PicTex)),
-				m_resourceDescriptors->GetGpuHandle(size_t(PBRDescriptors::NormalTex)),
-				m_resourceDescriptors->GetGpuHandle(size_t(PBRDescriptors::RMATex)),
-				GetWrapType(m_states.get(), m_iSamplIndexWrap)); //m_states->AnisotropicClamp());
-			//m_shapeDrawnObjectPBREffect->SetAlbedoTexture(m_resourceDescriptors->GetGpuHandle(size_t(PBRDescriptors::PicTex)), m_states->AnisotropicClamp());
-			//m_shapeDrawnObjectPBREffect->SetNormalTexture(m_resourceDescriptors->GetGpuHandle(size_t(PBRDescriptors::NormalTex)));
-			//m_shapeDrawnObjectPBREffect->SetNormalTexture(m_resourceDescriptors->GetGpuHandle(size_t(PBRDescriptors::RMATex)));
-			// Lighting
-			const int numMips = m_radianceIBL->GetDesc().MipLevels - 3;
-
-			m_shapeDrawnObjectPBREffect->SetIBLTextures(
-				m_resourceDescriptors->GetGpuHandle(sizeof(PBRDescriptors::RadianceTex)),
-				numMips,
-				m_resourceDescriptors->GetGpuHandle(sizeof(PBRDescriptors::IrradianceTex)),
-				GetWrapType(m_states.get(), m_iSamplIndexWrap));
-			
-			m_shapeDrawnObjectPBREffect->SetConstantAlbedo(DirectX::DXTKXAML12::SimpleMath::Vector3(1, 1, 1));
-			//int liteCnt = m_shapeDrawnObjectPBREffect->MaxDirectionalLights;
-			m_shapeDrawnObjectPBREffect->EnableDefaultLighting();
-
-			m_shapeDrawnObjectPBREffect->SetAlpha(1.0f);
-			float a = 1.0f;
-			float r = 0.0f;
-			float g = 0.0f;
-			float b = 1.0f;
-			XMVECTOR colorv = XMVectorSet(r, g, b, a);
-			m_shapeDrawnObjectPBREffect->SetLightDiffuseColor(0, colorv);
-			m_shapeDrawnObjectPBREffect->SetConstantMetallic(0.0f);
-			m_shapeDrawnObjectPBREffect->SetConstantRoughness(0.5f);
-									
-				//Static buffers and create TextureEffectFactory
-				m_hot3dxDrawnObject->LoadStaticBuffers(device, *m_resourceUploadDrawnObject);
-				
-			
-			auto loaded = m_resourceUploadDrawnObject->EndXaml(m_sceneDeviceResources->GetCommandQueue());
-			WaitForSingleObject(m_resourceUploadDrawnObject->GetGPUHandle(), INFINITE);
-			m_shapeDrawnObjectPBREffect->SetProjection(XMLoadFloat4x4(&m_projection4x4));
-			m_sceneDeviceResources->WaitForGpu();
-			loaded.then([this]()
-				{
-					m_loadingDrawnObjectComplete = true;
-			        m_bIsPBRModel = true;
-				});
-		}
-	}
-}
-
-void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectDualTexture()
-{
-	if (m_loadingDrawnObjectComplete == false)
-	{
-		auto device = m_sceneDeviceResources->GetD3DDevice();
-
-		if (!device)
-		{
-			return;
-		}
-		size_t cnt = vertices.size();
-		DirectX::DXTKXAML12::VertexPositionColor* vpc = vertices.data();
-		// Makes the Box Frame Dimensions float* box is created 
-		InitDimensionsBox();
-		CreateDimensions(&vpc->position, cnt);
-		GetUVPercent();
-		
-		for (size_t i = 0; i < cnt; i++)
-		{
-			XMVECTOR n = DirectX::XMVector3Normalize(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f));
-			if (i > textureU.size()) { textureU.push_back(0.0f); }
-			if (i > textureV.size()) { textureV.push_back(0.0f); }
-			DirectX::DXTKXAML12::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(textureU.at(i), textureV.at(i)) };
-			vertexes.push_back(vpnt);
-		}
-		
-		for (size_t i = 0; i < cnt; i++)
-		{
-			XMVECTOR n = DirectX::XMVector3Normalize(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f));
-			//if (i > textureU.size()) { textureU.push_back(0.0f); }
-			//if (i > textureV.size()) { textureV.push_back(0.0f); }
-			DirectX::DXTKXAML12::VertexPositionDualTexture vpnt1 = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT2(textureU.at(i), textureV.at(i)), XMFLOAT2(textureU.at(i), textureV.at(i)) };
-			verticesDual.push_back(vpnt1);
-		}
-
-		if (vertices.size() <= 0)return;
-		if (indices.size() == 0)return;
-		m_shapeDrawnObjectTex = GeometricPrimitive::CreateCustom(vertexes, indices, device);
-		
-		{
-			DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadDrawnObject = new DirectX::DXTKXAML12::ResourceUploadBatch(device);
-
-			// Begin Resource Upload
-			m_resourceUploadDrawnObject->BeginXaml();
-
-			if (m_bDDS_WIC_FLAG1 == true)
-			{
-				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1, GetMsgTypes(0), GetMessages(0));
-				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage2File->Data(), &m_DrawnMeshTexture2, GetMsgTypes(0), GetMessages(0));
-			} // If there is a failure here it is because the open file dialog is not in the project directory
-
-			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_DrawnMeshTexture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture1)));
-			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_DrawnMeshTexture2.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture2)));
-
-			
-
-	
-	// Each effect object must be proceeded by its own 
-	// EffectPipelineStateDescription pd 
-	// even if the EffectPipelineStateDescription pd is the same
-    RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());
-
-	{
-
-		EffectPipelineStateDescription pd(
-			&DirectX::DXTKXAML12::VertexPositionDualTexture::InputLayout,
-			DirectX::DXTKXAML12::CommonStates::Opaque,
-			DirectX::DXTKXAML12::CommonStates::DepthDefault,
-			DirectX::DXTKXAML12::CommonStates::CullNone,
-			rtState,
-			D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE
-		);
-
-		m_dualTextureEffect = std::make_unique<DirectX::DXTKXAML12::DualTextureEffect>(device, EffectFlags::VertexColor || EffectFlags::Fog, pd);
-		m_dualTextureEffect->SetAlpha(1.0f);
-		float a = 1.0f;
-		float r = 1.0f;
-		float g = 1.0f;
-		float b = 1.0f;
-		XMVECTOR colorv = XMVectorSet(r, g, b, a);
-		m_dualTextureEffect->SetDiffuseColor(colorv);
-		m_dualTextureEffect->SetTexture(m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::DrawnObjectTexture1)), m_states->AnisotropicWrap());
-		m_dualTextureEffect->SetTexture2(m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::DrawnObjectTexture2)), m_states->AnisotropicWrap());
-		float a1 = 0.5f;
-		float r1 = 0.5f;
-		float g1 = 0.4f;
-		float b1 = 1.0f;
-		XMVECTOR colorvf = XMVectorSet(r1, g1, b1, a1);
-
-		bool m_bSetFog = false;
-
-		if (m_bSetFog == true) {
-			m_dualTextureEffect->SetFogColor(colorvf);
-			m_dualTextureEffect->SetFogStart(0.0f);
-			m_dualTextureEffect->SetFogEnd(10.0f);
-		}
-	}
-	auto loaded = m_resourceUploadDrawnObject->EndXaml(m_sceneDeviceResources->GetCommandQueue());
-	WaitForSingleObject(m_resourceUploadDrawnObject->GetGPUHandle(), INFINITE);
-
-	m_dualTextureEffect->SetProjection(XMLoadFloat4x4(&m_projection4x4));
-	m_sceneDeviceResources->WaitForGpu();
-	loaded.then([this]()
-		{
-			m_loadingDrawnObjectComplete = true;
-	        m_bIsDualTextureModel = true;
-		});
-		}
-	}
-}
-
-void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectVideoTexture()
-{
-	if (m_loadingDrawnObjectComplete == false)
-	{
-		auto device = m_sceneDeviceResources->GetD3DDevice();
-
-		if (!device)
-		{
-			return;
-		}
-		size_t cnt = vertices.size();
-		DirectX::DXTKXAML12::VertexPositionColor* vpc = vertices.data();
-		// Makes the Box Frame Dimensions float* box is created 
-		InitDimensionsBox();
-		CreateDimensions(&vpc->position, cnt);
-		GetUVPercent();
-
-		for (size_t i = 0; i < cnt; i++)
-		{
-			XMVECTOR n = DirectX::XMVector3Normalize(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f));
-			if (i > textureU.size()) { textureU.push_back(0.0f); }
-			if (i > textureV.size()) { textureV.push_back(0.0f); }
-			DirectX::DXTKXAML12::VertexPositionNormalTexture vpnt = { XMFLOAT3(vertices.at(i).position.x,vertices.at(i).position.y,vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n),XMVectorGetY(n),XMVectorGetZ(n)), XMFLOAT2(textureU.at(i), textureV.at(i)) };
-			vertexes.push_back(vpnt);
-		}
-
-		if (vertices.size() <= 0)return;
-		if (indices.size() == 0)return;
-		m_shapeDrawnObjectTex = GeometricPrimitive::CreateCustom(vertexes, indices, device);
-		{
-			DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadDrawnObject = new DirectX::DXTKXAML12::ResourceUploadBatch(device);
-
-			// Begin Resource Upload
-			m_resourceUploadDrawnObject->BeginXaml();
-
-			//if (m_bDDS_WIC_FLAG1 == true)
-			//{
-			//	LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1, GetMsgTypes(0), GetMessages(0));
-			//} // If there is a failure here it is because the open file dialog is not in the project directory
-			
-			
-			RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());
-
-			// Each effect object must be proceeded by its own 
-			// EffectPipelineStateDescription pd 
-			// even if the EffectPipelineStateDescription pd is the same
-
-			{
-				EffectPipelineStateDescription pdSVT(
-					&GeometricPrimitive::VertexType::InputLayout,
-					CommonStates::Opaque,
-					CommonStates::DepthDefault,
-					GetCommonStatesRasterizerDescp12(m_iCullNoneToWireframe),
-					rtState);//,D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
-
-				//Transparent materials
-				EffectPipelineStateDescription pdAlphaSVTE(
-					&GeometricPrimitive::VertexType::InputLayout,
-					CommonStates::AlphaBlend,
-					CommonStates::DepthDefault,
-					GetCommonStatesRasterizerDescp12(m_iCullNoneToWireframe),
-					rtState);
-
-				// Vertex Position Color
-				EffectPipelineStateDescription pdVPC(
-					&DirectX::DXTKXAML12::VertexPositionColor::InputLayout,
-					DirectX::DXTKXAML12::CommonStates::Opaque,
-					DirectX::DXTKXAML12::CommonStates::DepthNone,
-					DirectX::DXTKXAML12::CommonStates::CullNone,
-					rtState,
-					D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE);
-
-				m_shapeDrawnObjectEffect = std::make_unique<BasicEffect>(device, EffectFlags::Lighting | EffectFlags::Texture, pdSVT);
-				//m_shapeDrawnObjectEffect = std::make_unique<BasicEffect>(device, EffectFlags::PerPixelLighting | EffectFlags::Texture, pdAlphaSDOE);
-				//m_shapeDrawnObjectEffect = std::make_unique<BasicEffect>(device, EffectFlags::VertexColor, pdVPC);
-
-				m_shapeDrawnObjectEffect->EnableDefaultLighting();
-				
-				m_shapeDrawnObjectEffect->SetTexture(m_resourceDescriptors->GetGpuHandle(static_cast<size_t>(Descriptors::VideoTexture)), m_states->AnisotropicWrap());
-				m_shapeDrawnObjectEffect->SetDiffuseColor(DirectX::XMVECTOR{ 1.0f,1.0f ,1.0f,1.0f });
-				m_shapeDrawnObjectEffect->SetAmbientLightColor(DirectX::XMVECTOR{ 1.0f,1.0f ,1.0f,1.0f });
-				//m_shapeDrawnObjectEffect->SetLightDirection(0, DirectX::XMVECTOR{ 0.0f,1.0f,-20.0f,0.0f });
-			}
-
-			
-			auto loaded = m_resourceUploadDrawnObject->EndXaml(m_sceneDeviceResources->GetCommandQueue());
-			WaitForSingleObject(m_resourceUploadDrawnObject->GetGPUHandle(), INFINITE);
-			
-			m_shapeDrawnObjectEffect->SetProjection(XMLoadFloat4x4(&m_projection4x4));
-			m_sceneDeviceResources->WaitForGpu();
-			
-			loaded.then([this]()
-				{
-					auto device = m_sceneDeviceResources->GetD3DDevice();
-			Size hw = m_sceneDeviceResources->GetOutputSize();
-			m_player = std::make_unique<Hot3dxRotoDraw::MediaEnginePlayer>(m_sceneDeviceResources);
-			m_player->Initialize(m_sceneDeviceResources->GetDXGIFactory(), device, DXGI_FORMAT_B8G8R8A8_UNORM);
-			Platform::String^ s = m_hot3dxDirPath;
-			//s = s->Concat(s, L"Assets\\Textures\\SampleVideo.mp4");
-			//m_player->SetSource(L"Assets/Textures/SampleVideo.mp4");//s->Data()); // 
-			s = s->Concat(s, m_textureImageVideoFile);
-			m_player->SetSource(m_textureImageVideoFile->Data());
-			
-					while (!m_player->IsInfoReady())
-					{
-						SwitchToThread();
-					}
-					m_player->GetNativeVideoSize(m_videoWidth, m_videoHeight);
-					//m_videoWidth = hw.Width;
-					//m_videoHeight = hw.Height;
-		/*
-		#ifdef NDEBUG
-					char buff[128] = {};
-					sprintf_s(buff, "\n\nINFO: Video Size %u x %u\n\n", m_videoWidth, m_videoHeight);
-					OutputDebugStringA(buff);
-		#endif
-		*/
-					CD3DX12_RESOURCE_DESC desc(
-						D3D12_RESOURCE_DIMENSION_TEXTURE2D,
-						0,
-						m_videoWidth,
-						m_videoHeight,
-						1,
-						1,
-						DXGI_FORMAT_B8G8R8A8_UNORM,
-						1,
-						0,
-						D3D12_TEXTURE_LAYOUT_UNKNOWN,
-						D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET | D3D12_RESOURCE_FLAG_ALLOW_SIMULTANEOUS_ACCESS);
-
-					CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
-
-					DX::ThrowIfFailed(
-						device->CreateCommittedResource(
-							&defaultHeapProperties,
-							D3D12_HEAP_FLAG_SHARED,
-							&desc,
-							D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-							nullptr,
-							IID_GRAPHICS_PPV_ARGS(m_videoTexture.ReleaseAndGetAddressOf()))
-					);
-
-					CreateShaderResourceView(device, m_videoTexture.Get(), m_resourceDescriptors->GetCpuHandle(static_cast<size_t>(Descriptors::VideoTexture)), false);
-
-					DX::ThrowIfFailed(
-						device->CreateSharedHandle(
-							m_videoTexture.Get(),
-							nullptr,
-							GENERIC_ALL,
-							nullptr,
-							&m_sharedVideoTexture));
-					m_loadingDrawnObjectComplete = true;
-					//m_bIsBasicModel = true;
-					m_bIsVideoTextureModel = true;
-					m_bIsPlayer = true;
-				});
-		}
-	}
-}
-
 void Hot3dxRotoDraw::RotoDrawSceneRender::ScreenMouse3DWorldAlignment()
 {
 	TCHAR dest[500] = {};;
@@ -2846,10 +2381,17 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::ClearDrawnObject()
 	vertexes.clear();
 	vertexes.resize(0);
 
+	if (m_bIsPBRModel == true)
+	{
+		m_shapeDrawnObjectPBREffect.reset();
+		m_shapeDrawnObjectPBR.reset();
+		
+	}
 	m_bIsPBRModel = false;
 	m_bIsBasicModel = true;
 	m_bIsDualTextureModel = false;
 	m_bIsVideoTextureModel = false;
+	m_bIsSculptWireframe = false;
 	m_bIsPlayer = false;
 	m_vars->GetDXPage()->SetEffectIndexRenderer(0);
 
@@ -2865,6 +2407,8 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::ClearDrawnObject()
 		Scenario2_Normal^ sc2 = m_vars->GetDXPage()->m_Scene2Vars->GetScenario2Page();
 	sc2->Current->SetTopLeftCheckBoxFalse();
 	sc2->Current->SetBottomRightCheckBoxFalse();
+	sc2->Current->SetAxisChecked(true);
+	m_vars->GetDXPage()->SetAxisCheckedDXP(true);
 	m_vars->GetDXPage()->m_Scene2Vars->SetTopOrLeftChecked(false);
 	m_vars->GetDXPage()->m_Scene2Vars->SetBottomOrRightChecked(false);
 	m_vars->GetDXPage()->m_Scene2Vars->SetPartialRotateAngle(0.0f);
@@ -2872,6 +2416,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::ClearDrawnObject()
 	m_drawMode = static_cast<int>(RotoDrawDrawMode::DrawLineOnlyObject);
 	m_loadingDrawnObjectComplete = false;
 	m_bDDS_WIC_FLAG1 = true;
+	
 	
 	CreateDeviceDependentResources();
 	m_drawMode = (int)RotoDrawDrawMode::DrawLineOnlyObject;
@@ -2912,7 +2457,9 @@ Platform::String^ Hot3dxRotoDraw::RotoDrawSceneRender::DrawnObjectSaveObj3DandMt
 	Platform::String^ mtlObjFilename,
 	Platform::String^ textureFilename)
 {
-	illumType = 2;
+	illumType = 2; 
+	textureFilename =
+		GetTexture1Name();
 	Platform::String^ file = ref new Platform::String(L"");
 	Obj3DMaterialFile^ f = ref new Obj3DMaterialFile(L"Scene1", 1);
 	Scenario5Vars^ vars = m_vars->GetDXPage()->m_Scene5Vars;
@@ -2920,7 +2467,7 @@ Platform::String^ Hot3dxRotoDraw::RotoDrawSceneRender::DrawnObjectSaveObj3DandMt
 	
 	for (unsigned int MaterialDataIndex = 0; MaterialDataIndex < length; MaterialDataIndex++) {
 		file = file->Concat(file, f->WriteObj3DMaterialHeaderData(MaterialDataIndex, mtlObjFilename));
-		file = file->Concat(file, f->WriteObj3DMaterialListData(effectName, illumType, mtlObjFilename, L"", mtlObjFilename, MaterialDataIndex, vars->GetMaterialGroupsData()));
+		file = file->Concat(file, f->WriteObj3DMaterialListData(effectName, illumType, mtlObjFilename, L"", textureFilename, MaterialDataIndex, vars->GetMaterialGroupsData()));
 	}
 	return file;
 
