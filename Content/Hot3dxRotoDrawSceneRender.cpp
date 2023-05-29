@@ -1593,7 +1593,7 @@ bool RotoDrawSceneRender::Render()
 	}
 	if (m_vars->GetDXPage()->m_Scene11Vars->GetGridChecked() == true)
 	{
-		m_sprites->SetViewport(m_sceneDeviceResources->GetScreenViewport());
+	
 		DrawSprites(commandList);
 	}
 	
@@ -2381,12 +2381,6 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::ClearDrawnObject()
 	vertexes.clear();
 	vertexes.resize(0);
 
-	if (m_bIsPBRModel == true)
-	{
-		m_shapeDrawnObjectPBREffect.reset();
-		m_shapeDrawnObjectPBR.reset();
-		
-	}
 	m_bIsPBRModel = false;
 	m_bIsBasicModel = true;
 	m_bIsDualTextureModel = false;
