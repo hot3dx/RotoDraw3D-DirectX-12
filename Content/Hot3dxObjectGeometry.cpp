@@ -1947,71 +1947,73 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
         if (!rhcoords)
             ReverseWindingHot3dx(indices, vertices);
     }
+    
+ 
+
+ void ComputeTetrahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, bool rhcoords, float size)
+ {
+     vertices.clear();
+     indices.clear();
+
+     static const XMVECTORF32 verts[4] =
+     {
+         { { {              0.f,          0.f,        1.f, 0 } } },
+         { { {  2.f * SQRT2 / 3.f,          0.f, -1.f / 3.f, 0 } } },
+         { { {     -SQRT2 / 3.f,  SQRT6 / 3.f, -1.f / 3.f, 0 } } },
+         { { {     -SQRT2 / 3.f, -SQRT6 / 3.f, -1.f / 3.f, 0 } } }
+     };
+
+     static const uint32_t faces[4 * 3] =
+     {
+         0, 1, 2,
+         0, 2, 3,
+         0, 3, 1,
+         1, 3, 2
+     };
+
+     for (size_t j = 0; j < _countof(faces); j += 3)
+     {
+         uint32_t v0 = faces[j];
+         uint32_t v1 = faces[j + 1];
+         uint32_t v2 = faces[j + 2];
+
+         XMVECTOR normal = XMVector3Cross(
+             XMVectorSubtract(verts[v1].v, verts[v0].v),
+             XMVectorSubtract(verts[v2].v, verts[v0].v));
+         normal = XMVector3Normalize(normal);
+
+         size_t base = vertices.size();
+         index_push_backHot3dx(indices, base);
+         index_push_backHot3dx(indices, base + 1);
+         index_push_backHot3dx(indices, base + 2);
+
+         // Duplicate vertices to use face normals
+         XMVECTOR position = XMVectorScale(verts[v0], size);
+         XMVECTOR tan = XMVector3Cross(normal, position);
+         vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[0], tan));
+
+
+         position = XMVectorScale(verts[v1], size);
+         tan = XMVector3Cross(normal, position);
+         vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[1], tan));
+
+
+         position = XMVectorScale(verts[v2], size);
+         tan = XMVector3Cross(normal, position);
+         vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[2], tan));
+
+     }
+
+     // Built LH above
+     if (rhcoords)
+         ReverseWindingHot3dx(indices, vertices);
+
+     assert(vertices.size() == 4 * 3);
+     assert(indices.size() == 4 * 3);
+ 
+
  }
-
-    void ComputeTetrahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, float size, bool rhcoords)
-    {
-        vertices.clear();
-        indices.clear();
-
-        static const XMVECTORF32 verts[4] =
-        {
-            { { {              0.f,          0.f,        1.f, 0 } } },
-            { { {  2.f * SQRT2 / 3.f,          0.f, -1.f / 3.f, 0 } } },
-            { { {     -SQRT2 / 3.f,  SQRT6 / 3.f, -1.f / 3.f, 0 } } },
-            { { {     -SQRT2 / 3.f, -SQRT6 / 3.f, -1.f / 3.f, 0 } } }
-        };
-
-        static const uint32_t faces[4 * 3] =
-        {
-            0, 1, 2,
-            0, 2, 3,
-            0, 3, 1,
-            1, 3, 2
-        };
-
-        for (size_t j = 0; j < _countof(faces); j += 3)
-        {
-            uint32_t v0 = faces[j];
-            uint32_t v1 = faces[j + 1];
-            uint32_t v2 = faces[j + 2];
-
-            XMVECTOR normal = XMVector3Cross(
-                XMVectorSubtract(verts[v1].v, verts[v0].v),
-                XMVectorSubtract(verts[v2].v, verts[v0].v));
-            normal = XMVector3Normalize(normal);
-
-            size_t base = vertices.size();
-            index_push_backHot3dx(indices, base);
-            index_push_backHot3dx(indices, base + 1);
-            index_push_backHot3dx(indices, base + 2);
-
-            // Duplicate vertices to use face normals
-            XMVECTOR position = XMVectorScale(verts[v0], size);
-            XMVECTOR tan = XMVector3Cross(normal, position);
-            vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[0], tan));
-
-
-            position = XMVectorScale(verts[v1], size);
-            tan = XMVector3Cross(normal, position);
-            vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[1], tan));
-
-
-            position = XMVectorScale(verts[v2], size);
-            tan = XMVector3Cross(normal, position);
-            vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[2], tan));
-
-        }
-
-        // Built LH above
-        if (rhcoords)
-            ReverseWindingHot3dx(indices, vertices);
-
-        assert(vertices.size() == 4 * 3);
-        assert(indices.size() == 4 * 3);
-
-    }
-    void ComputeOctahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, float size, bool rhcoords)
+ void ComputeOctahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, bool rhcoords, float size)
     {
         vertices.clear();
         indices.clear();
@@ -2081,7 +2083,7 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
         assert(indices.size() == 8 * 3);
     }
 
-    void ComputeDodecahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, float size, bool rhcoords)
+    void ComputeDodecahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices,bool rhcoords, float size)
     {
         vertices.clear();
         indices.clear();
@@ -2220,7 +2222,7 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
         assert(indices.size() == 12 * 3 * 3);
     }
 
-    void ComputeIcosahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, float size, bool rhcoords)
+    void ComputeIcosahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, bool rhcoords, float size)
     {
         vertices.clear();
         indices.clear();
@@ -3342,5 +3344,5 @@ void ComputeIcosahedronDualTexture(VertexCollectionDualTexture& vertices, IndexC
     assert(indices.size() == 20 * 3);
 }
 
-
+}
 } // Eo Namespace DirectX Namespace

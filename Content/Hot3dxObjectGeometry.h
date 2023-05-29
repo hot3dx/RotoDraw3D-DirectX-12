@@ -43,10 +43,10 @@ namespace DirectX
         void ComputeCylinderTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, float height, float diameter, size_t tessellation, bool rhcoords);
         void ComputeConeTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, float diameter, float height, size_t tessellation, bool rhcoords);
         void ComputeTorusTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, float diameter, float thickness, size_t tessellation, bool rhcoords);
-        void ComputeTetrahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, float size, bool rhcoords);
-        void ComputeOctahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, float size, bool rhcoords);
-        void ComputeDodecahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, float size, bool rhcoords);
-        void ComputeIcosahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, float size, bool rhcoords);
+        void ComputeTetrahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, bool rhcoords, float size);
+        void ComputeOctahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, bool rhcoords, float size);
+        void ComputeDodecahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, bool rhcoords, float size);
+        void ComputeIcosahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, bool rhcoords, float size);
 
         void ComputeBoxDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, const XMFLOAT3& size, bool rhcoords);
         void ComputeSphereDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float diameter, size_t tessellation, bool rhcoords);
@@ -54,8 +54,8 @@ namespace DirectX
         void ComputeCylinderDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float height, float diameter, size_t tessellation, bool rhcoords);
         void ComputeConeDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float diameter, float height, size_t tessellation, bool rhcoords);
         void ComputeTorusDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float diameter, float thickness, size_t tessellation, bool rhcoords);
-        void ComputeTetrahedronDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float size, size_t tessellation, bool rhcoords, bool isTop);
-        void ComputeOctahedronDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float size, bool rhcoords);
+        void ComputeTetrahedronDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float size, bool rhcoords);
+        void ComputeOctahedronDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float size, size_t tessellation, bool rhcoords, bool isTop);
         void ComputeDodecahedronDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float size, bool rhcoords);
         void ComputeIcosahedronDualTexture(VertexCollectionDualTexture& vertices, IndexCollectionColor& indices, float size, bool rhcoords);
     }
