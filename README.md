@@ -1,3 +1,7 @@
+#  5-31-2023 fixed PBREffect crash. Added using VeretexTypePNTT
+fixed tangent in InitDrawnObjectPBRFiveTextures Function
+Successive PBR Physical Based Render Objects can now be drawn after hitting the New/Clear Button on Draw Scenario2
+
 # New Version 05-09-2023
 
 What's New: VideoTexture and ScreenGrab
