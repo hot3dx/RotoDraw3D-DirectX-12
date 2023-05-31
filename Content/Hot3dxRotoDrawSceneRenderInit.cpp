@@ -125,12 +125,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRFiveText
 			return;
 		}
 
-		m_resDescPile = std::make_unique<DirectX::DXTKXAML12::DescriptorPile>(device,
-			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
-			D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE,
-			128, // Maximum descriptors for both static and dynamic
-			static_cast<size_t>(PBRDescriptors::Reserve));
-
+		
 		size_t cnt = vertices.size();
 		DirectX::DXTKXAML12::VertexPositionColor* vpc = vertices.data();
 		// Makes the Box Frame Dimensions float* box is created 
