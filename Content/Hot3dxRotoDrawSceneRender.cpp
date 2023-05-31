@@ -189,29 +189,26 @@ void RotoDrawSceneRender::CreateDeviceDependentResources()
 			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
 			D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE,
 			static_cast<size_t>(Descriptors::Count));
-		/*
-		// create heaps
-		m_resDescPile = std::make_unique<DirectX::DXTKXAML12::DescriptorPile>(device,
-			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
-			D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE,
-			128, // Maximum descriptors for both static and dynamic
-			static_cast<size_t>(PBRDescriptors::Reserve));
-		m_rtvHeap = std::make_unique<DescriptorHeap>(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, D3D12_DESCRIPTOR_HEAP_FLAG_NONE, 1);
-		// Set up HDR render target.
 		
-		//RenderTargetState backBufferRts(Sample::GetBackBufferFormat(), Sample::GetDepthFormat());
-		// Above translates to:
-		RenderTargetState backBufferRts(DXGI_FORMAT_R10G10B10A2_UNORM, DXGI_FORMAT_D32_FLOAT);
+		
+			// create heaps
+			m_resDescPile = std::make_unique<DirectX::DXTKXAML12::DescriptorPile>(device,
+				D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
+				D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE,
+				128, // Maximum descriptors for both static and dynamic
+				static_cast<size_t>(PBRDescriptors::Reserve));
+			
+			// Above translates to:
+			RenderTargetState backBufferRts(DXGI_FORMAT_R10G10B10A2_UNORM, DXGI_FORMAT_D32_FLOAT);
 
-		// HDR10 signal
-		m_HDR10 = std::make_unique<DirectX::DXTKXAML12::ToneMapPostProcess>(device, backBufferRts,
-			DirectX::DXTKXAML12::ToneMapPostProcess::None, DirectX::DXTKXAML12::ToneMapPostProcess::ST2084);
+			// HDR10 signal
+			m_HDR10 = std::make_unique<DirectX::DXTKXAML12::ToneMapPostProcess>(device, backBufferRts,
+				DirectX::DXTKXAML12::ToneMapPostProcess::None, DirectX::DXTKXAML12::ToneMapPostProcess::ST2084);
 
-		// Tonemap for SDR signal
-		m_toneMap = std::make_unique<DirectX::DXTKXAML12::ToneMapPostProcess>(device, backBufferRts,
-			DirectX::DXTKXAML12::ToneMapPostProcess::ACESFilmic, DirectX::DXTKXAML12::ToneMapPostProcess::SRGB);
-		*/
-		m_batch = std::make_unique<DirectX::DXTKXAML12::PrimitiveBatch<DirectX::DXTKXAML12::VertexPositionColor>>(device);
+			// Tonemap for SDR signal
+			m_toneMap = std::make_unique<DirectX::DXTKXAML12::ToneMapPostProcess>(device, backBufferRts,
+				DirectX::DXTKXAML12::ToneMapPostProcess::ACESFilmic, DirectX::DXTKXAML12::ToneMapPostProcess::SRGB);
+		
 
 		m_batch = std::make_unique<DirectX::DXTKXAML12::PrimitiveBatch<DirectX::DXTKXAML12::VertexPositionColor>>(device);
 
@@ -671,6 +668,17 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::OnDeviceLost()
 	m_bDDS_WIC_FLAGGridPic = false;
 	m_loadingComplete = false;
 	m_loadingDrawnObjectComplete = false;
+
+	if (m_bIsPBRModel == true)
+	{
+		m_resDescPile.reset();
+	}
+	m_bIsBasicModel = false;
+	m_bIsDualTextureModel = false;
+	m_bIsPBRModel = false;
+	m_bIsSculptWireframe = false;
+	m_bIsVideoTextureModel = false;
+	/*
 	m_texture1.Reset();
 	m_texture2.Reset();
 	m_textureGridPic.Reset();
@@ -678,7 +686,8 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::OnDeviceLost()
 	m_DrawnMeshTexture2.Reset();
 	m_radianceIBL.Reset();
 	m_irradianceIBL.Reset();
-
+	*/
+	
 	m_MousePosFont.reset();
 	//m_CursorPosFont.reset();
 	m_CameraEyeFont.reset();
@@ -691,16 +700,17 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::OnDeviceLost()
 	m_SelectedPointNumberFont.reset();
 
 	m_batch.reset();
-	//m_shape.reset();
+	m_shape.reset();
 	m_shapeTetra.reset();
 	m_shapeGridPic.reset();
-	//m_model.reset();
+	m_model.reset();
 	
 	m_lineEffect.reset();
 
 	m_cursorEffect.reset();
 
-	//m_shapeEffect.reset();
+	m_shapeEffect.reset();
+	
 	m_shapeTetraEffect.reset();
 	m_drawRectangleEffect.reset();
 	m_shapeDrawnObject.reset();
@@ -709,14 +719,11 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::OnDeviceLost()
 	m_shapeDrawnObjectEffect.reset();
 	m_shapeDrawnObjectPBREffect.reset();
 	m_dualTextureEffect.reset();
-	//m_shapeDrawnObjectPBR.reset();
-	//m_shapeDrawnObjectPBREffect.reset();
 	//m_modelEffects.clear();
 	//m_modelResources.reset();
 	m_sprites.reset();
 	m_resourceDescriptors.reset();
-	//m_resDescPile.reset();
-	//m_rtvHeap.reset();
+	
 	m_states.reset();
 	m_graphicsMemory.reset();
 	pos.clear();
@@ -753,6 +760,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::OnDeviceLost()
 	// not in original must watch
 	m_loadingComplete = false;
 	m_loadingDrawnObjectComplete = false;
+	//CreateDeviceDependentResources();
 }
 
 void Hot3dxRotoDraw::RotoDrawSceneRender::OnDeviceRestored()
@@ -1297,10 +1305,10 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::SetPoints()
 				else if (m_bIsVideoTextureModel == true) { InitDrawnObjectVideoTexture(); }
 				m_iDrawMode = 2;
 		});
-
+	
 	// Run task on a dedicated high priority background thread.
 	m_drawObjectWorker = ThreadPool::RunAsync(drawItemHandler, WorkItemPriority::High, WorkItemOptions::TimeSliced);
-	//m_drawObjectWorker->Completed::get();
+	m_drawObjectWorker->Completed::get();
 }
 
 bool RotoDrawSceneRender::RenderPBR(DirectX::XMMATRIX localDrawnObject)
@@ -1322,12 +1330,13 @@ bool RotoDrawSceneRender::RenderPBR(DirectX::XMMATRIX localDrawnObject)
 	m_resourceUploadGridPic->BeginXaml();
 
 	auto depthStencilDescriptor = m_sceneDeviceResources->GetDepthStencilView();
-	auto toneMapRTVDescriptor = m_rtvHeap->GetFirstCpuHandle();
+	auto toneMapRTVDescriptor = m_sceneDeviceResources->GetRtvHeap()->GetCPUDescriptorHandleForHeapStart();
 	commandList->OMSetRenderTargets(1, &toneMapRTVDescriptor, FALSE, &depthStencilDescriptor);
 
 	PIXBeginEvent(commandList, PIX_COLOR_DEFAULT, L"Draw PBR Object");
 	
-	
+	m_shapeDrawnObjectPBREffect->SetWorld(localDrawnObject);
+	m_shapeDrawnObjectPBREffect->Apply(commandList);
 	m_hot3dxDrawnObject->Draw(commandList);
 	PIXEndEvent(commandList); // Model Draw
 	
@@ -1335,7 +1344,7 @@ bool RotoDrawSceneRender::RenderPBR(DirectX::XMMATRIX localDrawnObject)
 		PIXBeginEvent(commandList, PIX_COLOR_DEFAULT, L"Tonemap");
 		auto rtv = static_cast<D3D12_CPU_DESCRIPTOR_HANDLE>(m_sceneDeviceResources->GetRenderTargetView());
 		commandList->OMSetRenderTargets(1, &rtv, FALSE, NULL);
-
+		/*
 		if (m_sceneDeviceResources->GetColorSpace() == DXGI_COLOR_SPACE_RGB_FULL_G2084_NONE_P2020)
 		{
 			// HDR10 signal
@@ -1348,6 +1357,7 @@ bool RotoDrawSceneRender::RenderPBR(DirectX::XMMATRIX localDrawnObject)
 			m_toneMap->SetHDRSourceTexture(m_resourceDescriptors->GetGpuHandle(static_cast<size_t>(PBRDescriptors::PicTex)));//::SceneTex));
 			m_toneMap->Process(commandList);
 		}
+		*/
 		PIXEndEvent(commandList);
 
 		PIXEndEvent(commandList);
@@ -1582,7 +1592,7 @@ bool RotoDrawSceneRender::Render()
 	PIXEndEvent(commandList);
 
 	// Show the new frame.
-	PIXBeginEvent(m_sceneDeviceResources->GetCommandQueue(), PIX_COLOR_DEFAULT, L"Present");
+	PIXBeginEvent(m_sceneDeviceResources->GetCommandQueue(), PIX_COLOR_DEFAULT, L"Switch Frames");
 	if (m_bIsVideoTextureModel == true) {
 		RECT r = { 0, 0, long(m_videoWidth), long(m_videoHeight) };
 		MFVideoNormalizedRect rect = { 0.0f, 0.0f, 1.0f, 1.0f };
@@ -1591,12 +1601,15 @@ bool RotoDrawSceneRender::Render()
 			m_player->TransferFrame(m_sharedVideoTexture, rect, r);
 		}
 	}
+	PIXEndEvent(commandList);
+	PIXBeginEvent(m_sceneDeviceResources->GetCommandQueue(), PIX_COLOR_DEFAULT, L"Draw Sprites");
+
 	if (m_vars->GetDXPage()->m_Scene11Vars->GetGridChecked() == true)
 	{
-	
+		//m_sprites->SetViewport(m_sceneDeviceResources->GetScreenViewport());
 		DrawSprites(commandList);
 	}
-	
+	PIXEndEvent(commandList);
 	PIXEndEvent(commandList);
 	//////////////////////////////////////
 	PIXBeginEvent(m_sceneDeviceResources->GetCommandQueue(), PIX_COLOR_DEFAULT, L"Present");
@@ -2275,7 +2288,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::LoadDDSOrWicTextureFile(_I
 	if (hr1 != S_OK)
 	{
 		msgType = L"Error Message: Directory Not Accessible  ";
-		message = L"All textures must be chosen from the x64\\Release or Debug\\Hot3dxRotoDraw\\AppX\\Assets\\(Folder or sub-Folders \nPress the Clear Button after Dialog Closes\n1)Go To: Textures\n2) Add Texture1 Button from the proper doirectory\nThe directory is also in the status box lower left)";
+		message = L"All textures must be chosen from the x64\\Release or Debug\\Hot3dxRotoDraw\\AppX\\Assets\\(Folder or sub-Folders \nPress the Clear Button after Dialog Closes\n1)Go To: Textures\n2) Add Texture1 Button from the proper directory\nThe directory is also in the status box lower left)";
 		m_vars->GetDXPage()->NotifyUser("File Error Open " + message, NotifyType::ErrorMessage); 
 		ClearDrawnObject();
 		m_vars->GetDXPage()->NotifyUser("Opened file " + ref new Platform::String(szfileName), NotifyType::StatusMessage);
@@ -2381,6 +2394,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::ClearDrawnObject()
 	vertexes.clear();
 	vertexes.resize(0);
 
+	
 	m_bIsPBRModel = false;
 	m_bIsBasicModel = true;
 	m_bIsDualTextureModel = false;
@@ -2412,7 +2426,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::ClearDrawnObject()
 	m_bDDS_WIC_FLAG1 = true;
 	
 	
-	CreateDeviceDependentResources();
+	//CreateDeviceDependentResources();
 	m_drawMode = (int)RotoDrawDrawMode::DrawLineOnlyObject;
 }
 

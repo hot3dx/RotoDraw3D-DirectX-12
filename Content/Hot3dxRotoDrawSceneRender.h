@@ -782,11 +782,12 @@ namespace Hot3dxRotoDraw
 		enum class PBRDescriptors
 		{
 			PicTex = 0,
-			NormalTex=1,
-			RMATex=2,
-			RadianceTex=3,
-			IrradianceTex=4,
-			Reserve=5
+			PicTex2 = 1,
+			NormalTex=2,
+			RMATex=3,
+			RadianceTex=4,
+			IrradianceTex=5,
+			Reserve=6
 		} PBRDescriptors;
 
 		// drawing modes
@@ -970,7 +971,6 @@ namespace Hot3dxRotoDraw
 				
 				std::vector<std::shared_ptr<DirectX::DXTKXAML12::IEffect>>  m_modelNormal;
 				std::unique_ptr<DirectX::DXTKXAML12::DescriptorPile>        m_resDescPile;
-				std::unique_ptr<DirectX::DXTKXAML12::DescriptorHeap>        m_rtvHeap;
 				std::unique_ptr<DirectX::DXTKXAML12::ToneMapPostProcess>    m_toneMap;
 				std::unique_ptr<DirectX::DXTKXAML12::ToneMapPostProcess>    m_HDR10;
 				Microsoft::WRL::ComPtr<ID3D12Resource> m_materialOverride;
