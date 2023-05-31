@@ -2,6 +2,17 @@
 fixed tangent in InitDrawnObjectPBRFiveTextures Function
 Successive PBR Physical Based Render Objects can now be drawn after hitting the New/Clear Button on Draw Scenario2
 
+the first PBR you draw will not show.
+1) click button 2) in  12) Grid or Pic
+2) The cursor will reappear 
+3) Go to 3) Draw and Click the New or Clear Button. Click the Drawing Grid Area.
+4) Click the New or Clear Button Again
+5) Choose PBR Effect Type from the ComboBox
+6) Draw your line, hit Set Points Button
+7) Now every New or Clear Button push will allow you to Draw objects endlessly or at least for a long time. All types of Effects 
+
+I had this fixed two weeks ago, accidentally erased the and couldn't remember exactly how I did it...but today I did remember or rediscovered it again
+
 # New Version 05-09-2023
 
 What's New: VideoTexture and ScreenGrab
