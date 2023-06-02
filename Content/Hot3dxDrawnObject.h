@@ -37,7 +37,7 @@ namespace Hot3dxRotoDraw {
                 virtual ~Hot3dxDrawnObject();
 
                 using VertexTypePC = DirectX::DXTKXAML12::VertexPositionColor;
-                //using VertexTypeTT = Hot3dxRotoDraw::VertexPositionNormalTextureTangent;
+                using VertexTypePNTT = Hot3dxRotoDraw::VertexPositionNormalTextureTangent;
                 // Factory methods.
                 static std::unique_ptr<Hot3dxDrawnObject> __cdecl CreateCube(float size = 1, bool rhcoords = true, _In_opt_ ID3D12Device* device = nullptr);
                 static std::unique_ptr<Hot3dxDrawnObject> __cdecl CreateBox(const XMFLOAT3& size, bool rhcoords = true, _In_opt_ ID3D12Device* device = nullptr);
@@ -68,8 +68,8 @@ namespace Hot3dxRotoDraw {
                 static void __cdecl CreateIcosahedron(std::vector<VertexTypePC>& vertices, std::vector<uint16_t>& indices, float size = 1, bool rhcoords = true);
 
                 
-                static std::unique_ptr<Hot3dxDrawnObject> __cdecl CreateCustomTangent(const std::vector<Hot3dxRotoDraw::VertexPositionNormalTextureTangent>& vertices, const std::vector<uint16_t>& indices, _In_opt_ ID3D12Device* device = nullptr);
-                static std::unique_ptr<Hot3dxDrawnObject> __cdecl CreateDrawnObjectTangent(const std::vector<Hot3dxRotoDraw::VertexPositionNormalTextureTangent> vertices, const std::vector<uint16_t>& indices, _In_opt_ ID3D12Device* device = nullptr);
+                static std::unique_ptr<Hot3dxDrawnObject> __cdecl CreateCustomTangent(const std::vector<VertexTypePNTT>& vertices, const std::vector<uint16_t>& indices, _In_opt_ ID3D12Device* device = nullptr);
+                static std::unique_ptr<Hot3dxDrawnObject> __cdecl CreateDrawnObjectTangent(const std::vector<VertexTypePNTT> vertices, const std::vector<uint16_t>& indices, _In_opt_ ID3D12Device* device = nullptr);
 
                 static std::unique_ptr<Hot3dxDrawnObject> __cdecl CreateDrawnObjectColorTangent(const std::vector<DirectX::DXTKXAML12::VertexPositionNormalColorTexture> vertices, const std::vector<uint16_t>& indices, _In_opt_ ID3D12Device* device = nullptr);
 

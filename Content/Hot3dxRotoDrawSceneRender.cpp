@@ -197,7 +197,7 @@ void RotoDrawSceneRender::CreateDeviceDependentResources()
 				D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE,
 				128, // Maximum descriptors for both static and dynamic
 				static_cast<size_t>(PBRDescriptors::Reserve));
-			
+			m_rtvHeapSceneRenderer = m_sceneDeviceResources->GetRtvHeap();
 			// Above translates to:
 			RenderTargetState backBufferRts(DXGI_FORMAT_R10G10B10A2_UNORM, DXGI_FORMAT_D32_FLOAT);
 
@@ -221,7 +221,7 @@ void RotoDrawSceneRender::CreateDeviceDependentResources()
 
 			// Begin Resource Upload
 			m_resourceUpload->BeginXaml();
-
+			/*
 			//TCHAR pwd[512];
 			//DWORD LENGTH = GetCurrentDirectory(512, pwd);
 			Platform::String^ sfil = ref new Platform::String(m_hot3dxDirPath->Data());//(pwd, LENGTH);
@@ -231,7 +231,7 @@ void RotoDrawSceneRender::CreateDeviceDependentResources()
 			);
 
 			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_texture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::SeaFloor)), false);
-			
+			*/
 			
 			RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());
 
@@ -1317,7 +1317,7 @@ bool RotoDrawSceneRender::RenderPBR(DirectX::XMMATRIX localDrawnObject)
 	m_bDDS_WIC_FLAGGridPicComplete = false;
 	auto commandList = m_sceneDeviceResources->GetCommandList();
 	auto device = m_sceneDeviceResources->GetD3DDevice();
-	ID3D12DescriptorHeap* heapss[] = { m_resourceDescriptors->Heap(), m_states->Heap() };
+	ID3D12DescriptorHeap* heapss[] = { m_resDescPile->Heap(), m_states->Heap() };
 	commandList->SetDescriptorHeaps(_countof(heapss), heapss);
 
 	m_shapeDrawnObjectPBREffect->SetWorld(localDrawnObject);
@@ -1344,7 +1344,7 @@ bool RotoDrawSceneRender::RenderPBR(DirectX::XMMATRIX localDrawnObject)
 		PIXBeginEvent(commandList, PIX_COLOR_DEFAULT, L"Tonemap");
 		auto rtv = static_cast<D3D12_CPU_DESCRIPTOR_HANDLE>(m_sceneDeviceResources->GetRenderTargetView());
 		commandList->OMSetRenderTargets(1, &rtv, FALSE, NULL);
-		/*
+		
 		if (m_sceneDeviceResources->GetColorSpace() == DXGI_COLOR_SPACE_RGB_FULL_G2084_NONE_P2020)
 		{
 			// HDR10 signal
@@ -1357,7 +1357,7 @@ bool RotoDrawSceneRender::RenderPBR(DirectX::XMMATRIX localDrawnObject)
 			m_toneMap->SetHDRSourceTexture(m_resourceDescriptors->GetGpuHandle(static_cast<size_t>(PBRDescriptors::PicTex)));//::SceneTex));
 			m_toneMap->Process(commandList);
 		}
-		*/
+		
 		PIXEndEvent(commandList);
 
 		PIXEndEvent(commandList);
@@ -1491,6 +1491,8 @@ bool RotoDrawSceneRender::Render()
 		else if (m_bIsPBRModel == true)
 		{
 			if (m_shapeDrawnObjectPBREffect) {
+				ID3D12DescriptorHeap* heapss[] = { m_resDescPile->Heap(), m_states->Heap() };
+				commandList->SetDescriptorHeaps(_countof(heapss), heapss);
 				/*
 				auto vp = m_sceneDeviceResources->GetScreenViewport();
 				m_batchOpaque->SetViewport(vp);

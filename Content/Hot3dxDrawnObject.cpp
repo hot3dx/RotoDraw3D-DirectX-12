@@ -940,7 +940,7 @@ void Hot3dxRotoDraw::Hot3dxDrawnObject::CreateIcosahedron(
 }
 
 std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> __cdecl Hot3dxRotoDraw::Hot3dxDrawnObject::CreateCustomTangent(
-        const std::vector<Hot3dxRotoDraw::VertexPositionNormalTextureTangent>& vertices,
+        const std::vector<VertexTypePNTT>& vertices,
         const std::vector<uint16_t>& indices, 
     _In_opt_ ID3D12Device* device)
 {
@@ -973,7 +973,7 @@ std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> __cdecl Hot3dxRotoDraw::Hot3d
 }
 
 std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> __cdecl Hot3dxRotoDraw::Hot3dxDrawnObject::CreateDrawnObjectTangent(
-    const std::vector<Hot3dxRotoDraw::VertexPositionNormalTextureTangent> vertices, 
+    const std::vector<VertexTypePNTT> vertices,
     const std::vector<uint16_t>& indices, 
     _In_opt_ ID3D12Device* device)
 {

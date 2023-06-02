@@ -971,6 +971,7 @@ namespace Hot3dxRotoDraw
 				
 				std::vector<std::shared_ptr<DirectX::DXTKXAML12::IEffect>>  m_modelNormal;
 				std::unique_ptr<DirectX::DXTKXAML12::DescriptorPile>        m_resDescPile;
+				Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>                m_rtvHeapSceneRenderer;
 				std::unique_ptr<DirectX::DXTKXAML12::ToneMapPostProcess>    m_toneMap;
 				std::unique_ptr<DirectX::DXTKXAML12::ToneMapPostProcess>    m_HDR10;
 				Microsoft::WRL::ComPtr<ID3D12Resource> m_materialOverride;

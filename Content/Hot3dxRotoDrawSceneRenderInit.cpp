@@ -117,14 +117,13 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRFiveText
 {
 	if (m_loadingDrawnObjectComplete == false)
 	{
-
+		m_bDDS_WIC_FLAG1 = true;
 		auto device = m_sceneDeviceResources->GetD3DDevice();
 
 		if (!device)
 		{
 			return;
 		}
-
 		
 		size_t cnt = vertices.size();
 		DirectX::DXTKXAML12::VertexPositionColor* vpc = vertices.data();
@@ -138,39 +137,32 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRFiveText
 		for (size_t i = 0; i < cnt; i++)
 		{
 			XMVECTOR n = DirectX::XMVector3Normalize(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f));
-			/*
-			XMVECTOR incident = DirectX::XMVECTOR(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f));
-			float a = XMVectorGetX(n) * cosf(vertices.at(i).position.x);
-			float b = XMVectorGetY(n) * sinf(vertices.at(i).position.y);
-			XMVECTOR t = { a, b, XMVectorGetZ(n) * tanf(vertices.at(i).position.z) };
-			
-			XMVECTOR tan = XMVector3Cross(incident, n); // XMVector4Reflect(incident, n);
-			*/
 			XMVECTOR tan = XMVectorTan(XMVECTOR(XMVectorSet(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z, 0.0f)));
 			Hot3dxRotoDraw::VertexPositionNormalTextureTangent vpntt = Hot3dxRotoDraw::VertexPositionNormalTextureTangent(XMFLOAT3(vertices.at(i).position.x, vertices.at(i).position.y, vertices.at(i).position.z), XMFLOAT3(XMVectorGetX(n), XMVectorGetY(n), XMVectorGetZ(n)), XMFLOAT2(textureU.at(i), textureV.at(i)),
 				XMFLOAT4(XMVectorGetW(tan), XMVectorGetX(tan), XMVectorGetY(tan), XMVectorGetZ(tan)));
 			verticesPBR.at(i) = vpntt;
 
 		}
-
-		if (verticesPBR.size() <= 0)return;
-		if (indices.size() == 0)return;
-
-		// Set the descriptor heaps
-		//m_hot3dxDrawnObject = Hot3dxDrawnObject::CreateCustom(vertices, indices, device);// works no texture coords
-		m_hot3dxDrawnObject = Hot3dxDrawnObject::CreateCustomTangent(verticesPBR, indices, device);
-		//m_hot3dxDrawnObject = Hot3dxDrawnObject::CreateDrawnObjectTangent(verticesPBR, indices, device);// fixed - oh yeah baby
-	    {
-			DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadDrawnObject = new DirectX::DXTKXAML12::ResourceUploadBatch(device);
-			m_resourceUploadDrawnObject->BeginXaml();
-			/*
+		/*
 			m_DrawnMeshTexture1.Reset();
-			m_DrawnMeshTexture2.Reset(); 
+			m_DrawnMeshTexture2.Reset();
 			m_NormalTexture.Reset();
 			m_RMATexture.Reset();
 			m_radianceIBL.Reset();
 			m_irradianceIBL.Reset();
 			*/
+		if (verticesPBR.size() <= 0)return;
+		if (indices.size() == 0)return;
+
+		// Set the descriptor heaps
+		//m_hot3dxDrawnObject = Hot3dxDrawnObject::CreateCustom(vertices, indices, device);// works no texture coords
+		//m_hot3dxDrawnObject = Hot3dxDrawnObject::CreateCustomTangent(verticesPBR, indices, device);
+		m_hot3dxDrawnObject = Hot3dxDrawnObject::CreateDrawnObjectTangent(verticesPBR, indices, device);// fixed - oh yeah baby
+		if (m_bDDS_WIC_FLAG1 == true)
+	    {
+			DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadDrawnObject = new DirectX::DXTKXAML12::ResourceUploadBatch(device);
+			m_resourceUploadDrawnObject->BeginXaml();
+			
 			if (m_bDDS_WIC_FLAG1 == true)
 			{
 				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1, GetMsgTypes(0), GetMessages(0));
@@ -193,17 +185,13 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRFiveText
 			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_radianceIBL.Get(), m_resDescPile->GetCpuHandle(size_t(PBRDescriptors::RadianceTex)), false);
 			//Push irradiance texture to resource stores
 			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_irradianceIBL.Get(), m_resDescPile->GetCpuHandle(size_t(PBRDescriptors::IrradianceTex)), false);
-
-
 			
-
 			RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());
 			// Each effect object must be proceeded by its own 
 			// EffectPipelineStateDescription pd 
 			// even if the EffectPipelineStateDescription pd is the same
 			//Get effect factory - shouldn't this be per model?! It's currently shared around everything which seems a little odd
 			DirectX::DXTKXAML12::IEffectFactory* fxFactory = nullptr;
-
 			auto m_fxFactoryPBR = std::make_unique<DirectX::DXTKXAML12::PBREffectFactory>(m_resDescPile->Heap(), m_states->Heap());
 			fxFactory = m_fxFactoryPBR.get();
 
@@ -225,10 +213,26 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRFiveText
 				GetCommonStatesRasterizerDescp12(m_iCullNoneToWireframe),
 				rtState,
 				D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
-			//wait(10);
+			
 
-//			DirectX::DXTKXAML12::IEffectFactory::EffectInfo einfo = DirectX::DXTKXAML12::IEffectFactory::EffectInfo();
-//			std::shared_ptr<DirectX::DXTKXAML12::IEffect> fxEffect = fxFactory->CreateEffect(einfo, pdPBR, pdAlphaPBR, inputLayoutA, 6, 0);
+			DirectX::DXTKXAML12::IEffectFactory::EffectInfo einfo = DirectX::DXTKXAML12::IEffectFactory::EffectInfo();
+			einfo.alphaValue = 1.0f;
+			einfo.ambientColor = XMFLOAT3(1.0f, 1.0f, 1.0f);
+			einfo.emissiveColor = XMFLOAT3(1.0f, 1.0f, 1.0f);
+			einfo.emissiveTextureIndex = size_t(PBRDescriptors::PicTex2);
+			einfo.normalTextureIndex = size_t(PBRDescriptors::NormalTex);
+			einfo.samplerIndex = size_t(PBRDescriptors::PicTex);
+			einfo.enableDualTexture = true;
+			einfo.diffuseTextureIndex = size_t(PBRDescriptors::RMATex);
+			einfo.diffuseColor = XMFLOAT3(1.0f, 1.0f, 1.0f);
+			einfo.biasedVertexNormals = true;
+			einfo.enableSkinning = true;
+			einfo.enableNormalMaps = true;
+			einfo.perVertexColor = true;
+			einfo.specularTextureIndex = size_t(PBRDescriptors::PicTex);
+
+			std::shared_ptr<DirectX::DXTKXAML12::IEffect> fxEffect = fxFactory->CreateEffect(einfo, pdPBR, pdAlphaPBR, inputLayout, size_t(PBRDescriptors::PicTex), size_t(PBRDescriptors::PicTex));
+			
 
 			m_shapeDrawnObjectPBREffect = std::make_unique<DirectX::DXTKXAML12::PBREffect>(device, EffectFlags::Texture, pdPBR, true, true);// , true);// , true);
 			
@@ -238,11 +242,11 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRFiveText
 			m_shapeDrawnObjectPBREffect->SetSurfaceTextures(m_resDescPile->GetGpuHandle(size_t(PBRDescriptors::PicTex)),
 				m_resDescPile->GetGpuHandle(size_t(PBRDescriptors::NormalTex)),
 				m_resDescPile->GetGpuHandle(size_t(PBRDescriptors::RMATex)),
-				GetWrapType(m_states.get(), m_iSamplIndexWrap)); //m_states->AnisotropicClamp());
+				GetWrapType(m_states.get(), m_iSamplIndexWrap));
 			// Lighting
 			
 			const int numMips = m_radianceIBL->GetDesc().MipLevels - 3;
-			m_shapeDrawnObjectPBREffect->SetEmissiveTexture(m_resDescPile->GetGpuHandle(size_t(PBRDescriptors::PicTex2)));
+			
 			m_shapeDrawnObjectPBREffect->SetIBLTextures(
 				m_resDescPile->GetGpuHandle(sizeof(PBRDescriptors::RadianceTex)),
 				numMips,
@@ -258,10 +262,12 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRFiveText
 			float g = 0.0f;
 			float b = 1.0f;
 			XMVECTOR colorv = XMVectorSet(r, g, b, a);
-			m_shapeDrawnObjectPBREffect->SetAlbedoTexture(m_resDescPile->GetGpuHandle(size_t(PBRDescriptors::PicTex)), m_states->AnisotropicClamp());
+			m_shapeDrawnObjectPBREffect->SetAlbedoTexture(m_resDescPile->GetGpuHandle(size_t(PBRDescriptors::PicTex)), GetWrapType(m_states.get(), m_iSamplIndexWrap));// m_states->AnisotropicClamp());
+			m_shapeDrawnObjectPBREffect->SetEmissiveTexture(m_resDescPile->GetGpuHandle(size_t(PBRDescriptors::PicTex2)));
 			m_shapeDrawnObjectPBREffect->SetNormalTexture(m_resDescPile->GetGpuHandle(size_t(PBRDescriptors::NormalTex)));
-			m_shapeDrawnObjectPBREffect->SetNormalTexture(m_resDescPile->GetGpuHandle(size_t(PBRDescriptors::RMATex)));
+			m_shapeDrawnObjectPBREffect->SetRMATexture(m_resDescPile->GetGpuHandle(size_t(PBRDescriptors::RMATex)));
 			m_shapeDrawnObjectPBREffect->SetConstantAlbedo(DirectX::DXTKXAML12::SimpleMath::Vector3(1, 1, 1));
+			
 			m_shapeDrawnObjectPBREffect->SetLightDiffuseColor(0, colorv);
 			m_shapeDrawnObjectPBREffect->SetConstantMetallic(0.0f);
 			m_shapeDrawnObjectPBREffect->SetConstantRoughness(0.5f);
@@ -276,7 +282,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRFiveText
 			m_sceneDeviceResources->WaitForGpu();
 			loaded.then([this]()
 				{
-					//m_bDDS_WIC_FLAGGridPic = true;
+					m_bDDS_WIC_FLAGGridPic = true;
 					//m_bDDS_WIC_FLAGGridPicComplete = false;
 					m_loadingDrawnObjectComplete = true;
 					m_bIsPBRModel = true;
