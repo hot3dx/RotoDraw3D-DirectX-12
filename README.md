@@ -1,3 +1,5 @@
+# 6-2-2023 PBREFFECT Drawing completely fixed and operational. Cannot ScreenGrab in PBR Emmisive texture added and EffectInfo and EffectFactory
+
 #  5-31-2023 fixed PBREffect crash. Added using VeretexTypePNTT
 fixed tangent in InitDrawnObjectPBRFiveTextures Function
 Successive PBR Physical Based Render Objects can now be drawn after hitting the New/Clear Button on Draw Scenario2
