@@ -7,7 +7,8 @@ namespace Hot3dxRotoDraw
 {
     value struct MaterialList;
     value struct MaterialTypes;
-
+// A hacker removed the s from the end of MaterialTypes
+// I did not do this 11-27-23
     public value struct MaterialList
     {
         Platform::String^ Title;
