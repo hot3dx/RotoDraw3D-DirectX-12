@@ -6,7 +6,7 @@
 namespace Hot3dxRotoDraw
 {
     value struct MaterialList;
-    value struct MaterialList;
+    value struct MaterialTypes;
 
     public value struct MaterialList
     {
