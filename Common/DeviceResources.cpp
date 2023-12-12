@@ -14,7 +14,6 @@
 #include <windows.ui.xaml.media.dxinterop.h>
 #include <C:\DirectXToolKitXaml12\Graphics\ScreenGrabXaml12.h>
 
-using namespace D2D1;
 using namespace DirectX;
 using namespace Microsoft::WRL;
 using namespace Windows::Foundation;
@@ -160,7 +159,7 @@ void DX::DeviceResources::SetSwapChainPanel(Windows::UI::Xaml::Controls::SwapCha
 	m_compositionScaleY = panel->CompositionScaleY;
 	m_dpi = currentDisplayInformation->LogicalDpi;
 	SetDpi(m_dpi);
-	//m_d2dContext->SetDpi(m_dpi, m_dpi);
+	
 	CreateWindowSizeDependentResources();
 
 }
@@ -450,7 +449,6 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 		// This sequence obtains the DXGI factory that was used to create the Direct3D device above.
 
 
-		//CoreWindow^ window = reinterpret_cast<CoreWindow^>(m_window.Get());
 		ComPtr<IDXGISwapChain1> swapChain;
 
 		// CommandQueue is used instead of the ID3D12device according to the directions
@@ -791,7 +789,7 @@ void DX::DeviceResources::Prepare(D3D12_RESOURCE_STATES beforeState)
 		m_commandList->ResourceBarrier(1, &barrier);
 	}
 }
-// Present the contents of the swap chain to the screen.
+
 void DX::DeviceResources::Present(D3D12_RESOURCE_STATES beforeState)
 {
 
@@ -832,6 +830,7 @@ void DX::DeviceResources::Present(D3D12_RESOURCE_STATES beforeState)
 	{
 		// Recommended to always use tearing if supported when using a sync interval of 0.
 		hr = m_swapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING);
+		//if (hr != S_OK)HandleDeviceLost();
 	}
 	else
 	{
@@ -839,11 +838,12 @@ void DX::DeviceResources::Present(D3D12_RESOURCE_STATES beforeState)
 		// to sleep until the next VSync. This ensures we don't waste any cycles rendering
 		// frames that will never be displayed to the screen.
 		hr = m_swapChain->Present(1, 0);
+		//if(hr !=S_OK)HandleDeviceLost();
 	}
 
 	// If the device was reset we must completely reinitialize the renderer.
 	if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
-	{/*
+	{
 #ifdef _DEBUG
 
 		String^ arg = ref new String(L"Device Lost on Present: Reason code ");
@@ -851,9 +851,9 @@ void DX::DeviceResources::Present(D3D12_RESOURCE_STATES beforeState)
 		String^ var = ref new String(std::to_wstring(hr).c_str());
 		arg = arg->Concat(arg, var);
 		OutputDebugStringA((LPCSTR)arg);
-#endif*/
+#endif
 		HandleDeviceLost();
-	}
+}
 	else
 	{
 		ThrowIfFailed(hr);
@@ -867,7 +867,6 @@ void DX::DeviceResources::Present(D3D12_RESOURCE_STATES beforeState)
 		}
 	}
 }
-
 // Wait for pending GPU work to complete.
 void DX::DeviceResources::WaitForGpu() noexcept
 {

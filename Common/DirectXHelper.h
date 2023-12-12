@@ -3,8 +3,11 @@
 #include "pch.h"
 #include <ppltasks.h>	// For create_task
 #include <strsafe.h>
+#include "DirectXPage.xaml.h"
 
 typedef unsigned char mybyte;
+
+using namespace Hot3dxRotoDraw;
 
 namespace DX
 {
@@ -28,6 +31,19 @@ namespace DX
             throw Platform::Exception::CreateException(hr);
         }
     }
+
+    inline Platform::String^ GetProgramDirPathDXP()
+    {
+        Platform::String^ s = ref new Platform::String( Windows::ApplicationModel::Package::Current->InstalledPath->Data());
+        s = s->Concat(s, L"\\");
+        return s;
+    }
+
+    inline void SetProgramDirPathDX()
+    {
+        Platform::String^ s = Windows::ApplicationModel::Package::Current->InstalledPath;
+        s = s->Concat(s, L"\\");
+    }
     
     // Function that reads from a binary file asynchronously.
     inline Concurrency::task<std::vector<mybyte>> ReadDataAsync(const std::wstring& filename)
@@ -36,7 +52,7 @@ namespace DX
         using namespace Concurrency;
 
         auto folder = Windows::ApplicationModel::Package::Current->InstalledLocation;
-
+       
         return create_task(folder->GetFileAsync(Platform::StringReference(filename.c_str()))).then([](StorageFile^ file)
         {
             return FileIO::ReadBufferAsync(file);
@@ -87,28 +103,26 @@ namespace DX
 #define NAME_D3D12_OBJECT(x) SetName((x).Get(), L#x)
 #define NAME_D3D12_OBJECT_INDEXED(x, n) SetNameIndexed((x)[n].Get(), L#x, n)
 
-    /*
 #if defined(_DEBUG)
-    // Check for SDK Layer support.
-    inline bool SdkLayersAvailable()
+// Check for SDK Layer support.
+    inline bool SdkLayersAvailableD3D11()
     {
-        HRESULT hr = D3D12CreateDevice(
+        HRESULT hr = D3D11CreateDevice(
             nullptr,
             D3D_DRIVER_TYPE_NULL,       // There is no need to create a real hardware device.
             0,
             D3D11_CREATE_DEVICE_DEBUG,  // Check for the SDK layers.
             nullptr,                    // Any feature level will do.
             0,
-            D3D11_SDK_VERSION,          // Always set this to D3D11_SDK_VERSION for Microsoft Store apps.
+            D3D11_SDK_VERSION,          // Always set this to D3D11_SDK_VERSION for Windows Runtime apps.
             nullptr,                    // No need to keep the D3D device reference.
             nullptr,                    // No need to know the feature level.
             nullptr                     // No need to keep the D3D device context reference.
-            );
+        );
 
         return SUCCEEDED(hr);
     }
 #endif
-*/
 }
 
 #define SAFE_RELEASE(p) if (p) (p)->Release()

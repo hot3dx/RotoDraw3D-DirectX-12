@@ -290,7 +290,7 @@ struct CD3DX12_DEPTH_STENCIL_DESC1 : public D3D12_DEPTH_STENCIL_DESC1
     }
     operator D3D12_DEPTH_STENCIL_DESC() const noexcept
     {
-        D3D12_DEPTH_STENCIL_DESC D;
+        D3D12_DEPTH_STENCIL_DESC D{};
         D.DepthEnable                  = DepthEnable;
         D.DepthWriteMask               = DepthWriteMask;
         D.DepthFunc                    = DepthFunc;
@@ -2077,7 +2077,7 @@ inline UINT64 UpdateSubresources(
         return 0;
     }
 
-    BYTE* pData;
+    BYTE* pData = nullptr;
     HRESULT hr = pIntermediate->Map(0, nullptr, reinterpret_cast<void**>(&pData));
     if (FAILED(hr))
     {
@@ -2136,7 +2136,7 @@ inline UINT64 UpdateSubresources(
         return 0;
     }
 
-    BYTE* pData;
+    BYTE* pData = nullptr;
     HRESULT hr = pIntermediate->Map(0, nullptr, reinterpret_cast<void**>(&pData));
     if (FAILED(hr))
     {
@@ -2644,7 +2644,7 @@ struct CD3DX12_PIPELINE_STATE_STREAM2
     CD3DX12_PIPELINE_STATE_STREAM_VIEW_INSTANCING ViewInstancingDesc;
     D3D12_GRAPHICS_PIPELINE_STATE_DESC GraphicsDescV0() const noexcept
     {
-        D3D12_GRAPHICS_PIPELINE_STATE_DESC D;
+        D3D12_GRAPHICS_PIPELINE_STATE_DESC D{};
         D.Flags                 = this->Flags;
         D.NodeMask              = this->NodeMask;
         D.pRootSignature        = this->pRootSignature;
@@ -2670,7 +2670,7 @@ struct CD3DX12_PIPELINE_STATE_STREAM2
     }
     D3D12_COMPUTE_PIPELINE_STATE_DESC ComputeDescV0() const noexcept
     {
-        D3D12_COMPUTE_PIPELINE_STATE_DESC D;
+        D3D12_COMPUTE_PIPELINE_STATE_DESC D{};
         D.Flags                 = this->Flags;
         D.NodeMask              = this->NodeMask;
         D.pRootSignature        = this->pRootSignature;
@@ -2758,7 +2758,7 @@ struct CD3DX12_PIPELINE_STATE_STREAM1
     CD3DX12_PIPELINE_STATE_STREAM_VIEW_INSTANCING ViewInstancingDesc;
     D3D12_GRAPHICS_PIPELINE_STATE_DESC GraphicsDescV0() const noexcept
     {
-        D3D12_GRAPHICS_PIPELINE_STATE_DESC D;
+        D3D12_GRAPHICS_PIPELINE_STATE_DESC D{};
         D.Flags                 = this->Flags;
         D.NodeMask              = this->NodeMask;
         D.pRootSignature        = this->pRootSignature;
@@ -2784,7 +2784,7 @@ struct CD3DX12_PIPELINE_STATE_STREAM1
     }
     D3D12_COMPUTE_PIPELINE_STATE_DESC ComputeDescV0() const noexcept
     {
-        D3D12_COMPUTE_PIPELINE_STATE_DESC D;
+        D3D12_COMPUTE_PIPELINE_STATE_DESC D{};
         D.Flags                 = this->Flags;
         D.NodeMask              = this->NodeMask;
         D.pRootSignature        = this->pRootSignature;
@@ -2832,7 +2832,7 @@ struct CD3DX12_PIPELINE_MESH_STATE_STREAM
     CD3DX12_PIPELINE_STATE_STREAM_VIEW_INSTANCING ViewInstancingDesc;
     D3DX12_MESH_SHADER_PIPELINE_STATE_DESC MeshShaderDescV0() const noexcept
     {
-        D3DX12_MESH_SHADER_PIPELINE_STATE_DESC D;
+        D3DX12_MESH_SHADER_PIPELINE_STATE_DESC D{};
         D.Flags                 = this->Flags;
         D.NodeMask              = this->NodeMask;
         D.pRootSignature        = this->pRootSignature;
@@ -2909,7 +2909,7 @@ struct CD3DX12_PIPELINE_STATE_STREAM
     CD3DX12_PIPELINE_STATE_STREAM_CACHED_PSO CachedPSO;
     D3D12_GRAPHICS_PIPELINE_STATE_DESC GraphicsDescV0() const noexcept
     {
-        D3D12_GRAPHICS_PIPELINE_STATE_DESC D;
+        D3D12_GRAPHICS_PIPELINE_STATE_DESC D{};
         D.Flags                 = this->Flags;
         D.NodeMask              = this->NodeMask;
         D.pRootSignature        = this->pRootSignature;
@@ -2935,7 +2935,7 @@ struct CD3DX12_PIPELINE_STATE_STREAM
     }
     D3D12_COMPUTE_PIPELINE_STATE_DESC ComputeDescV0() const noexcept
     {
-        D3D12_COMPUTE_PIPELINE_STATE_DESC D;
+        D3D12_COMPUTE_PIPELINE_STATE_DESC D{};
         D.Flags                 = this->Flags;
         D.NodeMask              = this->NodeMask;
         D.pRootSignature        = this->pRootSignature;
@@ -3398,7 +3398,7 @@ public:
 private:
     D3D12_STATE_SUBOBJECT* TrackSubobject(D3D12_STATE_SUBOBJECT_TYPE Type, void* pDesc)
     {
-        SUBOBJECT_WRAPPER Subobject;
+        SUBOBJECT_WRAPPER Subobject{};
         Subobject.pSubobjectArrayLocation = nullptr;
         Subobject.Type = Type;
         Subobject.pDesc = pDesc;
@@ -3525,7 +3525,7 @@ public:
         LPCWSTR ExportToRename = nullptr,
         D3D12_EXPORT_FLAGS Flags = D3D12_EXPORT_FLAG_NONE)
     {
-        D3D12_EXPORT_DESC Export;
+        D3D12_EXPORT_DESC Export{};
         Export.Name = m_Strings.LocalCopy(Name);
         Export.ExportToRename = m_Strings.LocalCopy(ExportToRename);
         Export.Flags = Flags;
@@ -3592,7 +3592,7 @@ public:
         LPCWSTR ExportToRename = nullptr,
         D3D12_EXPORT_FLAGS Flags = D3D12_EXPORT_FLAG_NONE)
     {
-        D3D12_EXPORT_DESC Export;
+        D3D12_EXPORT_DESC Export{};
         Export.Name = m_Strings.LocalCopy(Name);
         Export.ExportToRename = m_Strings.LocalCopy(ExportToRename);
         Export.Flags = Flags;
@@ -4760,7 +4760,7 @@ inline D3D_FEATURE_LEVEL CD3DX12FeatureSupport::MaxSupportedFeatureLevel() const
 // 3: Feature Format Support
 inline HRESULT CD3DX12FeatureSupport::FormatSupport(DXGI_FORMAT Format, D3D12_FORMAT_SUPPORT1& Support1, D3D12_FORMAT_SUPPORT2& Support2) const
 {
-    D3D12_FEATURE_DATA_FORMAT_SUPPORT dFormatSupport;
+    D3D12_FEATURE_DATA_FORMAT_SUPPORT dFormatSupport{};
     dFormatSupport.Format = Format;
 
     // It is possible that the function call returns an error
@@ -4775,7 +4775,7 @@ inline HRESULT CD3DX12FeatureSupport::FormatSupport(DXGI_FORMAT Format, D3D12_FO
 // 4: Multisample Quality Levels
 inline HRESULT CD3DX12FeatureSupport::MultisampleQualityLevels(DXGI_FORMAT Format, UINT SampleCount, D3D12_MULTISAMPLE_QUALITY_LEVEL_FLAGS Flags, UINT& NumQualityLevels) const
 {
-    D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS dMultisampleQualityLevels;
+    D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS dMultisampleQualityLevels{};
     dMultisampleQualityLevels.Format = Format;
     dMultisampleQualityLevels.SampleCount = SampleCount;
     dMultisampleQualityLevels.Flags = Flags;
@@ -4797,7 +4797,7 @@ inline HRESULT CD3DX12FeatureSupport::MultisampleQualityLevels(DXGI_FORMAT Forma
 // 5: Format Info
 inline HRESULT CD3DX12FeatureSupport::FormatInfo(DXGI_FORMAT Format, UINT8& PlaneCount) const
 {
-    D3D12_FEATURE_DATA_FORMAT_INFO dFormatInfo;
+    D3D12_FEATURE_DATA_FORMAT_INFO dFormatInfo{};
     dFormatInfo.Format = Format;
 
     HRESULT result = m_pDevice->CheckFeatureSupport(D3D12_FEATURE_FORMAT_INFO, &dFormatInfo, sizeof(D3D12_FEATURE_DATA_FORMAT_INFO));
@@ -5057,7 +5057,7 @@ inline HRESULT CD3DX12FeatureSupport::QueryHighestFeatureLevel()
         D3D_FEATURE_LEVEL_1_0_CORE
     };
 
-    D3D12_FEATURE_DATA_FEATURE_LEVELS dFeatureLevel;
+    D3D12_FEATURE_DATA_FEATURE_LEVELS dFeatureLevel{};
     dFeatureLevel.NumFeatureLevels = static_cast<UINT>(sizeof(allLevels) / sizeof(D3D_FEATURE_LEVEL));
     dFeatureLevel.pFeatureLevelsRequested = allLevels;
 

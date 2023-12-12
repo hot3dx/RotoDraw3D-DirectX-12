@@ -79,7 +79,6 @@ namespace DX
 		UINT                        GetBackBufferCount() const { return m_backBufferCount; }
 		Windows::UI::Xaml::Controls::SwapChainPanel^ GetSwapChainPanel() const { return m_swapChainPanel; }
 		void                        GetCreateDeviceResources() { CreateDeviceResources(); }
-		ID2D1DeviceContext* GetD3DDeviceContext() { return m_d2dContext.Get(); }
 		ID3D12DescriptorHeap* GetRtvHeap() { return m_rtvHeap.Get(); }
 		IDXGIFactory4* GetDXGIFactory() const { return m_dxgiFactory.Get(); }
 		D3D_FEATURE_LEVEL           GetDeviceFeatureLevel() const { return m_d3dFeatureLevel; }
@@ -154,13 +153,7 @@ namespace DX
 		// Cached reference to the Window.
 		Platform::Agile<Windows::UI::Core::CoreWindow^>	m_window;
 
-		Microsoft::WRL::ComPtr<ID2D1Factory3>           m_d2dFactory;
-		Microsoft::WRL::ComPtr<ID2D1Device1>            m_d2dDevice1;
-		Microsoft::WRL::ComPtr<ID2D1Device2>		    m_d2dDevice;
-		Microsoft::WRL::ComPtr<ID2D1Bitmap1>            m_d2dTargetBitmap;
-		Microsoft::WRL::ComPtr<ID2D1Bitmap1>            m_d2dTargetBitmapRight;
-		Microsoft::WRL::ComPtr<ID2D1DeviceContext>      m_d2dContext;
-
+		
 		// DirectWrite drawing components.
 		Microsoft::WRL::ComPtr<IDWriteFactory2>         m_dwriteFactory2;
 		Microsoft::WRL::ComPtr<IDWriteFactory3>         m_dwriteFactory;
@@ -178,7 +171,6 @@ namespace DX
 		float											m_effectiveCompositionScaleX;
 		float											m_effectiveCompositionScaleY;
 		bool                                            m_stereoEnabled;
-		Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>    m_textBrush;
 		Microsoft::WRL::ComPtr<IDWriteTextFormat>       m_textFormat;
 		Microsoft::WRL::ComPtr<IDWriteTextFormat>       m_smallTextFormat;
 
@@ -197,7 +189,6 @@ namespace DX
 		float											m_effectiveDpi;
 
 		// Transforms used for display orientation.
-		D2D1::Matrix3x2F                                m_orientationTransform2D;
 		DirectX::XMFLOAT4X4								m_orientationTransform3D;
 
 		// The IDeviceNotify can be held directly as it owns the DeviceResources.
