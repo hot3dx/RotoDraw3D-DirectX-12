@@ -99,16 +99,18 @@ Platform::String^ XM_CALLCONV Hot3dxRotoDraw::Obj3DFile::IndicesFaceValuesReturn
 	return m_ptStr;
 }
 
-Platform::String^ Hot3dxRotoDraw::Obj3DFile::DrawnObjectNodesSaveObjFile(unsigned int count, VOID** nodes)
+Platform::String^ Hot3dxRotoDraw::Obj3DFile::DrawnObjectNodesSaveObjFile(unsigned int count, void** nodes)
 {
 	Platform::String^ file = ref new Platform::String(L"#\n#\n#\n\n");
-	VOID** Node = {};
+		
+	void* Node[sizeof(nodes)]{};
+	
 	for (unsigned int i = 0; i < count; i++)
 	{
 		Node[i] = nodes[i];
-		//DrawnObjectSaveObjFile(nullptr,	nullptr, nullptr, nullptr, nullptr);
+		
 	}
-	
+	//file = DrawnObjectSaveObjFile(count, Hot3dxRotoDraw::RotoDrawSceneRender::GetGroupCount, Hot3dxRotoDraw::RotoDrawSceneRender::GetVertexes, Hot3dxRotoDraw::RotoDrawSceneRender::GetIndices, file, file, file);
 	return file;
 }
 
@@ -155,10 +157,6 @@ Platform::String^ Hot3dxRotoDraw::Obj3DFile::DrawnObjectSaveObjFile(
 	file = file->Concat(file, effectName);
 	file = file->Concat(file, L"\n#\nusemtl ");
 	file = file->Concat(file, nodeName);
-	file = file->Concat(file, L" Mesh_");
-	file = file->Concat(file, nodeName);
-	file = file->Concat(file, L"_");
-	file = file->Concat(file, effectName);
 	file = file->Concat(file, L"\n\n");
 
 

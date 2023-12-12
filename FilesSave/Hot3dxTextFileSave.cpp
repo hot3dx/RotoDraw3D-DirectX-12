@@ -51,7 +51,6 @@ Platform::String^ Hot3dxRotoDraw::Hot3dxTextFileSave::DrawnObjectSaveHot3dxTextF
 	}
 
 	Platform::String^ m_TexFleNameStr = ref new Platform::String(textureImageFile->Data());
-	//L"Assets\\Textures\\Marble.dds");
 	file = file->Concat(file, "TextureFileData: \n");
 	file = file->Concat(file, "FileNameSize: ");
 	file = file->Concat(file, m_TexFleNameStr->Length().ToString());

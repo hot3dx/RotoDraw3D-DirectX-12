@@ -36,12 +36,15 @@ namespace Hot3dxRotoDraw
 		Platform::String^ XM_CALLCONV WriteObj3DMaterialKdData(float r, float g, float b);
 		Platform::String^ XM_CALLCONV WriteObj3DMaterialKsData(float r, float g, float b);
 		Platform::String^ XM_CALLCONV WriteObj3DMaterialNsData(float a);
+		Platform::String^ XM_CALLCONV WriteObj3DMaterialNiData(float a);
+		Platform::String^ XM_CALLCONV WriteObj3DMaterialDData(float a);
 		Platform::String^ XM_CALLCONV WriteObj3DMaterialFileNameData(Platform::String^ type, Platform::String^ filename);
 		
 
 	private:
 
 		Platform::String^ m_filename;
+		Platform::String^ m_texfilename;
 		unsigned int    m_materialCount;
 	};
 }

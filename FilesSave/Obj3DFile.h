@@ -22,7 +22,7 @@ namespace Hot3dxRotoDraw
 	internal:
 		Obj3DFile(Platform::String^ filename, unsigned int objectCount);
 
-		Platform::String^ DrawnObjectNodesSaveObjFile(unsigned int count, VOID** nodes);
+		Platform::String^ DrawnObjectNodesSaveObjFile(unsigned int count, void** nodes);
 		Platform::String^ DrawnObjectSaveObjFile(
 			unsigned int pointCount,
 			unsigned int groupCount,
