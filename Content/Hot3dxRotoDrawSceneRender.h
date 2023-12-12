@@ -79,7 +79,7 @@ namespace Hot3dxRotoDraw
 		float* m_fCamMove_px;
 		float* m_fCamMove_py;
 		float* m_fCamMove_pz;
-		void CalculateSphereCV(int* n, DWORD color);
+		//void CalculateSphereCV(int* n, DWORD color);
 		//float  DegreesToRadians(float degree);
 		//void   InitSphereVars(void);
 		//void   CalculateSphere(int* count);
@@ -99,6 +99,144 @@ namespace Hot3dxRotoDraw
 		void ZeroOutPtList() { m_PtList->~Array(); }
 	private:
 		Platform::Array<uint16_t>^ m_PtList = ref new Platform::Array<uint16_t>(1000);
+	};
+
+	ref class LinePtGrp sealed
+	{
+
+	public:
+		virtual ~LinePtGrp() {
+			ZeroOutPtList(); ZeroOutPtIndexList();
+		}
+
+	internal:
+		LinePtGrp(unsigned int arraySize);
+
+		Platform::Array<uint16_t>^ GetPtList();// { return m_PtList; }
+		void SetPtList(unsigned int i, uint16_t val) { m_PtList->set(i, val); }
+		uint16_t GetListPt(unsigned int i);//  { return m_PtList->get(i); }
+		void ZeroOutPtList();//  {m_ptCount = 0;m_PtList->~Array();posX->~Array();posY->~Array();posZ->~Array();}
+		void IncrementPtCnt();// { m_ptCount++; }
+		unsigned int GetLinePtCnt() const;// { return this->m_ptCount; }
+		void SetLinePtCnt(unsigned int count);// { this->m_ptCount = count; }
+
+		Platform::Array<uint16_t>^ GetPtIndexList();// { return m_PtList; }
+		void SetPtIndexList(unsigned int i, uint16_t val) { m_PtIndexList->set(i, val); }
+		uint16_t GetListPtIndex(unsigned int i);//  { return m_PtList->get(i); }
+		void ZeroOutPtIndexList();//
+
+		float GetLinePosX(unsigned int i) { return posX->get(i); }
+		float GetLinePosY(unsigned int i) { return posY->get(i); }
+		float GetLinePosZ(unsigned int i) { return posZ->get(i); }
+		void SetLinePosX(unsigned int i, float f) { posX->set(i, f); }
+		void SetLinePosY(unsigned int i, float f) { posY->set(i, f); }
+		void SetLinePosZ(unsigned int i, float f) { posZ->set(i, f); }
+		void SetLinePositions(unsigned int i, float x, float y, float z);
+		unsigned int GetArraySize() const { return m_uiArraySize; }
+		std::vector<DirectX::DXTKXAML12::VertexPositionColor> m_lineVerts;
+		void TranslateLine(unsigned int  from, unsigned int to, XMFLOAT3 translate) {
+			for (unsigned int i = from; i < to; i++)
+			{
+				size_t j = m_PtList->get(i);
+				m_lineVerts.at(j).position.x += translate.x;
+				m_lineVerts.at(j).position.y += translate.y;
+				m_lineVerts.at(j).position.z += translate.z;
+			}
+			m_fTranslate = translate;
+		}
+		void TranslateLinePoint(unsigned int i, XMFLOAT3 translate)
+		{
+			    size_t j = m_PtList->get(i);
+				m_lineVerts.at(j).position.x += translate.x;
+				m_lineVerts.at(j).position.y += translate.y;
+				m_lineVerts.at(j).position.z += translate.z;
+		}
+		XMFLOAT3 GetTranslateLine() const { return m_fTranslate; }
+		void SetTranslateLine(XMFLOAT3 translate) { m_fTranslate = translate; }
+		void RotateLine(unsigned int  from, unsigned int to, XMFLOAT3 rotate) {
+			for (unsigned int i = from; i < to; i++)
+			{
+				size_t j = m_PtList->get(i);
+				m_lineVerts.at(j).position.x += rotate.x;
+				m_lineVerts.at(j).position.y += rotate.y;
+				m_lineVerts.at(j).position.z += rotate.z;
+			}
+			m_fRotate = rotate; }
+		void RotateLinePoint(unsigned int i, XMFLOAT3 rotate)
+		{
+			size_t j = m_PtList->get(i);
+			m_lineVerts.at(j).position.x += rotate.x;
+			m_lineVerts.at(j).position.y += rotate.y;
+			m_lineVerts.at(j).position.z += rotate.z;
+		}
+		XMFLOAT3 GetRotateLine() const { return m_fRotate; }
+		void SetRotateLine(XMFLOAT3 rotate) { m_fRotate = rotate; }
+		void ScaleLine(unsigned int  from, unsigned int to, XMFLOAT3 scale) {
+				for (unsigned int i = from; i < to; i++)
+				{
+					size_t j = m_PtList->get(i);
+					m_lineVerts.at(j).position.x *= scale.x;
+					m_lineVerts.at(j).position.y *= scale.y;
+					m_lineVerts.at(j).position.z *= scale.z;
+				}
+				m_fScale = scale; }
+		void ScaleLinePoint(unsigned int i, XMFLOAT3 scale) {
+			
+				size_t j = m_PtList->get(i);
+				m_lineVerts.at(j).position.x *= scale.x;
+				m_lineVerts.at(j).position.y *= scale.y;
+				m_lineVerts.at(j).position.z *= scale.z;
+		}
+		XMFLOAT3 GetScaleLine() const { return m_fScale; }
+		void SetScaleLine(XMFLOAT3 scale) { m_fScale = scale; }
+		void SetColorOfLineColor(XMFLOAT4 color1) { m_fColor = color = color1; }
+		XMFLOAT4 GetColorOfLine() const { return color; }
+
+		void SetLineColor(float r, float g, float b, float a)
+		{
+			color.x = r;
+			color.y = g;
+			color.z = b;
+			color.w = a;
+		}
+
+	protected private:
+		XMFLOAT3 XM_CALLCONV GetLinePos(unsigned int i) { return XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)); }
+		XMFLOAT4 XM_CALLCONV GetVectorPos(unsigned int i) { return XMFLOAT4(posX->get(i), posY->get(i), posZ->get(i), 0.0f); }
+		XMFLOAT3 XM_CALLCONV GetVectorPosition(unsigned int i) { return XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i)); }
+		XMFLOAT4 XM_CALLCONV GetVectorColor(unsigned int i) { return XMFLOAT4(posX->get(i), posY->get(i), posZ->get(i), 1.0f); }
+		XMFLOAT4 XM_CALLCONV GetVectorColorArgs() { return XMFLOAT4(color.x, color.y, color.z, color.w); }
+		void XM_CALLCONV SetVectorColorArgs(float r, float g, float b, float a) { XMFLOAT4(color.x=r, color.y=g, color.z=b, color.w=a); }
+		XMFLOAT4X4 GetLineMatrix() const { return xm_LineMatrix; }
+		void SetLineMatrix() {
+			xm_LineMatrix = { m_fTranslate.x, m_fTranslate.y, m_fTranslate.z, 0.0f,
+							  m_fRotate.x, m_fRotate.y, m_fRotate.z, 0.0f,
+							  m_fScale.x, m_fScale.y, m_fScale.z, 0.0f,
+							  m_fColor.x, m_fColor.y, m_fColor.z, m_fColor.w };
+		}
+
+
+
+	private:
+		unsigned int m_ptCount;
+		Platform::Array<uint16_t>^ m_PtList;
+		Platform::Array<uint16_t>^ m_PtIndexList;
+
+		XMFLOAT4 color;
+		XMFLOAT3 position;
+
+		unsigned int m_uiArraySize;
+		Platform::Array<float>^ posX;
+		Platform::Array<float>^ posY;
+		Platform::Array<float>^ posZ;
+
+		unsigned int lineId;
+		XMFLOAT3 m_fTranslate;
+		XMFLOAT3 m_fRotate;
+		XMFLOAT3 m_fScale;
+		XMFLOAT4 m_fColor;
+
+		XMFLOAT4X4 xm_LineMatrix;
 	};
 
 	//-------------------------------------------------------------------------------------
@@ -187,16 +325,29 @@ namespace Hot3dxRotoDraw
 		BOOL checkDistance(float x, float y, float z, float mouseMoveDistDelta);
 		void TrackingUpdate(float positionX, float positionY);
 		void StopTracking();
-		bool IsTracking() { return m_tracking; }
+		bool IsTracking() const { return m_tracking; }
 		void ReleaseDeviceDependentResources();
 		void OnDeviceLost();
 		void OnDeviceRestored();
 		//CCameraXYMoveRotation          m_CamXYMoveRotate;
-		void XM_CALLCONV MouseCursorRender(float positionX, float positionY);
+		bool MyIntersects(const SimpleMath::Plane& plane, _Out_ float& Dist, _Out_ XMVECTOR& v, XMFLOAT3 direction, XMFLOAT3 position);
+		void XM_CALLCONV MouseCursorRender(float positionX);
+		void XM_CALLCONV MouseCursor3dPoint(float positionX, float positionY);
 		void XM_CALLCONV DrawPointsOne(XMFLOAT3 cursorPos);
 		void XM_CALLCONV DrawPointsSphere(XMFLOAT3 cursorPos);
+		void XM_CALLCONV CopyPointsXYAxis();
+		void XM_CALLCONV DrawCopyPointsXYAxis(unsigned int ptCount);
+		void XM_CALLCONV ClearCopyPointsXYAxis();
+		void XM_CALLCONV CopyPointsXAxis();
+		void XM_CALLCONV CopyPointsYAxis();
+		void XM_CALLCONV CopyPointsZAxis(); 
 		void XM_CALLCONV CopyFlipPointsXAxis();
 		void XM_CALLCONV CopyFlipPointsYAxis();
+		void XM_CALLCONV CopyFlipPointsZAxis();
+		void XM_CALLCONV CopyLinePointsAnyAxis();
+		void XM_CALLCONV CopyLinePointsAnyAxis2();
+		void XM_CALLCONV CopyLinePointsAnyAxis3();
+		void XM_CALLCONV CopyLinePointsAnyAxis4();
 
 		// Centered End Points Top and Bottom X Axis
 		void XM_CALLCONV EndTopPointYAxis();
@@ -211,7 +362,7 @@ namespace Hot3dxRotoDraw
 
 		bool                           is3DVisible;
 
-		bool GetLoadingComplete() { return m_loadingComplete; }
+		bool GetLoadingComplete() const { return m_loadingComplete; }
 		void SetLoadingComplete(bool complete) { m_loadingComplete = complete; }
 
 
@@ -224,7 +375,26 @@ namespace Hot3dxRotoDraw
 		void XM_CALLCONV DrawGridPicRectangle();
 		//void XM_CALLCONV DrawLineOnlyObject(FXMVECTOR xAxis, FXMVECTOR zAxis, FXMVECTOR origin, GXMVECTOR color);
 		void XM_CALLCONV DrawLineOnlyObject(GXMVECTOR color);
-		void XM_CALLCONV DrawGridXY(FXMVECTOR xAxis, FXMVECTOR yAxis, FXMVECTOR origin, size_t xdivs, size_t ydivs, GXMVECTOR color);
+		void XM_CALLCONV SetLinesObject(XMFLOAT3 move, XMFLOAT3 rotate, XMFLOAT3 scale);
+		//void XM_CALLCONV SetLinesObject(FXMVECTOR xAxis, FXMVECTOR zAxis, FXMVECTOR origin, GXMVECTOR color);
+		void XM_CALLCONV SetCopyLinesObject(unsigned int copyLineId, XMFLOAT3 move, XMFLOAT3 rotate, XMFLOAT3 scale, XMFLOAT4 color);
+		unsigned int m_icopyLineId;
+		//void XM_CALLCONV SetCopyLinesObject(FXMVECTOR xAxis, FXMVECTOR zAxis, FXMVECTOR origin, GXMVECTOR color);
+		void XM_CALLCONV SetLinesObjectMatrix(unsigned int lineId, XMFLOAT3 move, XMFLOAT3 rotate, XMFLOAT3 scale, XMFLOAT4 color);
+		void XM_CALLCONV SetLinesObjectMatrix(XMFLOAT3 move, unsigned int lineId, XMFLOAT3 rotate, XMFLOAT3 scale, XMFLOAT4 color);
+		void XM_CALLCONV SetLinesObjectMatrix2(XMFLOAT3 move, unsigned int lineId, XMFLOAT3 rotate, XMFLOAT3 scale, XMFLOAT4 color);
+		void XM_CALLCONV DrawLinesObject();
+		void XM_CALLCONV DrawLinesObject(XMFLOAT3 move1, XMFLOAT3 rotate1, XMFLOAT3 scale1, XMFLOAT4 color1);
+
+		XMVECTOR XM_CALLCONV RotatePitchPoint(XMVECTOR v, float degree);
+		XMVECTOR XM_CALLCONV RotateYawPoint(XMVECTOR v, float degree);
+		XMVECTOR XM_CALLCONV RotateYawPitchPoint(XMVECTOR xAxis, float degreeYaw, float degreePitch);
+		XMVECTOR XM_CALLCONV RotateYawPitchPoint(XMFLOAT3 point1, float degreeYaw, float degreePitch);
+		XMVECTOR XM_CALLCONV RotateYawPitchPointXMV(XMVECTOR point1, float degreeYaw, float degreePitch);
+		XMFLOAT3 XM_CALLCONV RotateYawPitchPointXMFL3(XMFLOAT3 point1, float degreeYaw, float degreePitch);
+
+		void XM_CALLCONV DrawGridInit(FXMVECTOR xAxis, FXMVECTOR yAxis, FXMVECTOR origin, size_t xdivs, size_t ydivs, GXMVECTOR color);
+		void XM_CALLCONV DrawGridXY();
 		void XM_CALLCONV DrawGridXZ(FXMVECTOR xAxis, FXMVECTOR zAxis, FXMVECTOR origin, size_t xdivs, size_t ydivs, GXMVECTOR color);
 		void XM_CALLCONV DrawSprites(ID3D12GraphicsCommandList* commandList);
 		
@@ -233,7 +403,7 @@ namespace Hot3dxRotoDraw
 		unsigned int m_iEffectIndex;
 		void SetCullNoneToWireframe(unsigned int descId) { m_iCullNoneToWireframe = descId; }
 		void SetSamplIndexWrap(unsigned int descId) { m_iSamplIndexWrap = descId; }
-		unsigned int GetEffectIndex() { return m_iEffectIndex; }
+		unsigned int GetEffectIndex() const { return m_iEffectIndex; }
 		void SetEffectIndex(unsigned int descId) { m_iEffectIndex = descId;
 		 GetModelEffectDescp12(descId);
 		}
@@ -328,6 +498,8 @@ namespace Hot3dxRotoDraw
 		void XM_CALLCONV InitDrawnObjectVideoTexture();
 		void XM_CALLCONV InitDrawnObjectSculptWireframe();
 
+		void CheckMaximumPointCount(size_t vectorSize);
+
 		Platform::String^ m_hot3dxDirPath = ref new Platform::String();
 		void CameraReset();
 		void XM_CALLCONV ClearDrawnObject();
@@ -347,10 +519,30 @@ namespace Hot3dxRotoDraw
 		void XM_CALLCONV MakeBox(XMFLOAT3* copier, int qCount, Platform::Array<float>^ b);
 
 		// Not Yet Used Draws Mesh Points 
-		unsigned int GetPointCount() { return m_iPointCount; }
-		size_t GetTotalPointCount() { return m_iTotalPointCount; }
+		unsigned int GetPointCount() const { return m_iPointCount; }
+		unsigned int GetCpyPointCount() const { return m_iCpyPointCount; }
+		size_t GetTotalPointCount() const { return m_iTotalPointCount; }
 		void XM_CALLCONV SetPoints(); // RotoDraw3D old SetPointsButton Function
-		unsigned int GetGroupCount() { return m_iGroupCount; }
+		void XM_CALLCONV SetLinePointsObject();
+
+		unsigned int GetLinePointCount() const { return m_iLineCount; }
+		unsigned int GetCopyLine2PointCount() const { return m_iCopyPointCount2; }
+		unsigned int GetCopyLine3PointCount() const { return m_iCopyPointCount3; }
+		unsigned int GetCopyLine4PointCount() const { return m_iCopyPointCount4; }
+		void SetLinePointCount(unsigned int cnt) { m_iLineCount = cnt; }
+
+		unsigned int GetLineCount() const { return m_iLineCount; }
+		void SetLineCount(unsigned int lineCnt) { m_iLineCount = lineCnt; }
+
+		void XM_CALLCONV SetLinePoints(unsigned int lineId);
+		void XM_CALLCONV SetCopyLineId(unsigned int lineId);
+		void XM_CALLCONV SetCopyLinePoints(unsigned int lineId);
+		void XM_CALLCONV CalculateLinePointsTranslateDraw(float xMove, float yMove, float zMove);
+		void XM_CALLCONV CalculateAllLinesPointsTranslateDraw(float xMove, float yMove, float zMove);
+		void XM_CALLCONV CalculateLinePointsRotations(float xAngle, float yAngle, float zAngle);
+		void XM_CALLCONV CalculateAllLinesPointsRotations(float xAngle, float yAngle, float zAngle);
+
+		unsigned int GetGroupCount() const { return m_iGroupCount; }
 		std::vector<Hot3dxRotoDraw::PtGroups^> GetPtGroupList() { return m_PtGroupList; }
 		Hot3dxRotoDraw::PtGroups^ GetPtGrpList(size_t i) { return m_PtGroupList.at(i); }
 		Platform::Array<uint16_t>^ GetPtGroupListList() { return m_PtGroupList.at(0)->GetPtList(); }
@@ -373,10 +565,10 @@ namespace Hot3dxRotoDraw
 		void ViewMatrix(XMFLOAT4X4 M, wchar_t* str);
 
 		// Accessors
-		bool Getm_bLButtonDown() { return m_bLButtonDown; }
-		bool Getm_bRButtonDown() { return m_bRButtonDown; }
-		bool Getm_bMButtonDown() { return m_bRButtonDown; }
-		bool Getm_bMouseMove() { return m_bMouseMove; }
+		bool Getm_bLButtonDown() const { return m_bLButtonDown; }
+		bool Getm_bRButtonDown() const { return m_bRButtonDown; }
+		bool Getm_bMButtonDown() const { return m_bRButtonDown; }
+		bool Getm_bMouseMove() const { return m_bMouseMove; }
 		void Setm_bLButtonDown(bool b) { m_bLButtonDown = b; }
 		void Setm_bRButtonDown(bool b) { m_bRButtonDown = b; }
 		void Setm_bMButtonDown(bool b) { m_bRButtonDown = b; }
@@ -387,21 +579,21 @@ namespace Hot3dxRotoDraw
 		void Setm_EyeX(float e) { m_EyeX += e; }
 		void Setm_EyeY(float e) { m_EyeY += e; }
 		void Setm_EyeZ(float e) { m_EyeZ += e; }
-		float GetEyeX() { return m_EyeX; }
-		float GetEyeY() { return m_EyeY; }
-		float GetEyeZ() { return m_EyeZ; }
+		float GetEyeX() const { return m_EyeX; }
+		float GetEyeY() const { return m_EyeY; }
+		float GetEyeZ() const { return m_EyeZ; }
 		void Setm_LookAtX(float e) { m_LookAtX += e; }
 		void Setm_LookAtY(float e) { m_LookAtY += e; }
 		void Setm_LookAtZ(float e) { m_LookAtZ += e; }
-		float GetLookAtX() { return m_LookAtX; }
-		float GetLookAtY() { return m_LookAtY; }
-		float GetLookAtZ() { return m_LookAtZ; }
+		float GetLookAtX() const { return m_LookAtX; }
+		float GetLookAtY() const { return m_LookAtY; }
+		float GetLookAtZ() const { return m_LookAtZ; }
 		void Setm_UpX(float e) { m_UpX += e; }
 		void Setm_UpY(float e) { m_UpY += e; }
 		void Setm_UpZ(float e) { m_UpZ += e; }
-		float GetUpX() { return m_UpX; }
-		float GetUpY() { return m_UpY; }
-		float GetUpZ() { return m_UpZ; }
+		float GetUpX() const { return m_UpX; }
+		float GetUpY() const { return m_UpY; }
+		float GetUpZ() const { return m_UpZ; }
 
 		// Camera Rotation around object transforms world coordinates
 		void RotatePitch(float degree);
@@ -409,18 +601,18 @@ namespace Hot3dxRotoDraw
 		void RotatePitchSquid(float degree);
 		void RotateYawSquid(float degree);
 
-		bool GetRotateKeyPressed() { return m_bRotateKeyPressed; }
+		bool GetRotateKeyPressed() const { return m_bRotateKeyPressed; }
 		void SetRotateKeyPressed(bool b) { m_bRotateKeyPressed = b; }
 
 		// Calculates next Group Location
 
-		float GetPointDrawGroupAngle() { return m_fPointDrawGroupAngle; }
+		float GetPointDrawGroupAngle() const { return m_fPointDrawGroupAngle; }
 		void SetPointDrawGroupAngle(float f) { m_fPointDrawGroupAngle = f; }
 
 		// point spacing
-		float GetScrollDist() { return m_fScrollDist; }
+		float GetScrollDist() const { return m_fScrollDist; }
 		void SetScrollDist(float dist) { m_fScrollDist = dist; }
-		float GetPointSpace() { return m_fPointSpace; }
+		float GetPointSpace() const { return m_fPointSpace; }
 		void SetPointSpace(float dist) { m_fPointSpace = dist; }
 
 		// Draws the single line fro which the object is calculated
@@ -429,6 +621,17 @@ namespace Hot3dxRotoDraw
 			m_PtGroupList.push_back(ptGroups);
 		}
 
+		void IncrementLinePtGroups()
+		{
+			LinePtGrp^ lptGroups = ref new LinePtGrp(65);
+			m_LinePtsList.push_back(lptGroups);
+		}
+		void IncrementLinePtGroupsSize(unsigned int sizeOfLine)
+		{
+			LinePtGrp^ lptGroups = ref new LinePtGrp(sizeOfLine);
+			m_LinePtsList.push_back(lptGroups);
+		}
+		
 		uint16_t XM_CALLCONV DrawObjectPoints(uint16_t n);
 		void XM_CALLCONV DrawObjectPointsTop();
 		void XM_CALLCONV DrawObjectPointsBottom();
@@ -437,12 +640,12 @@ namespace Hot3dxRotoDraw
 		// Sets Width and height drawing mouse ratios
 		void SetMouseWidthRatio(float w) { m_drawMouseWidthRatio = m_drawMouseWidthRatio + w; }
 		void SetMouseHeightRatio(float h) { m_drawMouseHeightRatio = m_drawMouseHeightRatio + h; }
-		float GetMouseWidthRatio() { return m_drawMouseWidthRatio; }
-		float GetMouseHeightRatio() { return m_drawMouseHeightRatio; }
-		void MouseWidthHeightRatioOutput()
+		float GetMouseWidthRatio() const { return m_drawMouseWidthRatio; }
+		float GetMouseHeightRatio() const { return m_drawMouseHeightRatio; }
+		void MouseWidthHeightRatioOutput() const
 		{
 			TCHAR dest[100];
-			TCHAR* str = { L"W: %.6f H: %.6f\n" };
+			const TCHAR* str = { L"W: %.6f H: %.6f\n" };
 			StringCbPrintf(dest, 100, str, GetMouseWidthRatio(), GetMouseHeightRatio());
 			//OutputDebugString(dest);
 		}
@@ -460,10 +663,10 @@ namespace Hot3dxRotoDraw
 		Platform::String^ DrawnObjectSaveObjFile(
 			Platform::String^ mtlObjFilename,
 			Platform::String^ nodeName,
-			Platform::String^ effectName);
+			Platform::String^ effectName) const;
 
 		// .txt and .hbin file writers
-		Platform::String^ DrawnObjectSaveText(Platform::String^ fileName, unsigned int objectCount);
+		Platform::String^ DrawnObjectSaveText(Platform::String^ fileName, unsigned int objectCount) const;
 		Platform::String^ DrawnObjectSaveBinary();
 		void SetInitSphereVB2(float m_camradius, float m_camrotation) { InitSphereVB2(m_camradius, m_camrotation); }
 
@@ -530,30 +733,54 @@ namespace Hot3dxRotoDraw
 		void SetTexture6Name(Platform::String^ name) {
 			m_texture6Name = nullptr; m_texture6Name = ref new Platform::String(name->Data());
 		};
+		void SetTexturePic2Name(Platform::String^ name) {
+			m_texturePic2Name = nullptr; m_texturePic2Name = ref new Platform::String(name->Data());
+		};
+		void SetTextureVideo2Name(Platform::String^ name) {
+			m_textureVideo2Name = nullptr; m_textureVideo2Name = ref new Platform::String(name->Data());
+		};
+
+		// Scenario5_Tex Accessors
+		Platform::String^ GetTextureImagePicFile() { return m_textureImagePic1File; }
+		void SetTextureImagePic1File(Platform::String^ fileName) {
+			m_textureImagePic1File = nullptr;
+			m_textureImagePic1File = ref new Platform::String(fileName->Data());
+		}
+
+		Platform::String^ GetTextureImageVideo2File() { return m_textureImageVideo2File; }
+		void SetTextureImageVideo2File(Platform::String^ fileName) {
+			m_textureImageVideo2File = nullptr;
+			m_textureImageVideo2File = ref new Platform::String(fileName->Data());
+		}
 
 		// Scenario7_Video Accessors
-		Platform::String^ GetTextureImageVideoFile() { return m_textureImageVideoFile; }
+		Platform::String^ GetTextureImageVideoFile() { return m_textureImageVideo2File; }
 		void SetTextureImageVideoFile(Platform::String^ fileName) {
-			m_textureImageVideoFile = nullptr;
-			m_textureImageVideoFile = ref new Platform::String(fileName->Data());
+			m_textureImageVideo2File = nullptr;
+			m_textureImageVideo2File = ref new Platform::String(fileName->Data());
 		}
 
 		// Scenario111-GridPic Accessors
-		Platform::String^ GetTextureImageGridPicFile() { return m_textureImageGridPicFile; }
+		Platform::String^ GetTextureImageGridPicFile() { return m_textureImagePic1File; }
 		void SetTextureImageGridPicFile(Platform::String^ fileName) {
-			m_textureImageGridPicFile = nullptr;
-			m_textureImageGridPicFile = ref new Platform::String(fileName->Data());
+			m_textureImagePic1File = nullptr;
+			m_textureImagePic1File = ref new Platform::String(fileName->Data());
 		}
 
-		bool GetIsYAxis() { return m_bIsYAxis; }
+		bool GetIsYAxis() const { return m_bIsYAxis; }
 		void SetIsYAxis(bool b) { m_bIsYAxis = b; }
 		
+		// Sets and Gets the number of times a texture will be squared like bricks as a texture
+		// on an object - 1.0f is the default
+		float GetUVPercentTextureDimension() const { return m_textureDimension; }
+		void SetUVPercentTextureDimension(float textureDimension) { m_textureDimension = textureDimension; }
 
 	private:
 
 		// Calculates the faces of a mesh
 		void CalculateMeshFaces();
 		void CalculateMeshFacesTopBottom();
+		void CalculateDifLensLinesMeshFaces();
 		void XM_CALLCONV CalculateSphereFaces();
 		void XM_CALLCONV EndpointTopLeftFaces();
 		void XM_CALLCONV EndpointBottomRightFaces();
@@ -564,7 +791,7 @@ namespace Hot3dxRotoDraw
 		
 
 		// Calculates Texture Coordinates for whole object
-		void XM_CALLCONV GetUVPercent();
+		void XM_CALLCONV GetUVPercent(float dimension);
 		//void XM_CALLCONV GetUVPercentTop();
 		float* XM_CALLCONV GetU(XMVECTOR v, Platform::Array<float>^ box);
 		// Needed to Get DirectXPage^
@@ -582,6 +809,9 @@ namespace Hot3dxRotoDraw
 		Windows::Foundation::IAsyncAction^ m_drawObjectWorker;
 		Concurrency::critical_section m_drawCriticalSection;
 
+		Windows::Foundation::IAsyncAction^ m_drawObjectWorkerLines;
+		Concurrency::critical_section m_drawCriticalSectionLines;
+
 		XMFLOAT3 pSect;
 		bool m_bFaceSelected;
 		int m_iV;
@@ -591,13 +821,27 @@ namespace Hot3dxRotoDraw
 		unsigned int m_GroupListSelectedIndex;
 		unsigned int m_iPointCount;
 		size_t m_iTotalPointCount;
+		unsigned int m_iCpyPointCount;
+		unsigned int m_iLineCount;
+		unsigned int m_iCopyPointCount;
+		unsigned int m_iCopyPointCount2;
+		unsigned int m_iCopyPointCount3;
+		unsigned int m_iCopyPointCount4;
 		//unsigned int m_iLastPoint;
-		XMFLOAT2 point; XMFLOAT2 pointC;
+		XMFLOAT2 point;
 		Platform::Array<unsigned int>^ m_iTempGroup = ref new Platform::Array<unsigned int>(10000);
 		Platform::Array<float>^ m_iTempMouseX = ref new Platform::Array<float>(10000);
 		Platform::Array<float>^ m_iTempMouseY = ref new Platform::Array<float>(10000);
 		
 		std::vector<Hot3dxRotoDraw::PtGroups^> m_PtGroupList;
+		std::vector<LinePtGrp^> m_LinePtsList; 
+		uint16_t m_iTotalLinePointsCount;
+		std::vector< DirectX::DXTKXAML12::VertexPositionColor> lineGridVertices1;
+		std::vector< DirectX::DXTKXAML12::VertexPositionColor> lineGridVertices2;
+		std::vector< DirectX::DXTKXAML12::VertexPositionColor> lineGridVertices3;
+		std::vector< DirectX::DXTKXAML12::VertexPositionColor> lineGridVertices4;
+		std::vector< DirectX::DXTKXAML12::VertexPositionColor> lineGridVertices5;
+		std::vector< DirectX::DXTKXAML12::VertexPositionColor> lineGridVertices6;
 		std::vector<DirectX::DXTKXAML12::VertexPositionColor> vertices;
 		std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes;
 		std::vector<DirectX::DXTKXAML12::VertexPositionDualTexture> verticesDual;
@@ -649,6 +893,8 @@ namespace Hot3dxRotoDraw
 
 		// Variables used with the rendering loop.
 		bool	m_loadingComplete;
+		bool	m_newAndClearComplete;
+		bool    m_loadingDrawnLineObjectComplete;
 		bool    m_loadingDrawnObjectComplete;
 		bool    m_performScaleDrawnObjectComplete;
 		float	m_radiansPerSecond;
@@ -667,6 +913,7 @@ namespace Hot3dxRotoDraw
 		std::unique_ptr<DirectX::DXTKXAML12::BasicEffect>                                   m_lineEffect;
 		std::unique_ptr<DirectX::DXTKXAML12::BasicEffect>                                   m_cursorEffect;
 		std::unique_ptr<DirectX::DXTKXAML12::PrimitiveBatch<DirectX::DXTKXAML12::VertexPositionColor>>  m_batch;
+		std::unique_ptr<DirectX::DXTKXAML12::PrimitiveBatch<DirectX::DXTKXAML12::VertexPositionColor>>  m_linesDrawnBatch;
 		std::unique_ptr<DirectX::DXTKXAML12::BasicEffect>                                   m_shapeEffect;
 		std::unique_ptr<DirectX::DXTKXAML12::BasicEffect>                                   m_artistCameraEffect;
 		std::unique_ptr<DirectX::DXTKXAML12::BasicEffect>                                   m_shapeTetraEffect;
@@ -679,6 +926,8 @@ namespace Hot3dxRotoDraw
 		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_shapeTetra;
 		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_shapeGridPic;
 		std::unique_ptr<Hot3dxDrawnObject>                                                  m_hot3dxDrawnObject;
+		std::unique_ptr<Hot3dxDrawnObject>                                                  m_hot3dxDrawnObjectDual;
+		std::unique_ptr<Hot3dxDrawnObject>                                                  m_hot3dxDrawnObjectPBR;
 		std::unique_ptr<DirectX::DXTKXAML12::SpriteBatch>                                   m_sprites;
 		std::unique_ptr<DirectX::DXTKXAML12::SpriteBatch>                                   m_batchOpaque;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_CameraEyeFont;
@@ -687,6 +936,7 @@ namespace Hot3dxRotoDraw
 		std::unique_ptr<DirectX::SpriteFont>                                    m_MousePosFont;
 		//std::unique_ptr<DirectX::SpriteFont>                                    m_CursorPosFont;// Windows cursor
 		std::unique_ptr<DirectX::SpriteFont>                                    m_PointCountFont;
+		std::unique_ptr<DirectX::SpriteFont>                                    m_MAX_PointCountFont;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_TotalPointCountFont;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_FaceCountFont;
 		std::unique_ptr<DirectX::SpriteFont>                                    m_GroupCountFont;
@@ -694,17 +944,20 @@ namespace Hot3dxRotoDraw
 		std::unique_ptr<DirectX::DXTKXAML12::DualTextureEffect>                             m_dualTextureEffect;
 
 		std::unique_ptr<DirectX::DXTKXAML12::BasicEffect>                                   m_shapeDrawnObjectEffect;
+		std::unique_ptr<DirectX::DXTKXAML12::BasicEffect>                                   m_shapeDrawnObjectVideoEffect;
+		std::unique_ptr<DirectX::DXTKXAML12::BasicEffect>                                   m_shapeDrawnObjectEffectSculpt;
 		std::unique_ptr<DirectX::DXTKXAML12::AlphaTestEffect>                               m_shapeDrawnObjectAlphaEffect;
 		std::unique_ptr<DirectX::DXTKXAML12::PrimitiveBatch<DirectX::DXTKXAML12::VertexPositionColor>> m_shapeDrawnObject;
 		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_shapeDrawnObjectTex;
-		std::unique_ptr<Hot3dxDrawnObject>                            m_shapeDrawnObjectSculpt;
+		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_shapeDrawnObjectVideoTex;
+		std::unique_ptr<Hot3dxDrawnObject>                                                  m_shapeDrawnObjectSculpt;
 		std::unique_ptr<DirectX::DXTKXAML12::PrimitiveBatch<Hot3dxRotoDraw::VertexPositionNormalTextureTangent>> m_shapeDrawnObjectPBR;
 		//std::shared_ptr<DirectX::DXTKXAML12::ResourceUploadBatch>                           m_resourceUploadDrawnObject;
 		std::unique_ptr<DirectX::DXTKXAML12::GraphicsMemory>                                m_graphicsMemoryDrawnObject;
 
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_texture1;
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_texture2;
-		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_textureGridPic;
+		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_texturePic2;
 
 		// Video texture
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_videoTexture;
@@ -716,11 +969,13 @@ namespace Hot3dxRotoDraw
 		uint32_t    m_videoHeight;
 
 		//Our IBL cubemaps
+		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_PBRTexture1;
+		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_PBRTexture2;
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_radianceIBL;
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_irradianceIBL;
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_NormalTexture;
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_RMATexture;
-
+		std::vector<mybyte> fileData1;
 		Microsoft::WRL::ComPtr<ID3D12Resource> m_DrawnMeshTexture1;
 		Microsoft::WRL::ComPtr<ID3D12Resource> m_DrawnMeshTexture2;
 		Platform::String^ m_textureImage1File = ref new Platform::String();
@@ -729,18 +984,23 @@ namespace Hot3dxRotoDraw
 		Platform::String^ m_textureImage4File = ref new Platform::String();
 		Platform::String^ m_textureImage5File = ref new Platform::String();
 		Platform::String^ m_textureImage6File = ref new Platform::String();
+		Platform::String^ m_textureImagePic1File = ref new Platform::String();
+		Platform::String^ m_textureImageVideo2File = ref new Platform::String();
 		Platform::String^ m_texture1Name = ref new Platform::String();
 		Platform::String^ m_texture2Name = ref new Platform::String();
 		Platform::String^ m_texture3Name = ref new Platform::String();
 		Platform::String^ m_texture4Name = ref new Platform::String();
 		Platform::String^ m_texture5Name = ref new Platform::String();
 		Platform::String^ m_texture6Name = ref new Platform::String();
-		Platform::String^ m_textureImageGridPicFile = ref new Platform::String();
-		Platform::String^ m_textureImageVideoFile = ref new Platform::String();
+		Platform::String^ m_texturePic2Name = ref new Platform::String();
+		Platform::String^ m_textureVideo2Name = ref new Platform::String();
+		
+		// Scenario7 and 10
+		
 		Platform::String^ m_sound1File = ref new Platform::String();
 		
 		// TextureFile Loader
-		void XM_CALLCONV LoadDDSOrWicTextureFile(_In_ ID3D12Device* device,
+		inline HRESULT XM_CALLCONV LoadDDSOrWicTextureFile(_In_ ID3D12Device* device,
 			DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
 			_In_z_ const wchar_t* szFileName,
 			_Outptr_ ID3D12Resource** texture, Platform::String^ msgType, Platform::String^ message);
@@ -834,6 +1094,32 @@ namespace Hot3dxRotoDraw
 		Platform::Array<float>^ posX = ref new Platform::Array<float>(10000);
 		Platform::Array<float>^ posY = ref new Platform::Array<float>(10000);
 		Platform::Array<float>^ posZ = ref new Platform::Array<float>(10000);
+
+		Platform::Array<float>^ posXCpy = ref new Platform::Array<float>(1000);
+		Platform::Array<float>^ posYCpy = ref new Platform::Array<float>(1000);
+		Platform::Array<float>^ posZCpy = ref new Platform::Array<float>(1000);
+
+		Platform::Array<float>^ posXCopy = ref new Platform::Array<float>(200);
+		Platform::Array<float>^ posYCopy = ref new Platform::Array<float>(200);
+		Platform::Array<float>^ posZCopy = ref new Platform::Array<float>(200);
+
+		Platform::Array<float>^ posXCopy2 = ref new Platform::Array<float>(200);
+		Platform::Array<float>^ posYCopy2 = ref new Platform::Array<float>(200);
+		Platform::Array<float>^ posZCopy2 = ref new Platform::Array<float>(200);
+
+		Platform::Array<float>^ posXCopy3 = ref new Platform::Array<float>(200);
+		Platform::Array<float>^ posYCopy3 = ref new Platform::Array<float>(200);
+		Platform::Array<float>^ posZCopy3 = ref new Platform::Array<float>(200);
+
+		Platform::Array<float>^ posXCopy4 = ref new Platform::Array<float>(200);
+		Platform::Array<float>^ posYCopy4 = ref new Platform::Array<float>(200);
+		Platform::Array<float>^ posZCopy4 = ref new Platform::Array<float>(200);
+
+		Platform::Array<float>^ posXTemp = ref new Platform::Array<float>(1000);
+		Platform::Array<float>^ posYTemp = ref new Platform::Array<float>(1000);
+		Platform::Array<float>^ posZTemp = ref new Platform::Array<float>(1000);
+
+		unsigned int m_iTempPointCount = 0;
 
 		Platform::Array<float>^ box = ref new Platform::Array<float>(6);
 
@@ -935,7 +1221,7 @@ namespace Hot3dxRotoDraw
 		
 			void SetShouldRender(bool _shouldRender) { m_shouldRender = _shouldRender; };
 
-			bool IsLoaded() { return m_loaded; };
+			bool IsLoaded() const { return m_loaded; };
 
 			//These functions are intended for skybox use
 			void DisableDepthDefault() { enable_depth_default = false; }
@@ -949,6 +1235,7 @@ namespace Hot3dxRotoDraw
 			//Settings and data
 			Platform::String^ dirpath_wchar = ref new Platform::String(L"Assets\\Textures\\");
 			Platform::String^ filename;
+			float m_textureDimension;
 			int resourceDescriptorOffset = 0;
 			int meshTexture_index = -1;
 			int radiance_index = -1;

@@ -6,10 +6,11 @@
 //-------------------------------------------------------------------------------------
 
 #include "pch.h"
-
+#include "Common/DirectXHelper.h"
 #include "Hot3dxRotoDrawSceneRender.h"
 
 using Microsoft::WRL::ComPtr;
+using namespace DX;
 
 namespace Hot3dxRotoDraw
 {
@@ -145,29 +146,136 @@ void Hot3dxRotoDraw::MediaEnginePlayer::Initialize(IDXGIFactory4* dxgiFactory, I
     }
 #endif
 
-    ComPtr<ID3D11Device> baseDevice;
-    DX::ThrowIfFailed(
-        D3D11CreateDevice(
-            adapter.Get(),
+    D3D_DRIVER_TYPE driveType;
+    adapter.Get();
+
 #if defined(NDEBUG)
-            D3D_DRIVER_TYPE_UNKNOWN,
+    driveType = D3D_DRIVER_TYPE_UNKNOWN;
 #else
-            adapter ? D3D_DRIVER_TYPE_UNKNOWN : D3D_DRIVER_TYPE_WARP,
+    adapter ? driveType = D3D_DRIVER_TYPE_UNKNOWN : driveType = D3D_DRIVER_TYPE_WARP;
 #endif
-            nullptr,
-            D3D11_CREATE_DEVICE_VIDEO_SUPPORT | D3D11_CREATE_DEVICE_BGRA_SUPPORT,
-            nullptr,
+
+    // This flag adds support for surfaces with a different color channel ordering
+    // than the API default. It is required for compatibility with Direct2D.
+    UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
+
+#if defined(_DEBUG)
+    if (DX::SdkLayersAvailableD3D11())
+    {
+        // If the project is in a debug build, enable debugging via SDK Layers with this flag.
+        creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
+    }
+#endif
+
+    // This array defines the set of DirectX hardware feature levels this app will support.
+    // Note the ordering should be preserved.
+    // Note that HoloLens supports feature level 11.1. The HoloLens emulator is also capable
+    // of running on graphics cards starting with feature level 10.0.
+    D3D_FEATURE_LEVEL featureLevels[] =
+    {
+        D3D_FEATURE_LEVEL_12_1,
+        D3D_FEATURE_LEVEL_12_0,
+        D3D_FEATURE_LEVEL_11_1,
+        D3D_FEATURE_LEVEL_11_0,
+        D3D_FEATURE_LEVEL_10_1,
+        D3D_FEATURE_LEVEL_10_0
+    };
+
+    D3D11_RASTERIZER_DESC rasterDesc{
+            D3D11_FILL_SOLID,
+            D3D11_CULL_NONE,
+            false,
             0,
-            D3D11_SDK_VERSION,
-            baseDevice.GetAddressOf(),
-            nullptr,
-            nullptr
-        ));
+            0.0f,
+            0.0f,
+            true,
+            false,
+            true,
+            true };
+
+
+    // Create the Direct3D 11 API device object and a corresponding context.
+    ComPtr<ID3D11Device> baseDevice;
+    //ComPtr<ID3D11Device> device;
+    ComPtr<ID3D11DeviceContext> context;
+
+    // Retrieve the adapter specified by the holographic space.
+    DX::ThrowIfFailed(
+        dxgiFactory->EnumAdapterByLuid(
+            adapterLuid,
+            IID_PPV_ARGS(&adapter)
+        )
+    );
+    const D3D_DRIVER_TYPE driverType = adapter == nullptr ? D3D_DRIVER_TYPE_HARDWARE : D3D_DRIVER_TYPE_UNKNOWN;
+    const HRESULT hr = D3D11CreateDevice(
+        adapter.Get(),        // Either nullptr, or the primary adapter determined by Windows Holographic.
+        driverType,                 // Create a device using the hardware graphics driver.
+        0,                          // Should be 0 unless the driver is D3D_DRIVER_TYPE_SOFTWARE.
+        creationFlags,              // Set debug and Direct2D compatibility flags.
+        featureLevels,              // List of feature levels this app can support.
+        ARRAYSIZE(featureLevels),   // Size of the list above.
+        D3D11_SDK_VERSION,          // Always set this to D3D11_SDK_VERSION for Windows Runtime apps.
+        &baseDevice,                    // Returns the Direct3D device created.
+        nullptr,//&m_d3dFeatureLevel,         // Returns feature level of device created.
+        &context                    // Returns the device immediate context.
+    );
+
+    if (FAILED(hr))
+    {
+        // If the initialization fails, fall back to the WARP device.
+        // For more information on WARP, see:
+        // http://go.microsoft.com/fwlink/?LinkId=286690
+        DX::ThrowIfFailed(
+            D3D11CreateDevice(
+                nullptr,              // Use the default DXGI adapter for WARP.
+                D3D_DRIVER_TYPE_WARP, // Create a WARP device instead of a hardware device.
+                0,
+                creationFlags,
+                featureLevels,
+                ARRAYSIZE(featureLevels),
+                D3D11_SDK_VERSION,
+                &baseDevice,
+                nullptr,//&m_d3dFeatureLevel,
+                &context
+            )
+        );
+    }
+
+
+    // Store pointers to the Direct3D device and immediate context.
+    DX::ThrowIfFailed(
+        baseDevice.As(&m_device)
+    );
+
+    // DX::ThrowIfFailed(
+     //    context.As(&m_d3dContext)
+    // );
+
+     // Acquire the DXGI interface for the Direct3D device.
+    ComPtr<IDXGIDevice3> dxgiDevice;
+    DX::ThrowIfFailed(
+        m_device.As(&dxgiDevice)
+    );
+
+    // Wrap the native device using a WinRT interop object.
+    //m_d3dInteropDevice = CreateDirect3DDevice(dxgiDevice.Get());
+
+    // Cache the DXGI adapter.
+    // This is for the case of no preferred DXGI adapter, or fallback to WARP.
+    ComPtr<IDXGIAdapter> dxgiAdapter;
+    DX::ThrowIfFailed(
+        dxgiDevice->GetAdapter(&dxgiAdapter)
+    );
+    DX::ThrowIfFailed(
+        dxgiAdapter.As(&adapter)
+    );
 
     ComPtr<ID3D10Multithread> multithreaded;
-    DX::ThrowIfFailed(baseDevice.As(&multithreaded));
+    DX::ThrowIfFailed(
+        baseDevice->QueryInterface(IID_PPV_ARGS(&multithreaded))
+    );
     multithreaded->SetMultithreadProtected(TRUE);
-
+    DX::ThrowIfFailed(baseDevice.As(&multithreaded));
     DX::ThrowIfFailed(baseDevice.As(&m_device));
 
     // Setup Media Engine
@@ -207,7 +315,7 @@ void Hot3dxRotoDraw::MediaEnginePlayer::Initialize(IDXGIFactory4* dxgiFactory, I
 
     // Create MediaEngineEx
     DX::ThrowIfFailed(m_mediaEngine.As(&m_engineEx));
-}
+    }
 }
 
 void Hot3dxRotoDraw::MediaEnginePlayer::Shutdown()

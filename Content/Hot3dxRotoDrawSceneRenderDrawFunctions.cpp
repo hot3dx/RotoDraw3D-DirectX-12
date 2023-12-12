@@ -2,6 +2,8 @@
 #include "pch.h"
 #include "DirectXPage.xaml.h"
 #include "Hot3dxRotoDrawSceneRender.h"
+#include "Hot3dxDrawnObject.h"
+#include "Hot3dxObjectGeometry.h"
 
 using namespace Hot3dxRotoDraw;
 
@@ -32,24 +34,24 @@ uint16_t Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPoints(uint16_t n)
 		{
 			for (unsigned int i = 0; i < m_iPointCount; i++)
 			{
+				m_PtGroupList.at(0)->SetPtList(i, k); 
 				DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i) * m_fScale1stLineDrawnPts, posY->get(i), posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 				vertices.push_back(vpc);
-				m_PtGroupList.at(0)->SetPtList(i, k);
 				k++;
 			}
 
 			for (unsigned int j = 1; j < cnt; j++)
 			{
 				IncrementPtGroups();
-
+				
 				for (unsigned int i = 0; i < m_iPointCount; i++)
 				{
+					m_PtGroupList.at(j)->SetPtList(i, k);
 					float aa = (float)j * a;
 					float x = m_hot3dxRotate->xCoordofYRot3f(posX->get(i), posZ->get(i), aa);
 					float z = m_hot3dxRotate->zCoordofYRot3f(posX->get(i), posZ->get(i), aa);
 					DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(x * m_fScale1stLineDrawnPts, posY->get(i), z * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 					vertices.push_back(vpc);
-					m_PtGroupList.at(j)->SetPtList(i, k);
 					k++;
 				} // eo for i
 			}// eo for j
@@ -62,9 +64,10 @@ uint16_t Hot3dxRotoDraw::RotoDrawSceneRender::DrawObjectPoints(uint16_t n)
 					size_t sz = m_PtGroupList.size() - 1;
 					for (unsigned int i = 0; i < m_iPointCount; i++)
 					{
+						m_PtGroupList.at(sz)->SetPtList(i, k); 
 						DirectX::DXTKXAML12::VertexPositionColor vpc = { XMFLOAT3(posX->get(i) * m_fScale1stLineDrawnPts, posY->get(i), posZ->get(i) * m_fScale1stLineDrawnPts), XMFLOAT4(r,g,b,alpha) };
 						vertices.push_back(vpc);
-						m_PtGroupList.at(sz)->SetPtList(i, k);
+						
 						k++;
 					}
 				}
@@ -488,7 +491,6 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::CalculateMeshFaces()
 			indices.push_back(d);
 		}
 	}
-	
 
 }
 
@@ -529,13 +531,121 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::CalculateMeshFacesTopBottom()
 			}
 		}
 	}
-
-	//EndPointSetFaceValues();
-	//InitDrawnObjectSingleTexture();
-	//m_iDrawMode = 2;
-
 }
 
+void Hot3dxRotoDraw::RotoDrawSceneRender::CalculateDifLensLinesMeshFaces()
+{
+	size_t indicesSize = 0;
+	indicesSize = USHRT_MAX;
+	IndexCollectionColor findexes;
+	findexes.resize(indicesSize);
+
+	/////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////
+
+	uint16_t k = 0;
+	for (size_t i = 0; i < static_cast<size_t>(m_iLineCount - 1); i++)
+	{
+		unsigned int cnts = 0;
+		unsigned int cnts2 = 0;
+		if (static_cast<size_t>(m_iLineCount - 1))
+		{
+			cnts = static_cast<unsigned int>(m_LinePtsList.at(i)->m_lineVerts.size());
+			cnts2 = static_cast<unsigned int>(m_LinePtsList.at(i + 1)->m_lineVerts.size());
+			if (cnts == cnts2)
+			{
+				for (unsigned int j = 0; j < cnts - 1; j++)
+				{
+					// First Face
+					size_t posI = i;
+					// First Face
+					uint16_t a = m_LinePtsList.at(posI)->GetListPtIndex(j);
+					uint16_t b = m_LinePtsList.at(posI)->GetListPtIndex(j + 1);
+					uint16_t c = m_LinePtsList.at(posI + 1)->GetListPtIndex(j + 1);
+					uint16_t d = m_LinePtsList.at(posI + 1)->GetListPtIndex(j);
+					findexes.at(k) = a; k++;
+					findexes.at(k) = b; k++;
+					findexes.at(k) = c; k++;
+					// Second Face
+					findexes.at(k) = a; k++;
+					findexes.at(k) = c; k++;
+					findexes.at(k) = d; k++;
+				}
+			} // eo if (cnts == cnts2)
+			else if (cnts > cnts2)
+			{
+				size_t posI = i;
+				unsigned int j = 0;
+				for (j = 0; j < cnts - 1; j++)
+				{
+					// First Face
+					if (j < cnts2 - 1)
+					{
+						// First Face
+						uint16_t a = m_LinePtsList.at(posI)->GetListPtIndex(j);
+						uint16_t b = m_LinePtsList.at(posI)->GetListPtIndex(j + 1);
+						uint16_t c = m_LinePtsList.at(posI + 1)->GetListPtIndex(j + 1);
+						uint16_t d = m_LinePtsList.at(posI + 1)->GetListPtIndex(j);
+						findexes.at(k) = a; k++;
+						findexes.at(k) = b; k++;
+						findexes.at(k) = c; k++;
+						// Second Face
+						findexes.at(k) = a; k++;
+						findexes.at(k) = c; k++;
+						findexes.at(k) = d; k++;
+					}
+					else
+					{
+						uint16_t a = m_LinePtsList.at(posI)->GetListPtIndex(j);
+						uint16_t b = m_LinePtsList.at(posI + 1)->GetListPtIndex(cnts2 - 1);
+						uint16_t c = m_LinePtsList.at(posI)->GetListPtIndex(j + 1);
+
+						(findexes.size() < k) ? findexes.push_back(a) : findexes.at(k) = a; k++;
+						(findexes.size() < k) ? findexes.push_back(b) : findexes.at(k) = b; k++;
+						(findexes.size() < k) ? findexes.push_back(c) : findexes.at(k) = c; k++;
+					}
+				}
+
+
+			} // eo if (cnts > cnts2)
+			else if (cnts < cnts2)
+			{
+				size_t posI = i;
+				unsigned int j = 0;
+				for (j = 0; j < cnts2 - 1; j++)
+				{
+					// First Face
+					if (j < cnts - 1)
+					{
+						// First Face
+						uint16_t a = m_LinePtsList.at(posI)->GetListPtIndex(j);
+						uint16_t b = m_LinePtsList.at(posI)->GetListPtIndex(j + 1);
+						uint16_t c = m_LinePtsList.at(posI + 1)->GetListPtIndex(j + 1);
+						uint16_t d = m_LinePtsList.at(posI + 1)->GetListPtIndex(j);
+						findexes.at(k) = a; k++;
+						findexes.at(k) = b; k++;
+						findexes.at(k) = c; k++;
+						// Second Face
+						findexes.at(k) = a; k++;
+						findexes.at(k) = c; k++;
+						findexes.at(k) = d; k++;
+					}
+					else
+					{
+						uint16_t a = m_LinePtsList.at(posI + 1)->GetListPtIndex(j);
+						uint16_t b = m_LinePtsList.at(posI)->GetListPtIndex(cnts - 1);
+						uint16_t c = m_LinePtsList.at(posI + 1)->GetListPtIndex(j + 1);
+
+						(findexes.size() < k) ? findexes.push_back(a) : findexes.at(k) = a; k++;
+						(findexes.size() < k) ? findexes.push_back(b) : findexes.at(k) = b; k++;
+						(findexes.size() < k) ? findexes.push_back(c) : findexes.at(k) = c; k++;
+					}
+				}
+
+			} // eo if (cnts < cnts2)
+		} // eo i for
+	} // eo if m_iLineCount
+}
 void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndpointTopLeftFaces()
 {
 
@@ -567,8 +677,6 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndpointTopLeftFaces()
 			}
 		}
 	}
-	//InitDrawnObjectSingleTexture();
-	//m_iDrawMode = 2;
 }
 
 void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndpointBottomRightFaces()
@@ -602,9 +710,6 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndpointBottomRightFaces()
 			}
 		}
 	}
-
-	//InitDrawnObjectSingleTexture();
-	//m_iDrawMode = 2;
 }
 
 Platform::String^ Hot3dxRotoDraw::RotoDrawSceneRender::GetMsgTypes(unsigned int i)
