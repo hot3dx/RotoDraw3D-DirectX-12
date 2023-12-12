@@ -6,7 +6,7 @@
     </Filter>
     <Filter Include="Assets">
       <UniqueIdentifier>baae49b0-ff10-4fbc-9654-2768fd11b189</UniqueIdentifier>
-      <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png;wav;dds;ttf;spritefont;</Extensions>
+      <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png;wav;dds;ttf;spritefont;.obj;.mtl;</Extensions>
     </Filter>
     <Filter Include="Content">
       <UniqueIdentifier>3a34d6e5-333d-4c09-9510-3c08e8e5109b</UniqueIdentifier>
@@ -107,6 +107,12 @@
       <Filter>Content</Filter>
     </ClCompile>
     <ClCompile Include="Content\MediaEnginePlayer.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Content\Hot3dxRotoDrawSceneRenderInit.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Content\Hot3dxRotoDrawSceneRenderDrawLines.cpp">
       <Filter>Content</Filter>
     </ClCompile>
   </ItemGroup>
@@ -360,6 +366,21 @@
     <Image Include="Assets\Textures\WHITE_CUBEMAP_R.DDS">
       <Filter>Assets\Textures</Filter>
     </Image>
+    <Image Include="Assets\Textures\sphere.png">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\Toyrobot_Normal.DDS">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\Toyrobot_RMA.DDS">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\ATRIUM_IR.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
+    <Image Include="Assets\Textures\ATRIUM_R.dds">
+      <Filter>Assets\Textures</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
@@ -380,12 +401,13 @@
     <Page Include="Scenario11_GridorPic.xaml" />
     <Page Include="ContentDialog1.xaml" />
     <Page Include="Scenario12_Translate.xaml" />
+    <Page Include="Scenario5_Tex.xaml" />
+    <Page Include="Scenario13_ScreenGrab.xaml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\cursor1.cur">
       <Filter>Assets</Filter>
     </None>
-    <None Include="packages.config" />
     <None Include="cpp.hint" />
     <None Include="Content\PBREffect_Common.hlsli">
       <Filter>Content</Filter>
@@ -402,6 +424,7 @@
     <None Include="Help\HelpSettingDialog.htm">
       <Filter>Help</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\musicmono_adpcm.wav">

@@ -60,27 +60,11 @@ namespace Hot3dxRotoDraw
 
         ///////////////  video
 
-        void IDC_VIDEO_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        void VideoTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
-
-        void VideoFilesTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
-        void DisplayResultVideo(Windows::UI::Xaml::Controls::Image^ image,
-            Windows::UI::Xaml::Controls::TextBox^ textBox,
-            Platform::String^ thumbnailModeName, size_t size,
-            Windows::Storage::IStorageItem^ item,
-            Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, bool isGroup);
-        void IDC_VIDEO_TEXTURE_IMAGE1_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        void IDC_SHOW_VIDEO_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-
-        void LoadChosenImage1();
-        void LoadDefaultVideoImage(Platform::String^ imagePath);
-
-        bool m_VideoImage;
         Platform::String^ m_dirPath;
-        Windows::Storage::StorageFile^ fileImageVideo;
-        Windows::Storage::FileProperties::StorageItemThumbnail^ m_thumbnailVideoDXP;
-        Platform::String^ fileNameVideo;
-        Windows::UI::Xaml::Media::Imaging::BitmapImage^ bitmapImageVideoDXP;
+        Windows::Storage::StorageFile^ fileImage;
+        Windows::Storage::FileProperties::StorageItemThumbnail^ m_thumbnail;
+        Platform::String^ fileName;
+        Windows::UI::Xaml::Media::Imaging::BitmapImage^ bitmapImageDXP;
 
     protected:
         virtual void OnNavigatedTo(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e) override;

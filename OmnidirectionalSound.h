@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include "pch.h"
 #include <hrtfapoapi.h>
 #include <AudioFileReaderXaml12.h>
 //

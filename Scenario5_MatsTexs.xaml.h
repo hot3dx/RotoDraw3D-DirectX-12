@@ -25,7 +25,7 @@ using namespace Windows::UI::Xaml;
 
 namespace Hot3dxRotoDraw
 {
-    
+    /*
    class Errors
     {
     public:
@@ -39,7 +39,7 @@ namespace Hot3dxRotoDraw
         static Platform::String^ Cancel;
         static Platform::String^ InvalidSize;
     };
-
+    */
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -61,30 +61,7 @@ namespace Hot3dxRotoDraw
         bool                            _initialized = false;
 
         void scrollBar_Scroll(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::ScrollEventArgs^ e);
-        void IDC_TEXTURE_IMAGE1_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        void IDC_TEXTURE_IMAGE2_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        void IDC_TEXTURE_RMA_IMAGE3_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        void IDC_TEXTURE_EMMISIVE_IMAGE4_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        void IDC_TEXTURE_RADIANCE_IMAGE5_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        void IDC_TEXTURE_IRRADIANCE_IMAGE6_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-
-        void LoadDefaultImage1(Platform::String^ imagePath);
-        void LoadChosenImage1();
-        void LoadDefaultImage2(Platform::String^ imagePath);
-        void LoadChosenImage2();
-        void LoadDefaultImage3(Platform::String^ imagePath);
-        void LoadChosenImage3();
-        void LoadDefaultImage4(Platform::String^ imagePath);
-        void LoadChosenImage4();
-        void LoadDefaultImage5(Platform::String^ imagePath);
-        void LoadChosenImage5();
-        void LoadDefaultImage6(Platform::String^ imagePath);
-        void LoadChosenImage6();
-        void LoadDefaultImages(unsigned int imageIdNum, 
-            Platform::String^ imagePath
-        );
-        unsigned int imageIdNums;
-        void LoadChosenImages();
+        
 
         void SetMaterialTypesStrings();
         void SetSingleMaterialTypesStringListboxItem(Platform::Object^ sender, unsigned int i,
@@ -93,11 +70,6 @@ namespace Hot3dxRotoDraw
         void SetMaterialTypesDataStrings();
 
 
-        static void DisplayResult(Windows::UI::Xaml::Controls::Image^ image, Windows::UI::Xaml::Controls::TextBlock^ textBlock,
-            Platform::String^ thumbnailModeName,
-            Windows::Storage::IStorageItem^ item, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail,
-            bool isGroup);
-
         void MaterialListControl_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e);
         void MaterialListControlData_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e);
         void MySc5FilePath(Platform::String^ image){ m_sSc5DirPath = image; }
@@ -105,17 +77,16 @@ namespace Hot3dxRotoDraw
 
         bool m_firstOrSecondImage;
 
+        
+        
     internal:
         static Scenario5_MatsTexs^ Current;
 
         
     private:
-        void TextureImage1_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        void TextureImage2_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        void TextureImage3_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        void TextureImage4_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        void TextureImage5_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        void TextureImage6_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+
+        
+       
     };
 
 }

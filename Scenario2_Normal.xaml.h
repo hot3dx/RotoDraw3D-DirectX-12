@@ -40,6 +40,7 @@ namespace Hot3dxRotoDraw
 
         void SetTopLeftCheckBoxFalse() { IDC_TOP_OR_LEFT_CHECKBOX->IsChecked = false; }
         void SetBottomRightCheckBoxFalse() { IDC_BOTTOM_OR_RIGHT_CHECKBOX->IsChecked = false; }
+        void SetAxisChecked(bool t) { IDC_AXIS_CHECKBOX->IsChecked = t; }
 
         void SetPartialSlider();
        
@@ -74,6 +75,11 @@ namespace Hot3dxRotoDraw
         void PartialRotateTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
         void IDC_CLOSED_OR_OPEN_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void IDC_SET_POINTS_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void IDC_TEXTURE_UV_SLIDER_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
+        void IDC_HORIZONTAL_LINE_checkBox_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void IDC_VERTICAL_LINE_checkBox_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void IDC_45_DEGREE_LINE_Checkbox_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void IDC_ARC_RADIUS_LINE_checkBox_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         
         Windows::UI::Xaml::Controls::CheckBox^ m_IDC_EXTERIOR_FACES_CHECKBOX;
         Windows::UI::Xaml::Controls::CheckBox^ m_IDC_INTERIOR_FACES_CHECKBOX;
@@ -83,6 +89,8 @@ namespace Hot3dxRotoDraw
         bool m_bAxisChecked;
         bool m_bTopOrLeftChecked;
         bool m_bBottomOrRightChecked;
+        bool m_bColorOnlyNoTexture;
+
         Windows::UI::Color m_pointColor;
         DirectXPage^ _rootPage;
         Windows::UI::Xaml::Controls::TextBox^ m_PointSpaceTextBox;
@@ -96,14 +104,16 @@ namespace Hot3dxRotoDraw
         void SamplIndexWrapComboBox_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void EffectDescComboBox_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e);
         void SetEffectDescComboBox(unsigned int val);
+        void IDC_COLOR_ONLY_NO_TEXTURE_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 
        unsigned int m_iRasterDescIndex;
        unsigned int m_iSamplWrapIndex;
        unsigned int m_iEffectDescSelectedIndex;
     private:
-       
-        
-       
+        void SAVE_PTS_button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void PUT_COPY_PTS_button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void CLEAR_COPED_PTS_button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void CursorLockResetButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
     };
 }
 

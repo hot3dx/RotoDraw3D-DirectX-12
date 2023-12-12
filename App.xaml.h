@@ -14,9 +14,11 @@
 #pragma once
 
 #include "Generated Files\App.g.h"
+#include "Generated Files\DirectXPage.g.h"
 #include "DirectXPage.xaml.h"
 #include "Common\DeviceResources.h"
 #include "Hot3dxRotoDrawMain.h"
+#include "Common/DirectXHelper.h"
 
 using namespace DX;
 
@@ -38,7 +40,7 @@ namespace Hot3dxRotoDraw
 		DirectXPage^ m_directXPage;
 
 		// Private accessor for m_deviceResources, protects against device removed errors.
-		std::shared_ptr<DX::DeviceResources> GetDeviceResources();
+		//std::shared_ptr<DX::DeviceResources> GetDeviceResourcesApp();
 
 
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;

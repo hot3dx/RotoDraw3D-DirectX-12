@@ -41,7 +41,7 @@ Hot3dxRotoDraw::Scenario1_Start::Scenario1_Start() : _rootPage(DirectXPage::Curr
     Scenario5Vars^ vars = _rootPage->m_Scene5Vars;
     if (vars->GetBitmapImageDXP1())
     {
-        // loads chosen top left texture image
+        // loads chosen top left texture imagefire.dds
         LoadChosenSound1();
     }
     else
@@ -179,8 +179,8 @@ void Hot3dxRotoDraw::Scenario1_Start::LoadChosenSound1()
     // loads default sound and top image
 
     Pickers::FileOpenPicker^ pick = ref new Pickers::FileOpenPicker();
-    pick->ViewMode = PickerViewMode::Thumbnail; //Pickers::PickerViewMode::List;
-    pick->SuggestedStartLocation = PickerLocationId::ComputerFolder;// ickers::PickerLocationId::MusicLibrary;
+    pick->ViewMode = PickerViewMode::Thumbnail;
+    pick->SuggestedStartLocation = Pickers::PickerLocationId::ComputerFolder;
     pick->FileTypeFilter->Append(".wav");
     pick->FileTypeFilter->Append(".mp3");
     pick->FileTypeFilter->Append(".wma");
@@ -197,6 +197,7 @@ void Hot3dxRotoDraw::Scenario1_Start::LoadChosenSound1()
         fastThumbnail = false;
         thumbnailOptions = ThumbnailOptions::UseCurrentScale;
     }
+    
     concurrency::create_task(pick->PickSingleFileAsync()).then(
         [this](Windows::Storage::StorageFile^ file)
         {
@@ -221,7 +222,7 @@ void Hot3dxRotoDraw::Scenario1_Start::LoadChosenSound1()
                     });
             }
         });
-
+    
     concurrency::create_task(pick->PickSingleFileAsync()).then(
         [this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
         {
@@ -255,7 +256,7 @@ void Hot3dxRotoDraw::Scenario1_Start::LoadChosenSound1()
             }
             else {}
         });
-
+        
     _rootPage->NotifyUser("Stopped", NotifyType::StatusMessage);
 }
 

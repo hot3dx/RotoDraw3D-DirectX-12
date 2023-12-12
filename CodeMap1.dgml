@@ -73,9 +73,6 @@
     <Node Id="@67" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.ApplicationModel.Calls.Background.CallsBackgroundContract\2.0.0.0\Windows.ApplicationModel.Calls.Background.CallsBackgroundContract.winmd" Group="Collapsed" Label="Windows.ApplicationModel.Calls.Background.CallsBackgroundContract.winmd" UseManualLocation="True">
       <Category Ref="FileSystem.Category.FileOfType.winmd" />
     </Node>
-    <Node Id="@68" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.ApplicationModel.Calls.CallsPhoneContract\5.0.0.0\Windows.ApplicationModel.Calls.CallsPhoneContract.winmd" Group="Collapsed" Label="Windows.ApplicationModel.Calls.CallsPhoneContract.winmd" UseManualLocation="True">
-      <Category Ref="FileSystem.Category.FileOfType.winmd" />
-    </Node>
     <Node Id="@69" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\Windows Kits\10\References\10.0.19041.0\Windows.ApplicationModel.Calls.CallsVoipContract\4.0.0.0\Windows.ApplicationModel.Calls.CallsVoipContract.winmd" Group="Collapsed" Label="Windows.ApplicationModel.Calls.CallsVoipContract.winmd" UseManualLocation="True">
       <Category Ref="FileSystem.Category.FileOfType.winmd" />
     </Node>
@@ -402,9 +399,6 @@
     <Alias n="64" Uri="Assembly=$(VsSolutionUri)/Hot3dxRotoDraw.sln/Unknown Library" />
     <Alias n="65" Id="(StrongName=&quot;Windows.AI.MachineLearning.MachineLearningContract, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
     <Alias n="66" Id="(StrongName=&quot;Windows.AI.MachineLearning.Preview.MachineLearningPreviewContract, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
-    <Alias n="67" Id="(StrongName=&quot;Windows.ApplicationModel.Calls.Background.CallsBackgroundContract, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
-    <Alias n="68" Id="(StrongName=&quot;Windows.ApplicationModel.Calls.CallsPhoneContract, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
-    <Alias n="69" Id="(StrongName=&quot;Windows.ApplicationModel.Calls.CallsVoipContract, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
     <Alias n="70" Id="(StrongName=&quot;Windows.ApplicationModel.CommunicationBlocking.CommunicationBlockingContract, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
     <Alias n="71" Id="(StrongName=&quot;Windows.ApplicationModel.SocialInfo.SocialInfoContract, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
     <Alias n="72" Id="(StrongName=&quot;Windows.ApplicationModel.StartupTaskContract, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime&quot;)" />
@@ -449,10 +443,6 @@
     <Style TargetType="Node" GroupLabel="Windows Store Project" ValueLabel="Windows Store Project">
       <Condition Expression="HasCategory('CodeMap_WindowsStoreProject')" />
       <Setter Property="Icon" Value="CodeMap_WindowsStoreProject" />
-    </Style>
-    <Style TargetType="Node" GroupLabel="Phone Project" ValueLabel="Phone Project">
-      <Condition Expression="HasCategory('CodeMap_PhoneProject')" />
-      <Setter Property="Icon" Value="CodeMap_PhoneProject" />
     </Style>
     <Style TargetType="Node" GroupLabel="Portable Library" ValueLabel="Portable Library">
       <Condition Expression="HasCategory('CodeMap_PortableLibraryProject')" />

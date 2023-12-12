@@ -11,13 +11,11 @@
 #include <d3d12.h>
 #include "Common\d3dx12.h"
 #include <d3d11_3.h>
-#include <d2d1_3.h>
-#include <d2d1effects_2.h>
 #include <dwrite_3.h>
 #include <wincodec.h>
 // Uses NuGet.org package WinPixEventRuntime 1.0.200127001
 // and Microsoft.UI.Xaml.2.5.0-prerelease.200812001
-#include <\Hot3dxRotoDraw\packages\WinPixEventRuntime.1.0.230302001\Include\WinPixEventRuntime\pix3.h>
+#include </Hot3dxRotoDraw/packages/WinPixEventRuntime.1.0.231030001/Include/WinPixEventRuntime/pix3.h>
 #include <DirectXColors.h>
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>
@@ -44,14 +42,14 @@
 #include <memory>
 #include <mutex>
 #include <set>
-#include <string>
+//#include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
 #include <malloc.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <cstdint>
 
 #define XAUDIO2_HELPER_FUNCTIONS 1
 #include <x3daudio.h>

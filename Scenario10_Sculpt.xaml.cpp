@@ -45,7 +45,7 @@ positionX(0.0f),
 positionY(0.0f),
 positionZ(0.0f)
 {
-    InitializeComponent();
+	InitializeComponent();
 	checkBoxSculptBool->IsChecked::set(false);
 	checkBoxSculptBool->SetValue(checkBoxSculptBool->IsCheckedProperty, checkBoxSculptBool->IsChecked);
 	checkBoxSculptXBool->IsChecked::set(false);
@@ -62,8 +62,8 @@ positionZ(0.0f)
 	textBoxSelectedPointY->Text::set(ref new Platform::String(std::to_wstring(positionY).c_str()));
 	textBoxSelectedPointY->SetValue(textBoxSelectedPointY->TextProperty, textBoxSelectedPointX->Text);
 
-    _rootPage->NotifyUser("Ready", NotifyType::StatusMessage);
 
+	_rootPage->NotifyUser("Ready", NotifyType::StatusMessage);
 }
 
 Hot3dxRotoDraw::Scenario10_Sculpt::~Scenario10_Sculpt()
@@ -86,38 +86,39 @@ void Hot3dxRotoDraw::Scenario10_Sculpt::checkBoxSculptBool_Checked(Platform::Obj
 	{
 		checkBoxSculptBool->IsChecked::set(false);
 		m_bSculptEnabled = false;
-		
+
 	}
 	else
 	{
 		checkBoxSculptBool->IsChecked::set(true);
 		m_bSculptEnabled = true;
-		_rootPage->GetPointCount();
-		_rootPage->GetGroupCount();
-		textBoxGroupCount->Text::set(ref new Platform::String(std::to_wstring(_rootPage->GetGroupCount()).c_str()));
+		m_iptCnt = _rootPage->GetPointCount();
+		m_igroupCnt = _rootPage->GetGroupCount();
+		m_iptTotalCnt = static_cast<unsigned int>(_rootPage->GetPointsTotalCount());
+		textBoxGroupCount->Text::set(ref new Platform::String(std::to_wstring(m_igroupCnt).c_str()));
 		textBoxGroupCount->SetValue(textBoxGroupCount->TextProperty, textBoxGroupCount->Text);
-		textBoxPointsPerGroup->Text::set(ref new Platform::String(std::to_wstring(_rootPage->GetPointCount()).c_str()));
+		textBoxPointsPerGroup->Text::set(ref new Platform::String(std::to_wstring(m_iptCnt).c_str()));
 		textBoxPointsPerGroup->SetValue(textBoxPointsPerGroup->TextProperty, textBoxPointsPerGroup->Text);
-		textBoxPointCount->Text::set(ref new Platform::String(std::to_wstring(_rootPage->GetPointCount()).c_str()));
+		textBoxPointCount->Text::set(ref new Platform::String(std::to_wstring(m_iptTotalCnt).c_str()));
 		textBoxPointCount->SetValue(textBoxPointCount->TextProperty, textBoxPointCount->Text);
 
 		slider_SelectedGroup->Value::set(0.0f);
 		slider_SelectedGroup->SetValue(slider_SelectedGroup->ValueProperty, slider_SelectedGroup->Value);
 		slider_SelectedGroup->Minimum::set(0.0f);
-		slider_SelectedGroup->SetValue(slider_SelectedGroup->MinimumProperty, slider_SelectedGroup->Minimum); 
-		slider_SelectedGroup->Maximum::set(static_cast<double>(_rootPage->GetGroupCount()-1));
+		slider_SelectedGroup->SetValue(slider_SelectedGroup->MinimumProperty, slider_SelectedGroup->Minimum);
+		slider_SelectedGroup->Maximum::set(static_cast<double>(m_igroupCnt - 1));
 		slider_SelectedGroup->SetValue(slider_SelectedGroup->MaximumProperty, slider_SelectedGroup->Maximum);
-		
-		slider_SelectedGroup->Value::set(0.0f);
-		slider_SelectedGroup->SetValue(slider_SelectedGroup->ValueProperty, slider_SelectedGroup->Value);
-		slider_SelectedGroup->Minimum::set(0.0f);
-		slider_SelectedGroup->SetValue(slider_SelectedGroup->MinimumProperty, slider_SelectedGroup->Minimum); 
-		slider_SelectedPoint->Maximum::set(static_cast<double>(_rootPage->GetPointCount() - 1));
+
+		slider_SelectedPoint->Value::set(0.0f);
+		slider_SelectedPoint->SetValue(slider_SelectedPoint->ValueProperty, slider_SelectedPoint->Value);
+		slider_SelectedPoint->Minimum::set(0.0f);
+		slider_SelectedPoint->SetValue(slider_SelectedPoint->MinimumProperty, slider_SelectedPoint->Minimum);
+		slider_SelectedPoint->Maximum::set(static_cast<double>(m_iptCnt - 1));
 		slider_SelectedPoint->SetValue(slider_SelectedPoint->MaximumProperty, slider_SelectedPoint->Maximum);
 
 	}
 	checkBoxSculptBool->SetValue(checkBoxSculptBool->IsCheckedProperty, checkBoxSculptBool->IsChecked);
-	
+
 }
 
 void Hot3dxRotoDraw::Scenario10_Sculpt::checkBoxSculptXBool_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
@@ -126,7 +127,6 @@ void Hot3dxRotoDraw::Scenario10_Sculpt::checkBoxSculptXBool_Checked(Platform::Ob
 	if (checked == false)
 	{
 		checkBoxSculptXBool->IsChecked::set(false);
-
 	}
 	else
 	{
@@ -167,92 +167,56 @@ void Hot3dxRotoDraw::Scenario10_Sculpt::checkBoxSculptZBool_Checked(Platform::Ob
 
 void Hot3dxRotoDraw::Scenario10_Sculpt::textBoxGroupCount_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
-	//_rootPage->GetGroupCount()->
-	textBoxGroupCount->Text::set(ref new Platform::String(std::to_wstring(_rootPage->GetGroupCount()).c_str()));
+
+	textBoxGroupCount->Text::set(ref new Platform::String(std::to_wstring(m_igroupCnt).c_str()));
 	textBoxGroupCount->SetValue(textBoxGroupCount->TextProperty, textBoxGroupCount->Text);
 }
 
 void Hot3dxRotoDraw::Scenario10_Sculpt::textBoxPointsPerGroup_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
-	textBoxPointsPerGroup->Text::set(ref new Platform::String(std::to_wstring(_rootPage->GetPointCount()).c_str()));
+	textBoxPointsPerGroup->Text::set(ref new Platform::String(std::to_wstring(m_iptCnt).c_str()));
 	textBoxPointsPerGroup->SetValue(textBoxPointsPerGroup->TextProperty, textBoxPointsPerGroup->Text);
 }
 
 void Hot3dxRotoDraw::Scenario10_Sculpt::textBoxPointCount_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
-	textBoxPointCount->Text::set(ref new Platform::String(std::to_wstring(_rootPage->GetPointCount()).c_str()));
+	textBoxPointCount->Text::set(ref new Platform::String(std::to_wstring(m_iptTotalCnt).c_str()));
 	textBoxPointCount->SetValue(textBoxPointCount->TextProperty, textBoxPointCount->Text);
 }
 
 
 
 
-void Hot3dxRotoDraw::Scenario10_Sculpt::ROTATE_X_GridCam_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
+
+void Hot3dxRotoDraw::Scenario10_Sculpt::X_VALUE_VERTEX_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
 {
-	float value = static_cast<float>(e->NewValue);
-	GRIDCAM_XROTATE_EDIT->Text = ref new Platform::String(GRIDCAM_XROTATE_EDIT->Text->Data());
-	GRIDCAM_XROTATE_EDIT->Text = ref new Platform::String(std::to_wstring(value).c_str());
-	value *=  0.017453293005625408f;
-	//_rootPage->Set_xRotateGridCam(value);
-
-	//_rootPage->SetXRotationScenario10(value);
-	//RotatePitchSquid(value);
-
-}
-
-void Hot3dxRotoDraw::Scenario10_Sculpt::ROTATE_Y_GridCam_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
-{
-	float value = static_cast<float>(e->NewValue);
-	GRIDCAM_YROTATE_EDIT->Text = ref new Platform::String(GRIDCAM_YROTATE_EDIT->Text->Data());
-	GRIDCAM_YROTATE_EDIT->Text = ref new Platform::String(std::to_wstring(value).c_str());
-	value *=  0.017453293005625408f;
-	//_rootPage->Set_yRotateGridCam(value);
-
-	//_rootPage->SetRotatePitch(value);
-	//XMStoreFloat4x4(&_rootPage->dxpGetWorld4X4(), DirectX::XMMatrixRotationX(float(_rootPage->dxpGetTimer() * value)));
-	//_rootPage->SetYRotationScenario10(value);
-	//RotatePitchSquid(value);
-}
-
-
-void Hot3dxRotoDraw::Scenario10_Sculpt::ROTATE_Z_GridCam_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
-{
-	float value = static_cast<float>(e->NewValue);
-	GRIDCAM_ZROTATE_EDIT->Text = ref new Platform::String(GRIDCAM_ZROTATE_EDIT->Text->Data());
-	GRIDCAM_ZROTATE_EDIT->Text = ref new Platform::String(std::to_wstring(value).c_str());
-	value *=  0.017453293005625408f;
-	//_rootPage->Set_zRotateGridCam(value);
-	//_rootPage->SetYRotationScenario10(value);
-}
-
-
-void Hot3dxRotoDraw::Scenario10_Sculpt::GRIDCAM_X_ROTATE_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
-{
-	GRIDCAM_XROTATE_EDIT->Text = ref new Platform::String(GRIDCAM_XROTATE_EDIT->Text->Data());
-	Platform::String^ str = ref new Platform::String(GRIDCAM_XROTATE_EDIT->Text->Data());
+	X_VALUE_VERTEX_EDIT->Text = ref new Platform::String(X_VALUE_VERTEX_EDIT->Text->Data());
+	Platform::String^ str = ref new Platform::String(X_VALUE_VERTEX_EDIT->Text->Data());
 	float value = std::wcstof(str->Data(), nullptr);
-	value *=  0.017453293005625408f;
-	_rootPage->Set_xRotateGridCam(value);
+	positionX += value;
+	DirectX::XMVECTOR v = DirectX::XMVectorSet(positionX, positionY, positionZ, 0.0f);
+
+
 }
 
 
-void Hot3dxRotoDraw::Scenario10_Sculpt::GRIDCAM_Y_ROTATE_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
+void Hot3dxRotoDraw::Scenario10_Sculpt::Y_VALUE_VERTEX_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
 {
-	GRIDCAM_YROTATE_EDIT->Text = ref new Platform::String(GRIDCAM_YROTATE_EDIT->Text->Data());
-	Platform::String^ str = ref new Platform::String(GRIDCAM_YROTATE_EDIT->Text->Data());
+	Y_VALUE_VERTEX_EDIT->Text = ref new Platform::String(Y_VALUE_VERTEX_EDIT->Text->Data());
+	Platform::String^ str = ref new Platform::String(Y_VALUE_VERTEX_EDIT->Text->Data());
 	float value = std::wcstof(str->Data(), nullptr);
-	value *=  0.017453293005625408f;
-	_rootPage->Set_yRotateGridCam(value);
+	positionY += value;
+	DirectX::XMVECTOR v = DirectX::XMVectorSet(positionX, positionY, positionZ, 0.0f);
 }
 
 
-void Hot3dxRotoDraw::Scenario10_Sculpt::GRIDCAM_Z_ROTATE_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
+void Hot3dxRotoDraw::Scenario10_Sculpt::Z_VALUE_VERTEX_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
 {
-	GRIDCAM_ZROTATE_EDIT->Text = ref new Platform::String(GRIDCAM_ZROTATE_EDIT->Text->Data());
-	Platform::String^ str = ref new Platform::String(GRIDCAM_ZROTATE_EDIT->Text->Data());
+	Z_VALUE_VERTEX_EDIT->Text = ref new Platform::String(Z_VALUE_VERTEX_EDIT->Text->Data());
+	Platform::String^ str = ref new Platform::String(Z_VALUE_VERTEX_EDIT->Text->Data());
 	float value = std::wcstof(str->Data(), nullptr);
-	value *=  0.017453293005625408f;
-	_rootPage->Set_zRotateGridCam(value);
+	positionZ += value;
+	DirectX::XMVECTOR v = DirectX::XMVectorSet(positionX, positionY, positionZ, 0.0f);
 }
 
 void  Hot3dxRotoDraw::Scenario10_Sculpt::SculptTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
@@ -269,7 +233,7 @@ void  Hot3dxRotoDraw::Scenario10_Sculpt::SculptFilesTextBox_TextChanged(Platform
 void  Hot3dxRotoDraw::Scenario10_Sculpt::GetObjectVertexIndexData(
 	unsigned int pointCount,
 	unsigned int groupCount,
-	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes,
+	std::vector<DirectX::DXTKXAML12::VertexPositionColor> vertexes,
 	std::vector<uint16_t> indices,
 	Platform::String^ mtlObjFilename,
 	Platform::String^ nodeName,
@@ -283,7 +247,7 @@ void  Hot3dxRotoDraw::Scenario10_Sculpt::GetObjectVertexIndexData(
 void  Hot3dxRotoDraw::Scenario10_Sculpt::SetObjectVertexIndexData(
 	unsigned int pointCount,
 	unsigned int groupCount,
-	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes,
+	std::vector<DirectX::DXTKXAML12::VertexPositionColor> vertexes,
 	std::vector<uint16_t> indices,
 	Platform::String^ mtlObjFilename,
 	Platform::String^ nodeName,
@@ -295,49 +259,13 @@ void  Hot3dxRotoDraw::Scenario10_Sculpt::SetObjectVertexIndexData(
 */
 void Hot3dxRotoDraw::Scenario10_Sculpt::SelectedGroupSlider_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
 {
-	unsigned int selectedGroup = m_iselectedGroup = static_cast<unsigned int>(slider_SelectedGroup->Value::get());
+	m_iselectedGroup = static_cast<unsigned int>(slider_SelectedGroup->Value::get());
 	Platform::String^ s = ref new Platform::String(L"Group Selected: ");
-	s = s->Concat(s, ref new Platform::String(std::to_wstring(static_cast<unsigned int>(selectedGroup)).c_str()));
+	s = s->Concat(s, ref new Platform::String(std::to_wstring(static_cast<unsigned int>(m_iselectedGroup)).c_str()));
 	m_selectedGroup->Text::set(s);
 	m_selectedGroup->SetValue(m_selectedGroup->TextProperty, m_selectedGroup->Text);
-	textBoxGroupSelected->Text::set(ref new Platform::String(std::to_wstring(static_cast<unsigned int>(selectedGroup)).c_str()));
+	textBoxGroupSelected->Text::set(ref new Platform::String(std::to_wstring(static_cast<unsigned int>(m_iselectedGroup)).c_str()));
 	textBoxGroupSelected->SetValue(textBoxGroupSelected->TextProperty, textBoxGroupSelected->Text);
-
-	std::vector<Hot3dxRotoDraw::PtGroups^> ptsLists(_rootPage->GetGroupCount());
-	size_t grCnt = static_cast<size_t>(_rootPage->GetGroupCount());
-	for (size_t i = 0; i < grCnt; i++)
-	{
-		Hot3dxRotoDraw::PtGroups^ ptList = ref new Hot3dxRotoDraw::PtGroups();
-		Platform::Array<uint16_t>^ list = _rootPage->GetPtGroupListDXP(i);
-		for (unsigned int j = 0; j < static_cast<unsigned int>(grCnt); j++)
-		{
-			ptList->SetPtList(j, list->get(j));
-		}
-		ptsLists.push_back(ptList);
-	}
-
-	uint16_t pointNum = ptsLists.at(selectedGroup)->GetListPt(m_iselectedPoint);
-
-	point = 0;
-
-	if (selectedGroup == 0)
-	{
-		point = pointNum;
-	}
-	else
-	{
-		point = ((static_cast<size_t>(selectedGroup) + 1) * (_rootPage->GetPointCount())) + pointNum;
-	}
-	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> verts = _rootPage->GetVertexesDXP();
-	
-	if (point < verts.size())
-	{
-		positionPoint.position = verts.at(point).position;
-		positionX = positionPoint.position.x;
-		positionY = positionPoint.position.y;
-		positionZ = positionPoint.position.z;
-	}
-
 
 }
 
@@ -351,41 +279,27 @@ void Hot3dxRotoDraw::Scenario10_Sculpt::SelectedPointSlider_ValueChanged(Platfor
 	textBoxPointSelected->Text::set(ref new Platform::String(std::to_wstring(static_cast<unsigned int>(selectedPoint)).c_str()));
 	textBoxPointSelected->SetValue(textBoxPointSelected->TextProperty, textBoxPointSelected->Text);
 
-	std::vector<Hot3dxRotoDraw::PtGroups^> ptsLists(_rootPage->GetGroupCount());
-	size_t grCnt = static_cast<size_t>(_rootPage->GetGroupCount());
-	for (size_t i = 0; i < grCnt; i++)
+
+	//size_t grCnt = static_cast<size_t>(m_igroupCnt);
+
+	point = m_iselectedPoint = _rootPage->GetVerticeColorIndexDXP(m_iselectedGroup, m_iselectedPoint);
+
+	XMFLOAT3 vert = _rootPage->GetVerticeColorDXP(static_cast<unsigned int>(point));
+	textBoxPointSelected->Text::set(ref new Platform::String(std::to_wstring(point).c_str()));
+	if (point < m_iptTotalCnt)
 	{
-		Hot3dxRotoDraw::PtGroups^ ptList = ref new Hot3dxRotoDraw::PtGroups();
-		Platform::Array<uint16_t>^ list	= _rootPage->GetPtGroupListDXP(i);
-		for (unsigned int j = 0; j < static_cast<unsigned int>(grCnt); j++)
-		{
-			ptList->SetPtList(j, list->get(j));
-		}
-		ptsLists.push_back(ptList);
-	}
-
-	ptsLists.at(m_iselectedGroup)->GetListPt(m_iselectedPoint);
-
-	uint16_t pointNum = ptsLists.at(m_iselectedGroup)->GetListPt(m_iselectedPoint);
-
-	point = 0;
-
-	if (m_iselectedGroup == 0)
-	{
-		point = pointNum;
-	}
-	else
-	{
-		point = ((static_cast<size_t>(m_iselectedGroup) + 1) * (_rootPage->GetPointCount())) + pointNum;
-	}
-	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> verts = _rootPage->GetVertexesDXP();
-
-	if (point < verts.size())
-	{
-		positionPoint.position = verts.at(point).position;
-		positionX = positionPoint.position.x;
-		positionY = positionPoint.position.y;
-		positionZ = positionPoint.position.z;
+		//vert.x += positionX;
+		//vert.y += positionY;
+		//vert.z += positionZ;
+		vert = PointScale(vert, 1.1f);
+		_rootPage->SetVerticeColorDXP(static_cast<unsigned int>(point), vert);
+		X_VERTEX_EDIT_Copy->Text::set(ref new Platform::String(std::to_wstring(vert.x).c_str()));
+		X_VERTEX_EDIT_Copy->SetValue(X_VERTEX_EDIT_Copy->TextProperty, X_VERTEX_EDIT_Copy->Text);
+		Y_VERTEX_EDIT_Copy->Text::set(ref new Platform::String(std::to_wstring(vert.x).c_str()));
+		Y_VERTEX_EDIT_Copy->SetValue(Y_VERTEX_EDIT_Copy->TextProperty, Y_VERTEX_EDIT_Copy->Text);
+		Z_VERTEX_EDIT_Copy->Text::set(ref new Platform::String(std::to_wstring(vert.x).c_str()));
+		Z_VERTEX_EDIT_Copy->SetValue(Z_VERTEX_EDIT_Copy->TextProperty, Z_VERTEX_EDIT_Copy->Text);
+		_rootPage->SetVerticeColorDXP(static_cast<unsigned int>(point), vert);
 	}
 
 	textBoxSelectedPointX->Text::set(ref new Platform::String(std::to_wstring(positionX).c_str()));
@@ -399,7 +313,7 @@ void Hot3dxRotoDraw::Scenario10_Sculpt::SelectedPointSlider_ValueChanged(Platfor
 
 void Hot3dxRotoDraw::Scenario10_Sculpt::textBoxSelectedGroup_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
 {
-	textBoxGroupSelected;
+	textBoxGroupSelected->Text::get();
 }
 
 
@@ -418,31 +332,46 @@ void Hot3dxRotoDraw::Scenario10_Sculpt::textBoxSelectedPointCount_TextChanged(Pl
 void Hot3dxRotoDraw::Scenario10_Sculpt::textBoxXPointValue_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
 {
 	Platform::String^ pox = textBoxSelectedPointX->Text::get();
-	positionX = std::wcstof(pox->Data(), nullptr); 
+	positionX = std::wcstof(pox->Data(), nullptr);
 	textBoxSelectedPointX->Text::set(textBoxSelectedPointX->Text::get());
 	textBoxSelectedPointX->SetValue(textBoxSelectedPointX->TextProperty, textBoxSelectedPointX->Text);
 
-	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> verts = _rootPage->GetVertexesDXP();
+	//size_t grCnt = static_cast<size_t>(m_igroupCnt);
 
-	if (point < verts.size())
+	point = _rootPage->GetVerticeColorIndexDXP(m_iselectedGroup, m_iselectedPoint);
+
+	XMFLOAT3 vert = _rootPage->GetVerticeColorDXP(static_cast<unsigned int>(point));
+	textBoxPointSelected->Text::set(ref new Platform::String(std::to_wstring(point).c_str()));
+	if (point < m_igroupCnt)
 	{
-		 verts.at(point).position.x = positionX;
-		
+		//vert.x += positionX;
+		//vert.y += positionY;
+		//vert.z += positionZ;
+
+		//_rootPage->SetVerticeColorDXP(m_iselectedGroup, m_iselectedPoint, vert);
 	}
 }
 
 void Hot3dxRotoDraw::Scenario10_Sculpt::textBoxYPointValue_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
 {
 	Platform::String^ pox = textBoxSelectedPointY->Text::get();
-	positionY = std::wcstof(pox->Data(), nullptr); 
+	positionY = std::wcstof(pox->Data(), nullptr);
 	textBoxSelectedPointY->Text::set(textBoxSelectedPointY->Text::get());
 	textBoxSelectedPointY->SetValue(textBoxSelectedPointY->TextProperty, textBoxSelectedPointY->Text);
 
-	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> verts = _rootPage->GetVertexesDXP();
+	//size_t grCnt = static_cast<size_t>(m_igroupCnt);
 
-	if (point < verts.size())
+	point = _rootPage->GetVerticeColorIndexDXP(m_iselectedGroup, m_iselectedPoint);
+
+	XMFLOAT3 vert = _rootPage->GetVerticeColorDXP(static_cast<unsigned int>(point));
+	textBoxPointSelected->Text::set(ref new Platform::String(std::to_wstring(point).c_str()));
+	if (point < m_igroupCnt)
 	{
-		verts.at(point).position.y = positionY;
+		//vert.x += positionX;
+		//vert.y += positionY;
+		//vert.z += positionZ;
+
+		//_rootPage->SetVerticeColorDXP(m_iselectedGroup, m_iselectedPoint, vert);
 	}
 }
 
@@ -453,10 +382,75 @@ void Hot3dxRotoDraw::Scenario10_Sculpt::textBoxZPointValue_TextChanged(Platform:
 	textBoxSelectedPointZ->Text::set(textBoxSelectedPointZ->Text::get());
 	textBoxSelectedPointZ->SetValue(textBoxSelectedPointZ->TextProperty, textBoxSelectedPointZ->Text);
 
-	std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> verts = _rootPage->GetVertexesDXP();
+	//size_t grCnt = static_cast<size_t>(m_igroupCnt);
 
-	if (point < verts.size())
+	point = _rootPage->GetVerticeColorIndexDXP(m_iselectedGroup, m_iselectedPoint);
+
+	XMFLOAT3 vert = _rootPage->GetVerticeColorDXP(static_cast<unsigned int>(point));
+	textBoxPointSelected->Text::set(ref new Platform::String(std::to_wstring(point).c_str()));
+	if (point < m_igroupCnt)
 	{
-		verts.at(point).position.z = positionZ;
+		//vert.x += positionX;
+		//vert.y += positionY;
+		//vert.z += positionZ;
+
+		//_rootPage->SetVerticeColorDXP(m_iselectedGroup, m_iselectedPoint, vert);
 	}
+}
+
+
+void Hot3dxRotoDraw::Scenario10_Sculpt::slider_SculptX_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
+{
+	X_VALUE_VERTEX_EDIT->Text::set(ref new Platform::String(std::to_wstring(slider_SculptX->Value::get()).c_str()));
+	positionX = static_cast<float>(slider_SculptX->Value::get());
+}
+
+
+void Hot3dxRotoDraw::Scenario10_Sculpt::slider_SculptY_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
+{
+	positionY = static_cast<float>(slider_SculptY->Value::get());
+	Y_VALUE_VERTEX_EDIT->Text::set(ref new Platform::String(std::to_wstring(slider_SculptY->Value::get()).c_str()));
+}
+
+
+void Hot3dxRotoDraw::Scenario10_Sculpt::slider_SculptZ_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
+{
+	Z_VALUE_VERTEX_EDIT->Text::set(ref new Platform::String(std::to_wstring(slider_SculptX->Value::get()).c_str()));
+	positionZ = static_cast<float>(slider_SculptZ->Value::get());
+}
+
+
+void Hot3dxRotoDraw::Scenario10_Sculpt::SetButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+
+	_rootPage->SetHot3dxDrawnObjectSculpt();
+}
+
+
+void Hot3dxRotoDraw::Scenario10_Sculpt::X_VERTEX_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
+{
+	unsigned int vx = _rootPage->GetVerticeColorIndexDXP(m_iselectedGroup, m_iselectedPoint);
+	DirectX::XMFLOAT3 verts = _rootPage->GetVerticeColorDXP(vx);
+	X_VERTEX_EDIT_Copy->Text::set(ref new Platform::String(std::to_wstring(
+		verts.x).c_str()));
+}
+
+
+void Hot3dxRotoDraw::Scenario10_Sculpt::Y_VERTEX_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
+{
+	unsigned int vx = _rootPage->GetVerticeColorIndexDXP(m_iselectedGroup, m_iselectedPoint);
+	DirectX::XMFLOAT3 verts = _rootPage->GetVerticeColorDXP(vx);
+	Y_VERTEX_EDIT_Copy->Text::set(ref new Platform::String(std::to_wstring(
+		verts.y).c_str()));
+
+}
+
+
+void Hot3dxRotoDraw::Scenario10_Sculpt::Z_VERTEX_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
+{
+	unsigned int vx = _rootPage->GetVerticeColorIndexDXP(m_iselectedGroup, m_iselectedPoint);
+	DirectX::XMFLOAT3 verts = _rootPage->GetVerticeColorDXP(vx);
+	Z_VERTEX_EDIT_Copy->Text::set(ref new Platform::String(std::to_wstring(
+		verts.z).c_str()));
+
 }

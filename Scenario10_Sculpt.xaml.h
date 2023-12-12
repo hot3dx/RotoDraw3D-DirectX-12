@@ -14,7 +14,7 @@
 
 #include "Generated Files\Scenario10_Sculpt.g.h"
 #include "DirectXPage.xaml.h"
-
+#include "Content\Hot3dxRotoDrawSceneRender.h"
 
 
 using namespace Windows::Foundation;
@@ -49,7 +49,16 @@ namespace Hot3dxRotoDraw
 
         size_t point;
         unsigned int m_iselectedGroup;
-        DirectX::DXTKXAML12::VertexPositionNormalTexture positionPoint;
+        unsigned int m_iptCnt;
+        unsigned int m_igroupCnt;
+        unsigned int m_iptTotalCnt;
+
+
+        //void SetPtGrpList(Platform::Array<uint16_t>^ list) {ptlist = list; }
+        //Platform::Array<uint16_t>^ ptlist = ref new Platform::Array<uint16_t>(0);
+
+
+        DirectX::DXTKXAML12::VertexPositionColor positionPoint;
         float positionX;
         float positionY;
         float positionZ;
@@ -69,12 +78,9 @@ namespace Hot3dxRotoDraw
         //void GetObjectVertexIndexData(unsigned int pointCount, unsigned int groupCount, std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes, std::vector<uint16_t> indices, Platform::String^ mtlObjFilename, Platform::String^ nodeName, Platform::String^ effectName);
         //void SetObjectVertexIndexData(unsigned int pointCount, unsigned int groupCount, std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes, std::vector<uint16_t> indices, Platform::String^ mtlObjFilename, Platform::String^ nodeName, Platform::String^ effectName);
 
-        void ROTATE_X_GridCam_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
-        void ROTATE_Y_GridCam_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
-        void ROTATE_Z_GridCam_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
-        void GRIDCAM_X_ROTATE_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
-        void GRIDCAM_Y_ROTATE_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
-        void GRIDCAM_Z_ROTATE_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
+        void X_VALUE_VERTEX_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
+        void Y_VALUE_VERTEX_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
+        void Z_VALUE_VERTEX_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
         void SelectedGroupSlider_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
         void SelectedPointSlider_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
         void textBoxSelectedGroup_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
@@ -83,6 +89,36 @@ namespace Hot3dxRotoDraw
         void textBoxXPointValue_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
         void textBoxYPointValue_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
         void textBoxZPointValue_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
+
+        void slider_SculptX_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
+        void slider_SculptY_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
+        void slider_SculptZ_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e);
+        void SetButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void X_VERTEX_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
+        void Y_VERTEX_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
+        void Z_VERTEX_EDIT_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
+
+        DirectX::XMFLOAT3 XM_CALLCONV PointAdd(DirectX::XMFLOAT3 vert)
+        {
+            DirectX::XMVECTOR v = DirectX::XMVectorSet(vert.x, vert.y, vert.z, 0.0f);
+            DirectX::XMVECTOR v1 = DirectX::XMVectorSet(positionX, positionY, positionZ, 0.0f);
+            DirectX::XMVECTOR added = DirectX::XMVectorAdd(v, v1);
+            vert.x = DirectX::XMVectorGetX(added);
+            vert.y = DirectX::XMVectorGetY(added);
+            vert.z = DirectX::XMVectorGetZ(added);
+            return vert;
+        }
+
+        DirectX::XMFLOAT3 XM_CALLCONV PointScale(DirectX::XMFLOAT3 vert, float scale)
+        {
+            DirectX::XMVECTOR v = DirectX::XMVectorSet(vert.x, vert.y, vert.z, 0.0f);
+            DirectX::XMVECTOR v1 = DirectX::XMVectorSet(positionX, positionY, positionZ, 0.0f);
+            DirectX::XMVECTOR added = DirectX::XMVectorScale(v, scale);
+            vert.x = DirectX::XMVectorGetX(added);
+            vert.y = DirectX::XMVectorGetY(added);
+            vert.z = DirectX::XMVectorGetZ(added);
+            return vert;
+        }
     };
 }
 

@@ -64,10 +64,14 @@ Hot3dxRotoDraw::Scenario2_Normal::Scenario2_Normal() : _rootPage(DirectXPage::Cu
     vars->SetTopOrLeftChecked(m_bTopOrLeftChecked);
     m_bBottomOrRightChecked = false;
     vars->SetBottomOrRightChecked(false);
+    m_bColorOnlyNoTexture = (false);
+    vars->SetColorOnlyNoTexture(false);
     DenomOf360 = 10.0f;
     m_fPointGroupsCount = 36;
     SetPartialSlider();
-    
+    Scenario2_Normal::Current = this;
+    _rootPage->m_Scene2Vars->SetScenario2Page(this);
+
     IDC_CLOSED_OR_OPEN_CHECKBOX->IsChecked::set(true);
     IDC_CLOSED_OR_OPEN_CHECKBOX->SetValue(IDC_CLOSED_OR_OPEN_CHECKBOX->IsCheckedProperty, 
         IDC_CLOSED_OR_OPEN_CHECKBOX->IsChecked);
@@ -80,6 +84,8 @@ Hot3dxRotoDraw::Scenario2_Normal::Scenario2_Normal() : _rootPage(DirectXPage::Cu
     EffectDescComboBox->SelectedValue::set(m_iEffectDescSelectedIndex);
     EffectDescComboBox->SetValue(EffectDescComboBox->SelectedIndexProperty, EffectDescComboBox->SelectedValue);
     */
+    _rootPage->SetEffectIndexRenderer(0);
+
     Scenario2_Normal::Current = this;
     _rootPage->m_Scene2Vars->SetScenario2Page(this);
 
@@ -384,7 +390,7 @@ void Hot3dxRotoDraw::Scenario2_Normal::IDC_SAVE_BUTTON_Click(Platform::Object^ s
     //the file data to be saved.
 
     FileSavePicker^ savePicker = ref new FileSavePicker();
-    savePicker->SuggestedStartLocation = PickerLocationId::DocumentsLibrary;
+    savePicker->SuggestedStartLocation = PickerLocationId::ComputerFolder;
 
     auto plainTextExtensions = ref new Platform::Collections::Vector<String^>();
     plainTextExtensions->Append(".txt");
@@ -471,4 +477,109 @@ void Hot3dxRotoDraw::Scenario2_Normal::SetEffectDescComboBox(unsigned int val)
     m_iEffectDescSelectedIndex = val;
     EffectDescComboBox->SelectedIndex = val;
     EffectDescComboBox->SetValue(EffectDescComboBox->SelectedIndexProperty, EffectDescComboBox->SelectedIndex);
+}
+
+void Hot3dxRotoDraw::Scenario2_Normal::IDC_COLOR_ONLY_NO_TEXTURE_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    Scenario2Vars^ vars = _rootPage->m_Scene2Vars;
+    if (IDC_COLOR_ONLY_NO_TEXTURE_CHECKBOX->IsChecked->Value)
+    {
+        m_bColorOnlyNoTexture = true;
+    }
+    else {
+        m_bColorOnlyNoTexture = false;
+    }
+
+    vars->SetColorOnlyNoTexture(m_bColorOnlyNoTexture);
+    _rootPage->NotifyUser("Color Only No Texture Draw Object Picked", NotifyType::StatusMessage);
+}
+
+
+void Hot3dxRotoDraw::Scenario2_Normal::IDC_TEXTURE_UV_SLIDER_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
+{
+    _rootPage->SetUVPercentTextureDimensionDXP(static_cast<float>(e->NewValue));
+}
+
+
+void Hot3dxRotoDraw::Scenario2_Normal::IDC_HORIZONTAL_LINE_checkBox_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    Scenario2Vars^ vars = _rootPage->m_Scene2Vars;
+    if (IDC_HORIZONTAL_LINE_checkBox->IsChecked->Value == true)
+    {
+        _rootPage->SetIfRightShiftKeyHeldDrawStraightLine(true);
+        _rootPage->NotifyUser("Draw Horizontal Straight Line Change to true", NotifyType::StatusMessage);
+    }
+    else {
+        _rootPage->SetIfRightShiftKeyHeldDrawStraightLine(false);
+        _rootPage->NotifyUser("Draw Horizontal Straight Line Change to false", NotifyType::StatusMessage);
+    }
+}
+
+
+void Hot3dxRotoDraw::Scenario2_Normal::IDC_VERTICAL_LINE_checkBox_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    Scenario2Vars^ vars = _rootPage->m_Scene2Vars;
+    if (IDC_VERTICAL_LINE_checkBox->IsChecked->Value == true)
+    {
+        _rootPage->SetIfLeftShiftKeyHeldDrawStraightLine(true);
+        _rootPage->NotifyUser("Draw Vertical Straight Line Change to true", NotifyType::StatusMessage);
+    }
+    else {
+        _rootPage->SetIfLeftShiftKeyHeldDrawStraightLine(false);
+        _rootPage->NotifyUser("Draw Vertical Straight Line Change to false", NotifyType::StatusMessage);
+    }
+}
+
+
+void Hot3dxRotoDraw::Scenario2_Normal::IDC_45_DEGREE_LINE_Checkbox_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    Scenario2Vars^ vars = _rootPage->m_Scene2Vars;
+    if (IDC_45_DEGREE_LINE_Checkbox->IsChecked->Value == true)
+    {
+        _rootPage->SetIfLeftShiftKeyHeldDraw45Line(true);
+        _rootPage->NotifyUser("Draw 45 deg Line Changed to true", NotifyType::StatusMessage);
+    }
+    else {
+        _rootPage->SetIfLeftShiftKeyHeldDraw45Line(false);
+        _rootPage->NotifyUser("Draw 45 deg Line Changed to false", NotifyType::StatusMessage);
+    }
+    _rootPage->NotifyUser("Draw Straight Line Change Picked", NotifyType::StatusMessage);
+}
+
+
+void Hot3dxRotoDraw::Scenario2_Normal::IDC_ARC_RADIUS_LINE_checkBox_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    Scenario2Vars^ vars = _rootPage->m_Scene2Vars;
+    if (IDC_ARC_RADIUS_LINE_checkBox->IsChecked->Value == true)
+    {
+        _rootPage->SetIfIfRightShiftKeySphereRadius(true);
+        _rootPage->NotifyUser("Draw ARC Radius Line Change to true", NotifyType::StatusMessage);
+    }
+    else {
+        _rootPage->SetIfIfRightShiftKeySphereRadius(false);
+        _rootPage->NotifyUser("Draw ARC Radius Line Change to false", NotifyType::StatusMessage);
+    }
+}
+
+
+void Hot3dxRotoDraw::Scenario2_Normal::SAVE_PTS_button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    _rootPage->CopyPointsXYAxisDXP();
+
+}
+void Hot3dxRotoDraw::Scenario2_Normal::PUT_COPY_PTS_button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    _rootPage->DrawPointsXYAxisDXP();
+}
+
+
+void Hot3dxRotoDraw::Scenario2_Normal::CLEAR_COPED_PTS_button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    _rootPage->ClearPointsXYAxisDXP();
+}
+
+
+void Hot3dxRotoDraw::Scenario2_Normal::CursorLockResetButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    _rootPage->DrawGridPicRectangleDXP();
 }

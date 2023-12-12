@@ -25,6 +25,8 @@
 #include <hrtfapoapi.h>
 #include "OmnidirectionalSound.h"
 
+
+using namespace DX;
 using namespace DirectX;
 using namespace DirectX::DXTKXAML12;
 
@@ -161,6 +163,13 @@ namespace Hot3dxRotoDraw
 			Hot3dxRotoDraw::Scenario2_Normal::Current->SetEffectDescComboBox(descId);
 		}
 
+		// Sets and Gets the number of times a texture will be squared like bricks as a texture
+		// on an object - 1.0f is the default
+		float GetUVPercentTextureDimensionDXP(){ return m_main->GetSceneRenderer()->GetUVPercentTextureDimension(); }
+			void SetUVPercentTextureDimensionDXP(float dimension) {
+			m_main->GetSceneRenderer()->SetUVPercentTextureDimension(dimension);
+			m_Scene2Vars->SetUVPercentTextureDimensionSc2(dimension);}
+
 		void SET_SPHERE_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e,
 			float cameraradius, float camerarotation);
 
@@ -181,104 +190,128 @@ namespace Hot3dxRotoDraw
 		void Setm_bDDS_WIC_FLAGDXP2(bool flag) { m_main->GetSceneRenderer()->Setm_bDDS_WIC_FLAG2(flag); }
 		void SetDDS_WIC_FLAGGridPicFileDXP(bool flag) { m_main->GetSceneRenderer()->SetDDS_WIC_FLAGGridPic(flag); }
 		void DrawGridPicRectangleDXP() { m_main->GetSceneRenderer()->DrawGridPicRectangle(); }
+
 		Platform::String^ GetTextureImage1FileDXP() { return m_main->GetSceneRenderer()->GetTextureImage1File(); }
 		Platform::String^ GetTextureImage2FileDXP() { return m_main->GetSceneRenderer()->GetTextureImage2File(); }
 		Platform::String^ GetTextureImage3FileDXP() { return m_main->GetSceneRenderer()->GetTextureImage3File(); }
 		Platform::String^ GetTextureImage4FileDXP() { return m_main->GetSceneRenderer()->GetTextureImage4File(); }
 		Platform::String^ GetTextureImage5FileDXP() { return m_main->GetSceneRenderer()->GetTextureImage5File(); }
 		Platform::String^ GetTextureImage6FileDXP() { return m_main->GetSceneRenderer()->GetTextureImage6File(); }
+		//Platform::String^ GetTextureImagePic2FileDXP() { return m_main->GetSceneRenderer()->GetTextureImagePic1File(); }
+		//Platform::String^ GetTextureImageVideo2FileDXP() { return m_main->GetSceneRenderer()->GetTextureImageVideo2File(); }
+
 		Platform::String^ GetTextureImage1NameDXP() { return m_main->GetSceneRenderer()->GetTexture1Name(); }
 		Platform::String^ GetTextureImage2NameDXP() { return m_main->GetSceneRenderer()->GetTexture2Name(); }
 		Platform::String^ GetTextureImage3NameDXP() { return m_main->GetSceneRenderer()->GetTexture3Name(); }
 		Platform::String^ GetTextureImage4NameDXP() { return m_main->GetSceneRenderer()->GetTexture4Name(); }
 		Platform::String^ GetTextureImage5NameDXP() { return m_main->GetSceneRenderer()->GetTexture5Name(); }
 		Platform::String^ GetTextureImage6NameDXP() { return m_main->GetSceneRenderer()->GetTexture6Name(); }
+		//Platform::String^ GetTextureImagePic2NameDXP(){ return m_main->GetSceneRenderer()->GetTexturePic2Name(); }
+		//Platform::String^ GetTextureImageVideo2NameDXP() { return m_main->GetSceneRenderer()->GetTextureVideo2Name(); }
+
 		void SetTextureImage1NameDXP(Platform::String^ name) { m_main->GetSceneRenderer()->SetTexture1Name(name); }
 		void SetTextureImage2NameDXP(Platform::String^ name) { m_main->GetSceneRenderer()->SetTexture2Name(name); }
 		void SetTextureImage3NameDXP(Platform::String^ name) { m_main->GetSceneRenderer()->SetTexture3Name(name); }
 		void SetTextureImage4NameDXP(Platform::String^ name) { m_main->GetSceneRenderer()->SetTexture4Name(name); }
 		void SetTextureImage5NameDXP(Platform::String^ name) { m_main->GetSceneRenderer()->SetTexture5Name(name); }
 		void SetTextureImage6NameDXP(Platform::String^ name) { m_main->GetSceneRenderer()->SetTexture6Name(name); }
+		void SetTextureImagePic2NameDXP(Platform::String^ name) { m_main->GetSceneRenderer()->SetTexturePic2Name(name); }
+		void SetTextureImageVideo2NameDXP(Platform::String^ name) { m_main->GetSceneRenderer()->SetTextureVideo2Name(name); }
+
 		Platform::String^ GetTextureImageGridPicFileDXP() { return m_main->GetSceneRenderer()->GetTextureImageGridPicFile(); }
 
 		void SetTextureImage1FileDXP(Platform::String^ fileName) {
 			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage1File();// = nullptr;
 			file = ref new Platform::String(fileName->Data());
 			m_main->GetSceneRenderer()->SetTextureImage1File(fileName);
-#ifdef _DEBUG
+//#ifdef _DEBUG
 			OutputDebugString(L"\n m_strTexture1FileName \n");
 			OutputDebugString(L"SetTextureImage1File(Platform::String ^ fileName)");
 			OutputDebugString(L"\n m_textureImage1File \n");
 			OutputDebugString(file->Data());
 			OutputDebugString(L"\n \n");
-#endif // _DEBUG
+//#endif // _DEBUG
 			
 		}
 		void SetTextureImage2FileDXP(Platform::String^ fileName) {
 			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage2File();// = nullptr;
 			file = ref new Platform::String(fileName->Data());
 			m_main->GetSceneRenderer()->SetTextureImage2File(fileName);
-#ifdef _DEBUG
+//#ifdef _DEBUG
 			OutputDebugString(L"\n m_strTexture2FileName \n");
 			OutputDebugString(L"SetTextureImage2File(Platform::String ^ fileName)");
 			OutputDebugString(L"\n m_textureImage2File \n");
 			OutputDebugString(file->Data());
 			OutputDebugString(L"\n \n");
-#endif // _DEBUG
+//#endif // _DEBUG
 			
 		}
 		void SetTextureImage3FileDXP(Platform::String ^ fileName) {
 				Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage3File();// = nullptr;
 				file = ref new Platform::String(fileName->Data());
 				m_main->GetSceneRenderer()->SetTextureImage3File(fileName);
-#ifdef _DEBUG
+//#ifdef _DEBUG
 				OutputDebugString(L"\n m_strTexture3FileName \n");
 				OutputDebugString(L"SetTextureImage3File(Platform::String ^ fileName)");
 				OutputDebugString(L"\n m_textureImage3File \n");
 				OutputDebugString(file->Data());
 				OutputDebugString(L"\n \n");
-#endif // _DEBUG
+//#endif // _DEBUG
 			
 		}
 		void SetTextureImage4FileDXP(Platform::String ^ fileName) {
 					Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage4File();// = nullptr;
 					file = ref new Platform::String(fileName->Data());
 					m_main->GetSceneRenderer()->SetTextureImage4File(fileName);
-#ifdef _DEBUG
+//#ifdef _DEBUG
 					OutputDebugString(L"\n m_strTexture4FileName \n");
 					OutputDebugString(L"SetTextureImage4File(Platform::String ^ fileName)");
 					OutputDebugString(L"\n m_textureImage4File \n");
 					OutputDebugString(file->Data());
 					OutputDebugString(L"\n \n");
-#endif // _DEBUG
+//#endif // _DEBUG
 			
 		}
 		void SetTextureImage5FileDXP(Platform::String^ fileName) {
 			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage5File();// = nullptr;
 			file = ref new Platform::String(fileName->Data());
 			m_main->GetSceneRenderer()->SetTextureImage5File(fileName);
-#ifdef _DEBUG
+//#ifdef _DEBUG
 			OutputDebugString(L"\n m_strTexture5FileName \n");
 			OutputDebugString(L"SetTextureImage5File(Platform::String ^ fileName)");
 			OutputDebugString(L"\n m_textureImage5File \n");
 			OutputDebugString(file->Data());
 			OutputDebugString(L"\n \n");
-#endif // _DEBUG
+//#endif // _DEBUG
 			
 		}
 		void SetTextureImage6FileDXP(Platform::String^ fileName) {
 			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage6File();// = nullptr;
 			file = ref new Platform::String(fileName->Data());
 			m_main->GetSceneRenderer()->SetTextureImage6File(fileName);
-#ifdef _DEBUG
+//#ifdef _DEBUG
 			OutputDebugString(L"\n m_strTexture6FileName \n");
 			OutputDebugString(L"SetTextureImage6File(Platform::String ^ fileName)");
 			OutputDebugString(L"\n m_textureImage6File \n");
 			OutputDebugString(file->Data());
 			OutputDebugString(L"\n \n");
-#endif // _DEBUG
+//#endif // _DEBUG
 			
 		}
+		// Scenario5_Tex
+		Platform::String^ GetTextureImagePicFileDXP() { return m_main->GetSceneRenderer()->GetTextureImagePicFile(); }
+		void SetTextureImagePicFileDXP(Platform::String^ fileName) {
+			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImagePicFile();// = nullptr;
+			file = ref new Platform::String(fileName->Data());
+			m_main->GetSceneRenderer()->SetTextureImagePic1File(fileName);
+		}
+		Platform::String^ GetTextureImageVideo2FileDXP() { return m_main->GetSceneRenderer()->GetTextureImageVideo2File(); }
+		void SetTextureImageVideo2FileDXP(Platform::String^ fileName) {
+			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImageVideo2File();// = nullptr;
+			file = ref new Platform::String(fileName->Data());
+			m_main->GetSceneRenderer()->SetTextureImageVideo2File(fileName);
+		}
+		
 		// Scenario7_SphereDraw
 		Platform::String^ GetVideoTextureImageFileDXP() { return m_main->GetSceneRenderer()->GetTextureImageVideoFile(); }
 		void SetVideoTextureImageFileDXP(Platform::String^ fileName) {
@@ -335,50 +368,36 @@ namespace Hot3dxRotoDraw
 		unsigned int GetPointCount() {
 			return m_main->GetSceneRenderer()->GetPointCount();
 		}
+
 		unsigned int GetGroupCount() {
 			return m_main->GetSceneRenderer()->GetGroupCount();
 		}
 		
-		//Hot3dxRotoDraw::PtGroups^ GetPtGroupListDXP(size_t index) {
-		//	return m_main->GetSceneRenderer()->GetPtGroupList().at(index);
-		//}
+		size_t GetPointsTotalCount() {
+			return m_main->GetSceneRenderer()->GetTotalPointCount();
+		}
 
-		Platform::Array<uint16_t>^ GetPtGroupListDXP(size_t index) {
+		Platform::Array<uint16_t>^ GetPtGroupListIndicesDXP(size_t index) {
 			Platform::Array<uint16_t>^ list = ref new Platform::Array<uint16_t>(GetGroupCount());
-			m_main->GetSceneRenderer()->GetPtGroupList().at(index)->GetPtList();
+			list = m_main->GetSceneRenderer()->GetPtGroupList().at(index)->GetPtList();
 			return list;
 		}
+		Platform::String^ Getm_sDirPathDXP() { return m_sDirPathDXP; }
+		void SetProgramDirPathDXP(Platform::String^ s) { m_sDirPathDXP = ref new Platform::String(s->Data()); }
+		
 
 		internal:
 		
-		Platform::String^ GetProgramDirPathDXP() {
-			//m_main->GetSceneRenderer()->m_hot3dxDirPath = m_sDirPathDXP; 
-			
-			auto folder = Windows::ApplicationModel::Package::Current->InstalledLocation;
-			Platform::String^ s = ref new Platform::String(folder->Path->Data());
-			s = s->Concat(s, L"\\");
-			m_main->GetSceneRenderer()->m_hot3dxDirPath = m_sDirPathDXP = s;
-			/*
-			OutputDebugString(L"\n\n Folder Path\n");
-			OutputDebugString(folder->Path->Data());
-			OutputDebugString(L"\n\n Folder Name\n");
-			OutputDebugString(folder->Name->Data());
-			OutputDebugString(L"\n\n Folder Name\n");
-			*/
-			return m_sDirPathDXP; }
-
-		void SetProgramDirPathDXP()
-		{
-			auto folder = Windows::ApplicationModel::Package::Current->InstalledLocation;
-			Platform::String^ s = ref new Platform::String(folder->Path->Data());
-			s = s->Concat(s, L"\\");
-			m_main->GetSceneRenderer()->m_hot3dxDirPath = m_sDirPathDXP = s;
-		}
 		std::vector<DirectX::DXTKXAML12::VertexPositionColor> GetVerticesDXP() { return m_main->GetSceneRenderer()->GetVertices(); }
 		std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> GetVertexesDXP() { return m_main->GetSceneRenderer()->GetVertexes(); }
 		std::vector<uint16_t> GetIndices() { return m_main->GetSceneRenderer()->GetIndices(); }
 		std::vector<float> GetTextureU() { return m_main->GetSceneRenderer()->GetTextureU(); }
 		std::vector<float> GetTextureV() { return m_main->GetSceneRenderer()->GetTextureV(); }
+		unsigned int GetVerticeColorIndexDXP(unsigned int j, unsigned int i) { return m_main->GetSceneRenderer()->GetVerticeColorIndex(j, i); }
+		DirectX::XMFLOAT3 GetVerticeColorDXP(unsigned int j) { return m_main->GetSceneRenderer()->GetVerticeColor(j); }
+		void SetVerticeColorDXP(unsigned int j, DirectX::XMFLOAT3 pos) { m_main->GetSceneRenderer()->SetVerticeColor(j, pos); }
+
+		void SetHot3dxDrawnObjectSculpt() { m_main->GetSceneRenderer()->InitDrawnObjectSculptWireframe(); }
 
 		public:
 		float GetPartialRotateAngleDXP() { return m_Scene2Vars->GetPartialRotateAngle(); }
@@ -461,9 +480,11 @@ namespace Hot3dxRotoDraw
 		Scenario1Vars^ GetScene1Vars() { return m_Scene1Vars; }
 		Scenario2Vars^ GetScene2Vars() { return m_Scene2Vars; }
 		Scenario5Vars^ GetScene5Vars() { return m_Scene5Vars; }
+		Scenario5TexVars^ GetScene5TexVars() { return m_Scene5TexVars; }
 		Scenario7Vars^ GetScene7Vars() { return m_Scene7Vars; }
 		Scenario10Vars^ GetScene10Vars() { return m_Scene10Vars; }
 		Scenario11Vars^ GetScene11Vars() { return m_Scene11Vars; }
+		Scenario13Vars^ GetScene13Vars() { return m_Scene13Vars; }
 
 		// Symmetrical Copy of a flipped set of points
 		// on the other side of the X or Y axis
@@ -477,6 +498,24 @@ namespace Hot3dxRotoDraw
 			m_main->GetSceneRenderer()->CopyFlipPointsYAxis();
 		}
 
+		// on the other side of the X or Y axis
+		void CopyPointsXYAxisDXP() {
+			if (m_main->GetSceneRenderer()->GetPointCount() <= 0)return;
+			m_main->GetSceneRenderer()->CopyPointsXYAxis();
+		}
+
+		void DrawPointsXYAxisDXP() {
+			if (m_main->GetSceneRenderer()->GetCpyPointCount() <= 0)return;
+			m_main->GetSceneRenderer()->DrawCopyPointsXYAxis(m_main->GetSceneRenderer()->GetCpyPointCount());
+		}
+
+		void ClearPointsXYAxisDXP() {
+			if (m_main->GetSceneRenderer()->GetPointCount() <= 0)return;
+			m_main->GetSceneRenderer()->ClearCopyPointsXYAxis();
+		}
+
+		void ScreenGrabDXP();
+		
 	protected:
 		virtual void OnNavigatedTo(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e) override;
 
@@ -523,12 +562,13 @@ namespace Hot3dxRotoDraw
 
 		void RotatePitch(float deg);
 
-		void OnKeyDown(Windows::UI::Core::CoreWindow^ /*window*/, Windows::UI::Core::KeyEventArgs^ args);
+		void OnKeyDown(Windows::UI::Core::CoreWindow^ window, Windows::UI::Core::KeyEventArgs^ args);
 		void OnKeyUp(Windows::UI::Core::CoreWindow^ /*window*/, Windows::UI::Core::KeyEventArgs^ args);
 
 		// Resources used to render the DirectX content in the XAML page background.
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
-		std::unique_ptr<Hot3dxRotoDrawMain> m_main;
+		std::unique_ptr<Hot3dxRotoDraw::Hot3dxRotoDrawMain> m_main;
+		
 
 		bool m_windowVisible;
 		/*
@@ -599,17 +639,20 @@ namespace Hot3dxRotoDraw
 
 		void MyFilePathDXP(Platform::String^ image);
 		Platform::String^ m_sDirPathDXP = ref new Platform::String();
-		
+		bool m_bDirPathFound;
 		
 	internal:
+		
 		static DirectXPage^ Current;
 		void NotifyUser(Platform::String^ strMessage, NotifyType type);
 		Scenario1Vars^ m_Scene1Vars = ref new Scenario1Vars();
 		Scenario2Vars^ m_Scene2Vars = ref new Scenario2Vars();
 		Scenario5Vars^ m_Scene5Vars = ref new Scenario5Vars();
+		Scenario5TexVars^ m_Scene5TexVars = ref new Scenario5TexVars();
 		Scenario7Vars^ m_Scene7Vars = ref new Scenario7Vars();
 		Scenario10Vars^ m_Scene10Vars = ref new Scenario10Vars();
 		Scenario11Vars^ m_Scene11Vars = ref new Scenario11Vars();
+		Scenario13Vars^ m_Scene13Vars = ref new Scenario13Vars();
 
 		static property Platform::String^ FEATURE_NAME
 		{

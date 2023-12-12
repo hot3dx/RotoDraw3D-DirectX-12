@@ -147,11 +147,12 @@ void Hot3dxRotoDraw::App::OnNavigationFailed(Platform::Object^ sender, Windows::
 {
 	throw ref new FailureException("Failed to load Page " + e->SourcePageType.Name);
 }
-
-
-// DisplayInformation event handlers.
-// ReAdded 3/9/19 10:32 am
-std::shared_ptr<DX::DeviceResources> Hot3dxRotoDraw::App::GetDeviceResources()
+/*
+/// <summary>
+/// DisplayInformation event handlers.
+/// ReAdded 3/9/19 10:32 am
+/// </summary
+std::shared_ptr<DX::DeviceResources> Hot3dxRotoDraw::App::GetDeviceResourcesApp()
 {
 	if (m_deviceResources != nullptr && m_deviceResources->IsDeviceRemoved())
 	{
@@ -163,13 +164,13 @@ std::shared_ptr<DX::DeviceResources> Hot3dxRotoDraw::App::GetDeviceResources()
 		//m_main->OnDeviceRemoved();
 
 #if defined(_DEBUG)
-		/*
+		//*
 		ComPtr<IDXGIDebug1> dxgiDebug;
 		if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&dxgiDebug))))
 		{
 			dxgiDebug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_FLAGS(DXGI_DEBUG_RLO_SUMMARY | DXGI_DEBUG_RLO_IGNORE_INTERNAL));
 		}
-		*/
+		///
 #endif
 	}
 
@@ -181,4 +182,4 @@ std::shared_ptr<DX::DeviceResources> Hot3dxRotoDraw::App::GetDeviceResources()
 		//m_main->CreateRenderers(m_deviceResources);
 	}
 	return m_deviceResources;
-}
+}*/

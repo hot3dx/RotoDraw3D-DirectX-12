@@ -316,7 +316,7 @@
         </Setter>
     </Style>
 
-    <!-- Default style for Windows.UI.Xaml.Controls.ListBoxItem -->
+    <!-- Default style for Microsoft.UI.Xaml.Controls.ListBoxItem -->
     <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="TabNavigation" Value="Local" />

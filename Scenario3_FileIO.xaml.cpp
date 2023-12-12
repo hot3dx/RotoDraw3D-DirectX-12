@@ -69,7 +69,7 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Button_Click(Platform::Object^ sende
     //the file data to be saved.
 
     FileSavePicker^ savePicker = ref new FileSavePicker();
-    savePicker->SuggestedStartLocation = PickerLocationId::DocumentsLibrary;
+    savePicker->SuggestedStartLocation = PickerLocationId::ComputerFolder;
 
     auto plainTextExtensions1 = ref new Platform::Collections::Vector<String^>();
     auto plainTextExtensions2 = ref new Platform::Collections::Vector<String^>();
@@ -99,12 +99,12 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Button_Click(Platform::Object^ sende
                                     if (status == FileUpdateStatus::Complete)
                                     {
                                         //task.get();
-                                        _this->_rootPage->NotifyUser("The following " + file + file->Name + " was saved.", NotifyType::StatusMessage);
+                                        _this->_rootPage->NotifyUser("The following " + file + " " + file->Name + " was saved.", NotifyType::StatusMessage);
                                         
                                     }
                                     else
                                     {
-                                        _this->_rootPage->NotifyUser("Error writing to file" + file + file->Name, NotifyType::ErrorMessage);
+                                        _this->_rootPage->NotifyUser("Error writing to file", NotifyType::ErrorMessage);
                                     }
                                 });
                         });
@@ -125,7 +125,7 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Material_Button_Click(Platform::Obje
    //the file data to be saved.
 
     FileSavePicker^ savePicker = ref new FileSavePicker();
-    savePicker->SuggestedStartLocation = PickerLocationId::DocumentsLibrary;
+    savePicker->SuggestedStartLocation = PickerLocationId::ComputerFolder;
     auto plainTextExtensions1 = ref new Platform::Collections::Vector<String^>();
     plainTextExtensions1->Append(".mtl");
     savePicker->FileTypeChoices->Insert("WaveFront Material File Text", plainTextExtensions1);
@@ -141,7 +141,7 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Material_Button_Click(Platform::Obje
                 // write to file
                 this->mtlFilename = file;
                 Platform::String^ sf = file->DisplayName;
-                Platform::String^ fileData = _rootPage->GetSceneRenderDrawnObjectSaveObj3DandMtl(L"ObjNode", 2, sf, _rootPage->GetTextureImage1FileDXP());
+                Platform::String^ fileData = _rootPage->GetSceneRenderDrawnObjectSaveObj3DandMtl(L"ObjNode", 2, sf, _rootPage->GetTextureImage1NameDXP());
 
                 create_task(FileIO::WriteTextAsync(file, fileData/*file->Name*/)).then([_this, file]()
                     {
@@ -152,12 +152,12 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Material_Button_Click(Platform::Obje
                                 if (status == FileUpdateStatus::Complete)
                                 {
                                     //task.get();
-                                    _this->_rootPage->NotifyUser("The following " + file + file->Name + " was saved.", NotifyType::StatusMessage);
+                                    _this->_rootPage->NotifyUser("The following " + file->Name + " was saved.", NotifyType::StatusMessage);
 
                                 }
                                 else
                                 {
-                                    _this->_rootPage->NotifyUser("Error writing to file" + file + file->Name, NotifyType::ErrorMessage);
+                                    _this->_rootPage->NotifyUser("Error writing to file", NotifyType::ErrorMessage);
                                 }
                             });
                     });
@@ -175,7 +175,7 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Obj_Material_Button_Click(Platform::
    
 
     FileSavePicker^ savePicker1 = ref new FileSavePicker();
-    savePicker1->SuggestedStartLocation = PickerLocationId::DocumentsLibrary;
+    savePicker1->SuggestedStartLocation = PickerLocationId::ComputerFolder;
 
     auto plainTextExtensions2 = ref new Platform::Collections::Vector<String^>();
     plainTextExtensions2->Append(".obj");
@@ -192,7 +192,7 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Obj_Material_Button_Click(Platform::
 
                 Platform::String^ fileData = _rootPage->GetSceneRenderDrawnObjectSaveObj3DFile(_this->mtlFilename->Name, file1->DisplayName, L"Mesh_Default - Lambert");
 
-                create_task(FileIO::WriteTextAsync(file1, fileData/*file->Name*/)).then([_this, file1]()
+                create_task(FileIO::WriteTextAsync(file1, fileData)).then([_this, file1]()
                     {
                         // Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
                         // Completing updates may require Windows to ask for user input.
@@ -201,12 +201,12 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Obj_Material_Button_Click(Platform::
                                 if (status == FileUpdateStatus::Complete)
                                 {
                                     //task.get();
-                                    _this->_rootPage->NotifyUser("The following " + file1 + file1->Name + " was saved.", NotifyType::StatusMessage);
+                                    _this->_rootPage->NotifyUser("The following " + file1 + " " + file1->Name + " was saved.", NotifyType::StatusMessage);
 
                                 }
                                 else
                                 {
-                                    _this->_rootPage->NotifyUser("Error writing to file" + file1 + file1->Name, NotifyType::ErrorMessage);
+                                    _this->_rootPage->NotifyUser("Error writing to file", NotifyType::ErrorMessage);
                                 }
                             });
                     });
@@ -224,7 +224,7 @@ void Hot3dxRotoDraw::Scenario3_FileIO::Save_Obj_Material_Button_Click(Platform::
 void Hot3dxRotoDraw::Scenario3_FileIO::SaveAs_Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
     FileSavePicker^ savePicker = ref new FileSavePicker();
-    savePicker->SuggestedStartLocation = PickerLocationId::DocumentsLibrary;
+    savePicker->SuggestedStartLocation = PickerLocationId::ComputerFolder;
 
     auto plainTextExtensions2 = ref new Platform::Collections::Vector<String^>();
     plainTextExtensions2->Append(".hbin");

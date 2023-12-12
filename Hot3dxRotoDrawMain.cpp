@@ -144,12 +144,12 @@ void Hot3dxRotoDraw::Hot3dxRotoDrawMain::Clear()
 void Hot3dxRotoDraw::Hot3dxRotoDrawMain::OnWindowSizeChanged()
 {
 	Size size = m_deviceResources->GetOutputSize();
-	return;
+	
 	if (!m_deviceResources->WindowSizeChanged(
 		(int)size.Width,
 		(int)size.Height,
 		m_deviceResources->GetRotation()))
-		return;
+		
 	// TODO: Replace this with the size-dependent initialization of your app's content.
 	m_sceneRenderer->CreateWindowSizeDependentResources();
 }

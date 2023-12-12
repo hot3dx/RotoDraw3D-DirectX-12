@@ -2,19 +2,19 @@
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
-  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap6="http://schemas.microsoft.com/appx/manifest/uap/windows10/6"
   xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
   IgnorableNamespaces="uap mp uap6 uap3">
 
   <Identity
-    Name="Hot3dx-JeffKubitz.RotoDraw3DDirectX12"
-    Publisher="CN=Jeffery A. Kubitz, O=Jeffery A. Kubitz, S=Utah, C=US"
-    Version="1.0.11.0" />
+    Name="38359Hot3dx-JeffKubitz.RotoDraw3DDirectX12"
+    Publisher="CN=D712F736-962E-4231-828C-430EEDF684FB"
+    Version="1.0.24.0" />
 
-  <mp:PhoneIdentity PhoneProductId="327ebe61-dad3-497c-8fee-31359d1f5ac7" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
-
+  <mp:PhoneIdentity PhoneProductId="767dcdc5-94b9-4177-983f-30ba25adfdab" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  
   <Properties>
     <DisplayName>RotoDraw 3D DirectX 12</DisplayName>
     <PublisherDisplayName>Hot3dx - Jeff Kubitz</PublisherDisplayName>
@@ -37,13 +37,13 @@
         DisplayName="RotoDraw 3D DirectX 12"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="Hot3dxRotoDraw"
+        Description="Hot3dxRotoDraw app"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <uap:Extension Category="windows.fileOpenPicker">
+        <uap:Extension Category="windows.fileOpenPicker" Executable="Hot3dxRotoDraw.exe" EntryPoint="Hot3dxRotoDraw.App">
           <uap:FileOpenPicker>
             <uap:SupportedFileTypes>
               <uap:FileType>.jpg</uap:FileType>
@@ -62,7 +62,7 @@
             </uap:SupportedFileTypes>
           </uap:FileOpenPicker>
         </uap:Extension>
-        <uap:Extension Category="windows.fileSavePicker">
+        <uap:Extension Category="windows.fileSavePicker" Executable="Hot3dxRotoDraw.exe" EntryPoint="Hot3dxRotoDraw.App">
           <uap:FileSavePicker>
             <uap:SupportedFileTypes>
               <uap:FileType>.obj</uap:FileType>
@@ -77,11 +77,12 @@
             </uap:SupportedFileTypes>
           </uap:FileSavePicker>
         </uap:Extension>
-        <uap:Extension Category="windows.mediaPlayback">
+        <uap:Extension Category="windows.mediaPlayback" EntryPoint="Hot3dxRotoDraw.App" Executable="Hot3dxRotoDraw.exe">
           <uap:MediaPlayback>
             <uap:Codec Name=".wma"/>
             <uap:Codec Name=".wav"/>
             <uap:Codec Name=".mp3"/>
+            <uap:Codec Name=".mp4"/>
           </uap:MediaPlayback>
         </uap:Extension>
       </Extensions>
@@ -89,12 +90,9 @@
   </Applications>
 
   <Capabilities>
-    <Capability Name="internetClient" />
-     <uap:Capability Name="documentsLibrary"/>
     <uap:Capability Name="objects3D"/>
     <uap:Capability Name="picturesLibrary"/>
     <uap:Capability Name="videosLibrary"/>
-    <uap:Capability Name="sharedUserCertificates"/>
     <uap6:Capability Name="graphicsCapture"/>
     <uap:Capability Name="musicLibrary"/>
   </Capabilities>
