@@ -62,6 +62,9 @@
     <Filter Include="Help">
       <UniqueIdentifier>{b60e01c1-e4b1-4eb2-ad90-ba1f2ff865b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\d3dx12">
+      <UniqueIdentifier>{a945cf6a-2d18-447a-810c-869727d3b995}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -82,9 +85,6 @@
       <Filter>Content</Filter>
     </ClCompile>
     <ClCompile Include="Scenario5_MatsTexsConfig.cpp" />
-    <ClCompile Include="FilesSave\ColladaFileType.cpp">
-      <Filter>FilesSave</Filter>
-    </ClCompile>
     <ClCompile Include="FilesSave\ObjMaterialFile.cpp">
       <Filter>FilesSave</Filter>
     </ClCompile>
@@ -115,13 +115,16 @@
     <ClCompile Include="Content\Hot3dxRotoDrawSceneRenderDrawLines.cpp">
       <Filter>Content</Filter>
     </ClCompile>
+    <ClCompile Include="FilesSave\WavefrontMtlFileWriter.cpp">
+      <Filter>FilesSave</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesSave\WavefrontObjFileWriter.cpp">
+      <Filter>FilesSave</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hot3dxRotoDrawMain.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Common\d3dx12.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="CardioidSound.h" />
     <ClInclude Include="CustomDecay.h" />
     <ClInclude Include="OmnidirectionalSound.h" />
@@ -135,12 +138,6 @@
       <Filter>Content</Filter>
     </ClInclude>
     <ClInclude Include="Scenario5_MatsTexsConfig.h" />
-    <ClInclude Include="FilesSave\ColladaFileType.h">
-      <Filter>FilesSave</Filter>
-    </ClInclude>
-    <ClInclude Include="FilesSave\ObjMaterialFile.h">
-      <Filter>FilesSave</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="FilesSave\Obj3DFile.h">
       <Filter>FilesSave</Filter>
@@ -153,6 +150,53 @@
     </ClInclude>
     <ClInclude Include="Content\Hot3dxVertexTypes.h">
       <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="packages\WinPixEventRuntime.1.0.231030001\Include\WinPixEventRuntime\pix3.h" />
+    <ClInclude Include="Content\Hot3dxSceneRenderSphere.h" />
+    <ClInclude Include="FilesSave\WavefrontMtlFileWriter.h">
+      <Filter>FilesSave</Filter>
+    </ClInclude>
+    <ClInclude Include="FilesSave\WavefrontObjFileWriter.h">
+      <Filter>FilesSave</Filter>
+    </ClInclude>
+    <ClInclude Include="FilesSave\ObjMaterialFile.h">
+      <Filter>FilesSave</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dx12\d3d12.h">
+      <Filter>Common\d3dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dx12\d3dx12.h">
+      <Filter>Common\d3dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dx12\d3dx12_barriers.h">
+      <Filter>Common\d3dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dx12\d3dx12_check_feature_support.h">
+      <Filter>Common\d3dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dx12\d3dx12_core.h">
+      <Filter>Common\d3dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dx12\d3dx12_default.h">
+      <Filter>Common\d3dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dx12\d3dx12_pipeline_state_stream.h">
+      <Filter>Common\d3dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dx12\d3dx12_property_format_table.h">
+      <Filter>Common\d3dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dx12\d3dx12_render_pass.h">
+      <Filter>Common\d3dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dx12\d3dx12_resource_helpers.h">
+      <Filter>Common\d3dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dx12\d3dx12_root_signature.h">
+      <Filter>Common\d3dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dx12\d3dx12_state_object.h">
+      <Filter>Common\d3dx12</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -408,7 +452,6 @@
     <None Include="Assets\cursor1.cur">
       <Filter>Assets</Filter>
     </None>
-    <None Include="cpp.hint" />
     <None Include="Content\PBREffect_Common.hlsli">
       <Filter>Content</Filter>
     </None>
@@ -419,12 +462,14 @@
       <Filter>Content</Filter>
     </None>
     <None Include="Package.StoreAssociation.xml" />
-    <None Include="Hot3dxJeffKubitz1341389885DER.pfx" />
-    <None Include="Certificate1341389885.pfx" />
     <None Include="Help\HelpSettingDialog.htm">
       <Filter>Help</Filter>
     </None>
     <None Include="packages.config" />
+    <None Include="cpp.hint" />
+    <None Include="Certificate1341389885.cer" />
+    <None Include="Hot3dxJeffKubitz1341389885DER.pfx" />
+    <None Include="Certificate1341389885.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\musicmono_adpcm.wav">
@@ -465,9 +510,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Hot3dxRotoDraw.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Assets\credits.txt" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Content\PBREffect_PSConstant.hlsl">

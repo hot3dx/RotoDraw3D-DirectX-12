@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\Microsoft.UI.Xaml.2.8.6\build\native\Microsoft.UI.Xaml.props" Condition="Exists('packages\Microsoft.UI.Xaml.2.8.6\build\native\Microsoft.UI.Xaml.props')" />
+  <Import Project="packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.props" Condition="Exists('packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -43,7 +43,7 @@
     <MinimumVisualStudioVersion>17</MinimumVisualStudioVersion>
     <AppContainerApplication>true</AppContainerApplication>
     <ApplicationType>Windows Store</ApplicationType>
-    <WindowsTargetPlatformVersion Condition=" '$(WindowsTargetPlatformVersion)' == '' ">10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition=" '$(WindowsTargetPlatformVersion)' == '' ">10.0.22621.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformMinVersion>10.0.18362.0</WindowsTargetPlatformMinVersion>
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
@@ -145,12 +145,13 @@
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>00C8B692A832BBF8FF8EB39D0BBA421CAA9D519F</PackageCertificateThumbprint>
+    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>260B60FEE522EAB5CAC3D66E488DA9A5218E3C2F</PackageCertificateThumbprint>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppInstallerUri>C:\Users\hot3d\Documents\Hot3dxApps</AppInstallerUri>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
+    <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -320,7 +321,7 @@
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <LinkTimeCodeGeneration>
       </LinkTimeCodeGeneration>
-      <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <ClCompile>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -353,7 +354,7 @@
       </OptimizeReferences>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
-      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
       <Version>
       </Version>
       <TargetMachine>MachineX64</TargetMachine>
@@ -475,6 +476,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\cursor1.cur" />
+    <None Include="Certificate1341389885.cer" />
     <None Include="Certificate1341389885.pfx" />
     <None Include="Content\PBREffect_Common.hlsli" />
     <None Include="Content\PBREffect_Math.hlsli" />
@@ -496,9 +498,6 @@
     <Media Include="Assets\Audiorezout_Entering.mp3" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Assets\credits.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Font Include="Assets\segoeui.ttf" />
     <Font Include="Assets\italic.spritefont" />
     <Font Include="Assets\SegoeUI_18.spritefont" />
@@ -508,7 +507,18 @@
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="CardioidSound.h" />
-    <ClInclude Include="Common\d3dx12.h" />
+    <ClInclude Include="Common\d3dx12\d3d12.h" />
+    <ClInclude Include="Common\d3dx12\d3dx12.h" />
+    <ClInclude Include="Common\d3dx12\d3dx12_barriers.h" />
+    <ClInclude Include="Common\d3dx12\d3dx12_check_feature_support.h" />
+    <ClInclude Include="Common\d3dx12\d3dx12_core.h" />
+    <ClInclude Include="Common\d3dx12\d3dx12_default.h" />
+    <ClInclude Include="Common\d3dx12\d3dx12_pipeline_state_stream.h" />
+    <ClInclude Include="Common\d3dx12\d3dx12_property_format_table.h" />
+    <ClInclude Include="Common\d3dx12\d3dx12_render_pass.h" />
+    <ClInclude Include="Common\d3dx12\d3dx12_resource_helpers.h" />
+    <ClInclude Include="Common\d3dx12\d3dx12_root_signature.h" />
+    <ClInclude Include="Common\d3dx12\d3dx12_state_object.h" />
     <ClInclude Include="Common\DeviceResources.h" />
     <ClInclude Include="ContentDialog1.xaml.h">
       <DependentUpon>ContentDialog1.xaml</DependentUpon>
@@ -517,11 +527,13 @@
     <ClInclude Include="Content\Hot3dxObjectGeometry.h" />
     <ClInclude Include="Content\Hot3dxRotoDrawVariables.h" />
     <ClInclude Include="Content\Hot3dxRotoDrawSceneRender.h" />
+    <ClInclude Include="Content\Hot3dxSceneRenderSphere.h" />
     <ClInclude Include="Content\Hot3dxVertexTypes.h" />
-    <ClInclude Include="FilesSave\ColladaFileType.h" />
     <ClInclude Include="FilesSave\Hot3dxTextFileSave.h" />
     <ClInclude Include="FilesSave\Obj3DFile.h" />
     <ClInclude Include="FilesSave\ObjMaterialFile.h" />
+    <ClInclude Include="FilesSave\WavefrontMtlFileWriter.h" />
+    <ClInclude Include="FilesSave\WavefrontObjFileWriter.h" />
     <ClInclude Include="Hot3dxRotoDrawMain.h" />
     <ClInclude Include="CustomDecay.h" />
     <ClInclude Include="DirectXPage.xaml.h">
@@ -531,6 +543,7 @@
     <ClInclude Include="Common\StepTimer.h" />
     <ClInclude Include="Content\ShaderStructures.h" />
     <ClInclude Include="OmnidirectionalSound.h" />
+    <ClInclude Include="packages\WinPixEventRuntime.1.0.231030001\Include\WinPixEventRuntime\pix3.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scenario10_Sculpt.xaml.h">
@@ -596,10 +609,11 @@
     <ClCompile Include="Content\Hot3dxSceneRenderSphere.cpp" />
     <ClCompile Include="Content\Hot3dxVertexTypes.cpp" />
     <ClCompile Include="Content\MediaEnginePlayer.cpp" />
-    <ClCompile Include="FilesSave\ColladaFileType.cpp" />
     <ClCompile Include="FilesSave\Hot3dxTextFileSave.cpp" />
     <ClCompile Include="FilesSave\Obj3DFile.cpp" />
     <ClCompile Include="FilesSave\ObjMaterialFile.cpp" />
+    <ClCompile Include="FilesSave\WavefrontMtlFileWriter.cpp" />
+    <ClCompile Include="FilesSave\WavefrontObjFileWriter.cpp" />
     <ClCompile Include="Hot3dxRotoDrawMain.cpp" />
     <ClCompile Include="CustomDecay.cpp" />
     <ClCompile Include="DirectXPage.xaml.cpp">
@@ -859,17 +873,17 @@
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ImageContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\MeshContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ShaderGraphContentTask.targets" />
-    <Import Project="packages\Microsoft.Web.WebView2.1.0.2151.40\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('packages\Microsoft.Web.WebView2.1.0.2151.40\build\native\Microsoft.Web.WebView2.targets')" />
-    <Import Project="packages\Microsoft.UI.Xaml.2.8.6\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('packages\Microsoft.UI.Xaml.2.8.6\build\native\Microsoft.UI.Xaml.targets')" />
-    <Import Project="packages\WinPixEventRuntime.1.0.231030001\build\WinPixEventRuntime.targets" Condition="Exists('packages\WinPixEventRuntime.1.0.231030001\build\WinPixEventRuntime.targets')" />
+    <Import Project="packages\WinPixEventRuntime.1.0.240308001\build\WinPixEventRuntime.targets" Condition="Exists('packages\WinPixEventRuntime.1.0.240308001\build\WinPixEventRuntime.targets')" />
+    <Import Project="packages\Microsoft.Web.WebView2.1.0.3351.48\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('packages\Microsoft.Web.WebView2.1.0.3351.48\build\native\Microsoft.Web.WebView2.targets')" />
+    <Import Project="packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\Microsoft.Web.WebView2.1.0.2151.40\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Web.WebView2.1.0.2151.40\build\native\Microsoft.Web.WebView2.targets'))" />
-    <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.8.6\build\native\Microsoft.UI.Xaml.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.8.6\build\native\Microsoft.UI.Xaml.props'))" />
-    <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.8.6\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.8.6\build\native\Microsoft.UI.Xaml.targets'))" />
-    <Error Condition="!Exists('packages\WinPixEventRuntime.1.0.231030001\build\WinPixEventRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\WinPixEventRuntime.1.0.231030001\build\WinPixEventRuntime.targets'))" />
+    <Error Condition="!Exists('packages\WinPixEventRuntime.1.0.240308001\build\WinPixEventRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\WinPixEventRuntime.1.0.240308001\build\WinPixEventRuntime.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.Web.WebView2.1.0.3351.48\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Web.WebView2.1.0.3351.48\build\native\Microsoft.Web.WebView2.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.8.7\build\native\Microsoft.UI.Xaml.targets'))" />
   </Target>
 </Project>

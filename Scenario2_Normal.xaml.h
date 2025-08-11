@@ -34,8 +34,7 @@ namespace Hot3dxRotoDraw
     public:
         Scenario2_Normal();
         virtual ~Scenario2_Normal();
-
-       
+        
         Windows::UI::Xaml::Controls::TextBox^ GetPointSpaceTextBox() { return m_PointSpaceTextBox; }
 
         void SetTopLeftCheckBoxFalse() { IDC_TOP_OR_LEFT_CHECKBOX->IsChecked = false; }

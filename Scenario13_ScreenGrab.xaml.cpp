@@ -497,3 +497,52 @@ void Hot3dxRotoDraw::Scenario13_ScreenGrab::ScreenGrabTextBox_TextChanged(Platfo
 {
 
 }
+
+void Hot3dxRotoDraw::Scenario13_ScreenGrab::SetAllUnChecked()
+{
+	Scenario13Vars^ vars = _rootPage->m_Scene13Vars;
+	if (IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked->Value)
+	{
+		vars->SetScreenGrabGIFChecked(false);
+		vars->SetScreenGrabDDSChecked(false);
+		vars->SetScreenGrabBMPChecked(false);
+		vars->SetScreenGrabPNGChecked(false);
+		vars->SetScreenGrabICOChecked(false);
+		vars->SetScreenGrabJPGChecked(false);
+		vars->SetScreenGrabTIFChecked(false);
+		vars->SetScreenGrabWMPChecked(false);
+
+		IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_DDS_CHECKBOX->SetValue(IDC_SCREENGRAB_DDS_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_DDS_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_BMP_CHECKBOX->SetValue(IDC_SCREENGRAB_BMP_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_BMP_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_PNG_CHECKBOX->SetValue(IDC_SCREENGRAB_PNG_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_PNG_CHECKBOX->IsChecked);
+
+		//IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked::set(false);
+		//IDC_SCREENGRAB_ICO_CHECKBOX->SetValue(IDC_SCREENGRAB_ICO_CHECKBOX->IsCheckedProperty,
+		//	IDC_SCREENGRAB_ICO_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_JPG_CHECKBOX->SetValue(IDC_SCREENGRAB_JPG_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_JPG_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_TIFF_CHECKBOX->SetValue(IDC_SCREENGRAB_TIFF_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_TIFF_CHECKBOX->IsChecked);
+
+		IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked::set(false);
+		IDC_SCREENGRAB_GIF_CHECKBOX->SetValue(IDC_SCREENGRAB_GIF_CHECKBOX->IsCheckedProperty,
+			IDC_SCREENGRAB_GIF_CHECKBOX->IsChecked);
+		//IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked::set(false);
+		//IDC_SCREENGRAB_WMP_CHECKBOX->SetValue(IDC_SCREENGRAB_WMP_CHECKBOX->IsCheckedProperty,
+		//	IDC_SCREENGRAB_WMP_CHECKBOX->IsChecked);
+		vars->SetGuidFormatForScreenGrabVars(5);
+		_rootPage->NotifyUser("\n\nScreenGrab: All Auto Unchecked to false", NotifyType::StatusMessage);
+	}
+}

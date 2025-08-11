@@ -62,8 +62,8 @@ Hot3dxRotoDraw::Scenario5_Tex::Scenario5_Tex() : _rootPage(DirectXPage::Current)
 	vars->SetGridChecked(true);
 	vars->SetPicChecked(false);
 
-	m_sDefaultLoadFolderPath = _rootPage->Getm_sDirPathDXP();
-
+	m_sDefaultLoadFolderPath = _rootPage->Getm_sDirPathDXP();// "ms-appx:///Assets/Textures/";// 
+		
 	if (vars->GetBitmapImageDXP1())
 	{
 		// loads chosen top left texture image
@@ -71,6 +71,7 @@ Hot3dxRotoDraw::Scenario5_Tex::Scenario5_Tex() : _rootPage(DirectXPage::Current)
 	}
 	else
 	{
+		LoadDefaultImageUri1(L"ms-appx:///Assets/Textures/fire.dds");
 		LoadDefaultImage1(L"Assets\\Textures\\fire.dds");
 	}
 	if (vars->GetBitmapImageDXP2())
@@ -80,7 +81,8 @@ Hot3dxRotoDraw::Scenario5_Tex::Scenario5_Tex() : _rootPage(DirectXPage::Current)
 	}
 	else
 	{
-		LoadDefaultImage2(L"Assets\\Textures\\sphere.png");
+		LoadDefaultImageUri2(L"ms-appx:///Assets/Textures/sphere.png");
+	    LoadDefaultImage2(L"Assets\\Textures\\sphere.png");
 	    
 	}
 	/// <summary>
@@ -91,7 +93,8 @@ Hot3dxRotoDraw::Scenario5_Tex::Scenario5_Tex() : _rootPage(DirectXPage::Current)
 	}
 	else
 	{
-		LoadDefaultImage3(L"Assets\\Textures\\Toyrobot_RMA.dds");
+		LoadDefaultImageUri3(L"ms-appx:///Assets/Textures/Toyrobot_RMA.DDS");
+		LoadDefaultImage3(L"Assets\\Textures\\Toyrobot_RMA.DDS");
 		
 	}
 	/// </summary>
@@ -102,7 +105,8 @@ Hot3dxRotoDraw::Scenario5_Tex::Scenario5_Tex() : _rootPage(DirectXPage::Current)
 	}
 	else
 	{
-		LoadDefaultImage4(L"Assets\\Textures\\Toyrobot_Normal.dds");
+		LoadDefaultImageUri4(L"ms-appx:///Assets/Textures/Toyrobot_Normal.DDS");
+		LoadDefaultImage4(L"Assets\\Textures\\Toyrobot_Normal.DDS");
 		
 	}
 	if (vars->GetBitmapImageDXP5())
@@ -112,6 +116,7 @@ Hot3dxRotoDraw::Scenario5_Tex::Scenario5_Tex() : _rootPage(DirectXPage::Current)
 	}
 	else
 	{
+		LoadDefaultImageUri5(L"ms-appx:///Assets/Textures/ATRIUM_R.DDS");
 		LoadDefaultImage5(L"Assets\\Textures\\ATRIUM_R.DDS");
 		
 	}
@@ -122,6 +127,7 @@ Hot3dxRotoDraw::Scenario5_Tex::Scenario5_Tex() : _rootPage(DirectXPage::Current)
 	}
 	else
 	{
+		LoadDefaultImageUri6(L"ms-appx:///Assets/Textures/ATRIUM_IR.DDS");
 		LoadDefaultImage6(L"Assets\\Textures\\ATRIUM_IR.DDS");
 		
 	}
@@ -132,7 +138,9 @@ Hot3dxRotoDraw::Scenario5_Tex::Scenario5_Tex() : _rootPage(DirectXPage::Current)
 	}
 	else
 	{
-		LoadDefaultImagePic(L"Assets\\Textures\\tree01S.DDS");
+
+		LoadDefaultImageUriPic(L"ms-appx:///Assets/Textures/tree01S.dds");
+		LoadDefaultImagePic(L"Assets\\Textures\\tree01S.dds");
 
 	}
 	if (vars->GetBitmapImageVideoDXP1())
@@ -142,12 +150,14 @@ Hot3dxRotoDraw::Scenario5_Tex::Scenario5_Tex() : _rootPage(DirectXPage::Current)
 	}
 	else
 	{
+
+		LoadDefaultImageUriVideo(L"ms-appx:///Assets/Textures/SampleVideo.mp4");
 		LoadDefaultImageVideo(L"Assets\\Textures\\SampleVideo.mp4");
 
 	}
 	
 	Scenario5_Tex::Current = this;
-	_rootPage->NotifyUser("Scenario5 MatsTexs Initialized", NotifyType::StatusMessage);
+	_rootPage->NotifyUser("Scenario5 MatsTexs Initialized", NotifyType::StatusMessage); 
 }
 
 Hot3dxRotoDraw::Scenario5_Tex::~Scenario5_Tex()
@@ -164,18 +174,13 @@ void Hot3dxRotoDraw::Scenario5_Tex::DisplayResult(Image^ image, TextBlock^ textB
 	image->Source = bitmapImage;
 
 	String^ itemType = isGroup ? "Group" : item->IsOfType(StorageItemTypes::File) ? "File" : "Folder";
-	textBlock->Text = /*"ThumbnailMode." + thumbnailModeName + "\n"*/
-		//+ itemType + 
-		":" + item->Name + "\n";
-		//+ "size: " + thumbnail->OriginalWidth.ToString() + "x" + thumbnail->OriginalHeight.ToString()
-		//+ "size: " + size.ToString() + "\n";
-		
+	textBlock->Text = item->Name + "\n";
 }
 
 void Hot3dxRotoDraw::Scenario5_Tex::DisplayResultVideo(Windows::UI::Xaml::Controls::Image^ image,
 	Windows::UI::Xaml::Controls::TextBlock^ textBlock,
 	Platform::String^ thumbnailModeName,
-	size_t size, Windows::Storage::IStorageItem^ item,
+	Windows::Storage::IStorageItem^ item,
 	Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail,
 	bool isGroup)
 {
@@ -185,10 +190,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::DisplayResultVideo(Windows::UI::Xaml::Contro
 	image->Source = bitmapImage;
 
 	String^ itemType = isGroup ? "Group" : item->IsOfType(StorageItemTypes::File) ? "File" : "Folder";
-	textBlock->Text = "ThumbnailMode." + thumbnailModeName + "\n"
-		+ itemType + " : " + item->Name + "\n"
-		+ "size: " + thumbnail->OriginalWidth.ToString() + "x" + thumbnail->OriginalHeight.ToString()
-		+ "size: " + size.ToString() + "\n";
+	textBlock->Text = item->Name + "\n";
 }
 
 void Hot3dxRotoDraw::Scenario5_Tex::scrollBar_Scroll(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::ScrollEventArgs^ e)
@@ -206,10 +208,9 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImage1(Platform::String^ imagePat
 		pick->ViewMode = PickerViewMode::Thumbnail;
 		pick->SuggestedStartLocation = PickerLocationId::ComputerFolder;
 		Platform::String^ s = ref new Platform::String(GetImagePath(imagePath)->Data());
-
 		StorageFile^ file = reinterpret_cast<StorageFile^>(pick->PickSingleFileAsync(s));
 		unsigned int size = static_cast<unsigned int>(this->TextureImage1->ActualHeight);
-		auto task1 = create_task(file->GetFileFromPathAsync(s)).then([this, size](StorageFile^ file)
+		auto task1 = concurrency::create_task(file->GetFileFromPathAsync(s)).then([this, size](StorageFile^ file)
 		{
 			if (file)
 			{
@@ -224,37 +225,20 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImage1(Platform::String^ imagePat
 					thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 				}
 				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-				auto task2 = create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+				auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 				{
 					if (thumbnail != nullptr)
 					{
-						Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
-							vars->SetFile1(file);
-							vars->SetTextureImage1File(file->Path);
-							_this->_rootPage->SetTextureImage1NameDXP(file->Name);
-							_this->_rootPage->SetTextureImage1FileDXP(file->Path);
-							vars->SetTextureImage1File(file->Path);
-							vars->SetThumbnailDXP1(thumbnail);
-							DisplayResult(_this->TextureImage1, _this->filePath1TextBlock, thumbnailModeName, file, thumbnail, false);
-							vars->SetbitmapImageDXP1(vars->GetThumbnailDXP1());
-							vars->GetBitmapImageDXP1()->SetSource(vars->GetThumbnailDXP1());
-						_this->_rootPage->NotifyUser("Opened file LoadDefaultImage1 " + file->Name, NotifyType::StatusMessage);
-						_this->textureFileTextBlock1->Text = file->Path;
-						
+						_this->SetTexture1Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage1 TextureImage1: "));
 					}
-
 					else
 					{
 						_this->_rootPage->NotifyUser("Error opening file LoadDefaultImage1 ", NotifyType::ErrorMessage);
-
 					}
-
 				});
 			}
 			else {}
 		});
-	
-		
 }
 
 void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImage2(Platform::String^ imagePath)
@@ -271,7 +255,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImage2(Platform::String^ imagePat
 
 	StorageFile^ file = reinterpret_cast<StorageFile^>(pick->PickSingleFileAsync(s));
 	unsigned int size = static_cast<unsigned int>(this->TextureImage2->ActualHeight);
-	create_task(file->GetFileFromPathAsync(s)).then([this, size](StorageFile^ file)
+	concurrency::create_task(file->GetFileFromPathAsync(s)).then([this, size](StorageFile^ file)
 	{
 		if (file)
 		{
@@ -288,36 +272,20 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImage2(Platform::String^ imagePat
 				thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 			}
 			Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-			create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+			concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 			{
 				if (thumbnail != nullptr)
 				{
-					Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
-					vars->SetFile2(file);
-						vars->SetTextureImage2File(file->Path);
-						_this->_rootPage->SetTextureImage2NameDXP(file->Name);
-						_this->_rootPage->SetTextureImage2FileDXP(file->Path);
-						vars->SetTextureImage2File(file->Path);
-						vars->SetThumbnailDXP2(thumbnail);
-						DisplayResult(_this->TextureImage2, _this->filePath2TextBlock, thumbnailModeName, file, thumbnail, false);
-						vars->SetbitmapImageDXP2(vars->GetThumbnailDXP2());
-						vars->GetBitmapImageDXP2()->SetSource(vars->GetThumbnailDXP2());
-					_this->_rootPage->NotifyUser("Opened file LoadDefaultImage2 " + file->Name, NotifyType::StatusMessage);
-					_this->textureFileTextBlock2->Text = file->Path;
+					_this->SetTexture2Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file LoadDefault TextureImage2: "));
 				}
-
 				else
 				{
 					_this->_rootPage->NotifyUser("Error opening file LoadDefaultImage2 ", NotifyType::ErrorMessage);
-
 				}
-
 			});
 		}
 		else {}
 	});
-
-	
 }
 
 
@@ -335,7 +303,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImage3(Platform::String^ imagePat
 
 	StorageFile^ file = reinterpret_cast<StorageFile^>(pick->PickSingleFileAsync(s));
 	unsigned int size = static_cast<unsigned int>(this->TextureRMAImage3->ActualHeight);
-	create_task(file->GetFileFromPathAsync(s)).then([this, size](StorageFile^ file)
+	concurrency::create_task(file->GetFileFromPathAsync(s)).then([this, size](StorageFile^ file)
 		{
 			if (file)
 			{
@@ -352,22 +320,11 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImage3(Platform::String^ imagePat
 					thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 				}
 				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-				create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+				concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 					{
 						if (thumbnail != nullptr)
 						{
-							Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
-							vars->SetFile3(file);
-							vars->SetTextureImage3File(file->Path);
-							_this->_rootPage->SetTextureImage3NameDXP(file->Name);
-							_this->_rootPage->SetTextureImage3FileDXP(file->Path);
-							vars->SetTextureImage3File(file->Path);
-							vars->SetThumbnailDXP3(thumbnail);
-							DisplayResult(_this->TextureRMAImage3, _this->filePath3TextBlock, thumbnailModeName, file, thumbnail, false);
-							vars->SetbitmapImageDXP3(vars->GetThumbnailDXP3());
-							vars->GetBitmapImageDXP3()->SetSource(vars->GetThumbnailDXP3());
-							_this->_rootPage->NotifyUser("Opened file LoadDefaultImage3 " + file->Name, NotifyType::StatusMessage);
-							_this->textureFileTextBlock3->Text = file->Path;
+							_this->SetTexture3Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file LoadDefault TextureImage3: "));
 						}
 
 						else
@@ -398,7 +355,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImage4(Platform::String^ imagePat
 
 	StorageFile^ file = reinterpret_cast<StorageFile^>(pick->PickSingleFileAsync(s));
 	unsigned int size = int(this->TextureEMMisiveImage4->ActualHeight);
-	create_task(file->GetFileFromPathAsync(s)).then([this, size](StorageFile^ file)
+	concurrency::create_task(file->GetFileFromPathAsync(s)).then([this, size](StorageFile^ file)
 		{
 			if (file)
 			{
@@ -415,22 +372,11 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImage4(Platform::String^ imagePat
 					thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 				}
 				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-				create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+				concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 					{
 						if (thumbnail != nullptr)
 						{
-							Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
-							vars->SetFile4(file);
-							vars->SetTextureImage4File(file->Path);
-							_this->_rootPage->SetTextureImage4NameDXP(file->Name);
-							_this->_rootPage->SetTextureImage4FileDXP(file->Path);
-							vars->SetTextureImage4File(file->Path);
-							vars->SetThumbnailDXP4(thumbnail);
-							DisplayResult(_this->TextureEMMisiveImage4, _this->filePath4TextBlock, thumbnailModeName, file, thumbnail, false);
-							vars->SetbitmapImageDXP4(vars->GetThumbnailDXP4());
-							vars->GetBitmapImageDXP4()->SetSource(vars->GetThumbnailDXP4());
-							_this->_rootPage->NotifyUser("Opened file LoadDefaultImage4 " + file->Name, NotifyType::StatusMessage);
-							_this->textureFileTextBlock4->Text = file->Path;
+							_this->SetTexture4Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file LoadDefault TextureImage4: "));
 						}
 
 						else
@@ -460,7 +406,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImage5(Platform::String^ imagePat
 
 	StorageFile^ file = reinterpret_cast<StorageFile^>(pick->PickSingleFileAsync(s));
 	unsigned int size = int(this->TextureRadianceImage5->ActualHeight);
-	create_task(file->GetFileFromPathAsync(s)).then([this, size](StorageFile^ file)
+	concurrency::create_task(file->GetFileFromPathAsync(s)).then([this, size](StorageFile^ file)
 		{
 			if (file)
 			{
@@ -477,23 +423,11 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImage5(Platform::String^ imagePat
 					thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 				}
 				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-				create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+				concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 					{
 						if (thumbnail != nullptr)
 						{
-							Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
-							vars->SetFile5(file);
-							vars->SetTextureImage5File(file->Path);
-							_this->_rootPage->SetTextureImage5NameDXP(file->Name);
-							_this->_rootPage->SetTextureImage5FileDXP(file->Path);
-							vars->SetTextureImage5File(file->Path);
-							vars->SetThumbnailDXP5(thumbnail);
-							DisplayResult(_this->TextureRadianceImage5, _this->filePath5TextBlock, thumbnailModeName, file, thumbnail, false);
-							vars->SetbitmapImageDXP5(vars->GetThumbnailDXP5());
-							vars->GetBitmapImageDXP5()->SetSource(vars->GetThumbnailDXP5());
-
-							_this->_rootPage->NotifyUser("Opened file LoadDefaultImage5 " + file->Name, NotifyType::StatusMessage);
-							_this->textureFileTextBlock5->Text = file->Path;
+							_this->SetTexture5Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file LoadDefault TextureImage5: "));
 						}
 
 						else
@@ -523,7 +457,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImage6(Platform::String^ imagePat
 
 	StorageFile^ file = reinterpret_cast<StorageFile^>(pick->PickSingleFileAsync(s));
 	unsigned int size = int(this->TextureIrradianceImage6->ActualHeight);
-	create_task(file->GetFileFromPathAsync(s)).then([this, size](StorageFile^ file)
+	concurrency::create_task(file->GetFileFromPathAsync(s)).then([this, size](StorageFile^ file)
 		{
 			if (file)
 			{
@@ -540,37 +474,22 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImage6(Platform::String^ imagePat
 					thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 				}
 				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-				create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+				concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 					{
 						if (thumbnail != nullptr)
 						{
-							Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
-							vars->SetFile6(file);
-							vars->SetTextureImage6File(file->Path);
-							_this->_rootPage->SetTextureImage6NameDXP(file->Name);
-							_this->_rootPage->SetTextureImage6FileDXP(file->Path);
-							vars->SetTextureImage6File(file->Path);
-							vars->SetThumbnailDXP6(thumbnail);
-							DisplayResult(_this->TextureIrradianceImage6, _this->filePath6TextBlock, thumbnailModeName, file, thumbnail, false);
-							vars->SetbitmapImageDXP6(vars->GetThumbnailDXP6());
-							vars->GetBitmapImageDXP6()->SetSource(vars->GetThumbnailDXP6());
-
-							_this->_rootPage->NotifyUser("Opened file LoadDefaultImage6 " + file->Name, NotifyType::StatusMessage);
-							_this->textureFileTextBlock6->Text = file->Path;
+							_this->SetTexture6Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file LoadDefault TextureImage6: "));
 						}
 
 						else
 						{
 							_this->_rootPage->NotifyUser("Error opening file LoadDefaultImage6 ", NotifyType::ErrorMessage);
-
 						}
 
 					});
 			}
 			else {}
 		});
-
-	
 }
 
 void Hot3dxRotoDraw::Scenario5_Tex::LoadChosenImage1()
@@ -594,23 +513,11 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadChosenImage1()
 		
 		if (file)
 		{
-			create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+			concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 			{
 				if (thumbnail != nullptr)
 				{
-					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
-					vars->SetFile1(file);
-					vars->SetTextureImage1File(file->Path);
-					this->_rootPage->SetTextureImage1FileDXP(file->Path);
-					this->_rootPage->SetTextureImage1NameDXP(file->Name);
-					vars->SetTextureImage1File(file->Path);
-					vars->SetThumbnailDXP1(thumbnail);
-					DisplayResult(this->TextureImage1, this->filePath1TextBlock, thumbnailModeName, file, thumbnail, false);
-					vars->SetbitmapImageDXP1(vars->GetThumbnailDXP1());
-					vars->GetBitmapImageDXP1()->SetSource(vars->GetThumbnailDXP1());
-					this->_rootPage->SetTextureImage1NameDXP(file->Name);
-					this->_rootPage->NotifyUser("Opened file LoadChosen1 " + file->Name, NotifyType::StatusMessage);
-					this->textureFileTextBlock1->Text::set(file->Path);
+					this->SetTexture1Parameters(file, this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadChosen1 TextureImage1: "));
 				}
 				else
 				{
@@ -646,28 +553,15 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadChosenImage2()
 		
 		if (file)
 		{
-			create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+			concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 			{
 				if (thumbnail != nullptr)
 				{
-					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
-					vars->SetFile2(file);
-					vars->SetTextureImage2File(file->Path);
-					this->_rootPage->SetTextureImage2FileDXP(file->Path);
-					this->_rootPage->SetTextureImage2NameDXP(file->Name);
-					vars->SetTextureImage2File(file->Path);
-					vars->SetThumbnailDXP2(thumbnail);
-					DisplayResult(this->TextureImage2, this->filePath2TextBlock, thumbnailModeName, file, thumbnail, false);
-					vars->SetbitmapImageDXP2(vars->GetThumbnailDXP2());
-					vars->GetBitmapImageDXP2()->SetSource(vars->GetThumbnailDXP2());
-					this->_rootPage->SetTextureImage2NameDXP(file->Name);
-					this->_rootPage->NotifyUser("Opened file LoadChosen2 " + file->Name, NotifyType::StatusMessage);
-					this->textureFileTextBlock2->Text::set(file->Path);
+					this->SetTexture2Parameters(file, this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file LoadChosen TextureImage2: "));
 				}
 				else
 				{
 					this->_rootPage->NotifyUser("Error opening file LoadChosen2 ", NotifyType::ErrorMessage);
-
 				}
 			});
 		}
@@ -699,27 +593,15 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadChosenImage3()
 
 	if (file)
 	{
-		create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+		concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 			{
 				if (thumbnail != nullptr)
 				{
-					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
-					vars->SetFile3(file);
-					vars->SetTextureImage3File(file->Path);
-					this->_rootPage->SetTextureImage3FileDXP(file->Path);
-					vars->SetTextureImage3File(file->Path);
-					vars->SetThumbnailDXP3(thumbnail);
-					DisplayResult(this->TextureRMAImage3, this->filePath3TextBlock, thumbnailModeName, file, thumbnail, false);
-					vars->SetbitmapImageDXP3(vars->GetThumbnailDXP3());
-					vars->GetBitmapImageDXP3()->SetSource(vars->GetThumbnailDXP3());
-					this->_rootPage->SetTextureImage3NameDXP(file->Name);
-					this->_rootPage->NotifyUser("Opened file LoadChosen3 " + file->Name, NotifyType::StatusMessage);
-					this->textureFileTextBlock3->Text::set(file->Path);
+					this->SetTexture3Parameters(file, this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file LoadChosen TextureImage3: "));
 				}
 				else
 				{
 					this->_rootPage->NotifyUser("Error opening file LoadChosen3 ", NotifyType::ErrorMessage);
-
 				}
 			});
 	}
@@ -751,27 +633,15 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadChosenImage4()
 
 	if (file)
 	{
-		create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+		concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 			{
 				if (thumbnail != nullptr)
 				{
-					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
-					vars->SetFile4(file);
-					vars->SetTextureImage4File(file->Path);
-					this->_rootPage->SetTextureImage4FileDXP(file->Path);
-					vars->SetTextureImage4File(file->Path);
-					vars->SetThumbnailDXP4(thumbnail);
-					DisplayResult(this->TextureEMMisiveImage4, this->filePath4TextBlock, thumbnailModeName, file, thumbnail, false);
-					vars->SetbitmapImageDXP4(vars->GetThumbnailDXP4());
-					vars->GetBitmapImageDXP4()->SetSource(vars->GetThumbnailDXP4());
-					this->_rootPage->SetTextureImage4NameDXP(file->Name);
-					this->_rootPage->NotifyUser("Opened file LoadChosen4 " + file->Name, NotifyType::StatusMessage);
-					this->textureFileTextBlock4->Text::set(file->Path);
+					this->SetTexture4Parameters(file, this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file LoadChosen TextureImage4: "));
 				}
 				else
 				{
 					this->_rootPage->NotifyUser("Error opening file LoadChosen4 ", NotifyType::ErrorMessage);
-
 				}
 			});
 	}
@@ -803,27 +673,15 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadChosenImage5()
 
 	if (file)
 	{
-		create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+		concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 			{
 				if (thumbnail != nullptr)
 				{
-					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
-					vars->SetFile5(file);
-					vars->SetTextureImage5File(file->Path);
-					this->_rootPage->SetTextureImage5FileDXP(file->Path);
-					vars->SetTextureImage5File(file->Path);
-					vars->SetThumbnailDXP5(thumbnail);
-					DisplayResult(this->TextureRadianceImage5, this->filePath5TextBlock, thumbnailModeName, file, thumbnail, false);
-					vars->SetbitmapImageDXP5(vars->GetThumbnailDXP5());
-					vars->GetBitmapImageDXP5()->SetSource(vars->GetThumbnailDXP5());
-					this->_rootPage->SetTextureImage5NameDXP(file->Name);
-					this->_rootPage->NotifyUser("Opened file LoadChosen5 " + file->Name, NotifyType::StatusMessage);
-					this->textureFileTextBlock5->Text::set(file->Path);
+					this->SetTexture5Parameters(file, this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file LoadChosen TextureImage5: "));
 				}
 				else
 				{
 					this->_rootPage->NotifyUser("Error opening file LoadChosen5 ", NotifyType::ErrorMessage);
-
 				}
 			});
 	}
@@ -855,27 +713,15 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadChosenImage6()
 
 	if (file)
 	{
-		create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+		concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 			{
 				if (thumbnail != nullptr)
 				{
-					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
-					vars->SetFile6(file);
-					vars->SetTextureImage6File(file->Path);
-					this->_rootPage->SetTextureImage6FileDXP(file->Path);
-					vars->SetTextureImage6File(file->Path);
-					vars->SetThumbnailDXP6(thumbnail);
-					DisplayResult(this->TextureIrradianceImage6, this->filePath6TextBlock, thumbnailModeName, file, thumbnail, false);
-					vars->SetbitmapImageDXP6(vars->GetThumbnailDXP6());
-					vars->GetBitmapImageDXP6()->SetSource(vars->GetThumbnailDXP6());
-					this->_rootPage->SetTextureImage6NameDXP(file->Name);
-					this->_rootPage->NotifyUser("Opened file LoadChosen6 " + file->Name, NotifyType::StatusMessage);
-					this->textureFileTextBlock6->Text::set(file->Path);
+					this->SetTexture6Parameters(file, this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file LoadChosen TextureImage6: "));
 				}
 				else
 				{
 					this->_rootPage->NotifyUser("Error opening file LoadChosen6 ", NotifyType::ErrorMessage);
-
 				}
 			});
 	}
@@ -905,25 +751,14 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadChosenImagePic()
 
 
 	StorageFile^ file = vars->GetFilePic1();
-	m_sPicDirPath = ref new Platform::String(L"ms-appx:///Assets/Textures/");
+	//m_sPicDirPath = ref new Platform::String(L"ms-appx:///Assets/Textures/");
 	if (file)
 	{
-		create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+		concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 			{
 				if (thumbnail != nullptr)
 				{
-					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
-					vars->SetFilePic1(file);
-					vars->SetTextureImagePic1File(file->Path);
-					this->_rootPage->SetTextureImagePicFileDXP(file->Path);
-					vars->SetTextureImagePic1File(file->Path);
-					this->_rootPage->SetTextureImagePic2NameDXP(file->Name);
-					vars->SetThumbnailPicDXP1(thumbnail);
-					this->DisplayResult(this->PicTextureImage2, this->filePathPic1TextBlock, thumbnailModeName, file, thumbnail, false);
-					vars->SetbitmapImagePicDXP1(vars->GetThumbnailPicDXP1());
-					vars->GetBitmapImagePicDXP1()->SetSource(vars->GetThumbnailPicDXP1());
-					this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
-					this->textureFilePicTextBlock1->Text = file->Path;
+					this->SetTexturePicParameters(file, this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file Chosen TextureImagePic: "));
 				}
 				else
 				{
@@ -956,25 +791,14 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadChosenImageVideo()
 
 
 	StorageFile^ file = vars->GetFileVideo();
-	m_sVideoDirPath = ref new Platform::String(L"ms-appx:///Assets/Textures/");
+	//m_sVideoDirPath = ref new Platform::String(L"ms-appx:///Assets/Textures/");
 	if (file)
 	{
-		create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+		concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 			{
 				if (thumbnail != nullptr)
 				{
-					Hot3dxRotoDraw::Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
-					vars->SetFileVideo(file);
-					vars->SetTextureImageVideo2File(file->Path);
-					this->_rootPage->SetTextureImageVideo2FileDXP(file->Path);
-					vars->SetTextureImageVideo2File(file->Path);
-					this->_rootPage->SetTextureImageVideo2NameDXP(file->Name);
-					vars->SetThumbnailVideoDXP(thumbnail);
-					this->DisplayResult(this->VideoTextureImage2, this->filePathVideo2TextBlock, thumbnailModeName, file, thumbnail, false);
-					vars->SetbitmapImageVideoDXP1(vars->GetThumbnailVideoDXP1());
-					vars->GetBitmapImageVideoDXP1()->SetSource(vars->GetThumbnailVideoDXP1());
-					this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
-					this->textureFileVideoTextBlock2->Text = file->Path;
+					this->SetTextureVideoParameters(file, this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file Chosen TextureImageVideo: "));
 				}
 				else
 				{
@@ -1001,7 +825,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImagePic(Platform::String^ imageP
 
 	StorageFile^ file = reinterpret_cast<StorageFile^>(pick->PickSingleFileAsync(s));
 	unsigned int size = int(this->PicTextureImage2->ActualHeight);
-	create_task(file->GetFileFromPathAsync(s)).then([this, size](StorageFile^ file)
+	concurrency::create_task(file->GetFileFromPathAsync(s)).then([this, size](StorageFile^ file)
 		{
 			if (file)
 			{
@@ -1018,22 +842,11 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImagePic(Platform::String^ imageP
 					thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 				}
 				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-				create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+				concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 					{
 						if (thumbnail != nullptr)
 						{
-							Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
-							vars->SetFilePic1(file);
-							vars->SetTextureImagePic1File(file->Path);
-							_this->_rootPage->SetTextureImagePicFileDXP(file->Path);
-							vars->SetTextureImagePic1File(file->Path);
-							_this->_rootPage->SetTextureImagePic2NameDXP(file->Name);
-							vars->SetThumbnailPicDXP1(thumbnail);
-							_this->DisplayResult(_this->PicTextureImage2, _this->filePathPic1TextBlock, thumbnailModeName, file, thumbnail, false);
-							vars->SetbitmapImagePicDXP1(vars->GetThumbnailPicDXP1());
-							vars->GetBitmapImagePicDXP1()->SetSource(vars->GetThumbnailPicDXP1());
-							_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
-							_this->textureFilePicTextBlock1->Text = file->Path;
+							_this->SetTexturePicParameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file Default TextureImagePic: "));
 						}
 
 						else
@@ -1050,6 +863,62 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImagePic(Platform::String^ imageP
 
 void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageVideo(Platform::String^ imagePath)
 {
+	Scenario5TexVars^ vars = _rootPage->m_Scene5TexVars;
+
+	// loads default top image
+	FileOpenPicker^ pick = ref new FileOpenPicker();
+	pick->ViewMode = PickerViewMode::Thumbnail;
+	pick->SuggestedStartLocation = PickerLocationId::ComputerFolder;
+
+	Platform::String^ s = ref new Platform::String(GetImagePath(imagePath)->Data());
+
+	StorageFile^ file = reinterpret_cast<StorageFile^>(pick->PickSingleFileAsync(s));
+	unsigned int size = int(this->VideoTextureImage2->ActualHeight);
+	concurrency::create_task(file->GetFileFromPathAsync(s)).then([this, size](StorageFile^ file)
+		{
+			if (file)
+			{
+				ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
+				Platform::String^ thumbnailModeName = thumbnailMode.ToString();
+				bool fastThumbnail = false;
+				ThumbnailOptions thumbnailOptions;
+				
+				if (size > 0)
+				{
+					fastThumbnail = false;
+					thumbnailOptions = ThumbnailOptions::UseCurrentScale;
+				}
+				
+				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
+				concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+					{
+						if (thumbnail != nullptr)
+						{
+							Hot3dxRotoDraw::Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
+							vars->SetFileVideo(file);
+							vars->SetTextureImageVideo2File(file->Path);
+							_this->_rootPage->SetTextureImageVideo2FileDXP(file->Path);
+							_this->_rootPage->SetTextureImageVideo2NameDXP(file->Name);
+							vars->SetTextureImageVideo2File(file->Path);
+							vars->SetThumbnailVideoDXP(thumbnail);
+							_this->DisplayResultVideo(_this->VideoTextureImage2, _this->filePathVideo2TextBlock, thumbnailModeName, file, thumbnail, false);
+							vars->SetbitmapImageVideoDXP1(vars->GetThumbnailVideoDXP1());
+							vars->GetBitmapImageVideoDXP1()->SetSource(vars->GetThumbnailVideoDXP1());
+							_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
+							_this->textureFileVideoTextBlock2->Text = file->Path;
+						}
+
+						else
+						{
+							_this->_rootPage->NotifyUser("Error opening file LoadDefaultImageVideo", NotifyType::ErrorMessage);
+
+						}
+
+					});
+			}
+			else {}
+		});
+	/*
 	FileOpenPicker^ openPicker = ref new FileOpenPicker();
 	openPicker->ViewMode = PickerViewMode::Thumbnail;
 	openPicker->SuggestedStartLocation = PickerLocationId::ComputerFolder;
@@ -1067,7 +936,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageVideo(Platform::String^ imag
 	}
 	Platform::String^ s = ref new Platform::String(GetImagePath(imagePath)->Data());
 		
-	create_task(openPicker->PickSingleFileAsync(s)).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
+	concurrency::create_task(openPicker->PickSingleFileAsync(s)).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
 		{
 			if (file)
 			{
@@ -1087,22 +956,11 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageVideo(Platform::String^ imag
 				}
 								
 				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-				create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+				concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 					{
 						if (thumbnail != nullptr)
 						{
-							Hot3dxRotoDraw::Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
-							vars->SetFileVideo(file);
-							vars->SetTextureImageVideo2File(file->Path);
-							_this->_rootPage->SetTextureImageVideo2FileDXP(file->Path);
-							vars->SetTextureImageVideo2File(file->Path);
-							_this->_rootPage->SetTextureImageVideo2NameDXP(file->Name);
-							vars->SetThumbnailVideoDXP(thumbnail);
-							_this->DisplayResult(_this->VideoTextureImage2, _this->filePathVideo2TextBlock, thumbnailModeName, file, thumbnail, false);
-							vars->SetbitmapImageVideoDXP1(vars->GetThumbnailVideoDXP1());
-							vars->GetBitmapImageVideoDXP1()->SetSource(vars->GetThumbnailVideoDXP1());
-							_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
-							_this->textureFileVideoTextBlock2->Text = file->Path;
+							_this->SetTextureVideoParameters(file, _this, thumbnail, thumbnailModeName, size, ref new Platform::String(L"Opened file Default TextureImageVideo: "));
 						}
 
 						else
@@ -1115,175 +973,328 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageVideo(Platform::String^ imag
 			}
 			else {}
 		});
+	*/
 }
 
-void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImages(unsigned int imageIdNum, 
-	Platform::String^ imagePath)
+void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUri1(Platform::String^ imagePath)
 {
-	Scenario5TexVars^ vars = _rootPage->m_Scene5TexVars;
-	imageIdNums = imageIdNum;
+	Windows::Foundation::Uri^ uri = ref new Windows::Foundation::Uri(imagePath);
+	concurrency::create_task(Windows::Storage::StorageFile::GetFileFromApplicationUriAsync(uri))
+		.then([this](Windows::Storage::StorageFile^ file)
+			{
+						if (file)
+						{
+							Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
+							unsigned int size = static_cast<unsigned int>(this->TextureImage1->ActualHeight);
+							ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
+							Platform::String^ thumbnailModeName = thumbnailMode.ToString();
+							bool fastThumbnail = false;
+							ThumbnailOptions thumbnailOptions;
 
-	// loads default top image
-	FileOpenPicker^ pick = ref new FileOpenPicker();
-	pick->ViewMode = PickerViewMode::Thumbnail;
-	pick->SuggestedStartLocation = PickerLocationId::ComputerFolder;
+							if (size > 0)
+							{
+								fastThumbnail = false;
+								thumbnailOptions = ThumbnailOptions::UseCurrentScale;
+							}
+							Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
+							auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+								{
+									if (thumbnail != nullptr)
+									{
+										_this->SetTexture1Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage1 TextureImage1: "));
+									}
+									else
+									{
+										_this->_rootPage->NotifyUser("Error opening file LoadDefaultImage1 ", NotifyType::ErrorMessage);
+									}
+								});
+						}
+						else {}
+					});
+			
+}
 
+void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUri2(Platform::String^ imagePath)
+{
+	Windows::Foundation::Uri^ uri = ref new Windows::Foundation::Uri(imagePath);
+	concurrency::create_task(Windows::Storage::StorageFile::GetFileFromApplicationUriAsync(uri))
+		.then([this](Windows::Storage::StorageFile^ file)
+			{
+				if (file)
+				{
+					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
+					unsigned int size = static_cast<unsigned int>(this->TextureImage1->ActualHeight);
+					ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
+					Platform::String^ thumbnailModeName = thumbnailMode.ToString();
+					bool fastThumbnail = false;
+					ThumbnailOptions thumbnailOptions;
 
-	Platform::String^ s = ref new Platform::String();
-	s = ref new Platform::String(_rootPage->Getm_sDirPathDXP()->Data());
-	Platform::String^ sfile = ref new Platform::String(s->Data());
-	sfile = sfile->Concat(sfile, imagePath);
+					if (size > 0)
+					{
+						fastThumbnail = false;
+						thumbnailOptions = ThumbnailOptions::UseCurrentScale;
+					}
+					Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
+					auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+						{
+							if (thumbnail != nullptr)
+							{
+								_this->SetTexture2Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage1 TextureImage1: "));
+							}
+							else
+							{
+								_this->_rootPage->NotifyUser("Error opening file LoadDefaultImage2 ", NotifyType::ErrorMessage);
+							}
+						});
+				}
+				else {}
+			});
+}
 
-	StorageFile^ file = reinterpret_cast<StorageFile^>(pick->PickSingleFileAsync(sfile));
-	
-	create_task(file->GetFileFromPathAsync(sfile)).then([this](StorageFile^ file)
+void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUri3(Platform::String^ imagePath)
+{
+	Windows::Foundation::Uri^ uri = ref new Windows::Foundation::Uri(imagePath);
+	concurrency::create_task(Windows::Storage::StorageFile::GetFileFromApplicationUriAsync(uri))
+		.then([this](Windows::Storage::StorageFile^ file)
+			{
+				if (file)
+				{
+					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
+					unsigned int size = static_cast<unsigned int>(this->TextureImage1->ActualHeight);
+					ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
+					Platform::String^ thumbnailModeName = thumbnailMode.ToString();
+					bool fastThumbnail = false;
+					ThumbnailOptions thumbnailOptions;
+
+					if (size > 0)
+					{
+						fastThumbnail = false;
+						thumbnailOptions = ThumbnailOptions::UseCurrentScale;
+					}
+					Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
+					auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+						{
+							if (thumbnail != nullptr)
+							{
+								_this->SetTexture3Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage1 TextureImage1: "));
+							}
+							else
+							{
+								_this->_rootPage->NotifyUser("Error opening file LoadDefaultImage3 ", NotifyType::ErrorMessage);
+							}
+						});
+				}
+				else {}
+			});
+}
+
+void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUri4(Platform::String^ imagePath)
+{
+	Windows::Foundation::Uri^ uri = ref new Windows::Foundation::Uri(imagePath);
+	concurrency::create_task(Windows::Storage::StorageFile::GetFileFromApplicationUriAsync(uri))
+		.then([this](Windows::Storage::StorageFile^ file)
+			{
+				if (file)
+				{
+					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
+					unsigned int size = static_cast<unsigned int>(this->TextureImage1->ActualHeight);
+					ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
+					Platform::String^ thumbnailModeName = thumbnailMode.ToString();
+					bool fastThumbnail = false;
+					ThumbnailOptions thumbnailOptions;
+
+					if (size > 0)
+					{
+						fastThumbnail = false;
+						thumbnailOptions = ThumbnailOptions::UseCurrentScale;
+					}
+					Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
+					auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+						{
+							if (thumbnail != nullptr)
+							{
+								_this->SetTexture4Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage1 TextureImage1: "));
+							}
+							else
+							{
+								_this->_rootPage->NotifyUser("Error opening file LoadDefaultImage4 ", NotifyType::ErrorMessage);
+							}
+						});
+				}
+				else {}
+			});
+}
+
+void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUri5(Platform::String^ imagePath)
+{
+	Windows::Foundation::Uri^ uri = ref new Windows::Foundation::Uri(imagePath);
+	concurrency::create_task(Windows::Storage::StorageFile::GetFileFromApplicationUriAsync(uri))
+		.then([this](Windows::Storage::StorageFile^ file)
+			{
+				if (file)
+				{
+					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
+					unsigned int size = static_cast<unsigned int>(this->TextureImage1->ActualHeight);
+					ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
+					Platform::String^ thumbnailModeName = thumbnailMode.ToString();
+					bool fastThumbnail = false;
+					ThumbnailOptions thumbnailOptions;
+
+					if (size > 0)
+					{
+						fastThumbnail = false;
+						thumbnailOptions = ThumbnailOptions::UseCurrentScale;
+					}
+					Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
+					auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+						{
+							if (thumbnail != nullptr)
+							{
+								_this->SetTexture5Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage1 TextureImage1: "));
+							}
+							else
+							{
+								_this->_rootPage->NotifyUser("Error opening file LoadDefaultImage5 ", NotifyType::ErrorMessage);
+							}
+						});
+				}
+				else {}
+			});
+}
+
+void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUri6(Platform::String^ imagePath)
+{
+	Windows::Foundation::Uri^ uri = ref new Windows::Foundation::Uri(imagePath);
+	concurrency::create_task(Windows::Storage::StorageFile::GetFileFromApplicationUriAsync(uri))
+		.then([this](Windows::Storage::StorageFile^ file)
+			{
+				if (file)
+				{
+					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
+					unsigned int size = static_cast<unsigned int>(this->TextureImage1->ActualHeight);
+					ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
+					Platform::String^ thumbnailModeName = thumbnailMode.ToString();
+					bool fastThumbnail = false;
+					ThumbnailOptions thumbnailOptions;
+
+					if (size > 0)
+					{
+						fastThumbnail = false;
+						thumbnailOptions = ThumbnailOptions::UseCurrentScale;
+					}
+					Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
+					auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+						{
+							if (thumbnail != nullptr)
+							{
+								_this->SetTexture6Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage1 TextureImage1: "));
+							}
+							else
+							{
+								_this->_rootPage->NotifyUser("Error opening file LoadDefaultImage6 ", NotifyType::ErrorMessage);
+							}
+						});
+				}
+				else {}
+			});
+}
+
+void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUriPic(Platform::String^ imagePath)
+{
+	Windows::Foundation::Uri^ uri = ref new Windows::Foundation::Uri(imagePath);
+	concurrency::create_task(Windows::Storage::StorageFile::GetFileFromApplicationUriAsync(uri))
+		.then([this](Windows::Storage::StorageFile^ file)
+			{
+				if (file)
+				{
+					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
+					unsigned int size = static_cast<unsigned int>(this->TextureImage1->ActualHeight);
+					ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
+					Platform::String^ thumbnailModeName = thumbnailMode.ToString();
+					bool fastThumbnail = false;
+					ThumbnailOptions thumbnailOptions;
+
+					if (size > 0)
+					{
+						fastThumbnail = false;
+						thumbnailOptions = ThumbnailOptions::UseCurrentScale;
+					}
+					Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
+					auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+						{
+							if (thumbnail != nullptr)
+							{
+								_this->SetTexturePicParameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage1 TextureImage1: "));
+							}
+							else
+							{
+								_this->_rootPage->NotifyUser("Error opening file LoadDefaultImagePic ", NotifyType::ErrorMessage);
+							}
+						});
+				}
+				else {}
+			});
+}
+
+void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUriVideo(Platform::String^ imagePath)
+{
+	Windows::Foundation::Uri^ uri = ref new Windows::Foundation::Uri(imagePath);
+	concurrency::create_task(Windows::Storage::StorageFile::GetFileFromApplicationUriAsync(uri))
+		.then([this](Windows::Storage::StorageFile^ file)
+			{
+				if (file)
+				{
+					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
+					unsigned int size = static_cast<unsigned int>(this->TextureImage1->ActualHeight);
+					ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
+					Platform::String^ thumbnailModeName = thumbnailMode.ToString();
+					bool fastThumbnail = false;
+					ThumbnailOptions thumbnailOptions;
+
+					if (size > 0)
+					{
+						fastThumbnail = false;
+						thumbnailOptions = ThumbnailOptions::UseCurrentScale;
+					}
+					Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
+					auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+						{
+							if (thumbnail != nullptr)
+							{
+								_this->SetTextureVideoParameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage1 TextureImage1: "));
+							}
+							else
+							{
+								_this->_rootPage->NotifyUser("Error opening file LoadDefaultImageVideo ", NotifyType::ErrorMessage);
+							}
+						});
+				}
+				else {}
+			});
+}
+
+// Example: Load thumbnail for a file and set it to the Image control
+void Hot3dxRotoDraw::Scenario5_Tex::LoadThumbnail(Platform::String^ filePath, Platform::String^ imageCtrlName)
+{
+	create_task(StorageFile::GetFileFromPathAsync(filePath)).then([this, imageCtrlName](StorageFile^ file)
 		{
 			if (file)
 			{
-				ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
-				String^ thumbnailModeName = thumbnailMode.ToString();
-				bool fastThumbnail = false;
-				ThumbnailOptions thumbnailOptions;
-
-				unsigned int size = 0;
-
-				switch (this->imageIdNums)
-				{
-				case 1: {
-					size = int(this->TextureImage1->ActualHeight);
-				}break;
-				case 2: {
-					size = int(this->TextureImage2->ActualHeight);
-				}break;
-				case 3: {
-					size = int(this->TextureRMAImage3->ActualHeight);
-				}break;
-				case 4: {
-					size = int(this->TextureEMMisiveImage4->ActualHeight);
-				}break;
-				case 5: {
-					size = int(this->TextureRadianceImage5->ActualHeight);
-				}break;
-				case 6: {
-					size = int(this->TextureIrradianceImage6->ActualHeight);
-			    }break;
-				}
-				
-				if (size > 0)
-				{
-					fastThumbnail = false;
-					thumbnailOptions = ThumbnailOptions::UseCurrentScale;
-				}
 				
 				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-				create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
-					{
-						if (thumbnail != nullptr)
+				concurrency::create_task(file->GetThumbnailAsync(Windows::Storage::FileProperties::ThumbnailMode::PicturesView))
+					.then([_this](Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail)
+					{ 
+						if (thumbnail)
 						{
-							Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
-							
-							switch (_this->imageIdNums)
-							{
-							case 1: {
-								vars->SetFile1(file);
-								vars->SetTextureImage1File(file->Path);
-								_this->_rootPage->SetTextureImage1FileDXP(file->Path);
-								_this->_rootPage->SetTextureImage1NameDXP(file->Name);
-								vars->SetTextureImage1File(file->Path);
-								vars->SetThumbnailDXP1(thumbnail);
-								DisplayResult(_this->TextureImage1, _this->filePath1TextBlock, thumbnailModeName, file, thumbnail, false);
-								vars->SetbitmapImageDXP1(vars->GetThumbnailDXP1());
-								vars->GetBitmapImageDXP1()->SetSource(vars->GetThumbnailDXP1());
-								_this->textureFileTextBlock1->Text = file->Path;
-								_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
-								
-							}break;
-							case 2: {
-								vars->SetFile2(file);
-								vars->SetTextureImage2File(file->Path);
-								_this->_rootPage->SetTextureImage2FileDXP(file->Path);
-								_this->_rootPage->SetTextureImage2NameDXP(file->Name);
-								vars->SetTextureImage2File(file->Path);
-								vars->SetThumbnailDXP2(thumbnail);
-								DisplayResult(_this->TextureImage2, _this->filePath2TextBlock, thumbnailModeName, file, thumbnail, false);
-								vars->SetbitmapImageDXP2(vars->GetThumbnailDXP2());
-								vars->GetBitmapImageDXP2()->SetSource(vars->GetThumbnailDXP2());
-								_this->textureFileTextBlock2->Text = file->Path;
-								_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
-								
-							}break;
-							case 3: {
-								vars->SetFile3(file);
-								vars->SetTextureImage3File(file->Path);
-								_this->_rootPage->SetTextureImage3FileDXP(file->Path);
-								_this->_rootPage->SetTextureImage3NameDXP(file->Name);
-								vars->SetTextureImage3File(file->Path);
-								vars->SetThumbnailDXP3(thumbnail);
-								DisplayResult(_this->TextureRMAImage3, _this->filePath3TextBlock, thumbnailModeName, file, thumbnail, false);
-								vars->SetbitmapImageDXP3(vars->GetThumbnailDXP3());
-								vars->GetBitmapImageDXP3()->SetSource(vars->GetThumbnailDXP3());
-								_this->textureFileTextBlock3->Text = file->Path;
-								_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
-								
-							}break;
-							case 4: {
-								vars->SetFile4(file);
-								vars->SetTextureImage4File(file->Path);
-								_this->_rootPage->SetTextureImage4FileDXP(file->Path);
-								_this->_rootPage->SetTextureImage4NameDXP(file->Name);
-								vars->SetTextureImage4File(file->Path);
-								vars->SetThumbnailDXP4(thumbnail);
-								DisplayResult(_this->TextureEMMisiveImage4, _this->filePath4TextBlock, thumbnailModeName, file, thumbnail, false);
-								vars->SetbitmapImageDXP4(vars->GetThumbnailDXP4());
-								vars->GetBitmapImageDXP4()->SetSource(vars->GetThumbnailDXP4());
-								_this->textureFileTextBlock4->Text = file->Path;
-								_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
-								
-							}break;
-							case 5: {
-								vars->SetFile5(file);
-								vars->SetTextureImage5File(file->Path);
-								_this->_rootPage->SetTextureImage5FileDXP(file->Path);
-								_this->_rootPage->SetTextureImage5NameDXP(file->Name);
-								vars->SetTextureImage5File(file->Path);
-								vars->SetThumbnailDXP5(thumbnail);
-								DisplayResult(_this->TextureRadianceImage5, _this->filePath5TextBlock, thumbnailModeName, file, thumbnail, false);
-								vars->SetbitmapImageDXP5(vars->GetThumbnailDXP5());
-								vars->GetBitmapImageDXP5()->SetSource(vars->GetThumbnailDXP5());
-								_this->textureFileTextBlock5->Text = file->Path;
-								_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
-								
-							}break;
-							case 6: {
-								vars->SetFile6(file);
-								vars->SetTextureImage6File(file->Path);
-								_this->_rootPage->SetTextureImage6FileDXP(file->Path);
-								_this->_rootPage->SetTextureImage6NameDXP(file->Name);
-								vars->SetTextureImage6File(file->Path);
-								vars->SetThumbnailDXP6(thumbnail);
-								DisplayResult(_this->TextureIrradianceImage6, _this->filePath6TextBlock, thumbnailModeName, file, thumbnail, false);
-								vars->SetbitmapImageDXP6(vars->GetThumbnailDXP6());
-								vars->GetBitmapImageDXP6()->SetSource(vars->GetThumbnailDXP6());
-								_this->textureFileTextBlock6->Text = file->Path;
-								_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
-								
-							}break;
-							}//eo switch
-						}
-						else
-						{
-							_this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
+							auto bitmapImage = ref new BitmapImage();
+							bitmapImage->SetSource(thumbnail);
+							//auto ThumbnailImage = (Windows::UI::Xaml::Controls::Image^)thumbnail; 
+							_this->TextureImage1->Source = bitmapImage; // ThumbnailImage is the x:Name of your Image control
 						}
 					});
 			}
-			else {}
 		});
-	
-}
-
-void Hot3dxRotoDraw::Scenario5_Tex::LoadChosenImages()
-{
-	throw ref new Platform::NotImplementedException();
 }
 
 
@@ -1300,17 +1311,20 @@ void Hot3dxRotoDraw::Scenario5_Tex::OnNavigatedTo(Windows::UI::Xaml::Navigation:
 void Hot3dxRotoDraw::Scenario5_Tex::TextureImage1_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	Uri^ uri = TextureImage1->BaseUri;
+	
 }
 
 void Hot3dxRotoDraw::Scenario5_Tex::TextureImage2_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	Uri^ uri = TextureImage2->BaseUri;
+	
 }
 
 
 void Hot3dxRotoDraw::Scenario5_Tex::TextureImage3_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	Uri^ uri = TextureRMAImage3->BaseUri;
+	
 	
 }
 
@@ -1319,12 +1333,14 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureImage4_Loaded(Platform::Object^ sende
 {
 	Uri^ uri = TextureEMMisiveImage4->BaseUri;
 	
+	
 }
 
 
 void Hot3dxRotoDraw::Scenario5_Tex::TextureImage5_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	Uri^ uri = TextureRadianceImage5->BaseUri;
+	
 	
 }
 
@@ -1338,11 +1354,13 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureImage6_Loaded(Platform::Object^ sende
 void Hot3dxRotoDraw::Scenario5_Tex::PicTextureImage2_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	Uri^ uri = PicTextureImage2->BaseUri;
+	
 }
 
 void Hot3dxRotoDraw::Scenario5_Tex::VideoTextureImage2_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	Uri^ uri = VideoTextureImage2->BaseUri;
+	
 }
 
 
@@ -1443,6 +1461,14 @@ Platform::String^ Hot3dxRotoDraw::Scenario5_Tex::GetImagePath(Platform::String^ 
 	return s;
 }
 
+Windows::Foundation::Uri^ Hot3dxRotoDraw::Scenario5_Tex::GetAppImageUriFromString(Platform::String^ imagePath)
+{
+	Platform::String^ s1 = ref new Platform::String(L"ms-appx:///Assets/Textures/");
+	Platform::String^ s = s1->Concat(s1, imagePath);
+	Windows::Foundation::Uri^ uri = ref new Windows::Foundation::Uri(s);
+	return uri;
+}
+
 
 
 /*
@@ -1473,30 +1499,18 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureImage1_RightTapped(Platform::Object^ 
 		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
-	create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
+	concurrency::create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
 		{
 			if (file)
 			{
 
 				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-				create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+				concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 					{
 						if (thumbnail != nullptr)
 						{
-							Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
-							vars->SetFile1(file);
-							vars->SetTextureImage1File(file->Path);
-							_this->_rootPage->SetTextureImage1FileDXP(file->Path);
-							_this->_rootPage->SetTextureImage1NameDXP(file->Name);
-							vars->SetTextureImage1File(file->Path);
-							vars->SetThumbnailDXP1(thumbnail);
-							DisplayResult(_this->TextureImage1, _this->filePath1TextBlock, thumbnailModeName, file, thumbnail, false);
-							vars->SetbitmapImageDXP1(vars->GetThumbnailDXP1());
-							vars->GetBitmapImageDXP1()->SetSource(vars->GetThumbnailDXP1());
-							_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
-							_this->textureFileTextBlock1->Text = file->Path;
+							_this->SetTexture1Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file Right_tapped TextureImage1: "));
 						}
-
 						else
 						{
 							_this->_rootPage->NotifyUser("Error opening file ", NotifyType::ErrorMessage);
@@ -1535,29 +1549,17 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureImage2_RightTapped(Platform::Object^ 
 		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
-	create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
+	concurrency::create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
 		{
 			if (file)
 			{
 				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-				create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+				concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 					{
 						if (thumbnail != nullptr)
 						{
-							Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
-							vars->SetFile2(file);
-							vars->SetTextureImage2File(file->Path);
-							_this->_rootPage->SetTextureImage2FileDXP(file->Path);
-							_this->_rootPage->SetTextureImage2NameDXP(file->Name);
-							vars->SetTextureImage2File(file->Path);
-							vars->SetThumbnailDXP2(thumbnail);
-							DisplayResult(_this->TextureImage2, _this->filePath2TextBlock, thumbnailModeName, file, thumbnail, false);
-							vars->SetbitmapImageDXP2(vars->GetThumbnailDXP2());
-							vars->GetBitmapImageDXP2()->SetSource(vars->GetThumbnailDXP2());
-							_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
-							_this->textureFileTextBlock2->Text = file->Path;
+							_this->SetTexture2Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file Right_tapped TextureImage2: "));
 						}
-
 						else
 						{
 							_this->_rootPage->NotifyUser("Error opening TextureImage2 file ", NotifyType::ErrorMessage);
@@ -1595,27 +1597,16 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureRMAImage3_RightTapped(Platform::Objec
 		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
-	create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
+	concurrency::create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
 		{
 			if (file)
 			{
 				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-				create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+				concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 					{
 						if (thumbnail != nullptr)
 						{
-							Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
-							vars->SetFile3(file);
-							vars->SetTextureImage3File(file->Path);
-							_this->_rootPage->SetTextureImage3FileDXP(file->Path);
-							_this->_rootPage->SetTextureImage3NameDXP(file->Name);
-							vars->SetTextureImage3File(file->Path);
-							vars->SetThumbnailDXP3(thumbnail);
-							DisplayResult(_this->TextureRMAImage3, _this->filePath3TextBlock, thumbnailModeName, file, thumbnail, false);
-							vars->SetbitmapImageDXP3(vars->GetThumbnailDXP3());
-							vars->GetBitmapImageDXP3()->SetSource(vars->GetThumbnailDXP3());
-							_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
-							_this->textureFileTextBlock3->Text = file->Path;
+							_this->SetTexture3Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file Right_tapped TextureImage3: "));
 						}
 
 						else
@@ -1654,27 +1645,16 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureNormalImage4_RightTapped(Platform::Ob
 		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
-	create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
+	concurrency::create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
 		{
 			if (file)
 			{
 				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-				create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+				concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 					{
 						if (thumbnail != nullptr)
 						{
-							Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
-							vars->SetFile4(file);
-							vars->SetTextureImage4File(file->Path);
-							_this->_rootPage->SetTextureImage4FileDXP(file->Path);
-							_this->_rootPage->SetTextureImage4NameDXP(file->Name);
-							vars->SetTextureImage4File(file->Path);
-							vars->SetThumbnailDXP4(thumbnail);
-							DisplayResult(_this->TextureEMMisiveImage4, _this->filePath4TextBlock, thumbnailModeName, file, thumbnail, false);
-							vars->SetbitmapImageDXP4(vars->GetThumbnailDXP4());
-							vars->GetBitmapImageDXP4()->SetSource(vars->GetThumbnailDXP4());
-							_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
-							_this->textureFileTextBlock4->Text = file->Path;
+							_this->SetTexture4Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file Right_tapped TextureImage4: "));
 						}
 
 						else
@@ -1713,27 +1693,16 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureRadianceImage5_RightTapped(Platform::
 		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
-	create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
+	concurrency::create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
 		{
 			if (file)
 			{
 				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-				create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+				concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 					{
 						if (thumbnail != nullptr)
 						{
-							Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
-							vars->SetFile5(file);
-							vars->SetTextureImage5File(file->Path);
-							_this->_rootPage->SetTextureImage5FileDXP(file->Path);
-							_this->_rootPage->SetTextureImage5NameDXP(file->Name);
-							vars->SetTextureImage5File(file->Path);
-							vars->SetThumbnailDXP5(thumbnail);
-							DisplayResult(_this->TextureRadianceImage5, _this->filePath5TextBlock, thumbnailModeName, file, thumbnail, false);
-							vars->SetbitmapImageDXP5(vars->GetThumbnailDXP5());
-							vars->GetBitmapImageDXP5()->SetSource(vars->GetThumbnailDXP5());
-							_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
-							_this->textureFileTextBlock5->Text = file->Path;
+							_this->SetTexture5Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file Right_tapped TextureImage5: "));
 						}
 
 						else
@@ -1757,7 +1726,8 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureIrradianceImage6_RightTapped(Platform
 	openPicker->FileTypeFilter->Append(".png");
 	openPicker->FileTypeFilter->Append(".dds");
 	openPicker->FileTypeFilter->Append(".bmp");
-	openPicker->FileTypeFilter->Append(".tga");openPicker->FileTypeFilter->Append(".mp4");
+	openPicker->FileTypeFilter->Append(".tga");
+	openPicker->FileTypeFilter->Append(".mp4");
 
 	ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
 	String^ thumbnailModeName = thumbnailMode.ToString();
@@ -1771,27 +1741,16 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureIrradianceImage6_RightTapped(Platform
 		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
-	create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
+	concurrency::create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
 		{
 			if (file)
 			{
 				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-				create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+				concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 					{
 						if (thumbnail != nullptr)
 						{
-							Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
-							vars->SetFile6(file);
-							vars->SetTextureImage6File(file->Path);
-							_this->_rootPage->SetTextureImage6FileDXP(file->Path);
-							_this->_rootPage->SetTextureImage6NameDXP(file->Name);
-							vars->SetTextureImage6File(file->Path);
-							vars->SetThumbnailDXP6(thumbnail);
-							DisplayResult(_this->TextureIrradianceImage6, _this->filePath6TextBlock, thumbnailModeName, file, thumbnail, false);
-							vars->SetbitmapImageDXP6(vars->GetThumbnailDXP6());
-							vars->GetBitmapImageDXP6()->SetSource(vars->GetThumbnailDXP6());
-							_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
-							_this->textureFileTextBlock6->Text = file->Path;
+							_this->SetTexture6Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file Right_tapped TextureImage6: "));
 						}
 
 						else
@@ -1841,7 +1800,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::PicTextureImage2_RightTapped(Platform::Objec
 		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
-	create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
+	concurrency::create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
 		{
 			if (file)
 			{
@@ -1862,7 +1821,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::PicTextureImage2_RightTapped(Platform::Objec
 				}
 
 				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-				create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+				concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 					{
 						if (thumbnail != nullptr)
 						{
@@ -1876,7 +1835,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::PicTextureImage2_RightTapped(Platform::Objec
 							vars->SetbitmapImagePicDXP1(vars->GetThumbnailPicDXP1());
 							vars->GetBitmapImagePicDXP1()->SetSource(vars->GetThumbnailPicDXP1());
 							_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
-							_this->filePathPic1TextBlock->Text = file->Path;
+							_this->textureFilePicTextBlock1->Text = file->Path;
 						}
 
 						else
@@ -1911,7 +1870,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::VideoTextureImage2_RightTapped(Platform::Obj
 		thumbnailOptions = ThumbnailOptions::UseCurrentScale;
 	}
 
-	create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
+	concurrency::create_task(openPicker->PickSingleFileAsync()).then([this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageFile^ file)
 		{
 			if (file)
 			{
@@ -1932,7 +1891,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::VideoTextureImage2_RightTapped(Platform::Obj
 				}
 
 				Hot3dxRotoDraw::Scenario5_Tex^ _this = this;
-				create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
+				concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 					{
 						if (thumbnail != nullptr)
 						{
@@ -1940,22 +1899,19 @@ void Hot3dxRotoDraw::Scenario5_Tex::VideoTextureImage2_RightTapped(Platform::Obj
 							vars->SetFileVideo(file);
 							vars->SetTextureImageVideo2File(file->Path);
 							_this->_rootPage->SetTextureImageVideo2FileDXP(file->Path);
-							vars->SetTextureImageVideo2File(file->Path);
 							_this->_rootPage->SetTextureImageVideo2NameDXP(file->Name);
+							vars->SetTextureImageVideo2File(file->Path);
 							vars->SetThumbnailVideoDXP(thumbnail);
-							_this->DisplayResult(_this->VideoTextureImage2, _this->filePathVideo2TextBlock, thumbnailModeName, file, thumbnail, false);
+							_this->DisplayResultVideo(_this->VideoTextureImage2, _this->filePathVideo2TextBlock, thumbnailModeName, file, thumbnail, false);
 							vars->SetbitmapImageVideoDXP1(vars->GetThumbnailVideoDXP1());
 							vars->GetBitmapImageVideoDXP1()->SetSource(vars->GetThumbnailVideoDXP1());
-							_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
-							_this->filePathVideo2TextBlock->Text = file->Path;
+							_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
+							_this->textureFileVideoTextBlock2->Text = file->Path;
 						}
-
 						else
 						{
 							_this->_rootPage->NotifyUser("Error opening file", NotifyType::ErrorMessage);
-
 						}
-
 					});
 			}
 			else {}
@@ -2001,4 +1957,133 @@ void Hot3dxRotoDraw::Scenario5_Tex::IDC_GRID_OR_PIC_CHECKBOX_Checked(Platform::O
 void Hot3dxRotoDraw::Scenario5_Tex::IDC_SHOW_BKGRND_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	_rootPage->DrawGridPicRectangleDXP();
+}
+
+void Hot3dxRotoDraw::Scenario5_Tex::SetTexture1Parameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message)
+{
+	//message = "Opened file LoadDefaultImage1: ";
+	Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
+	vars->SetFile1(file);
+	vars->SetTextureImage1File(file->Path);
+	_this->_rootPage->SetTextureImage1NameDXP(file->Name);
+	_this->_rootPage->SetTextureImage1FileDXP(file->Path);
+	vars->SetTextureImage1File(file->Path);
+	vars->SetThumbnailDXP1(thumbnail);
+	DisplayResult(_this->TextureImage1, _this->filePath1TextBlock, thumbnailModeName, file, thumbnail, false);
+	vars->SetbitmapImageDXP1(vars->GetThumbnailDXP1());
+	vars->GetBitmapImageDXP1()->SetSource(vars->GetThumbnailDXP1());
+	_this->_rootPage->NotifyUser(message + file->Name, NotifyType::StatusMessage);
+	_this->textureFileTextBlock1->Text = file->Path;
+}
+
+void Hot3dxRotoDraw::Scenario5_Tex::SetTexture2Parameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message)
+{
+	Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
+	vars->SetFile2(file);
+	vars->SetTextureImage2File(file->Path);
+	_this->_rootPage->SetTextureImage2FileDXP(file->Path);
+	_this->_rootPage->SetTextureImage2NameDXP(file->Name);
+	vars->SetTextureImage2File(file->Path);
+	vars->SetThumbnailDXP2(thumbnail);
+	DisplayResult(_this->TextureImage2, _this->filePath2TextBlock, thumbnailModeName, file, thumbnail, false);
+	vars->SetbitmapImageDXP2(vars->GetThumbnailDXP2());
+	vars->GetBitmapImageDXP2()->SetSource(vars->GetThumbnailDXP2());
+	_this->_rootPage->NotifyUser(message + file->Name, NotifyType::StatusMessage);
+	_this->textureFileTextBlock2->Text = file->Path;
+}
+
+void Hot3dxRotoDraw::Scenario5_Tex::SetTexture3Parameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message)
+{
+	Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
+	vars->SetFile3(file);
+	vars->SetTextureImage3File(file->Path);
+	_this->_rootPage->SetTextureImage3FileDXP(file->Path);
+	_this->_rootPage->SetTextureImage3NameDXP(file->Name);
+	vars->SetTextureImage3File(file->Path);
+	vars->SetThumbnailDXP3(thumbnail);
+	DisplayResult(_this->TextureRMAImage3, _this->filePath3TextBlock, thumbnailModeName, file, thumbnail, false);
+	vars->SetbitmapImageDXP3(vars->GetThumbnailDXP3());
+	vars->GetBitmapImageDXP3()->SetSource(vars->GetThumbnailDXP3());
+	_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
+	_this->textureFileTextBlock3->Text = file->Path;
+}
+
+void Hot3dxRotoDraw::Scenario5_Tex::SetTexture4Parameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message)
+{
+	Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
+	vars->SetFile4(file);
+	vars->SetTextureImage4File(file->Path);
+	_this->_rootPage->SetTextureImage4FileDXP(file->Path);
+	_this->_rootPage->SetTextureImage4NameDXP(file->Name);
+	vars->SetTextureImage4File(file->Path);
+	vars->SetThumbnailDXP4(thumbnail);
+	DisplayResult(_this->TextureEMMisiveImage4, _this->filePath4TextBlock, thumbnailModeName, file, thumbnail, false);
+	vars->SetbitmapImageDXP4(vars->GetThumbnailDXP4());
+	vars->GetBitmapImageDXP4()->SetSource(vars->GetThumbnailDXP4());
+	_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
+	_this->textureFileTextBlock4->Text = file->Path;
+}
+
+void Hot3dxRotoDraw::Scenario5_Tex::SetTexture5Parameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message)
+{
+	Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
+	vars->SetFile5(file);
+	vars->SetTextureImage5File(file->Path);
+	_this->_rootPage->SetTextureImage5FileDXP(file->Path);
+	_this->_rootPage->SetTextureImage5NameDXP(file->Name);
+	vars->SetTextureImage5File(file->Path);
+	vars->SetThumbnailDXP5(thumbnail);
+	DisplayResult(_this->TextureRadianceImage5, _this->filePath5TextBlock, thumbnailModeName, file, thumbnail, false);
+	vars->SetbitmapImageDXP5(vars->GetThumbnailDXP5());
+	vars->GetBitmapImageDXP5()->SetSource(vars->GetThumbnailDXP5());
+	_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
+	_this->textureFileTextBlock5->Text = file->Path;
+}
+
+void Hot3dxRotoDraw::Scenario5_Tex::SetTexture6Parameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message)
+{
+	Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
+	vars->SetFile6(file);
+	vars->SetTextureImage6File(file->Path);
+	_this->_rootPage->SetTextureImage6FileDXP(file->Path);
+	_this->_rootPage->SetTextureImage6NameDXP(file->Name);
+	vars->SetTextureImage6File(file->Path);
+	vars->SetThumbnailDXP6(thumbnail);
+	DisplayResult(_this->TextureIrradianceImage6, _this->filePath6TextBlock, thumbnailModeName, file, thumbnail, false);
+	vars->SetbitmapImageDXP6(vars->GetThumbnailDXP6());
+	vars->GetBitmapImageDXP6()->SetSource(vars->GetThumbnailDXP6());
+	_this->_rootPage->NotifyUser("Opened file" + file->Name, NotifyType::StatusMessage);
+	_this->textureFileTextBlock6->Text = file->Path;
+}
+
+void Hot3dxRotoDraw::Scenario5_Tex::SetTexturePicParameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message)
+{
+	Hot3dxRotoDraw::Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
+	vars->SetFilePic1(file);
+	vars->SetTextureImagePic1File(file->Path);
+	_this->_rootPage->SetGridPicTextureImageFileDXP(file->Path);
+	_this->_rootPage->SetTextureImagePic2NameDXP(file->Name);
+	vars->SetTextureImagePic1File(file->Path);
+	vars->SetThumbnailPicDXP1(thumbnail);
+	_this->DisplayResult(_this->PicTextureImage2, _this->filePathPic1TextBlock, thumbnailModeName, file, thumbnail, false);
+	vars->SetbitmapImagePicDXP1(vars->GetThumbnailPicDXP1());
+	vars->GetBitmapImagePicDXP1()->SetSource(vars->GetThumbnailPicDXP1());
+	_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
+	_this->textureFilePicTextBlock1->Text = file->Path;
+}
+
+void Hot3dxRotoDraw::Scenario5_Tex::SetTextureVideoParameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message)
+{
+	Hot3dxRotoDraw::Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
+	vars->SetFileVideo(file);
+	vars->SetTextureImageVideo2File(file->Path);
+	_this->_rootPage->SetTextureImageVideo2FileDXP(file->Path);
+	_this->_rootPage->SetTextureImageVideo2NameDXP(file->Name);
+	vars->SetTextureImageVideo2File(file->Path);
+	vars->SetThumbnailVideoDXP(thumbnail);
+	_this->DisplayResultVideo(_this->VideoTextureImage2, _this->filePathVideo2TextBlock, thumbnailModeName, file, thumbnail, false);
+	vars->SetbitmapImageVideoDXP1(vars->GetThumbnailVideoDXP1());
+	vars->GetBitmapImageVideoDXP1()->SetSource(vars->GetThumbnailVideoDXP1());
+	_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
+	_this->textureFileVideoTextBlock2->Text = file->Path;
 }

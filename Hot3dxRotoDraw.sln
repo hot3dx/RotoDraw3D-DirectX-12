@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.7.34221.43
+VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{D6C826ED-2A70-4382-A28F-031F7199B569}") = "Hot3dxRotoDraw", "Hot3dxRotoDraw.vcxproj", "{0E722F41-E8B3-4DD0-9430-4B11E1810DD7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hot3dxRotoDraw", "Hot3dxRotoDraw.vcxproj", "{0E722F41-E8B3-4DD0-9430-4B11E1810DD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

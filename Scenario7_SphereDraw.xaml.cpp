@@ -127,3 +127,80 @@ void Hot3dxRotoDraw::Scenario7_SphereDraw::OnNavigatedTo(Windows::UI::Xaml::Navi
 	_rootPage->m_Scene7Vars->SetScenario7Page(this);
 }
 
+
+
+
+
+void Hot3dxRotoDraw::Scenario7_SphereDraw::DrawGeoSphereButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    if (_rootPage->GetPointCount() == 0)
+    {
+        Platform::String^ str;
+
+        str = Hot3dxRotoDraw::Scenario7_SphereDraw::DiameterGeoSphereTextBox->Text;
+        m_diameter = std::wcstof(str->Data(), nullptr);
+
+        str = Hot3dxRotoDraw::Scenario7_SphereDraw::TesselationGeoTextBox->Text;
+        m_tesselation = std::wcstol(str->Data(), nullptr, 10);
+
+        _rootPage->SET_SPHERE_GEODESIC_Click(sender, e, m_diameter, m_tesselation);
+        _rootPage->NotifyUser(L"GeoDesic Sphere Drawn", NotifyType::StatusMessage);
+    }
+    else
+    {
+        _rootPage->NotifyUser(L"Go To Draw Page and Click the Clear Button before drawing another sphere", NotifyType::StatusMessage);
+    }
+}
+
+
+void Hot3dxRotoDraw::Scenario7_SphereDraw::DiameterGeoSphereTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
+{
+
+}
+
+
+void Hot3dxRotoDraw::Scenario7_SphereDraw::TesselationGeoTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
+{
+
+}
+
+void Hot3dxRotoDraw::Scenario7_SphereDraw::DrawLongitudeLatitudeSphereButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    if (_rootPage->GetPointCount() == 0)
+    {
+        Platform::String^ str;
+
+        str = Hot3dxRotoDraw::Scenario7_SphereDraw::DiameterSphereTextBox->Text;
+        m_diameter = std::wcstof(str->Data(), nullptr);
+
+        str = Hot3dxRotoDraw::Scenario7_SphereDraw::TesselationSphereTextBox->Text;
+        m_tesselation = std::wcstol(str->Data(), nullptr, 10);
+
+        _rootPage->SET_SPHERE_LONG_LAT_BUTTON_Click(sender, e, m_diameter, m_tesselation);
+        _rootPage->NotifyUser(L"Longitude Latitude Sphere Drawn", NotifyType::StatusMessage);
+    }
+    else
+    {
+        _rootPage->NotifyUser(L"Go To Draw Page and Click the Clear Button before drawing another sphere", NotifyType::StatusMessage);
+    }
+}
+
+
+
+
+void Hot3dxRotoDraw::Scenario7_SphereDraw::DrawLongitudeLatitudeDiameterTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
+{
+
+}
+
+
+void Hot3dxRotoDraw::Scenario7_SphereDraw::TesselstionSphereTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
+{
+
+}
+
+
+void Hot3dxRotoDraw::Scenario7_SphereDraw::TesselationSphereTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e)
+{
+
+}

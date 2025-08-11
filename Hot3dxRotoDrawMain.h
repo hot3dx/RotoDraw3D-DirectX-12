@@ -30,13 +30,15 @@
 #include <Audio\MediaReaderXaml12.h>
 #include <Hot3dxGeometry.h>
 
+using namespace DX;
+
 // Renders Direct2D and 3D content on the screen.
 namespace Hot3dxRotoDraw
 {
-	class Hot3dxRotoDrawMain : public DX::IDeviceNotify
+	class Hot3dxRotoDrawMain : public IDeviceNotify
 	{
 	public:
-		Hot3dxRotoDrawMain(const std::shared_ptr<DX::DeviceResources>& deviceResources);
+		Hot3dxRotoDrawMain(const std::shared_ptr<DeviceResources>& deviceResources);
 		~Hot3dxRotoDrawMain();
 		void CreateWindowSizeDependentResources();
 		void CreateDeviceDependentResources();
@@ -81,14 +83,14 @@ namespace Hot3dxRotoDraw
 		void KeyDown(Windows::System::VirtualKey key);
 		void KeyUp(Windows::System::VirtualKey key);
 
-		DX::StepTimer GetTimer() { return m_timer; }
+		StepTimer GetTimer() const { return m_timer; }
 
 	private:
 		// Process all input from the user before updating game state
 		void ProcessInput();
 
 		// Cached pointer to device resources.
-		std::shared_ptr<DX::DeviceResources> m_deviceResources;
+		std::shared_ptr<DeviceResources> m_deviceResources;
 
 		// TODO: Replace with your own content renderers.
 		RotoDrawSceneRender^ m_sceneRenderer;
@@ -97,7 +99,7 @@ namespace Hot3dxRotoDraw
 		Concurrency::critical_section m_criticalSection;
 
 		// Rendering loop timer.
-		DX::StepTimer m_timer;
+		StepTimer m_timer;
 
 		///////////////////////////////////////////////////
 		bool                                                m_pauseRequested;

@@ -28,7 +28,7 @@ namespace Hot3dxRotoDraw
     internal:
         static Scenario13_ScreenGrab^ Current;
         Platform::String^ wcfileName;
-
+        void SetAllUnChecked();
     private:
 
         DirectXPage^ _rootPage;

@@ -55,6 +55,8 @@ namespace Hot3dxRotoDraw
 
         float m_cameraradius;
         float m_camerarotation;
+        float m_diameter;
+        size_t m_tesselation;
         float m_anglerotation;
         int m_iPointCount;
 
@@ -69,6 +71,14 @@ namespace Hot3dxRotoDraw
     protected:
         virtual void OnNavigatedTo(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e) override;
 
+    private:
+        void DrawGeoSphereButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void DrawLongitudeLatitudeSphereButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void DiameterGeoSphereTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
+        void TesselationGeoTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
+        void DrawLongitudeLatitudeDiameterTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
+        void TesselstionSphereTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
+        void TesselationSphereTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
     };
 }
 

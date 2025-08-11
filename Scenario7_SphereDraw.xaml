@@ -26,14 +26,28 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-     <StackPanel x:Name="HeaderPanel" HorizontalAlignment="Left" Height="550" Width="400" Margin="0,0,0,0" VerticalAlignment="Top" Background="LightGreen">
-        <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
-        <TextBlock x:Name="IDC_DESCRIPTION_STATIC" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Draw a Sphere" VerticalAlignment="Top" RenderTransformOrigin="0.667,-11.258" TextDecorations="Underline"/>
-        <TextBlock x:Name="m_SphereRadius" HorizontalAlignment="Left" Margin="0,5,0,0" TextWrapping="Wrap" Text="Sphere Radius"/>
-        <TextBox x:Name="m_SphereRadiusTextBox" Text="5.000000" TextWrapping="Wrap" RenderTransformOrigin="0.455,-1.562" TextChanged="SphereRadiusTextBox_TextChanged"/>
-        <TextBlock x:Name="PointSpacing" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" Text="Point Spacing"/>
-        <TextBox x:Name="m_PointSpaceTextBox" Text="5.00000" TextWrapping="Wrap" RenderTransformOrigin="0.455,-2.562" TextChanged="PointSpacingTextBox_TextChanged"/>
-        <Button x:Name="DrawSphereButton" Content="Draw Sphere" HorizontalAlignment="Left" Margin="0,5,0,0" RenderTransformOrigin="0.629,4.75" Click="DrawSphereButton_Click" AutomationProperties.HelpText="Press to Draw a new sphere"/>
-     </StackPanel>
-     </Grid>
+        <StackPanel x:Name="HeaderPanel" HorizontalAlignment="Left" Height="775" Width="400" Margin="0,0,0,0" VerticalAlignment="Top" Background="LightGreen" Grid.RowSpan="2">
+            <TextBlock Text="Description: Draw several types of spheres with different textures or colors" Style="{StaticResource SampleHeaderTextStyle}"/>
+            <TextBlock x:Name="IDC_DESCRIPTION_STATIC" TextWrapping="Wrap" Text="Draw a Spheres" Margin="10,10,0,0" TextDecorations="Underline" Height="22" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+            <Button x:Name="DrawLatitudinalSphereButton" IsEnabled="True" Content="Draw Lat Sphere" HorizontalAlignment="Left" Margin="10,10,0,0" Click="DrawSphereButton_Click" AutomationProperties.HelpText="Press to Draw a new Latitudinal sphere" ToolTipService.ToolTip="Press to Draw a new Latitudinal sphere" Height="30" Width="122"/>
+            <TextBlock x:Name="PointSpacing" HorizontalAlignment="Left" Margin="150,-100,0,0"  TextWrapping="Wrap" Text="Sphere Radius"  Height="22" Width="100" />
+            <TextBlock x:Name="m_SphereRadius" HorizontalAlignment="Left" Margin="250,-60,0,0" TextWrapping="Wrap" Text="Point Spacing" VerticalAlignment="Top"/>
+            <TextBox x:Name="m_SphereRadiusTextBox" IsEnabled="True" Text="9.000000" TextWrapping="Wrap" Margin="-10,-30,0,0"  TextChanged="SphereRadiusTextBox_TextChanged" Height="30" Width="85"/>
+            <TextBox x:Name="m_PointSpaceTextBox" IsEnabled="True" Text="15.00000" TextWrapping="Wrap"  Margin="250,-30,0,0" TextChanged="PointSpacingTextBox_TextChanged" Height="31" Width="70" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+            <Button x:Name="DrawComputeGeoSphereButton" Content="Draw Geo Sphere" HorizontalAlignment="Left" Margin="10,30,0,0" RenderTransformOrigin="0.629,4.75" Click="DrawGeoSphereButton_Click" AutomationProperties.HelpText="Press to Draw a new GroDesic sphere" ToolTipService.ToolTip="Press to Draw a new GroDesic sphere"/>
+            <TextBlock x:Name="DiameterGeoSphere" HorizontalAlignment="Left" Margin="150,-80,0,0"  TextWrapping="Wrap" Text="Diameter"  Height="22" Width="100" />
+            <TextBlock x:Name="TesselationGeoSphere" HorizontalAlignment="Left" Margin="250,-50,0,0" TextWrapping="Wrap" Text="Tessellation" VerticalAlignment="Top"/>
+            <TextBox x:Name="DiameterGeoSphereTextBox" Text="5.000000" TextWrapping="Wrap" Margin="-10,-30,0,0"  TextChanged="DiameterGeoSphereTextBox_TextChanged" Height="30" Width="85"/>
+            <TextBox x:Name="TesselationGeoTextBox" Text="3" TextWrapping="Wrap"  Margin="250,-30,0,0" TextChanged="TesselationGeoTextBox_TextChanged" Height="31" Width="70" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTipService.ToolTip="Tesselation must be 3 0r greater"/>
+
+            <Button x:Name="DrawComputeLongSphereButton" Content="Draw Long Sphere" HorizontalAlignment="Left" Margin="10,30,0,0" RenderTransformOrigin="0.629,4.75" Click="DrawLongitudeLatitudeSphereButton_Click" AutomationProperties.HelpText="Press to Draw a new Longitude Latitude  sphere" ToolTipService.ToolTip="Press to Draw a new Longitude Latitude  sphere"/>
+            <TextBlock x:Name="DiameterSphere" HorizontalAlignment="Left" Margin="150,-80,0,0"  TextWrapping="Wrap" Text="Diameter"  Height="22" Width="100" />
+            <TextBlock x:Name="TesselstionSphere" HorizontalAlignment="Left" Margin="250,-50,0,0" TextWrapping="Wrap" Text="Tessellation" VerticalAlignment="Top"/>
+            <TextBox x:Name="DiameterSphereTextBox" Text="5.000000" TextWrapping="Wrap" Margin="-10,-30,0,0"  TextChanged="DrawLongitudeLatitudeDiameterTextBox_TextChanged" Height="30" Width="85"/>
+            <TextBox x:Name="TesselationSphereTextBox" Text="16" TextWrapping="Wrap"  Margin="250,-30,0,0" TextChanged="TesselationSphereTextBox_TextChanged" Height="31" Width="70" HorizontalAlignment="Left" VerticalAlignment="Top"  ToolTipService.ToolTip="Tesselation must be 3 0r greater"/>
+
+        </StackPanel>
+    </Grid>
 </Page>

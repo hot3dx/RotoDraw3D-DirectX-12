@@ -15,7 +15,7 @@
 #include <wincodec.h>
 // Uses NuGet.org package WinPixEventRuntime 1.0.200127001
 // and Microsoft.UI.Xaml.2.5.0-prerelease.200812001
-#include </Hot3dxRotoDraw/packages/WinPixEventRuntime.1.0.231030001/Include/WinPixEventRuntime/pix3.h>
+#include <packages\WinPixEventRuntime.1.0.240308001\Include\WinPixEventRuntime\pix3.h>
 #include <DirectXColors.h>
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>
@@ -26,6 +26,12 @@
 #include "App.xaml.h"
 #include <synchapi.h>
 #include <strsafe.h>
+#ifndef EXTERNAL_VCR102
+#define EXTERNAL_VCR102 false
+#endif
+#ifndef EXTERNAL_VCR001
+#define EXTERNAL_VCR001 false
+#endif
 
 #if defined(_DEBUG)
 #include <dxgidebug.h>

@@ -11,7 +11,7 @@ using namespace Windows::System::Threading;
 using namespace Concurrency;
 
 // Loads and initializes application assets when the application is loaded.
-Hot3dxRotoDrawMain::Hot3dxRotoDrawMain(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
+Hot3dxRotoDrawMain::Hot3dxRotoDrawMain(const std::shared_ptr<DeviceResources>& deviceResources) :
 	m_deviceResources(deviceResources), m_pointerLocationX(0.0f), m_pointerLocationY(0.0f)
 {
 	// Register to be notified if the Device is lost or recreated
@@ -107,6 +107,13 @@ void Hot3dxRotoDrawMain::Update()
 // Returns true if the frame was rendered and is ready to be displayed.
 bool Hot3dxRotoDrawMain::Render() 
 {
+	
+	if (m_deviceResources->IsDeviceRemoved()) // included by ChatBot
+	{
+		m_deviceResources->HandleDeviceLost();
+		return false;
+	}
+
 	// Don't try to render anything before the first Update.
 	if (m_timer.GetFrameCount() == 0)
 	{

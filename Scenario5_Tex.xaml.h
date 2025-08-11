@@ -93,14 +93,21 @@ namespace Hot3dxRotoDraw
         void LoadDefaultImagePic(Platform::String^ imagePath);
         void LoadChosenImagePic();
         void LoadDefaultImageVideo(Platform::String^ imagePath);
+
+        void LoadDefaultImageUri1(Platform::String^ imagePath);
+        void LoadDefaultImageUri2(Platform::String^ imagePath);
+        void LoadDefaultImageUri3(Platform::String^ imagePath);
+        void LoadDefaultImageUri4(Platform::String^ imagePath);
+        void LoadDefaultImageUri5(Platform::String^ imagePath);
+        void LoadDefaultImageUri6(Platform::String^ imagePath);
+        void LoadDefaultImageUriPic(Platform::String^ imagePath);
+        void LoadDefaultImageUriVideo(Platform::String^ imagePath);
+
         void LoadChosenImageVideo();
-        void LoadDefaultImages(unsigned int imageIdNum,
-            Platform::String^ imagePath
-        );
+        void LoadThumbnail(Platform::String^ filePath, Platform::String^ imageCtrlName);
+       
         unsigned int imageIdNums;
-        void LoadChosenImages();
-
-
+       
         static void DisplayResult(Windows::UI::Xaml::Controls::Image^ image, Windows::UI::Xaml::Controls::TextBlock^ textBlock,
             Platform::String^ thumbnailModeName,
             Windows::Storage::IStorageItem^ item, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail,
@@ -108,7 +115,7 @@ namespace Hot3dxRotoDraw
         void DisplayResultVideo(Windows::UI::Xaml::Controls::Image^ image,
             Windows::UI::Xaml::Controls::TextBlock^ textBlock,
             Platform::String^ thumbnailModeName,
-            size_t size, Windows::Storage::IStorageItem^ item,
+            Windows::Storage::IStorageItem^ item,
             Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail,
             bool isGroup);
 
@@ -156,6 +163,7 @@ namespace Hot3dxRotoDraw
         inline void SetDefaultFolderPath();
 
         Platform::String^ GetImagePath(Platform::String^ imagePath);
+        Windows::Foundation::Uri^ GetAppImageUriFromString(Platform::String^ imagePath);
         void TextureImage1_RightTapped(Platform::Object^ sender, Windows::UI::Xaml::Input::RightTappedRoutedEventArgs^ e);
         void TextureImage2_RightTapped(Platform::Object^ sender, Windows::UI::Xaml::Input::RightTappedRoutedEventArgs^ e);
         void TextureRMAImage3_RightTapped(Platform::Object^ sender, Windows::UI::Xaml::Input::RightTappedRoutedEventArgs^ e);
@@ -169,5 +177,15 @@ namespace Hot3dxRotoDraw
         void IDC_PIC_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void IDC_GRID_OR_PIC_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void IDC_SHOW_BKGRND_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-};
+
+        void SetTexture1Parameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail,  Platform::String^ thumbnailModeName, Platform::String^ message);
+        void SetTexture2Parameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message);
+        void SetTexture3Parameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message);
+        void SetTexture4Parameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message);
+        void SetTexture5Parameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message);
+        void SetTexture6Parameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message);
+        void SetTexturePicParameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message);
+        void SetTextureVideoParameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message);
+
+     };
 }

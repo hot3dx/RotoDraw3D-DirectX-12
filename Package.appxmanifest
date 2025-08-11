@@ -9,9 +9,8 @@
   IgnorableNamespaces="uap mp uap6 uap3">
 
   <Identity
-    Name="38359Hot3dx-JeffKubitz.RotoDraw3DDirectX12"
     Publisher="CN=D712F736-962E-4231-828C-430EEDF684FB"
-    Version="1.0.24.0" />
+    Version="1.0.45.0"  Name="38359Hot3dx-JeffKubitz.RotoDraw3DDirectX12"/>
 
   <mp:PhoneIdentity PhoneProductId="767dcdc5-94b9-4177-983f-30ba25adfdab" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
   
@@ -90,10 +89,8 @@
   </Applications>
 
   <Capabilities>
-    <uap:Capability Name="objects3D"/>
+    <uap6:Capability Name="graphicsCapture"/>
     <uap:Capability Name="picturesLibrary"/>
     <uap:Capability Name="videosLibrary"/>
-    <uap6:Capability Name="graphicsCapture"/>
-    <uap:Capability Name="musicLibrary"/>
   </Capabilities>
 </Package>

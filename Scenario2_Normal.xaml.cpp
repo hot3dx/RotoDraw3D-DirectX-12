@@ -106,7 +106,6 @@ void Hot3dxRotoDraw::Scenario2_Normal::OnNavigatedTo(Windows::UI::Xaml::Navigati
     //unsigned int val = EffectDescComboBox->SelectedIndex::get();
     m_iEffectDescSelectedIndex = _rootPage->GetEffectIndexDXP();
     //Platform::String^ s1 = ref new Platform::String(L"\nVAL is: ");
-    //OutputDebugString(s1->Concat(s1, ref new Platform::String(std::to_wstring(m_iEffectDescSelectedIndex).c_str()))->ToString()->Data());
     Platform::Object^ s;
     switch (m_iEffectDescSelectedIndex)
     {
@@ -123,12 +122,11 @@ void Hot3dxRotoDraw::Scenario2_Normal::OnNavigatedTo(Windows::UI::Xaml::Navigati
     m_iEffectDescSelectedIndex = _rootPage->GetEffectIndexDXP();
     EffectDescComboBox->SelectedIndex = (m_iEffectDescSelectedIndex);
     EffectDescComboBox->SetValue(EffectDescComboBox->SelectedIndexProperty, EffectDescComboBox->SelectedIndex);
-    
-       _rootPage->NotifyUser(s->ToString()->Concat(L"\nEffect is: ", s->ToString()), NotifyType::StatusMessage);
+
+    _rootPage->NotifyUser(s->ToString()->Concat(L"\nEffect is: ", s->ToString()), NotifyType::StatusMessage);
     _rootPage->SetEffectIndexRenderer(m_iEffectDescSelectedIndex);
-  
+
     _rootPage->m_Scene2Vars->SetScenario2Page(this);
-    
 }
 
 
@@ -439,7 +437,6 @@ void Hot3dxRotoDraw::Scenario2_Normal::EffectDescComboBox_SelectionChanged(Platf
         unsigned int val = m_iEffectDescSelectedIndex = EffectDescComboBox->SelectedIndex::get();
         _rootPage->SetEffectIndexRenderer(val);
         //Platform::String^ s1 = ref new Platform::String(L"\nVAL is: ");
-        //OutputDebugString(s1->Concat(s1, ref new Platform::String(std::to_wstring(m_iEffectDescSelectedIndex).c_str()))->ToString()->Data());
         Platform::Object^ s;
         switch (m_iEffectDescSelectedIndex)
         {
@@ -454,6 +451,9 @@ void Hot3dxRotoDraw::Scenario2_Normal::EffectDescComboBox_SelectionChanged(Platf
             break;
         case 3:
             s = ref new Platform::String(L"VideoTexture Effect");
+            break;
+        case 4:
+            s = ref new Platform::String(L"Basic Effect Color");
             break;
         }
 
@@ -507,10 +507,16 @@ void Hot3dxRotoDraw::Scenario2_Normal::IDC_HORIZONTAL_LINE_checkBox_Click(Platfo
     if (IDC_HORIZONTAL_LINE_checkBox->IsChecked->Value == true)
     {
         _rootPage->SetIfRightShiftKeyHeldDrawStraightLine(true);
+        IDC_HORIZONTAL_LINE_checkBox->IsChecked::set(true);
+        IDC_HORIZONTAL_LINE_checkBox->SetValue(IDC_HORIZONTAL_LINE_checkBox->IsCheckedProperty,
+            IDC_HORIZONTAL_LINE_checkBox->IsChecked);
         _rootPage->NotifyUser("Draw Horizontal Straight Line Change to true", NotifyType::StatusMessage);
     }
     else {
         _rootPage->SetIfRightShiftKeyHeldDrawStraightLine(false);
+        IDC_HORIZONTAL_LINE_checkBox->IsChecked::set(false);
+        IDC_HORIZONTAL_LINE_checkBox->SetValue(IDC_HORIZONTAL_LINE_checkBox->IsCheckedProperty,
+            IDC_HORIZONTAL_LINE_checkBox->IsChecked);
         _rootPage->NotifyUser("Draw Horizontal Straight Line Change to false", NotifyType::StatusMessage);
     }
 }
@@ -522,10 +528,16 @@ void Hot3dxRotoDraw::Scenario2_Normal::IDC_VERTICAL_LINE_checkBox_Click(Platform
     if (IDC_VERTICAL_LINE_checkBox->IsChecked->Value == true)
     {
         _rootPage->SetIfLeftShiftKeyHeldDrawStraightLine(true);
+        IDC_VERTICAL_LINE_checkBox->IsChecked::set(true);
+        IDC_VERTICAL_LINE_checkBox->SetValue(IDC_VERTICAL_LINE_checkBox->IsCheckedProperty,
+            IDC_VERTICAL_LINE_checkBox->IsChecked);
         _rootPage->NotifyUser("Draw Vertical Straight Line Change to true", NotifyType::StatusMessage);
     }
     else {
         _rootPage->SetIfLeftShiftKeyHeldDrawStraightLine(false);
+        IDC_VERTICAL_LINE_checkBox->IsChecked::set(false);
+        IDC_VERTICAL_LINE_checkBox->SetValue(IDC_VERTICAL_LINE_checkBox->IsCheckedProperty,
+            IDC_VERTICAL_LINE_checkBox->IsChecked);
         _rootPage->NotifyUser("Draw Vertical Straight Line Change to false", NotifyType::StatusMessage);
     }
 }
@@ -537,10 +549,16 @@ void Hot3dxRotoDraw::Scenario2_Normal::IDC_45_DEGREE_LINE_Checkbox_Click(Platfor
     if (IDC_45_DEGREE_LINE_Checkbox->IsChecked->Value == true)
     {
         _rootPage->SetIfLeftShiftKeyHeldDraw45Line(true);
+        IDC_45_DEGREE_LINE_Checkbox->IsChecked::set(true);
+        IDC_45_DEGREE_LINE_Checkbox->SetValue(IDC_45_DEGREE_LINE_Checkbox->IsCheckedProperty,
+            IDC_45_DEGREE_LINE_Checkbox->IsChecked);
         _rootPage->NotifyUser("Draw 45 deg Line Changed to true", NotifyType::StatusMessage);
     }
     else {
         _rootPage->SetIfLeftShiftKeyHeldDraw45Line(false);
+        IDC_45_DEGREE_LINE_Checkbox->IsChecked::set(true);
+        IDC_45_DEGREE_LINE_Checkbox->SetValue(IDC_45_DEGREE_LINE_Checkbox->IsCheckedProperty,
+            IDC_45_DEGREE_LINE_Checkbox->IsChecked);
         _rootPage->NotifyUser("Draw 45 deg Line Changed to false", NotifyType::StatusMessage);
     }
     _rootPage->NotifyUser("Draw Straight Line Change Picked", NotifyType::StatusMessage);
