@@ -24,6 +24,8 @@ using namespace DX;
 
 namespace Hot3dxRotoDraw
 {
+	
+
 		/// <summary>
 	/// Provides application-specific behavior to supplement the default Application class.
 	/// </summary>
@@ -40,10 +42,10 @@ namespace Hot3dxRotoDraw
 		DirectXPage^ m_directXPage;
 
 		// Private accessor for m_deviceResources, protects against device removed errors.
-		//std::shared_ptr<DX::DeviceResources> GetDeviceResourcesApp();
+		//std::shared_ptr<DeviceResources> GetDeviceResourcesApp();
 
 
-		std::shared_ptr<DX::DeviceResources> m_deviceResources;
+		std::shared_ptr<DeviceResources> m_deviceResources;
 		std::unique_ptr<Hot3dxRotoDrawMain> m_main;
 	};
 }

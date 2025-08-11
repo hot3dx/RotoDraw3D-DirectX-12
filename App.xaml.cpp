@@ -152,7 +152,7 @@ void Hot3dxRotoDraw::App::OnNavigationFailed(Platform::Object^ sender, Windows::
 /// DisplayInformation event handlers.
 /// ReAdded 3/9/19 10:32 am
 /// </summary
-std::shared_ptr<DX::DeviceResources> Hot3dxRotoDraw::App::GetDeviceResourcesApp()
+std::shared_ptr<DeviceResources> Hot3dxRotoDraw::App::GetDeviceResourcesApp()
 {
 	if (m_deviceResources != nullptr && m_deviceResources->IsDeviceRemoved())
 	{
@@ -176,7 +176,7 @@ std::shared_ptr<DX::DeviceResources> Hot3dxRotoDraw::App::GetDeviceResourcesApp(
 
 	if (m_deviceResources == nullptr)
 	{
-		m_deviceResources = std::make_shared<DX::DeviceResources>();
+		m_deviceResources = std::make_shared<DeviceResources>();
 		m_deviceResources->SetCoreWindow(Windows::UI::Core::CoreWindow::GetForCurrentThread());
 		// resets TouchMap and do I even need it?
 		//m_main->CreateRenderers(m_deviceResources);
