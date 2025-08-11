@@ -25,7 +25,6 @@
 #include <hrtfapoapi.h>
 #include "OmnidirectionalSound.h"
 
-
 using namespace DX;
 using namespace DirectX;
 using namespace DirectX::DXTKXAML12;
@@ -172,6 +171,10 @@ namespace Hot3dxRotoDraw
 
 		void SET_SPHERE_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e,
 			float cameraradius, float camerarotation);
+		void SET_SPHERE_GEODESIC_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e,
+			float diameter, size_t tesselation);
+		void SET_SPHERE_LONG_LAT_BUTTON_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e,
+			float diameter, size_t tesselation);
 
 		// Sound Filename Accessors
 		Windows::Storage::StorageFile^ GetSound1FileDXP() { return m_Scene1Vars->GetFileSound(); }
@@ -224,79 +227,31 @@ namespace Hot3dxRotoDraw
 			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage1File();// = nullptr;
 			file = ref new Platform::String(fileName->Data());
 			m_main->GetSceneRenderer()->SetTextureImage1File(fileName);
-//#ifdef _DEBUG
-			OutputDebugString(L"\n m_strTexture1FileName \n");
-			OutputDebugString(L"SetTextureImage1File(Platform::String ^ fileName)");
-			OutputDebugString(L"\n m_textureImage1File \n");
-			OutputDebugString(file->Data());
-			OutputDebugString(L"\n \n");
-//#endif // _DEBUG
-			
 		}
 		void SetTextureImage2FileDXP(Platform::String^ fileName) {
 			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage2File();// = nullptr;
 			file = ref new Platform::String(fileName->Data());
 			m_main->GetSceneRenderer()->SetTextureImage2File(fileName);
-//#ifdef _DEBUG
-			OutputDebugString(L"\n m_strTexture2FileName \n");
-			OutputDebugString(L"SetTextureImage2File(Platform::String ^ fileName)");
-			OutputDebugString(L"\n m_textureImage2File \n");
-			OutputDebugString(file->Data());
-			OutputDebugString(L"\n \n");
-//#endif // _DEBUG
-			
 		}
 		void SetTextureImage3FileDXP(Platform::String ^ fileName) {
 				Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage3File();// = nullptr;
 				file = ref new Platform::String(fileName->Data());
 				m_main->GetSceneRenderer()->SetTextureImage3File(fileName);
-//#ifdef _DEBUG
-				OutputDebugString(L"\n m_strTexture3FileName \n");
-				OutputDebugString(L"SetTextureImage3File(Platform::String ^ fileName)");
-				OutputDebugString(L"\n m_textureImage3File \n");
-				OutputDebugString(file->Data());
-				OutputDebugString(L"\n \n");
-//#endif // _DEBUG
-			
 		}
 		void SetTextureImage4FileDXP(Platform::String ^ fileName) {
 					Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage4File();// = nullptr;
 					file = ref new Platform::String(fileName->Data());
 					m_main->GetSceneRenderer()->SetTextureImage4File(fileName);
-//#ifdef _DEBUG
-					OutputDebugString(L"\n m_strTexture4FileName \n");
-					OutputDebugString(L"SetTextureImage4File(Platform::String ^ fileName)");
-					OutputDebugString(L"\n m_textureImage4File \n");
-					OutputDebugString(file->Data());
-					OutputDebugString(L"\n \n");
-//#endif // _DEBUG
-			
 		}
 		void SetTextureImage5FileDXP(Platform::String^ fileName) {
 			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage5File();// = nullptr;
 			file = ref new Platform::String(fileName->Data());
 			m_main->GetSceneRenderer()->SetTextureImage5File(fileName);
-//#ifdef _DEBUG
-			OutputDebugString(L"\n m_strTexture5FileName \n");
-			OutputDebugString(L"SetTextureImage5File(Platform::String ^ fileName)");
-			OutputDebugString(L"\n m_textureImage5File \n");
-			OutputDebugString(file->Data());
-			OutputDebugString(L"\n \n");
-//#endif // _DEBUG
-			
 		}
 		void SetTextureImage6FileDXP(Platform::String^ fileName) {
 			Platform::String^ file = m_main->GetSceneRenderer()->GetTextureImage6File();// = nullptr;
 			file = ref new Platform::String(fileName->Data());
 			m_main->GetSceneRenderer()->SetTextureImage6File(fileName);
-//#ifdef _DEBUG
-			OutputDebugString(L"\n m_strTexture6FileName \n");
-			OutputDebugString(L"SetTextureImage6File(Platform::String ^ fileName)");
-			OutputDebugString(L"\n m_textureImage6File \n");
-			OutputDebugString(file->Data());
-			OutputDebugString(L"\n \n");
-//#endif // _DEBUG
-			
 		}
 		// Scenario5_Tex
 		Platform::String^ GetTextureImagePicFileDXP() { return m_main->GetSceneRenderer()->GetTextureImagePicFile(); }
@@ -516,6 +471,7 @@ namespace Hot3dxRotoDraw
 
 		void ScreenGrabDXP();
 		
+
 	protected:
 		virtual void OnNavigatedTo(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e) override;
 
@@ -566,8 +522,8 @@ namespace Hot3dxRotoDraw
 		void OnKeyUp(Windows::UI::Core::CoreWindow^ /*window*/, Windows::UI::Core::KeyEventArgs^ args);
 
 		// Resources used to render the DirectX content in the XAML page background.
-		std::shared_ptr<DX::DeviceResources> m_deviceResources;
-		std::unique_ptr<Hot3dxRotoDraw::Hot3dxRotoDrawMain> m_main;
+		std::shared_ptr<DeviceResources> m_deviceResources;
+		std::unique_ptr<Hot3dxRotoDrawMain> m_main;
 		
 
 		bool m_windowVisible;
@@ -640,6 +596,9 @@ namespace Hot3dxRotoDraw
 		void MyFilePathDXP(Platform::String^ image);
 		Platform::String^ m_sDirPathDXP = ref new Platform::String();
 		bool m_bDirPathFound;
+
+		//void ScreenGrabDXP();
+		bool m_bIsScreenGrabInProgress = true;
 		
 	internal:
 		

@@ -1,0 +1,2126 @@
+You are not strictly restricted to saving files only in the Pictures and Video Libraries, but there are some important considerations depending on your app type and its permissions:
+•	UWP/WinRT Apps:
+By default, Universal Windows Platform (UWP) apps have access only to certain user folders, such as the Pictures, Videos, and Documents libraries, unless the user explicitly picks another location using a file picker dialog.
+•	If you use KnownFolders::PicturesLibrary or KnownFolders::VideosLibrary, you are limited to those folders unless you request broader permissions or use a file picker.
+•	To save elsewhere, use a FileSavePicker to let the user choose the location. This grants your app temporary access to the selected folder.
+•	Desktop/Win32 Apps:
+Traditional desktop applications are not restricted in the same way and can save files anywhere the user has write permissions, unless running in a sandboxed environment or with limited permissions.
+Summary:
+•	If you are using UWP APIs and not invoking a file picker, you are limited to the libraries your app has declared access to.
+•	If you want to allow saving anywhere, use a file picker dialog to let the user select the location.
+If you share the relevant code for your file saving logic, I can provide more specific guidance or show how to use a file picker for broader access.
+
+
+If you are using the FilePicker (such as FileOpenPicker and FileSavePicker) in your C++/CX or C++/WinRT UWP app, you are not restricted to just the Pictures or Videos libraries. The FilePicker allows the user to browse and select any location they have access to, including Documents, Desktop, removable drives, and custom folders.
+Key Points:
+•	FileOpenPicker/FileSavePicker: These let the user choose any accessible folder or file, not just the libraries your app has declared in the manifest.
+•	Library Capabilities: Declaring access to Pictures, Videos, or Documents in your manifest allows your app to access those folders programmatically, without user interaction.
+•	Picker Dialog: When you use a picker, the user grants your app temporary access to the selected file or folder, regardless of its location.
+Summary:
+You are only limited to Pictures and Videos libraries if you access them directly via KnownFolders. Using FilePicker, you can open or save files anywhere the user can browse to.
+If you need an example of using FileSavePicker or want to see how to configure it for different file types or locations, let me know!
+
+If your app only uses the FileOpenPicker and FileSavePicker for file access, you can safely uncheck (remove) the Pictures and Video Libraries capabilities in your Package.appxmanifest.
+Reason:
+•	The FilePicker grants your app temporary access to any file or folder the user selects, regardless of library capabilities.
+•	Declaring Pictures or Videos library access is only needed if your app programmatically accesses those folders without user interaction.
+Recommendation:
+•	Uncheck (remove) the Pictures and Video Libraries in your manifest if you do not access those folders directly in code.
+•	This reduces the permissions your app requests, which is better for user privacy and app store acceptance.
+How to do this:
+1.	Open Package.appxmanifest in Visual Studio.
+2.	Go to the Capabilities tab.
+3.	Uncheck Pictures Library and Videos Library.
+Your app will still be able to open and save files anywhere the user chooses via the FilePicker.
+
+Graphics Capture refers to capturing the contents of a window, display, or a portion of the screen as an image or video. In the context of Windows development, especially UWP or Win32 apps, this is typically done using the Windows.Graphics.Capture API.
+When do you need Graphics Capture capability?
+•	If your app captures the screen, a window, or any graphical content not owned by your app, you need to declare the Graphics Capture capability in your Package.appxmanifest.
+•	This is required for APIs like GraphicsCapturePicker, GraphicsCaptureItem, or Direct3D11CaptureFramePool.
+How to enable Graphics Capture in your app:
+1.	Open your Package.appxmanifest in Visual Studio.
+2.	Go to the Capabilities tab.
+3.	Check the Graphics Capture capability.
+This allows your app to use the Windows graphics capture APIs.
+---
+Summary:
+•	If your app does not capture the screen or other windows, you do not need this capability.
+•	If you do use screen/window capture features, you must enable it in your manifest.
+Let me know if you need a code example or more details on using the graphics capture APIs in C++.
+
+Graphics Capture refers to capturing the contents of a window, display, or a portion of the screen as an image or video. In the context of Windows development, especially UWP or Win32 apps, this is typically done using the Windows.Graphics.Capture API.
+When do you need Graphics Capture capability?
+•	If your app captures the screen, a window, or any graphical content not owned by your app, you need to declare the Graphics Capture capability in your Package.appxmanifest.
+•	This is required for APIs like GraphicsCapturePicker, GraphicsCaptureItem, or Direct3D11CaptureFramePool.
+How to enable Graphics Capture in your app:
+1.	Open your Package.appxmanifest in Visual Studio.
+2.	Go to the Capabilities tab.
+3.	Check the Graphics Capture capability.
+This allows your app to use the Windows graphics capture APIs.
+---
+Summary:
+•	If your app does not capture the screen or other windows, you do not need this capability.
+•	If you do use screen/window capture features, you must enable it in your manifest.
+Let me know if you need a code example or more details on using the graphics capture APIs in C++.
+
+// No file path, for illustration only
+#include <winrt/Windows.Graphics.Capture.h>
+#include <winrt/Windows.Graphics.DirectX.Direct3D11.h>
+#include <winrt/Windows.Storage.Streams.h>
+
+// Example: Start a capture for a window or display
+auto picker = winrt::Windows::Graphics::Capture::GraphicsCapturePicker();
+auto item = co_await picker.PickSingleItemAsync();
+if (item)
+{
+    // Use item with Direct3D11CaptureFramePool, etc.
+}
+
+
+3. Saving the Screenshot
+You’ll need to:
+•	Create a Direct3D11CaptureFramePool to receive frames.
+•	Copy the frame to a bitmap or buffer.
+•	Save the buffer to a file (using a FileSavePicker if you want the user to choose the location).
+4. Example Files in Your Project
+You have a file named Scenario13_ScreenGrab.xaml.h and Scenario13_ScreenGrab.g.h, which suggests you may already have a scenario for screenshots.
+Check Scenario13_ScreenGrab.xaml.cpp (if it exists) for screenshot logic.
+---
+Summary:
+•	Enable Graphics Capture in your manifest.
+•	Use the Windows.Graphics.Capture API to capture the screen or window.
+•	Use a file picker to save the screenshot.
+If you want a full working code sample or want to see how to integrate this with your existing code, let me know!
+
+
+When you receive an error after switching to a path like C:\Users\hot3d\Objects3d\Textures\..., it usually means the app is unable to access or load a file from that directory. In your code, texture loading is handled by the LoadDDSOrWicTextureFile function, which tries to load a DDS or WIC texture and reports errors if it fails.
+Common Causes for This Error
+1.	File/Directory Does Not Exist:
+The file path may be incorrect, or the file does not exist at the specified location.
+2.	Access Permissions:
+UWP apps (and some desktop apps with restricted permissions) cannot access arbitrary locations on disk unless the user picks the file via a FilePicker, or the app has been granted broad file system access (which is discouraged and not enabled by default).
+3.	AppX Deployment Directory:
+Your error message and code comments suggest that textures should be loaded from within the app's deployment directory, typically something like:
+
+/// x64\Release\Hot3dxRotoDraw\AppX\Assets\Textures\
+
+
+
+This is because UWP apps are sandboxed and can only access files within their package or those the user has explicitly picked.
+What to Do
+•	For UWP Apps:
+•	Use FilePicker: If you want to load textures from outside the app's package, use a FileOpenPicker to let the user select the file. This grants temporary access.
+•	Copy Files to Assets: If you want to load textures programmatically, copy them into your app's Assets\Textures folder and reference them with a relative path.
+•	For Desktop/Win32 Apps:
+•	Make sure the file exists and the app has permission to access the directory.
+Example Error Handling in Your Code
+Your function already notifies the user if the directory is not accessible:
+
+if (hr1 != S_OK)
+{
+    msgType = L"Error Message: Directory Not Accessible  ";
+    message = L"All textures must be chosen from the x64\\Release or Debug\\Hot3dxRotoDraw\\AppX\\Assets\\(Folder or sub-Folders \nPress the Clear Button\n1)Go To: Textures\n2) Add Texture1 from proper directory\nThe directory is in the status box lower left)";
+    m_vars->GetDXPage()->NotifyUser("File Error Open " + message, NotifyType::ErrorMessage); 
+    ClearDrawnObject();
+    m_vars->GetDXPage()->NotifyUser("Opened file " + ref new Platform::String(szfileName), NotifyType::StatusMessage);
+    m_vars->GetDXPage()->SetErrorMessagePopup(msgType, message);
+}
+
+
+Summary
+•	For UWP: You cannot programmatically access C:\Users\hot3d\Objects3d\Textures\... unless the user picks the file.
+•	Place textures in your app's Assets\Textures folder, or use a FilePicker for external files.
+•	Double-check the file path and ensure the file exists.
+If you need to support loading from arbitrary locations, let me know and I can show you how to use a FileOpenPicker for texture selection.
+
+You are absolutely correct:
+You cannot save or add files to your app’s install directory (C:\Program Files\WindowsApps\...) at runtime. This directory is protected by Windows for security and integrity reasons, especially for UWP and packaged desktop apps.
+Key Points
+•	App Install Directory is Read-Only:
+At runtime, your app can only read files from its install directory. You cannot write, modify, or add files there.
+•	Where Can You Save Files?
+•	App Data Folders:
+Use Windows.Storage.ApplicationData::Current->LocalFolder or TemporaryFolder for saving files your app creates or modifies.
+•	User-Selected Locations:
+Use a FileSavePicker or FileOpenPicker to let the user choose where to save or open files. This grants your app temporary access to those locations.
+•	Known Folders (with Capabilities):
+If you declare the right capabilities, you can access user folders like Documents, Pictures, etc.
+•	For Assets (like Textures):
+•	Place them in your project’s Assets folder before building the app.
+•	Reference them with a relative path (e.g., Assets\Textures\mytexture.dds).
+•	At runtime, only read access is allowed.
+What to Do
+•	To add new textures or assets:
+•	Add them to the Assets folder in your project in Visual Studio.
+•	Rebuild and redeploy your app.
+•	To save user-generated files:
+•	Use ApplicationData::Current->LocalFolder or a file picker.
+---
+Summary:
+•	The app install directory is read-only at runtime.
+•	Use app data folders or file pickers for saving files.
+•	Add new assets via Visual Studio, not at runtime.
+Let me know if you need code examples for saving files or using file pickers!
+
+You are correct:
+If your app only uses the FilePicker (FileOpenPicker/FileSavePicker) for file access, you do not need to declare capabilities for Pictures, Documents, Videos, or Objects3D in your Package.appxmanifest. The FilePicker grants your app temporary access to any file or folder the user selects, regardless of those capabilities.
+However:
+•	If you want to access those folders programmatically (without user interaction), you must declare the corresponding capability.
+•	For FilePicker use, you can safely remove those capabilities for a more secure and privacy-friendly app.
+Summary:
+•	FilePicker = No extra capabilities needed.
+•	Direct folder access = Capability required.
+You can remove Pictures Library, Videos Library, Documents Library, and Objects3D from your manifest if you are not accessing those folders directly in code. Your FilePicker will still work for any location the user selects.
+
+
+Yes, that is correct.
+When you use a FileOpenPicker and the user selects a file from Pictures, Objects3D, Videos, or Documents, your app receives a StorageFile with temporary access to that file—even if you do not have the corresponding capability checked in your manifest. However, this access is only valid if you use the file through the Windows Storage APIs (e.g., StorageFile->OpenAsync()).
+If you try to load the file programmatically by passing its path directly to a native API (like DirectX’s CreateDDSTextureFromFile or CreateWICTextureFromFile), and that path is in a library for which you do not have capability, the API will fail with an access error. This is because those APIs do not use the app’s brokered access—they try to open the file directly, and the sandbox blocks it.
+---
+How to Fix
+Correct way:
+•	Use the StorageFile you get from the picker and open a stream with OpenAsync(FileAccessMode::Read).
+•	Use a texture loader that can load from a stream, not just a file path.
+For example, if you are using DirectXTK, use CreateWICTextureFromStream or CreateDDSTextureFromStream instead of the FromFile versions.
+---
+Example (C++/CX or C++/WinRT)
+
+// After user picks a file:
+auto stream = co_await storageFile->OpenAsync(FileAccessMode::Read);
+// Use DirectXTK's CreateWICTextureFromStream or similar
+CreateWICTextureFromStream(device, resourceUpload, stream, &textureResource);
+
+Summary
+•	FileOpenPicker grants temporary access, but only through Storage APIs.
+•	Direct file path access will fail without capabilities.
+•	Solution: Open the file as a stream and use APIs that accept streams.
+If you need a concrete code example for your scenario, let me know your texture loading code and I can show you how to adapt it.
+
+
+Summary
+•	FileOpenPicker grants temporary access, but only through Storage APIs.
+•	Direct file path access will fail without capabilities.
+•	Solution: Open the file as a stream and use APIs that accept streams.
+If you need a concrete code example for your scenario, let me know your texture loading code and I can show you how to adapt it.
+
+You are correct: if you want to load a texture for a Wavefront OBJ/MTL file that the user selects via a FilePicker, and the texture is outside your app’s install directory, you cannot simply pass the file path to DirectXTK’s CreateDDSTextureFromFile or CreateWICTextureFromFile unless you have the appropriate library capability (which you want to avoid for privacy and store compliance).
+Why?
+•	The FilePicker gives you a StorageFile with temporary access, but DirectXTK’s file-based texture loaders expect a direct file path and do not use the brokered access provided by UWP.
+•	If you pass a path to a file in, for example, Pictures or Documents, and you do not have the capability, the call will fail.
+---
+How to Properly Load a Texture from a FilePicker in UWP
+1.	Use the FilePicker to get a StorageFile.
+2.	Open the file as a stream:
+Use StorageFile->OpenAsync(FileAccessMode::Read) to get a IRandomAccessStream.
+3.	Convert the stream to an IStream (COM stream):
+DirectXTK’s CreateWICTextureFromStream or CreateDDSTextureFromStream can load from a stream.
+4.	Load the texture from the stream.
+---
+
+#include <wrl/client.h>
+#include <shcore.h> // For CreateStreamOverRandomAccessStream
+#include <ppltasks.h>
+using namespace concurrency;
+
+// Assume 'storageFile' is the StorageFile returned by the FilePicker
+auto openTask = create_task(storageFile->OpenAsync(Windows::Storage::FileAccessMode::Read));
+openTask.then([device, &batch, &textureResource](Windows::Storage::Streams::IRandomAccessStream^ stream)
+{
+    Microsoft::WRL::ComPtr<IStream> comStream;
+    HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+    if (SUCCEEDED(hr))
+    {
+        // Use DirectXTK's CreateWICTextureFromStream or CreateDDSTextureFromStream
+        hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(device, batch, comStream.Get(), &textureResource);
+        // or for DDS:
+        // hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(device, batch, comStream.Get(), &textureResource);
+    }
+    // Handle errors as needed
+});
+
+•	This approach works regardless of the file’s location, as long as the user picked it.
+•	You do not need to declare Pictures, Documents, or other library capabilities.
+---
+Summary
+•	Do not pass file paths directly to DirectXTK if the file is outside your app’s install directory and you lack the capability.
+•	Do open the file as a stream and use the stream-based texture loader.
+•	This is the recommended and store-compliant way to load user-selected textures for OBJ/MTL files in a UWP app.
+If you want a more complete example or help integrating this into your code, let me know!
+
+Great, you are working in Scenario5_Tex.xaml.cpp. Here’s how to properly load a texture for a Wavefront OBJ/MTL file using a FilePicker in a UWP app, given your context:
+---
+Key Points
+•	FilePicker gives you a StorageFile with temporary access.
+•	DirectXTK’s CreateDDSTextureFromFile/CreateWICTextureFromFile expect a file path and will fail for files outside your app’s install directory if you lack the capability.
+•	Solution: Open the file as a stream and use the stream-based loader (CreateWICTextureFromStream or CreateDDSTextureFromStream).
+---
+How to Load a Texture from a FilePicker
+1.	Let the user pick the texture file:
+
+```cpp
+    FileOpenPicker^ picker = ref new FileOpenPicker();
+    picker->FileTypeFilter->Append(".png");
+    picker->FileTypeFilter->Append(".jpg");
+    picker->FileTypeFilter->Append(".dds");
+    // ... add other formats as needed
+
+    create_task(picker->PickSingleFileAsync()).then([this](StorageFile^ file) {
+        if (file) {
+            // Proceed to open as stream
+        }
+    });
+```
+
+2.	Open the file as a stream:
+```cpp
+    create_task(file->OpenAsync(FileAccessMode::Read)).then([this](IRandomAccessStream^ stream) {
+        if (stream) {
+            // Proceed to convert to IStream
+        }
+    });
+
+    3.	Convert to COM IStream and load with DirectXTK:
+    ```cpp
+    #include <wrl/client.h>
+    #include <shcore.h> // For CreateStreamOverRandomAccessStream
+
+    Microsoft::WRL::ComPtr<IStream> comStream;
+    HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+    if (SUCCEEDED(hr)) {
+        // Use DirectXTK's CreateWICTextureFromStream or CreateDDSTextureFromStream
+        hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+            device, batch, comStream.Get(), &textureResource);
+        // or for DDS:
+        // hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(device, batch, comStream.Get(), &textureResource);
+    }
+```
+```
+Summary
+•	Do not pass file paths directly to DirectXTK for user-picked files outside your app’s install directory.
+•	Do use the stream-based loading approach as shown above.
+•	This works for any file the user picks, regardless of its location, and does not require extra manifest capabilities.
+---
+If you want a full, ready-to-paste function for this workflow, or want to see how to integrate it with your OBJ/MTL loading, just ask!
+
+
+That’s correct for local development and sideloading of UWP or packaged apps:
+If you install your app’s certificate in the Trusted Publishers store, Windows will trust your app package, and you’ll avoid many permission and access issues that occur with untrusted or unsigned packages. This is especially important for accessing files via FilePicker, using certain APIs, or debugging capabilities that require elevated trust.
+However:
+•	This does not bypass UWP sandboxing or capability requirements.
+•	You still cannot write to the app install directory, and you still need to use the FilePicker for user files outside your app’s data folders.
+•	For store distribution, your app must be signed with a certificate trusted by Microsoft, and users won’t need to install a certificate manually.
+Summary:
+•	Installing the certificate in Trusted Publishers is the right step for local testing and sideloading.
+•	It ensures your app runs with the expected permissions for development.
+•	For production, follow Microsoft Store signing and capability guidelines.
+If you have any questions about app packaging, certificates, or deployment, let me know!
+
+
+
+Thank you for clarifying. Since you are using DirectXToolkitXaml12 (a fork or adaptation of Chuck Walbourn’s DirectXTK for XAML/UWP), the same best practices for file access and texture loading apply as with DirectXTK.
+Key Points for Texture Loading in UWP/XAML with DirectXToolkitXaml12
+•	Do not use file path-based texture loading (e.g., CreateWICTextureFromFile) for files outside your app’s install or data folders, unless you have the required capabilities (which you want to avoid).
+•	Do use stream-based loading (e.g., CreateWICTextureFromStream or CreateDDSTextureFromStream) for files the user picks with a FilePicker.
+---
+Example: Loading a Texture from a FilePicker with DirectXToolkitXaml12
+Here’s how you can load a user-picked texture file (PNG, JPG, DDS, etc.) using a stream, which works with UWP sandboxing and does not require extra manifest capabilities:
+
+#include <wrl/client.h>
+#include <shcore.h> // For CreateStreamOverRandomAccessStream
+
+using namespace Microsoft::WRL;
+using namespace Windows::Storage;
+using namespace Windows::Storage::Streams;
+using namespace concurrency;
+
+// Assume 'device' is your ID3D11Device*, and 'context' is your ID3D11DeviceContext*
+
+// 1. Let the user pick a file
+FileOpenPicker^ picker = ref new FileOpenPicker();
+picker->FileTypeFilter->Append(".png");
+picker->FileTypeFilter->Append(".jpg");
+picker->FileTypeFilter->Append(".dds");
+// ... add other formats as needed
+
+create_task(picker->PickSingleFileAsync()).then([device, context](StorageFile^ file)
+{
+    if (file)
+    {
+        // 2. Open the file as a stream
+        create_task(file->OpenAsync(FileAccessMode::Read)).then([device, context](IRandomAccessStream^ stream)
+        {
+            if (stream)
+            {
+                // 3. Convert to IStream
+                ComPtr<IStream> comStream;
+                HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                if (SUCCEEDED(hr))
+                {
+                    // 4. Load the texture from the stream
+                    ComPtr<ID3D11Resource> texture;
+                    ComPtr<ID3D11ShaderResourceView> textureView;
+                    hr = DirectX::CreateWICTextureFromStream(
+                        device,
+                        context,
+                        comStream.Get(),
+                        &texture,
+                        &textureView
+                    );
+                    if (SUCCEEDED(hr))
+                    {
+                        // Use textureView as your shader resource view
+                    }
+                    else
+                    {
+                        // Handle error
+                    }
+                }
+            }
+        });
+    }
+});
+
+Note:
+•	Replace DirectX::CreateWICTextureFromStream with the appropriate function from your DirectXToolkitXaml12 namespace if it differs.
+•	This approach works for any file the user picks, regardless of its location, and is fully UWP-compliant.
+---
+Summary
+•	Use stream-based texture loading for user-picked files.
+•	This avoids capability requirements and works with UWP/XAML sandboxing.
+•	The code above is directly compatible with DirectXToolkitXaml12, with minor namespace adjustments if needed.
+If you need a more specific example for your project structure or want to see how to integrate this with your OBJ/MTL loader, let me know!
+
+You are correct: if you already have a StorageFile^ file stored at startup (for example, from a FilePicker), you do not need to use the context parameter in the stream-based loading code. The context variable in the earlier code sample is only needed for Direct3D 11 APIs, not for Direct3D 12 and DirectXTKXAML12.
+How to Use Your Stored StorageFile^ file with DirectXToolkitXaml12
+You should:
+1.	Open the StorageFile as a stream.
+2.	Convert the stream to a COM IStream.
+3.	Use the DirectXTKXAML12 function that loads a texture from a stream (e.g., CreateWICTextureFromStream or CreateDDSTextureFromStream).
+Example (for DirectX 12, DirectXTKXAML12):
+
+
+#include <wrl/client.h>
+#include <shcore.h> // For CreateStreamOverRandomAccessStream
+
+using namespace Microsoft::WRL;
+using namespace Windows::Storage::Streams;
+
+// Assume 'stream' is IRandomAccessStream^
+ComPtr<IStream> comStream;
+HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+if (SUCCEEDED(hr)) {
+    // Pass comStream.Get() to DirectXTKXAML12::CreateWICTextureFromStream or CreateDDSTextureFromStream
+}
+
+Summary
+•	CreateStreamOverRandomAccessStream is a Windows API, not a DirectXTK function.
+•	It is the correct way to bridge WinRT streams to COM streams for use with DirectXTK texture loading from streams.
+•	You already have the correct usage pattern in your code.
+If you get linker errors:
+•	Make sure you have #include <shcore.h> and link with Shcore.lib (add to your project’s linker input).
+Let me know if you need a code sample for your specific scenario or help with linker settings!
+
+
+
+////
+1. Debug/Development Mode vs. Packaged/Deployed App
+•	Debug/Development Mode:
+When you run your UWP or packaged app from Visual Studio in debug mode, Visual Studio automatically deploys a developer certificate and grants your app all the permissions it requests in the manifest. This includes temporary broad file access and relaxed sandboxing, which is why you don’t see file access problems during development.
+•	Packaged/Deployed App (Sideloaded or Store):
+When you package your app and install it outside of Visual Studio (even with a developer certificate), the app runs with the full UWP sandbox and only the permissions explicitly declared in your Package.appxmanifest.
+•	If you try to access files outside your app’s install or data folders without using a FilePicker or without the right capabilities, you will get access errors.
+•	If you use a FilePicker, you get temporary access to the file the user selects, but you must use the StorageFile/stream APIs, not direct file paths.
+---
+2. Certificate and Permissions
+•	Certificate:
+Installing the developer certificate (in Trusted Publishers) is required for sideloading and running unsigned apps, but it does not grant your app extra file system permissions beyond what’s declared in the manifest and allowed by the UWP sandbox.
+•	Manifest Capabilities:
+•	If you use only FilePicker and stream-based APIs, you do not need to declare Pictures, Documents, or other library capabilities.
+•	If you access those folders programmatically (by path), you do need the capability.
+---
+3. Why It “Just Works” in Debug
+•	Visual Studio’s deployment and debug environment is more permissive for developer convenience.
+•	When you package and install the app for real users, the UWP sandbox is enforced strictly.
+---
+Summary Table
+| Scenario                | Needs Capabilities? | Needs Certificate? | FilePicker Works? | Direct Path Works? | |-------------------------|---------------------|--------------------|-------------------|--------------------| | Debug from VS           | No                  | No (auto)          | Yes               | Yes (often)        | | Sideloaded (with cert)  | Only for direct     | Yes                | Yes               | Only with caps     | | Store install           | Only for direct     | Store-signed       | Yes               | Only with caps     |
+---
+Bottom line:
+•	In debug, things are more permissive.
+•	In packaged/sideloaded/store, the UWP sandbox and manifest capabilities are strictly enforced.
+•	Using FilePicker + stream APIs is the most robust, permission-free way to access user files.
+
+If you want to ensure your app works the same in all scenarios, always use the FilePicker and stream APIs for user files, and avoid direct file path access unless you have the right capabilities.
+Let me know if you want a checklist or code sample for robust file access!
+
+Absolutely, here’s a clear, step-by-step example of how to load a user-picked file (such as a DDS or WIC image) into a DirectX 12 texture using CreateDDSTextureFromStream (or CreateWICTextureFromStream) in your UWP/XAML app with DirectXToolkitXaml12.
+1. Let the user pick a file (if you don’t already have a StorageFile^)
+You already have this in your UI code, so let’s assume you have a StorageFile^ file.
+2. Open the file as a stream
+You need to open the file for reading:
+
+create_task(file->OpenAsync(Windows::Storage::FileAccessMode::Read)).then(
+    [device, &resourceUpload, &textureResource](Windows::Storage::Streams::IRandomAccessStream^ stream)
+    {
+        // ... next step
+    });
+
+    3. Convert the stream to a COM IStream
+This is required because DirectXTK expects a COM stream:
+
+
+#include <wrl/client.h>
+#include <shcore.h> // For CreateStreamOverRandomAccessStream
+
+using namespace Microsoft::WRL;
+
+ComPtr<IStream> comStream;
+HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+if (SUCCEEDED(hr))
+{
+    // ... next step
+}
+
+4. Call CreateDDSTextureFromStream or CreateWICTextureFromStream
+Now you can load the texture:
+
+hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+    device,
+    resourceUpload,
+    comStream.Get(),
+    &textureResource
+);
+// Or for PNG/JPG/etc:
+hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+    device,
+    resourceUpload,
+    comStream.Get(),
+    &textureResource
+);
+
+Here’s a ready-to-use function for your renderer class:
+
+#include <wrl/client.h>
+#include <shcore.h>
+using namespace Microsoft::WRL;
+using namespace Windows::Storage;
+using namespace Windows::Storage::Streams;
+using namespace concurrency;
+
+void LoadTextureFromStorageFile(
+    ID3D12Device* device,
+    DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
+    StorageFile^ file,
+    ID3D12Resource** textureResource,
+    bool isDDS // true for DDS, false for WIC (PNG/JPG)
+)
+{
+    create_task(file->OpenAsync(FileAccessMode::Read)).then(
+        [device, &resourceUpload, textureResource, isDDS](IRandomAccessStream^ stream)
+        {
+            if (stream)
+            {
+                ComPtr<IStream> comStream;
+                HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                if (SUCCEEDED(hr))
+                {
+                    if (isDDS)
+                    {
+                        hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                            device,
+                            resourceUpload,
+                            comStream.Get(),
+                            textureResource
+                        );
+                    }
+                    else
+                    {
+                        hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+                            device,
+                            resourceUpload,
+                            comStream.Get(),
+                            textureResource
+                        );
+                    }
+                    // Handle hr as needed (success/failure)
+                }
+            }
+        });
+}
+
+// Usage example
+
+StorageFile^ file = /* Get your StorageFile from FilePicker */;
+// Suppose you have StorageFile^ file and want to load a DDS:
+LoadTextureFromStorageFile(device, resourceUpload, file, &textureResource, true);
+// For PNG/JPG:
+LoadTextureFromStorageFile(device, resourceUpload, file, &textureResource, false);
+
+Summary
+•	Open the StorageFile as a stream.
+•	Convert to IStream with CreateStreamOverRandomAccessStream.
+•	Call the appropriate DirectXTKXAML12 function.
+•	No extra permissions or capabilities are needed if the file was picked by the user.
+Let me know if you want this integrated into your class or need error handling details!
+
+You are on the right track, but let’s clarify the workflow and the role of each function:
+1. COM Streams and DirectXTKXAML12
+•	DirectXTKXAML12 (and DirectXTK12) texture loader functions like CreateDDSTextureFromStream and CreateWICTextureFromStream expect a IStream* (COM stream).
+•	CreateStreamOverRandomAccessStream is the Windows API function that wraps a WinRT IRandomAccessStream^ (from a StorageFile) as a COM IStream*. This is the bridge between WinRT and COM.
+2. Memory-Based Texture Loading
+•	CreateDDSTextureFromMemory and CreateWICTextureFromMemory expect a pointer to a memory buffer (e.g., uint8_t* data, size_t size), not a stream.
+•	If you want to use these, you must read the file’s contents into a buffer (e.g., using DataReader or ReadBufferAsync), then pass the buffer to the memory-based loader.
+3. Which Should You Use?
+•	If you have a StorageFile^ (from FilePicker):
+•	The most direct and efficient way is to open it as a stream, convert to IStream* with CreateStreamOverRandomAccessStream, and use the Create*FromStream functions.
+•	This avoids copying the file into a buffer in memory.
+•	If you already have the file in memory (e.g., downloaded, or loaded as a byte array):
+•	Use Create*FromMemory.
+---
+Example: Using a Stream (Recommended for FilePicker)
+
+
+#include <wrl/client.h>
+#include <shcore.h>
+using namespace Microsoft::WRL;
+using namespace Windows::Storage;
+using namespace Windows::Storage::Streams;
+using namespace concurrency;
+
+// file is StorageFile^
+create_task(file->OpenAsync(FileAccessMode::Read)).then(
+    [device, &resourceUpload, &textureResource](IRandomAccessStream^ stream)
+    {
+        if (stream)
+        {
+            ComPtr<IStream> comStream;
+            HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+            if (SUCCEEDED(hr))
+            {
+                // For DDS:
+                hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                    device,
+                    resourceUpload,
+                    comStream.Get(),
+                    &textureResource
+                );
+                // Or for PNG/JPG/etc:
+                // hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+                //     device,
+                //     resourceUpload,
+                //     comStream.Get(),
+                //     &textureResource
+                // );
+            }
+        }
+    });
+
+Example: Using Memory (If you have a buffer)
+
+// Suppose you have a buffer (uint8_t* data, size_t size)
+hr = DirectX::DXTKXAML12::CreateDDSTextureFromMemory(
+    device,
+    resourceUpload,
+    data,
+    size,
+    &textureResource
+);
+// Or for WIC:
+hr = DirectX::DXTKXAML12::CreateWICTextureFromMemory(
+    device,
+    resourceUpload,
+    data,
+    size,
+    &textureResource
+);
+
+Summary Table
+| Scenario                        | Recommended Function                | |----------------------------------|-------------------------------------| | FilePicker (StorageFile^)        | CreateFromStream + IStream bridge  | | Already have file in memory      | CreateFromMemory                   |
+---
+In your case, with FilePicker and UWP, use the stream approach.
+You do not need to copy to memory unless you have a specific reason.
+If you want a ready-to-paste function for either approach, let me know!
+
+Step-by-Step Usage
+1. Get a StorageFile^ (from FilePicker or elsewhere)
+Assume you already have:
+
+
+Windows::Storage::StorageFile^ file;
+
+2. Open the file as a stream
+
+create_task(file->OpenAsync(Windows::Storage::FileAccessMode::Read)).then(
+    [device, &resourceUpload, &textureResource](Windows::Storage::Streams::IRandomAccessStream^ stream)
+    {
+        if (stream)
+        {
+            // Step 3 below
+        }
+    });
+
+    3. Convert the stream to a COM IStream
+
+    #include <wrl/client.h>
+    #include <shcore.h> // For CreateStreamOverRandomAccessStream
+    
+    using namespace Microsoft::WRL;
+    using namespace Windows::Storage::Streams;
+    ComPtr<IStream> comStream;
+    HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+    if (SUCCEEDED(hr))
+    {
+        // Step 4 below
+    }
+
+    4. Load the texture using DirectXTKXAML12
+    hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+            device,
+            resourceUpload,
+            comStream.Get(),
+            &textureResource
+        );
+        // Or for DDS:
+        // hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(device, resourceUpload, comStream.Get(), &textureResource);
+        
+        if (FAILED(hr))
+        {
+            // Handle error (e.g., notify user)
+        }
+    }
+
+ 5. Use the textureResource as needed
+ // textureResource is now an ID3D12Resource* that you can use in your rendering pipeline
+ // For example, create a shader resource view if needed
+ 
+ D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+ srvDesc.Format = textureResource->GetDesc().Format;
+ srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+ srvDesc.Texture2D.MostDetailedMip = 0;
+ srvDesc.Texture2D.MipLevels = 1;
+ device->CreateShaderResourceView(textureResource, &srvDesc, srvHeap->GetCPUDescriptorHandleForHeapStart());
+ // Now you can use the textureResource in your rendering pipeline
+ Summary
+ •	Open the StorageFile as a stream.
+ •	Convert the stream to a COM IStream using CreateStreamOverRandomAccessStream.
+ •	Load the texture using CreateWICTextureFromStream or CreateDDSTextureFromStream.
+ •	Use the resulting ID3D12Resource* in your rendering pipeline.
+ If you need a complete function that encapsulates this logic, let me know and I can provide that as well!
+    
+
+
+    // Example function to load a texture from a StorageFile
+    #include <wrl/client.h>
+
+    #include <shcore.h> // For CreateStreamOverRandomAccessStream
+    using namespace Microsoft::WRL;
+    using namespace Windows::Storage;
+    using namespace Windows::Storage::Streams;
+    using namespace concurrency;
+
+
+    void LoadTextureFromFile(
+    
+    ID3D12Device* device,
+    DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
+    StorageFile^ file,
+    ID3D12Resource** textureResource
+)
+{
+    create_task(file->OpenAsync(FileAccessMode::Read)).then(
+        [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+        {
+            if (stream)
+            {
+                ComPtr<IStream> comStream;
+                HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                if (SUCCEEDED(hr))
+                {
+                    hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                        device,
+                        resourceUpload,
+                        comStream.Get(),
+                        textureResource
+                    );
+                    // Handle hr as needed
+                }
+            }
+        });
+}
+
+// Usage example
+StorageFile^ file = /* Get your StorageFile from FilePicker */;
+    TextureFromFile(device, resourceUpload, file, &textureResource);
+    // For PNG/JPG, use CreateWICTextureFromStream instead
+    hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+        device,
+        resourceUpload,
+        comStream.Get(),
+        textureResource
+    );
+
+    
+    Absolutely correct—and that’s a key distinction for UWP/XAML DirectX 12 apps.
+Why a Different Threading Model for ResourceUploadBatch in XAML?
+•	Standard DirectXTK12 ResourceUploadBatch is designed for classic Win32/desktop apps, where you can block on futures or use synchronous waits.
+•	UWP/XAML apps have a single-threaded apartment (STA) UI thread and a different async model. Blocking the UI thread (e.g., with std::future::get() or WaitForSingleObject) can freeze the UI or even deadlock the app.
+•	DirectXToolkitXaml12 provides a ResourceUploadBatch with XAML/UWP-friendly async methods, such as EndXaml, which returns a Concurrency::task<void>. This allows you to chain continuations and keep the UI responsive.
+---
+How to Use ResourceUploadBatch in XAML/UWP
+Correct pattern:
+1.	Call BeginXaml() before uploading resources.
+2.	Upload your resources (textures, fonts, etc.).
+3.	Call EndXaml(commandQueue) to submit uploads. This returns a Concurrency::task<void>.
+4.	Use .then([](){ ... }) to continue work after uploads complete—no blocking or waiting on the UI thread.
+Example:
+#include <DirectXTKXaml12/ResourceUploadBatch.h>
+using namespace DirectX::DXTKXAML12;
+using namespace Windows::Storage;
+using namespace concurrency;
+
+
+void LoadTextureAsync(
+    ID3D12Device* device,
+    ResourceUploadBatch& resourceUpload,
+    StorageFile^ file,
+    ID3D12Resource** textureResource)
+{
+    // Start the upload batch
+    resourceUpload.BeginXaml();
+    create_task(file->OpenAsync(FileAccessMode::Read)).then(
+        [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+        {
+            if (stream)
+            {
+                ComPtr<IStream> comStream;
+                HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                if (SUCCEEDED(hr))
+                {
+                    hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                        device,
+                        resourceUpload,
+                        comStream.Get(),
+                        textureResource
+                    );
+                    // Handle hr as needed
+                }
+            }
+        }).then([&resourceUpload, commandQueue]()
+        {
+            // End the upload batch and submit to command queue
+            return resourceUpload.EndXaml(commandQueue);
+        }).then([]()
+        {
+            // Continue with any post-upload logic here
+        });
+}
+
+// Usage example
+StorageFile^ file = /* Get your StorageFile from FilePicker */;
+LoadTextureAsync(device, resourceUpload, file, &textureResource);
+Summary
+•	Use BeginXaml() to start the upload batch.
+    e EndXaml(commandQueue) to submit uploads asynchronously.
+    •	Use continuations (.then) to handle completion without blocking the UI thread.
+    •	This pattern keeps your app responsive and avoids deadlocks.
+    If you need a complete function that encapsulates this logic, let me know and I can provide that as well!
+    Absolutely, here’s a clear, step-by-step example of how to load a user-picked file (such as a DDS or WIC image) into a DirectX 12 texture using CreateDDSTextureFromStream (or CreateWICTextureFromStream) in your UWP/XAML app with DirectXToolkitXaml12.
+    1. Let the user pick a file (if you don’t already have a StorageFile^)
+    You already have this in your UI code, so let’s assume you have a StorageFile^ file.
+    Windows::Storage::StorageFile^ file;
+    2. Open the file as a stream
+    ```cpp
+    create_task(file->OpenAsync(Windows::Storage::FileAccessMode::Read)).then(
+        [device, &resourceUpload, &textureResource](Windows::Storage::Streams::IRandomAccessStream^ stream)
+        {
+            if (stream)
+            {
+                // Step 3 below
+            }
+        });
+    ```
+    3. Convert the stream to a COM IStream
+    ```cpp
+    #include <wrl/client.h>
+    #include <shcore.h> // For CreateStreamOverRandomAccessStream
+    
+    using namespace Microsoft::WRL;
+    using namespace Windows::Storage::Streams;
+    ComPtr<IStream> comStream;
+    HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+    if (SUCCEEDED(hr))
+    {
+        // Step 4 below
+    }
+    ```
+
+    4. Load the texture using DirectXTKXAML12
+    ```cpp
+
+    hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+            device,
+            resourceUpload,
+            comStream.Get(),
+            &textureResource
+        );
+        // Or for DDS:
+        // hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(device, resourceUpload, comStream.Get(), &textureResource);
+        
+        if (FAILED(hr))
+        {
+            // Handle error (e.g., notify user)
+        }
+    }
+    ```
+    5. Use the textureResource as needed
+    ```cpp
+    // textureResource is now an ID3D12Resource* that you can use in your rendering pipeline
+    // For example, create a shader resource view if needed
+    D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+    srvDesc.Format = textureResource->GetDesc().Format;
+    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+    srvDesc.Texture2D.MostDetailedMip = 0;
+    srvDesc.Texture2D.MipLevels = 1;
+    device->CreateShaderResourceView(textureResource, &srvDesc, srvHeap->GetCPUDescriptorHandleForHeapStart());
+    // Now you can use the textureResource in your rendering pipeline
+    ```
+    Summary
+    •	Open the StorageFile as a stream.
+    •	Convert the stream to a COM IStream using CreateStreamOverRandomAccessStream.
+    •	Load the texture using CreateWICTextureFromStream or CreateDDSTextureFromStream.
+    •	Use the resulting ID3D12Resource* in your rendering pipeline.
+    If you need a complete function that encapsulates this logic, let me know and I can provide that as well!
+    // Example function to load a texture from a StorageFile
+        
+        #include <wrl/client.h>
+        #include <shcore.h> // For CreateStreamOverRandomAccessStream
+        using namespace Microsoft::WRL;
+        
+        using namespace Windows::Storage;
+        using namespace Windows::Storage::Streams;
+        using namespace concurrency;
+
+
+        void LoadTextureFromFile(
+            ID3D12Device* device,
+            DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
+            StorageFile^ file,
+            ID3D12Resource** textureResource)
+        {
+            create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                {
+                    if (stream)
+                    {
+                        ComPtr<IStream> comStream;
+                        HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                        if (SUCCEEDED(hr))
+                        {
+                            hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                device,
+                                resourceUpload,
+                                comStream.Get(),
+                                textureResource
+                            );
+                            // Handle hr as needed
+                        }
+                    }
+                });
+        }
+        // Usage example
+        StorageFile^ file = /* Get your StorageFile from FilePicker */;
+        LoadTextureFromFile(device, resourceUpload, file, &textureResource);
+        // For PNG/JPG, use CreateWICTextureFromStream instead
+        hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+            device,
+            resourceUpload,
+            comStream.Get(),
+            textureResource
+        );
+        if (FAILED(hr))
+        {
+            // Handle error (e.g., notify user)
+        }
+        // Now you can use textureResource in your rendering pipeline
+        D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+        srvDesc.Format = textureResource->GetDesc().Format;
+        srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+        srvDesc.Texture2D.MostDetailedMip = 0;
+        srvDesc.Texture2D.MipLevels = 1;
+        device->CreateShaderResourceView(textureResource, &srvDesc, srvHeap->GetCPUDescriptorHandleForHeapStart());
+        // Now you can use the textureResource in your rendering pipeline
+        }
+        Absolutely correct—and that’s a key distinction for UWP/XAML DirectX 12 apps.
+        Why a Different Threading Model for ResourceUploadBatch in XAML?
+        •	Standard DirectXTK12 ResourceUploadBatch is designed for classic Win32/desktop apps, where you can block on futures or use synchronous waits.
+        •	UWP/XAML apps have a single-threaded apartment (STA) UI thread and a different async model. Blocking the UI thread (e.g., with std::future::get() or WaitForSingleObject) can freeze the UI or even deadlock the app.
+        •	DirectXToolkitXaml12 provides a ResourceUploadBatch with XAML/UWP-friendly async methods, such as EndXaml, which returns a Concurrency::task<void>. This allows you to chain continuations and keep the UI responsive.
+        How to Use ResourceUploadBatch in XAML/UWP
+        Correct pattern:
+        1. Call BeginXaml() before uploading resources.
+        2. Upload your resources (textures, fonts, etc.).
+        3. Call EndXaml(commandQueue) to submit uploads. This returns a Concurrency::task<void>.
+        4. Use .then([](){ ... }) to continue work after uploads complete—no blocking or waiting on the UI thread.
+        ```cpp
+        #include <DirectXTKXaml12/ResourceUploadBatch.h>
+        using namespace DirectX::DXTKXAML12;
+        using namespace Windows::Storage;
+        using namespace concurrency;
+        void LoadTextureAsync(
+            ID3D12Device* device,
+            ResourceUploadBatch& resourceUpload,
+            StorageFile^ file,
+            ID3D12Resource** textureResource)
+        {
+            // Start the upload batch
+            resourceUpload.BeginXaml();
+            create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                {
+                    if (stream)
+                    {
+                        ComPtr<IStream> comStream;
+                        HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                        if (SUCCEEDED(hr))
+                        {
+                            hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                device,
+                                resourceUpload,
+                                comStream.Get(),
+                                textureResource
+                            );
+                            // Handle hr as needed
+                        }
+                    }
+                }).then([&resourceUpload, commandQueue]()
+                {
+                    // End the upload batch and submit to command queue
+                    return resourceUpload.EndXaml(commandQueue);
+                }).then([]()
+                {
+                    // Continue with any post-upload logic here
+                });
+        }
+
+        // Usage example
+        StorageFile^ file = /* Get your StorageFile from FilePicker */;
+        LoadTextureAsync(device, resourceUpload, file, &textureResource);
+        ```
+        Summary
+        •	Use BeginXaml() to start the upload batch.
+        •	EndXaml(commandQueue) to submit uploads asynchronously.
+        •	Use continuations (.then) to handle completion without blocking the UI thread.
+        •	This pattern keeps your app responsive and avoids deadlocks.
+        If you need a complete function that encapsulates this logic, let me know and I can provide that as well!
+        // Example function to load a texture from a StorageFile
+        #include <wrl/client.h>
+        
+        #include <shcore.h> // For CreateStreamOverRandomAccessStream
+        using namespace Microsoft::WRL;
+        using namespace Windows::Storage;
+        using namespace Windows::Storage::Streams;
+        using namespace concurrency;
+
+
+
+        void LoadTextureFromFile(
+            ID3D12Device* device,
+            DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
+            StorageFile^ file,
+            ID3D12Resource** textureResource)
+        {
+            create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                {
+                    if (stream)
+                    {
+                        ComPtr<IStream> comStream;
+                        HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                        if (SUCCEEDED(hr))
+                        {
+                            hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                device,
+                                resourceUpload,
+                                comStream.Get(),
+                                textureResource
+                            );
+                            // Handle hr as needed
+                        }
+                    }
+                });
+        }
+
+        // Usage example
+        StorageFile^ file = /* Get your StorageFile from FilePicker */;
+        LoadTextureFromFile(device, resourceUpload, file, &textureResource);
+        // For PNG/JPG, use CreateWICTextureFromStream instead
+        hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+            device,
+            resourceUpload,
+            comStream.Get(),
+            textureResource
+        );
+        if (FAILED(hr))
+        {
+            // Handle error (e.g., notify user)
+        }
+        // Now you can use textureResource in your rendering pipeline
+        D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+        srvDesc.Format = textureResource->GetDesc().Format;
+        srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+        srvDesc.Texture2D.MostDetailedMip = 0;
+        srvDesc.Texture2D.MipLevels = 1;
+        device->CreateShaderResourceView(textureResource, &srvDesc, srvHeap->GetCPUDescriptorHandleForHeapStart());
+        // Now you can use the textureResource in your rendering pipeline
+        }
+        // Example function to load a texture from a StorageFile
+        #include <wrl/client.h>
+        
+        #include <shcore.h> // For CreateStreamOverRandomAccessStream
+        using namespace Microsoft::WRL;
+        using namespace Windows::Storage;
+        using namespace Windows::Storage::Streams;
+        
+        using namespace concurrency;
+        
+
+
+
+        void LoadTextureFromFile(
+            ID3D12Device* device,
+            DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
+            StorageFile^ file,
+            ID3D12Resource** textureResource)
+        {
+            create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                {
+                    if (stream)
+                    {
+                        ComPtr<IStream> comStream;
+                        HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                        if (SUCCEEDED(hr))
+                        {
+                            hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                device,
+                                resourceUpload,
+                                comStream.Get(),
+                                textureResource
+                            );
+                            // Handle hr as needed
+                        }
+                        }
+                        }
+                        });
+                        }
+                        // Usage example
+                        StorageFile^ file = /* Get your StorageFile from FilePicker */;
+                        LoadTextureFromFile(device, resourceUpload, file, &textureResource);
+                        // For PNG/JPG, use CreateWICTextureFromStream instead
+                        hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+                            device,
+                            resourceUpload,
+                            comStream.Get(),
+                            textureResource
+                        );
+                        if (FAILED(hr))
+                        {
+                            // Handle error (e.g., notify user)
+                        }
+                        // Now you can use textureResource in your rendering pipeline
+                        D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+                        srvDesc.Format = textureResource->GetDesc().Format;
+                        srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+                        srvDesc.Texture2D.MostDetailedMip = 0;
+                        srvDesc.Texture2D.MipLevels = 1;
+                        device->CreateShaderResourceView(textureResource, &srvDesc, srvHeap->GetCPUDescriptorHandleForHeapStart());
+                        // Now you can use the textureResource in your rendering pipeline
+                        }
+                        // Example function to load a texture from a StorageFile
+                        #include <wrl/client.h>
+                        #include <shcore.h> // For CreateStreamOverRandomAccessStream
+                        using namespace Microsoft::WRL;
+                        using namespace Windows::Storage;
+                        using namespace Windows::Storage::Streams;
+                        using namespace concurrency;
+
+
+                        void LoadTextureFromFile(
+                            ID3D12Device* device,
+                            DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
+                            StorageFile^ file,
+                            ID3D12Resource** textureResource)
+                        {
+                            create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                                [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                                {
+                                    if (stream)
+                                    {
+                                        ComPtr<IStream> comStream;
+                                        HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                                        if (SUCCEEDED(hr))
+                                        {
+                                            hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                                device,
+                                                resourceUpload,
+                                                comStream.Get(),
+                                                textureResource
+                                            );
+                                            // Handle hr as needed
+                                        }
+                                    }
+                                });
+                        }
+
+
+Absolutely correct—and that’s a key distinction for UWP/XAML DirectX 12 apps.
+Why a Different Threading Model for ResourceUploadBatch in XAML?
+•	Standard DirectXTK12 ResourceUploadBatch is designed for classic Win32/desktop apps, where you can block on futures or use synchronous waits.
+•	UWP/XAML apps have a single-threaded apartment (STA) UI thread and a different async model. Blocking the UI thread (e.g., with std::future::get() or WaitForSingleObject) can freeze the UI or even deadlock the app.
+•	DirectXToolkitXaml12 provides a ResourceUploadBatch with XAML/UWP-friendly async methods, such as EndXaml, which returns a Concurrency::task<void>. This allows you to chain continuations and keep the UI responsive.
+---
+How to Use ResourceUploadBatch in XAML/UWP
+Correct pattern:
+1.	Call BeginXaml() before uploading resources.
+2.	Upload your resources (textures, fonts, etc.).
+3.	Call EndXaml(commandQueue) to submit uploads. This returns a Concurrency::task<void>.
+4.	Use .then([](){ ... }) to continue work after uploads complete—no blocking or waiting on the UI thread.
+Example:
+#include <DirectXTKXaml12/ResourceUploadBatch.h>
+using namespace DirectX::DXTKXAML12;
+using namespace Windows::Storage;
+using namespace concurrency;
+
+
+
+void LoadTextureAsync(
+    ID3D12Device* device,
+    ResourceUploadBatch& resourceUpload,
+    StorageFile^ file,
+    ID3D12Resource** textureResource)
+{
+    // Start the upload batch
+    resourceUpload.BeginXaml();
+    create_task(file->OpenAsync(FileAccessMode::Read)).then(
+        [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+        {
+            if (stream)
+            {
+                ComPtr<IStream> comStream;
+                HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                if (SUCCEEDED(hr))
+                {
+                    hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                        device,
+                        resourceUpload,
+                        comStream.Get(),
+                        textureResource
+                    );
+                    // Handle hr as needed
+                }
+            }
+        }).then([&resourceUpload, commandQueue]()
+        {
+            // End the upload batch and submit to command queue
+            return resourceUpload.EndXaml(commandQueue);
+        }).then([]()
+        {
+            // Continue with any post-upload logic here
+        });
+}
+
+
+// Usage example
+StorageFile^ file = /* Get your StorageFile from FilePicker */;
+LoadTextureAsync(device, resourceUpload, file, &textureResource);
+}
+// Example function to load a texture from a StorageFile
+#include <wrl/client.h>
+
+#include <shcore.h> // For CreateStreamOverRandomAccessStream
+using namespace Microsoft::WRL;
+using namespace Windows::Storage;
+using namespace Windows::Storage::Streams;
+using namespace concurrency;
+
+
+void LoadTextureFromFile(
+    ID3D12Device* device,
+    DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
+    StorageFile^ file,
+    ID3D12Resource** textureResource)
+{
+    create_task(file->OpenAsync(FileAccessMode::Read)).then(
+        [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+        {
+            if (stream)
+            {
+            ComPtr<IStream> comStream;
+                HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                if (SUCCEEDED(hr))
+                {
+                    // For DDS:
+                    hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                        device,
+                          resourceUpload,
+                        comStream.Get(),
+                        textureResource
+                    );
+                    // Or for PNG/JPG/etc:
+                    // hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+                    //     device,
+                    //     resourceUpload,
+                    //     comStream.Get(),
+                    //     textureResource
+                    // );
+                }
+            }
+        });
+
+In a UWP/XAML app, you cannot programmatically create or write to folders in your app’s install directory (e.g., C:\Program Files\WindowsApps\...) or in system-wide locations like C:\Program Files. These locations are strictly read-only at runtime for security and integrity reasons.
+However, you can create and use folders in the following locations:
+1. App Data Folders
+•	LocalFolder: Persistent storage for your app.
+•	TemporaryFolder: Temporary storage, may be cleared by the system.
+•	RoamingFolder: Synced across devices (if enabled).
+
+create_task(ApplicationData::Current->LocalFolder->CreateFolderAsync(
+    L"MyAppData", CreationCollisionOption::OpenIfExists)).then(
+    [](StorageFolder^ folder)
+    {
+        // Use 'folder' to save/load files
+    });
+
+                      
+Example: Create a folder in LocalFolder
+
+2. User’s Documents, Pictures, or Music Folders
+You can create folders in the user’s Documents, Pictures, or Music libraries, which are accessible via the StorageLibrary APIs.
+create_task(KnownFolders::DocumentsLibrary->CreateFolderAsync(
+    L"MyAppDocuments", CreationCollisionOption::OpenIfExists)).then(
+    [](StorageFolder^ folder)
+    {
+        // Use 'folder' to save/load files
+    });
+    Example: Create a folder in DocumentsLibrary
+    3. User’s Downloads Folder
+    
+    You can create folders in the user’s Downloads folder, which is accessible via the KnownFolders API.
+    create_task(KnownFolders::Downloads->CreateFolderAsync(
+    L"MyAppDownloads", CreationCollisionOption::OpenIfExists)).then(
+        [](StorageFolder^ folder)
+        {
+            // Use 'folder' to save/load files
+        });
+        Example: Create a folder in Downloads
+        4. User’s App-Specific Folders
+        You can create folders in app-specific locations like the user’s Pictures or Videos folders.
+        create_task(KnownFolders::PicturesLibrary->CreateFolderAsync(
+        L"MyAppPictures", CreationCollisionOption::OpenIfExists)).then(
+        [](StorageFolder^ folder)
+            {
+                // Use 'folder' to save/load files
+            });
+            Example: Create a folder in PicturesLibrary
+            5. Using FilePicker to let the user choose a location
+            You can use the FilePicker to let the user choose a location to save files, which can be anywhere the user has access to.
+            FileSavePicker^ savePicker = ref new FileSavePicker();
+            savePicker->SuggestedStartLocation = PickerLocationId::DocumentsLibrary;
+            savePicker->FileTypeChoices->Insert(L"Text File", ref new Platform::Collections::Vector<String^>({ L".txt" }));
+            savePicker->SuggestedFileName = L"NewFile";
+            create_task(savePicker->PickSaveFileAsync()).then(
+            [](StorageFile^ file)
+            {
+                if (file)
+                {
+                    // Use 'file' to save data
+                    // For example, write text to the file
+                    create_task(FileIO::WriteTextAsync(file, L"Hello, World!"));
+                }
+            });
+            // Or for WIC:
+            hr = DirectX::DXTKXAML12::CreateWICTextureFromMemory(
+            device,
+            resourceUpload,
+            comStream.Get(),
+            siz
+            textureResource
+            );
+            if (FAILED(hr))
+            {
+                // Handle error (e.g., notify user)
+            }
+            // Now you can use textureResource in your rendering pipeline
+            D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+            srvDesc.Format = textureResource->GetDesc().Format;
+            srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+            srvDesc.Texture2D.MostDetailedMip = 0;
+            srvDesc.Texture2D.MipLevels = 1;
+            device->CreateShaderResourceView(textureResource, &srvDesc, srvHeap->GetCPUDescriptorHandleForHeapStart());
+            
+            // Now you can use the textureResource in your rendering pipeline
+            }
+            Absolutely correct—and that’s a key distinction for UWP/XAML DirectX 12 apps.
+            Why a Different Threading Model for ResourceUploadBatch in XAML?
+            // Standard DirectXTK12 ResourceUploadBatch is designed for classic Win32/desktop apps, where you can block on futures or use synchronous waits.
+            // UWP/XAML apps have a single-threaded apartment (STA) UI thread and a different async model. Blocking the UI thread (e.g., with std::future::get() or WaitForSingleObject) can freeze the UI or even deadlock the app.
+            // DirectXToolkitXaml12 provides a ResourceUploadBatch with XAML/UWP-friendly async methods, such as EndXaml, which returns a Concurrency::task<void>. This allows you to chain continuations and keep the UI responsive.
+            How to Use ResourceUploadBatch in XAML/UWP
+            Correct pattern:
+            1. Call BeginXaml() before uploading resources.
+            2. Upload your resources (textures, fonts, etc.).
+            3. Call EndXaml(commandQueue) to submit uploads. This returns a Concurrency::task<void>.
+            
+            4. Use .then([](){ ... }) to continue work after uploads complete—no blocking or waiting on the UI thread.
+            Example:
+            #include <DirectXTKXaml12/ResourceUploadBatch.h>
+            using namespace DirectX::DXTKXAML12;
+            using namespace Windows::Storage;
+            using namespace concurrency;
+            void LoadTextureAsync(
+                ID3D12Device* device,
+                ResourceUploadBatch& resourceUpload,
+                StorageFile^ file,
+                ID3D12Resource** textureResource)
+            {
+                // Start the upload batch
+                resourceUpload.BeginXaml();
+                create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                    [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                    {
+                        if (stream)
+                        {
+                            ComPtr<IStream> comStream;
+                            HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                            if (SUCCEEDED(hr))
+                            {
+                                hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                    device,
+                                    resourceUpload,
+                                    comStream.Get(),
+                                    textureResource
+                                );
+                                // Handle hr as needed
+                            }
+                        }
+                    }).then([&resourceUpload, commandQueue]()
+                    {
+                        // End the upload batch and submit to command queue
+                        return resourceUpload.EndXaml(commandQueue);
+                    }).then([]()
+                    {
+                        // Continue with any post-upload logic here
+                    });
+            }
+
+            // Usage example
+            StorageFile^ file = /* Get your StorageFile from FilePicker */;
+            LoadTextureAsync(device, resourceUpload, file, &textureResource);
+            }
+            // Example function to load a texture from a StorageFile
+            #include <wrl/client.h>
+            #include <shcore.h> // For CreateStreamOverRandomAccessStream
+            using namespace Microsoft::WRL;
+            using namespace Windows::Storage;
+            using namespace Windows::Storage::Streams;
+            using namespace concurrency;
+            void LoadTextureFromFile(
+            
+            ID3D12Device* device,
+            DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
+            StorageFile^ file,
+            ID3D12Resource** textureResource)
+            {
+                create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                    [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                    {
+                        if (stream)
+                        {
+                            ComPtr<IStream> comStream;
+                            HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                            if (SUCCEEDED(hr))
+                            {
+                                // For DDS:
+                                hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                    device,
+                                    resourceUpload,
+                                    comStream.Get(),
+                                    textureResource
+                                );
+                                // Or for PNG/JPG/etc:
+                                // hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+                                //     device,
+                                //     resourceUpload,
+                                //     comStream.Get(),
+                                //     textureResource
+                                // );
+                            }
+                        }
+                    });
+            }
+            // Usage example
+            StorageFile^ file = /* Get your StorageFile from FilePicker */;
+            LoadTextureFromFile(device, resourceUpload, file, &textureResource);
+            // For PNG/JPG, use CreateWICTextureFromStream instead
+            hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+                device,
+                resourceUpload,
+                comStream.Get(),
+                textureResource
+            );
+            if (FAILED(hr))
+            {
+                // Handle error (e.g., notify user)
+            }
+            // Now you can use textureResource in your rendering pipeline
+            D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+            srvDesc.Format = textureResource->GetDesc().Format;
+            srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+            srvDesc.Texture2D.MostDetailedMip = 0;
+            srvDesc.Texture2D.MipLevels = 1;
+            device->CreateShaderResourceView(textureResource, &srvDesc, srvHeap->GetCPUDescriptorHandleForHeapStart());
+            // Now you can use the textureResource in your rendering pipeline
+            }
+            // Example function to load a texture from a StorageFile
+            #include <wrl/client.h>
+            #include <shcore.h> // For CreateStreamOverRandomAccessStream
+            using namespace Microsoft::WRL;
+            using namespace Windows::Storage;
+            using namespace Windows::Storage::Streams;
+            using namespace concurrency;
+            void LoadTextureFromFile(
+                ID3D12Device* device,
+                DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
+                StorageFile^ file,
+                ID3D12Resource** textureResource)
+            {
+                create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                    [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                    {
+                        if (stream)
+                        {
+                            ComPtr<IStream> comStream;
+                            HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                            if (SUCCEEDED(hr))
+                            {
+                                hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                    device,
+                                    resourceUpload,
+                                    comStream.Get(),
+                                    textureResource
+                                );
+                                // Handle hr as needed
+                            }
+                        }
+                    });
+            }
+            // Usage example
+            StorageFile^ file = /* Get your StorageFile from FilePicker */;
+            LoadTextureFromFile(device, resourceUpload, file, &textureResource);
+            // For PNG/JPG, use CreateWICTextureFromStream instead
+            hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+                device,
+                resourceUpload,
+                comStream.Get(),
+                textureResource
+            );
+            if (FAILED(hr))
+            {
+                // Handle error (e.g., notify user)
+            }
+            // Now you can use textureResource in your rendering pipeline
+            D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+            srvDesc.Format = textureResource->GetDesc().Format;
+            srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+            srvDesc.Texture2D.MostDetailedMip = 0;
+            srvDesc.Texture2D.MipLevels = 1;
+            device->CreateShaderResourceView(textureResource, &srvDesc, srvHeap->GetCPUDescriptorHandleForHeapStart());
+            // Now you can use the textureResource in your rendering pipeline
+            }
+            
+            Absolutely correct—and that’s a key distinction for UWP/XAML DirectX 12 apps.
+            Why a Different Threading Model for ResourceUploadBatch in XAML?
+
+            // Standard DirectXTK12 ResourceUploadBatch is designed for classic Win32/desktop apps, where you can block on futures or use synchronous waits.
+            // UWP/XAML apps have a single-threaded apartment (STA) UI thread and a different async model. Blocking the UI thread (e.g., with std::future::get() or WaitForSingleObject) can freeze the UI or even deadlock the app.
+            // DirectXToolkitXaml12 provides a ResourceUploadBatch with XAML/UWP-friendly async methods, such as EndXaml, which returns a Concurrency::task<void>. This allows you to chain continuations and keep the UI responsive.
+            How to Use ResourceUploadBatch in XAML/UWP
+            Correct pattern:
+            1. Call BeginXaml() before uploading resources.
+            2. Upload your resources (textures, fonts, etc.).
+            3. Call EndXaml(commandQueue) to submit uploads. This returns a Concurrency::task<void>.
+            4. Use .then([](){ ... }) to continue work after uploads complete—no blocking or waiting on the UI thread.
+            Example:
+            #include <DirectXTKXaml12/ResourceUploadBatch.h>
+            using namespace DirectX::DXTKXAML12;
+            using namespace Windows::Storage;
+            using namespace concurrency;
+
+
+            create_task(ApplicationData::Current->LocalFolder->CreateFolderAsync(
+    L"MyAppData", CreationCollisionOption::OpenIfExists)).then(
+    [](StorageFolder^ folder)
+    {
+        // Use 'folder' to save/load files
+    });
+
+    void LoadTextureAsync(
+                ID3D12Device* device,
+                ResourceUploadBatch& resourceUpload,
+                StorageFile^ file,
+                ID3D12Resource** textureResource)
+            {
+                // Start the upload batch
+                resourceUpload.BeginXaml();
+                create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                    [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                    {
+                        if (stream)
+                        {
+                            ComPtr<IStream> comStream;
+                            HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                            if (SUCCEEDED(hr))
+                            {
+                                hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                    device,
+                                    resourceUpload,
+                                    comStream.Get(),
+                                    textureResource
+                                    );
+                                    // Handle hr as needed
+                                    }
+                                    }
+
+                                    }).then([&resourceUpload, commandQueue]()
+                                    {
+                                    // End the upload batch and submit to command queue
+                                        return resourceUpload.EndXaml(commandQueue);
+                                    }).then([]()
+                                    {
+                                        // Continue with any post-upload logic here
+                                    });
+                                    }
+                                    // Usage example
+                                    StorageFile^ file = /* Get your StorageFile from FilePicker */;
+                                    LoadTextureAsync(device, resourceUpload, file, &textureResource);
+                                    }
+                                    // Example function to load a texture from a StorageFile
+                                    #include <wrl/client.h>
+                                    #include <shcore.h> // For CreateStreamOverRandomAccessStream
+                                    using namespace Microsoft::WRL;
+                                    using namespace Windows::Storage;
+                                    using namespace Windows::Storage::Streams;
+                                    using namespace concurrency;
+                                    void LoadTextureFromFile(
+                                        ID3D12Device* device,
+                                        DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
+                                        StorageFile^ file,
+                                        ID3D12Resource** textureResource)
+                                    {
+                                        create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                                            [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                                            {
+                                                if (stream)
+                                                {
+                                                    ComPtr<IStream> comStream;
+                                                    HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                                                    if (SUCCEEDED(hr))
+                                                    {
+                                                        hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                                            device,
+                                                            resourceUpload,
+                                                            comStream.Get(),
+                                                            textureResource
+                                                        );
+                                                        // Handle hr as needed
+                                                    }
+                                                }
+                                            });
+                                    }
+
+                                    // Usage example
+                                    StorageFile^ file = /* Get your StorageFile from FilePicker */;
+                                    LoadTextureFromFile(device, resourceUpload, file, &textureResource);
+                                    // For PNG/JPG, use CreateWICTextureFromStream instead
+                                    hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+                                        device,
+                                        resourceUpload,
+                                        comStream.Get(),
+                                        textureResource
+                                    );
+                                    if (FAILED(hr))
+                                    {
+                                        // Handle error (e.g., notify user)
+                                    }
+                                    // Now you can use textureResource in your rendering pipeline
+                                    D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+                                    srvDesc.Format = textureResource->GetDesc().Format;
+                                    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+                                    srvDesc.Texture2D.MostDetailedMip = 0;
+                                    srvDesc.Texture2D.MipLevels = 1;
+                                    device->CreateShaderResourceView(textureResource, &srvDesc, srvHeap->GetCPUDescriptorHandleForHeapStart());
+                                    // Now you can use the textureResource in your rendering pipeline
+                                    }
+                                    void LoadTextureFromFile(
+                                    ID3D12Device* device,
+                                        DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
+                                        StorageFile^ file,
+                                        ID3D12Resource** textureResource)
+                                    {
+                                        create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                                            [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                                            {
+                                                if (stream)
+                                                {
+                                                    ComPtr<IStream> comStream;
+                                                    HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                                                    if (SUCCEEDED(hr))
+                                                    {
+                                                        hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                                            device,
+                                                            resourceUpload,
+                                                            comStream.Get(),
+                                                            textureResource
+                                                        );
+                                                        // Handle hr as needed
+                                                    }
+                                                }
+                                            });
+                                    }
+                                    // Usage example
+                                    StorageFile^ file = /* Get your StorageFile from FilePicker */;
+                                    LoadTextureFromFile(device, resourceUpload, file, &textureResource);
+                                    // For PNG/JPG, use CreateWICTextureFromStream instead
+                                    hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+                                        device,
+                                        resourceUpload,
+                                        comStream.Get(),
+                                        textureResource
+                                    );
+                                    if (FAILED(hr))
+                                    {
+                                        // Handle error (e.g., notify user)
+                                        }
+                                        // Now you can use textureResource in your rendering pipeline
+                                        D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+                                        srvDesc.Format = textureResource->GetDesc().Format;
+                                        srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+                                        srvDesc.Texture2D.MostDetailedMip = 0;
+                                        
+                                        srvDesc.Texture2D.MipLevels = 1;
+                                        device->CreateShaderResourceView(textureResource, &srvDesc, srvHeap->GetCPUDescriptorHandleForHeapStart());
+                                        // Now you can use the textureResource in your rendering pipeline
+                                        }
+                                        // Example function to load a texture from a StorageFile
+                                        #include <wrl/client.h>
+                                        
+                                        #include <shcore.h> // For CreateStreamOverRandomAccessStream
+                                        using namespace Microsoft::WRL;
+                                        using namespace Windows::Storage;
+                                        using namespace Windows::Storage::Streams;
+                                        using namespace concurrency;
+                                        
+
+                                        void LoadTextureFromFile(
+                                        ID3D12Device* device,
+                                            DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
+                                            StorageFile^ file,
+                                            ID3D12Resource** textureResource)
+                                        {
+                                            create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                                                [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                                                {
+                                                    if (stream)
+                                                    {
+                                                        ComPtr<IStream> comStream;
+                                                        HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                                                        if (SUCCEEDED(hr))
+                                                        {
+                                                            hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                                                device,
+                                                                resourceUpload,
+                                                                comStream.Get(),
+                                                                textureResource
+                                                            );
+                                                            // Handle hr as needed
+                                                        }
+                                                    }
+                                                });
+                                        }
+                                        // Usage example
+                                        StorageFile^ file = /* Get your StorageFile from FilePicker */;
+                                        LoadTextureFromFile(device, resourceUpload, file, &textureResource);
+                                        // For PNG/JPG, use CreateWICTextureFromStream instead
+                                        hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+                                            device,
+                                            resourceUpload,
+                                            comStream.Get(),
+                                            textureResource
+                                        );
+                                        if (FAILED(hr))
+                                        {
+                                            // Handle error (e.g., notify user)
+                                        }
+                                        // Now you can use textureResource in your rendering pipeline
+                                        D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+                                        srvDesc.Format = textureResource->GetDesc().Format;
+                                        srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+                                        srvDesc.Texture2D.MostDetailedMip = 0;
+                                        srvDesc.Texture2D.MipLevels = 1;
+                                        device->CreateShaderResourceView(textureResource, &srvDesc, srvHeap->GetCPUDescriptorHandleForHeapStart());
+                                        // Now you can use the textureResource in your rendering pipeline
+                                        }
+                                        #include <DirectXTKXaml12/ResourceUploadBatch.h>
+                                        #include <DirectXTKXaml12/DDSTextureLoader.h>
+                                        #include <DirectXTKXaml12/WICTextureLoader.h>
+                                        #include <DirectXTKXaml12/ResourceUploadBatch.h>
+                                        using namespace DirectX::DXTKXAML12;
+                                        using namespace Windows::Storage;
+                                        using namespace concurrency;
+                                        void LoadTextureAsync(
+                                        ID3D12Device* device,
+                                        
+                                        ResourceUploadBatch& resourceUpload,
+                                        StorageFile^ file,
+                                        ID3D12Resource** textureResource)
+                                        {
+                                        // Start the upload batch
+                                        resourceUpload.BeginXaml();
+                                        create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                                            [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                                            {
+                                                if (stream)
+                                                {
+                                                    ComPtr<IStream> comStream;
+                                                    HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                                                    if (SUCCEEDED(hr))
+                                                    {
+                                                        hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                                            device,
+                                                            resourceUpload,
+                                                            comStream.Get(),
+                                                            textureResource
+                                                        );
+                                                        // Handle hr as needed
+                                                    }
+                                                }
+                                            }).then([&resourceUpload, commandQueue]()
+                                            {
+                                                // End the upload batch and submit to command queue
+                                                return resourceUpload.EndXaml(commandQueue);
+                                            }).then([]()
+                                            {
+                                                // Continue with any post-upload logic here
+                                            });
+                                        }
+
+                                        // Usage example
+                                        StorageFile^ file = /* Get your StorageFile from FilePicker */;
+                                        LoadTextureAsync(device, resourceUpload, file, &textureResource);
+                                        }
+                                        // Example function to load a texture from a StorageFile
+                                        #include <wrl/client.h>
+                                        #include <shcore.h> // For CreateStreamOverRandomAccessStream
+                                        using namespace Microsoft::WRL;
+                                        using namespace Windows::Storage;
+                                        using namespace Windows::Storage::Streams;
+                                        using namespace concurrency;
+                                        void LoadTextureFromFile(
+                                        ID3D12Device* device,
+                                        DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
+                                        StorageFile^ file,
+                                        ID3D12Resource** textureResource)
+                                        {
+                                            create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                                                [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                                                {
+                                                    if (stream)
+                                                    {
+                                                        ComPtr<IStream> comStream;
+                                                        HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                                                        if (SUCCEEDED(hr))
+                                                        {
+                                                            hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                                                device,
+                                                                resourceUpload,
+                                                                comStream.Get(),
+                                                                textureResource
+                                                            );
+                                                            // Handle hr as needed
+                                                        }
+                                                    }
+                                                });
+                                        }
+                                        // Usage example
+                                        StorageFile^ file = /* Get your StorageFile from FilePicker */;
+                                        LoadTextureFromFile(device, resourceUpload, file, &textureResource);
+                                        // For PNG/JPG, use CreateWICTextureFromStream instead
+                                        hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+                                            device,
+                                            resourceUpload,
+                                            comStream.Get(),
+                                            textureResource
+                                        );
+                                        if (FAILED(hr))
+                                        {
+                                            // Handle error (e.g., notify user)
+                                        }
+                                        // Now you can use textureResource in your rendering pipeline
+                                        D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+                                        srvDesc.Format = textureResource->GetDesc().Format;
+                                        srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+                                        srvDesc.Texture2D.MostDetailedMip = 0;
+                                        srvDesc.Texture2D.MipLevels = 1;
+                                        device->CreateShaderResourceView(textureResource, &srvDesc, srvHeap->GetCPUDescriptorHandleForHeapStart());
+                                        // Now you can use the textureResource in your rendering pipeline
+                                        }
+                                        #include <DirectXTKXaml12/ResourceUploadBatch.h>
+                                        #include <DirectXTKXaml12/DDSTextureLoader.h>
+                                        
+                                        #include <DirectXTKXaml12/WICTextureLoader.h>
+                                        #include <DirectXTKXaml12/ResourceUploadBatch.h>
+                                        #include <DirectXTKXaml12/ResourceUploadBatch.h>
+                                        using namespace DirectX::DXTKXAML12;
+                                        using namespace Windows::Storage;
+                                        using namespace concurrency;
+                                        void LoadTextureAsync(
+                                            ID3D12Device* device,
+                                            ResourceUploadBatch& resourceUpload,
+                                            StorageFile^ file,
+                                            ID3D12Resource** textureResource)
+                                        {
+                                        // Start the upload batch
+                                            resourceUpload.BeginXaml();
+                                            create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                                                [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                                                {
+                                                    if (stream)
+                                                    {
+                                                        ComPtr<IStream> comStream;
+                                                        HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                                                        if (SUCCEEDED(hr))
+                                                        {
+                                                            hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                                                device,
+                                                                resourceUpload,
+                                                                comStream.Get(),
+                                                                textureResource
+                                                            );
+                                                            // Handle hr as needed
+                                                        }
+                                                    }
+                                                    }).then([&resourceUpload, commandQueue]()
+                                                    {
+                                                    // End the upload batch and submit to command queue
+                                                        return resourceUpload.EndXaml(commandQueue);
+                                                    }).then([]()
+                                                    {
+                                                        // Continue with any post-upload logic here
+                                                    });
+                                                    }
+                                                    // Usage example
+                                                    StorageFile^ file = /* Get your StorageFile from FilePicker */;
+                                                    LoadTextureAsync(device, resourceUpload, file, &textureResource);
+                                                    }
+                                                    // Example function to load a texture from a StorageFile
+                                                    #include <wrl/client.h>
+                                                    #include <shcore.h> // For CreateStreamOverRandomAccessStream
+                                                    using namespace Microsoft::WRL;
+                                                    using namespace Windows::Storage;
+                                                    using namespace Windows::Storage::Streams;
+                                                    using namespace concurrency;
+
+                                                    void LoadTextureFromFile(
+                                                        ID3D12Device* device,
+                                                        DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
+                                                        StorageFile^ file,
+                                                        ID3D12Resource** textureResource)
+                                                    {
+                                                        create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                                                            [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                                                            {
+                                                                if (stream)
+                                                                {
+                                                                    ComPtr<IStream> comStream;
+                                                                    HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                                                                    if (SUCCEEDED(hr))
+                                                                    {
+                                                                        hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                                                            device,
+                                                                            resourceUpload,
+                                                                            comStream.Get(),
+                                                                            textureResource
+                                                                        );
+                                                                        // Handle hr as needed
+                                                                    }
+                                                                }
+                                                            });
+
+                                                            }
+                                                            // Usage example
+                                                            StorageFile^ file = /* Get your StorageFile from FilePicker */;
+                                                            LoadTextureFromFile(device, resourceUpload, file, &textureResource);
+                                                            // For PNG/JPG, use CreateWICTextureFromStream instead
+                                                            hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+                                                                device,
+                                                                resourceUpload,
+                                                                comStream.Get(),
+                                                                textureResource
+                                                            );
+                                                            if (FAILED(hr))
+                                                            {
+                                                                // Handle error (e.g., notify user)
+                                                            }
+                                                            // Now you can use textureResource in your rendering pipeline
+                                                            D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+                                                            srvDesc.Format = textureResource->GetDesc().Format;
+                                                            srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+                                                            srvDesc.Texture2D.MostDetailedMip = 0;
+                                                            srvDesc.Texture2D.MipLevels = 1;
+                                                            device->CreateShaderResourceView(textureResource, &srvDesc, srvHeap->GetCPUDescriptorHandleForHeapStart());
+                                                            // Now you can use the textureResource in your rendering pipeline
+                                                            }
+                                                            // Example function to load a texture from a StorageFile
+                                                            #include <DirectXTKXaml12/ResourceUploadBatch.h>
+                                                            #include <DirectXTKXaml12/DDSTextureLoader.h>
+                                                            #include <DirectXTKXaml12/WICTextureLoader.h>
+                                                            #include <DirectXTKXaml12/ResourceUploadBatch.h>
+                                                            #include <DirectXTKXaml12/ResourceUploadBatch.h>
+                                                            #include <wrl/client.h>
+                                                            #include <shcore.h> // For CreateStreamOverRandomAccessStream
+                                                            #include <DirectXTKXaml12/ResourceUploadBatch.h>
+                                                            #include <DirectXTKXaml12/DDSTextureLoader.h>
+                                                            #include <DirectXTKXaml12/WICTextureLoader.h>
+                                                            using namespace DirectX::DXTKXAML12;
+                                                            using namespace Windows::Storage;
+                                                            
+                                                            using namespace concurrency;
+                                                            void LoadTextureAsync(
+                                                                ID3D12Device* device,
+                                                                ResourceUploadBatch& resourceUpload,
+                                                                StorageFile^ file,
+                                                                ID3D12Resource** textureResource)
+                                                            {
+                                                            // Start the upload batch
+                                                            resourceUpload.BeginXaml();
+                                                            create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                                                                [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                                                                {
+                                                                    if (stream)
+                                                                    {
+                                                                        ComPtr<IStream> comStream;
+                                                                        HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                                                                        if (SUCCEEDED(hr))
+                                                                        {
+                                                                            hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                                                                device,
+                                                                                resourceUpload,
+                                                                                comStream.Get(),
+                                                                                textureResource
+                                                                            );
+                                                                            // Handle hr as needed
+                                                                        }
+                                                                    }
+                                                                }).then([&resourceUpload, commandQueue]()
+                                                                {
+                                                                    // End the upload batch and submit to command queue
+                                                                    return resourceUpload.EndXaml(commandQueue);
+                                                                    }).then([]()
+                                                                    {
+                                                                        // Continue with any post-upload logic here
+                                                                    });
+                                                                    }
+                                                                    // Usage example
+                                                                    StorageFile^ file = /* Get your StorageFile from FilePicker */;
+                                                                    LoadTextureAsync(device, resourceUpload, file, &textureResource);
+                                                                    }
+                                                                    #include <DirectXTKXaml12/ResourceUploadBatch.h>
+                                                                    #include <DirectXTKXaml12/DDSTextureLoader.h>
+                                                                    #include <DirectXTKXaml12/WICTextureLoader.h>
+                                                                    #include <DirectXTKXaml12/ResourceUploadBatch.h>
+                                                                    #include <DirectXTKXaml12/ResourceUploadBatch.h>
+                                                                    #include <wrl/client.h>
+                                                                    #include <shcore.h> // For CreateStreamOverRandomAccessStream
+                                                                    using namespace Microsoft::WRL;
+                                                                    using namespace Windows::Storage;
+                                                                    using namespace Windows::Storage::Streams;
+                                                                    using namespace concurrency;
+                                                                    void LoadTextureFromFile(
+                                                                    ID3D12Device* device,
+                                                                        DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
+                                                                        StorageFile^ file,
+                                                                        ID3D12Resource** textureResource)
+                                                                    {
+                                                                        create_task(file->OpenAsync(FileAccessMode::Read)).then(
+                                                                            [device, &resourceUpload, textureResource](IRandomAccessStream^ stream)
+                                                                            {
+                                                                                if (stream)
+                                                                                {
+                                                                                    ComPtr<IStream> comStream;
+                                                                                    HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                                                                                    if (SUCCEEDED(hr))
+                                                                                    {
+                                                                                        hr = DirectX::DXTKXAML12::CreateDDSTextureFromStream(
+                                                                                            device,
+                                                                                            resourceUpload,
+                                                                                            comStream.Get(),
+                                                                                            textureResource
+                                                                                        );
+                                                                                        // Handle hr as needed
+                                                                                    }
+                                                                                }
+                                                                            });
+                                                                    }
+                                                                    // Usage example
+                                                                    StorageFile^ file = /* Get your StorageFile from FilePicker */;
+                                                                    LoadTextureFromFile(device, resourceUpload, file, &textureResource);
+                                                                    // For PNG/JPG, use CreateWICTextureFromStream instead
+                                                                    hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+                                                                        device,
+                                                                        resourceUpload,
+                                                                        comStream.Get(),
+                                                                        textureResource
+                                                                    );
+                                                                    if (FAILED(hr))
+                                                                    {
+                                                                        // Handle error (e.g., notify user)
+                                                                    }
+                                                                    // Now you can use textureResource in your rendering pipeline
+                                                                    D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+                                                                    srvDesc.Format = textureResource->GetDesc().Format;
+                                                                    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+                                                                    srvDesc.Texture2D.MostDetailedMip = 0;
+                                                                    srvDesc.Texture2D.MipLevels = 1;
+                                                                    device->CreateShaderResourceView(textureResource, &srvDesc, srvHeap->GetCPUDescriptorHandleForHeapStart());
+                                                                    // Now you can use the textureResource in your rendering pipeline
+                                                                    }
+                                                                    #include <DirectXTKXaml12/ResourceUploadBatch.h>
+                                                                    #include <DirectXTKXaml12/DDSTextureLoader.h>
+                                                                    #include <DirectXTKXaml12/WICTextureLoader.h>
+                                                                    #include <DirectXTKXaml12/ResourceUploadBatch.h>
+                                                                    #include <DirectXTKXaml12/ResourceUploadBatch.h>
+                                                                    using namespace DirectX::DXTKXAML12;
+                                                                    using namespace Windows::Storage;
+                                                                    using namespace concurrency;
+                                                                    void LoadTextureAsync(
+                                                                        ID3D12Device* device,
+                                                                        ResourceUploadBatch& resourceUpload,
+                                                                        StorageFile^ file,
+                                                                        ID3D12Resource** textureResource)
+                                                                    {
+                                                                    
+
+
+
+
+
+
+
+
+                                                                
+
+
+
+
+
+

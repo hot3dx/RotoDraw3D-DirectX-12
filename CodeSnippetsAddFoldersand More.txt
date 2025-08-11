@@ -1,0 +1,381 @@
+#include <ppltasks.h>
+using namespace concurrency;
+using namespace Windows::Storage;
+using namespace Windows::Storage::FileProperties;
+using namespace Windows::UI::Xaml::Media::Imaging;
+
+// Example: Load thumbnail for a file and set it to the Image control
+void Scenario5_Tex::LoadThumbnail(Platform::String^ filePath)
+{
+    create_task(StorageFile::GetFileFromPathAsync(filePath)).then([this](StorageFile^ file)
+    {
+        if (file)
+        {
+            create_task(file->GetThumbnailAsync(ThumbnailMode::PicturesView)).then([this](StorageItemThumbnail^ thumbnail)
+            {
+                if (thumbnail)
+                {
+                    auto bitmapImage = ref new BitmapImage();
+                    bitmapImage->SetSource(thumbnail);
+                    ThumbnailImage->Source = bitmapImage; // ThumbnailImage is the x:Name of your Image control
+                }
+            });
+        }
+    });
+}
+
+<Image Width="100" Height="100" Source="{Binding ThumbnailImage}"/>
+
+<Image Width="100" Height="100" Source="Assets/Thumbnail.png"/>
+
+ComPtr<ID3D12Debug> debugController;
+if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))))
+{
+    debugController->EnableDebugLayer();
+}
+HRESULT deviceRemovedReason = device->GetDeviceRemovedReason();
+
+CD3DX12_HEAP_PROPERTIES readBackHeapProperties(D3D12_HEAP_TYPE_READBACK);
+D3D12_RESOURCE_DESC bufferDesc = {};
+bufferDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+bufferDesc.Width = dstRowPitch * desc.Height;
+bufferDesc.Height = 1;
+bufferDesc.DepthOrArraySize = 1;
+bufferDesc.MipLevels = 1;
+bufferDesc.Format = DXGI_FORMAT_UNKNOWN;
+bufferDesc.SampleDesc.Count = 1;
+bufferDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+bufferDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
+
+device->CreateCommittedResource(
+    &readBackHeapProperties,
+    D3D12_HEAP_FLAG_NONE,
+    &bufferDesc,
+    D3D12_RESOURCE_STATE_COPY_DEST,
+    nullptr,
+    IID_PPV_ARGS(&pStaging));
+
+    // DirectXPage.xaml.cpp
+void DirectXPage::DpiComboBox_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e)
+{
+    auto comboBox = dynamic_cast<Windows::UI::Xaml::Controls::ComboBox^>(sender);
+    if (comboBox && comboBox->SelectedItem)
+    {
+        auto item = dynamic_cast<Windows::UI::Xaml::Controls::ComboBoxItem^>(comboBox->SelectedItem);
+        if (item && item->Tag)
+        {
+            // Convert Tag to float DPI value
+            float dpi = static_cast<float>(_wtoi(item->Tag->ToString()->Data()));
+            // Call your DeviceResources SetDpi method
+            if (m_deviceResources)
+            {
+                m_deviceResources->SetDpi(dpi);
+            }
+        }
+    }
+}
+// add DPI to COmboBox
+
+void DX::DeviceResources::SetDpi(float dpi)
+{
+    if (dpi != m_dpi)
+    {
+        m_dpi = dpi;
+
+        // When the display DPI changes, the logical size of the window (measured in Dips) also changes and needs to be updated.
+        m_logicalSize = Windows::Foundation::Size(m_window->Bounds.Width, m_window->Bounds.Height);
+
+        CreateWindowSizeDependentResources();
+    }
+}
+<!-- DirectXPage.xaml -->
+<StackPanel Orientation="Horizontal" Margin="10">
+    <TextBlock Text="DPI:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+    <ComboBox x:Name="DpiComboBox" Width="100" SelectionChanged="DpiComboBox_SelectionChanged">
+        <ComboBoxItem Content="100%" Tag="96"/>
+        <ComboBoxItem Content="150%" Tag="144"/>
+        <ComboBoxItem Content="200%" Tag="192"/>
+        <ComboBoxItem Content="250%" Tag="240"/>
+    </ComboBox>
+</StackPanel>
+
+
+// MainPage.xaml.cpp
+#include "pch.h"
+#include "MainPage.xaml.h"
+#include <ppltasks.h>
+#include <wrl/client.h>
+#include <shcore.h>
+#include <DirectXTKXAML12/WICTextureLoader.h>
+using namespace concurrency;
+using namespace Windows::Storage::Pickers;
+using namespace Windows::Storage;
+using namespace Microsoft::WRL;
+
+void MainPage::PickAndLoadTexture()
+{
+    FileOpenPicker^ picker = ref new FileOpenPicker();
+    picker->FileTypeFilter->Append(".png");
+    picker->FileTypeFilter->Append(".jpg");
+    picker->FileTypeFilter->Append(".dds");
+    create_task(picker->PickSingleFileAsync()).then([this](StorageFile^ file)
+    {
+        if (file)
+        {
+            create_task(file->OpenAsync(FileAccessMode::Read)).then([this](IRandomAccessStream^ stream)
+            {
+                if (stream)
+                {
+                    ComPtr<IStream> comStream;
+                    HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                    if (SUCCEEDED(hr))
+                    {
+                        // Replace device/resourceUpload/textureResource with your actual objects
+                        hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+                            device, resourceUpload, comStream.Get(), &textureResource);
+                        // Handle hr and use textureResource as needed
+                    }
+                }
+            });
+        }
+    });
+}
+
+// MainPage.xaml.cpp
+#include "pch.h"
+#include "MainPage.xaml.h"
+#include <ppltasks.h>
+#include <wrl/client.h>
+#include <shcore.h>
+#include <DirectXTKXAML12/WICTextureLoader.h>
+using namespace concurrency;
+using namespace Windows::Storage::Pickers;
+using namespace Windows::Storage;
+using namespace Microsoft::WRL;
+
+void MainPage::PickAndLoadTexture()
+{
+    FileOpenPicker^ picker = ref new FileOpenPicker();
+    picker->FileTypeFilter->Append(".png");
+    picker->FileTypeFilter->Append(".jpg");
+    picker->FileTypeFilter->Append(".dds");
+    create_task(picker->PickSingleFileAsync()).then([this](StorageFile^ file)
+    {
+        if (file)
+        {
+            create_task(file->OpenAsync(FileAccessMode::Read)).then([this](IRandomAccessStream^ stream)
+            {
+                if (stream)
+                {
+                    ComPtr<IStream> comStream;
+                    HRESULT hr = CreateStreamOverRandomAccessStream(stream, IID_PPV_ARGS(&comStream));
+                    if (SUCCEEDED(hr))
+                    {
+                        // Replace device/resourceUpload/textureResource with your actual objects
+                        hr = DirectX::DXTKXAML12::CreateWICTextureFromStream(
+                            device, resourceUpload, comStream.Get(), &textureResource);
+                        // Handle hr and use textureResource as needed
+                    }
+                }
+            });
+        }
+    });
+}
+
+// Create Project Folders
+
+#include <windows.h>
+#include <string>
+
+void CreateProjectFoldersOnD()
+{
+    std::wstring basePath = L"D:\\Hot3dxRotoDrawBackup";
+    std::wstring texturesPath = basePath + L"\\Textures_Models";
+    std::wstring settingsPath = basePath + L"\\Settings";
+
+    CreateDirectoryW(basePath.c_str(), nullptr);
+    CreateDirectoryW(texturesPath.c_str(), nullptr);
+    CreateDirectoryW(settingsPath.c_str(), nullptr);
+}
+
+// Create Folder for a library
+
+create_task(Windows::Storage::KnownFolders::PicturesLibrary->CreateFolderAsync(
+    L"Textures_Models", Windows::Storage::CreationCollisionOption::OpenIfExists)
+).then([](Windows::Storage::StorageFolder^ folder) {
+    // 'folder' is ready for use
+});
+
+ //  Add Folders
+DirectXPage::DirectXPage()
+{
+    InitializeComponent();
+
+    // 1. Initialize core resources
+    m_deviceResources = std::make_shared<DX::DeviceResources>();
+    m_main = ref new Hot3dxRotoDrawMain(m_deviceResources, this);
+
+    // 2. Start async folder creation (does not block UI)
+    CreateTexturesModelsFolder();
+}
+
+void DirectXPage::CreateTexturesModelsFolder()
+{
+    using namespace Windows::Storage;
+    using namespace concurrency;
+
+    auto localFolder = ApplicationData::Current->LocalFolder;
+    create_task(localFolder->CreateFolderAsync(
+        L"Textures_Models", CreationCollisionOption::OpenIfExists)
+    ).then([](StorageFolder^ folder) {
+        // Folder is ready for use
+    });
+}
+
+/// Delete Added Folder
+
+#include <ppltasks.h>
+using namespace concurrency;
+using namespace Windows::Storage;
+
+// Delete the "Textures_Models" folder from LocalFolder
+void DeleteTexturesModelsFolder()
+{
+    auto localFolder = ApplicationData::Current->LocalFolder;
+    create_task(localFolder->TryGetItemAsync(L"Textures_Models")).then([](IStorageItem^ item)
+    {
+        if (item != nullptr && item->IsOfType(StorageItemTypes::Folder))
+        {
+            auto folder = safe_cast<StorageFolder^>(item);
+            // Delete the folder and all its contents
+            create_task(folder->DeleteAsync(StorageDeleteOption::PermanentDelete));
+        }
+    });
+}
+
+
+// Write Settings to a File
+
+using namespace Windows::Storage;
+using namespace Windows::Storage::Streams;
+using namespace concurrency;
+
+// Writing settings (as a string) to a file
+auto localFolder = ApplicationData::Current->LocalFolder;
+create_task(localFolder->CreateFileAsync(L"settings.ini", CreationCollisionOption::ReplaceExisting))
+.then([](StorageFile^ file) {
+    return file->OpenAsync(FileAccessMode::ReadWrite);
+}).then([](IRandomAccessStream^ stream) {
+    DataWriter^ writer = ref new DataWriter(stream);
+    writer->WriteString(L"window_width=1280\nwindow_height=720\n");
+    return writer->StoreAsync();
+});
+
+// Drag and Drop Enable
+<Grid AllowDrop="True" Drop="OnDrop"/>
+
+void Scenario5_Tex::OnDrop(Platform::Object^ sender, Windows::UI::Xaml::DragEventArgs^ e)
+{
+    auto deferral = e->GetDeferral();
+    if (e->DataView->Contains(Windows::ApplicationModel::DataTransfer::StandardDataFormats::StorageItems))
+    {
+        create_task(e->DataView->GetStorageItemsAsync()).then([this, deferral](IVectorView<IStorageItem^>^ items)
+        {
+            for (auto item : items)
+            {
+                if (item->IsOfType(StorageItemTypes::File))
+                {
+                    auto file = safe_cast<StorageFile^>(item);
+                    // Copy file to your Textures_Models folder
+                    create_task(ApplicationData::Current->LocalFolder->GetFolderAsync(L"Textures_Models"))
+                    .then([file](StorageFolder^ folder) {
+                        file->CopyAsync(folder, file->Name, NameCollisionOption::ReplaceExisting);
+                    });
+                }
+            }
+            deferral->Complete();
+        });
+    }
+}
+
+// Create Folder AppData Local
+
+create_task(Windows::Storage::ApplicationData::Current->LocalFolder->CreateFolderAsync(
+    L"Textures_Models", Windows::Storage::CreationCollisionOption::OpenIfExists)
+).then([](Windows::Storage::StorageFolder^ folder) {
+    // 'folder' is ready for use
+});
+
+// Cont'd
+
+create_task(ApplicationData::Current->LocalFolder->CreateFolderAsync(
+    L"MyAppData", CreationCollisionOption::OpenIfExists)).then(
+    [](StorageFolder^ folder)
+    {
+        // Use 'folder' to save/load files
+    });
+
+ // User Libraries
+ create_task(KnownFolders::PicturesLibrary->CreateFolderAsync(
+    L"MyAppImages", CreationCollisionOption::OpenIfExists)).then(
+    [](StorageFolder^ folder)
+    {
+        // Use 'folder' to save/load files
+    });
+
+// User Selected Libraries
+FolderPicker^ picker = ref new FolderPicker();
+picker->SuggestedStartLocation = PickerLocationId::DocumentsLibrary;
+picker->FileTypeFilter->Append(L"*");
+create_task(picker->PickSingleFolderAsync()).then(
+    [](StorageFolder^ folder)
+    {
+        if (folder)
+        {
+            // Use 'folder' to save/load files
+        }
+    });
+
+
+    /// Template Stuff
+     ```cpp
+ // $safeitemname$.h
+ class $safeitemname$
+     {
+     public:
+         $safeitemname$();
+         ~$safeitemname$();
+     };
+// ```
+/// Thumbnali code 
+
+ auto thumbnail = file->GetThumbnailAsync(ThumbnailMode::PicturesView);
+
+ // Tokens:
+
+ // After picking a file
+auto file = ...; // StorageFile^ from picker
+auto token = Windows::Storage::AccessCache::StorageApplicationPermissions::FutureAccessList->Add(file);
+// Save 'token' (e.g., in app settings or a file) for later use
+
+Windows::Storage::ApplicationData::Current->LocalSettings->Values->Insert("TextureFileToken", token);
+
+auto token = dynamic_cast<Platform::String^>(
+    Windows::Storage::ApplicationData::Current->LocalSettings->Values->Lookup("TextureFileToken"));
+
+if (token != nullptr)
+{
+    auto file = Windows::Storage::AccessCache::StorageApplicationPermissions::FutureAccessList->GetFileAsync(token);
+    // Use 'file' as a StorageFile^ for your texture loading
+}
+
+create_task(Windows::Storage::AccessCache::StorageApplicationPermissions::FutureAccessList->GetFileAsync(token))
+.then([](StorageFile^ file)
+{
+    if (file)
+    {
+        // Use file as a texture
+    }
+});
+
+// eo token stuff

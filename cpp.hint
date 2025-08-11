@@ -1,4 +1,10 @@
-// Hint files help the Visual Studio IDE interpret Visual C++ identifiers
-// such as names of functions and macros.
-// For more information see https://go.microsoft.com/fwlink/?linkid=865984
+#define _In_ _SAL2_Source_(_In_, (), _Pre1_impl_(__notnull_impl_notref) _Pre_valid_impl_ _Deref_pre1_impl_(__readaccess_impl_notref))
+#define _Out_ _SAL2_Source_(_Out_, (),     _Out_impl_)
+#define _In_z_                          _SAL2_Source_(_In_z_, (),     _In_     _Pre1_impl_(__zterm_impl))
+#if _XM_VECTORCALL_
+#define XM_CALLCONV __vectorcall
+#elif defined(__GNUC__)
 #define XM_CALLCONV
+#else
+#define XM_CALLCONV __fastcall
+#endif
