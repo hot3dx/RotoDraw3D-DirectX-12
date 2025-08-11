@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+
 #include "pch.h"
 #include <ppltasks.h>	// For create_task
 #include <strsafe.h>
@@ -23,7 +24,7 @@ namespace DX
     static const int CommandListMid = 1;
     static const int CommandListPost = 2;
 
-    inline void ThrowIfFailed(HRESULT hr)
+    inline void ThrowIfFailedHot(HRESULT hr)
     {
         if (FAILED(hr))
         {

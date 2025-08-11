@@ -12,7 +12,7 @@
 #include "DirectXHelper.h"
 #include <synchapi.h>
 #include <windows.ui.xaml.media.dxinterop.h>
-#include <C:\DirectXToolKitXaml12\Graphics\ScreenGrabXaml12.h>
+#include <\DirectXToolKitXaml12\Graphics\ScreenGrabXaml12.h>
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -40,8 +40,8 @@ namespace DisplayMetrics
 	// are exceeded and SupportHighResolutions is false, the dimensions will be scaled
 	// by 50%.
 	static const float DpiThreshold = 192.0f;		// 200% of standard desktop display.
-	static const float WidthThreshold = 1920.0f;	// 1080p width.
-	static const float HeightThreshold = 1080.0f;	// 1080p height.
+	static const float WidthThreshold = 2560.0f;// 1920.0f;	// 1080p width.
+	static const float HeightThreshold = 1600.0f;// 1080.0f;	// 1080p height.
 };
 
 // Constants used to calculate screen rotations.
@@ -197,11 +197,11 @@ void DX::DeviceResources::CreateDeviceResources()
 	}
 #endif
 
-	DX::ThrowIfFailed(
+	ThrowIfFailedHot(
 		CreateDXGIFactory1(IID_PPV_ARGS(&m_dxgiFactory))
 	);
 
-	DX::ThrowIfFailed(
+	ThrowIfFailedHot(
 		CreateDXGIFactory2(m_dxgiFactoryFlags,
 			IID_PPV_ARGS(&m_dxgiFactory5))
 	);
@@ -252,13 +252,13 @@ void DX::DeviceResources::CreateDeviceResources()
 		// https://go.microsoft.com/fwlink/?LinkId=286690
 		if (m_d3dDevice)m_d3dDevice->Release();
 		ComPtr<IDXGIAdapter> warpAdapter;
-		DX::ThrowIfFailed(m_dxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&warpAdapter)));
+		ThrowIfFailedHot(m_dxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&warpAdapter)));
 
 		hr = D3D12CreateDevice(warpAdapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&m_d3dDevice));
 	}
 	//#endif
 	if (hr != S_OK)return;
-	DX::ThrowIfFailed(hr);
+	ThrowIfFailedHot(hr);
 
 	//m_d3dDevice->SetName(L"DeviceResources");
 	NAME_D3D12_OBJECT(m_d3dDevice);
@@ -314,7 +314,7 @@ void DX::DeviceResources::CreateDeviceResources()
 	queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
 	queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
 
-	DX::ThrowIfFailed(m_d3dDevice->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&m_commandQueue)));
+	ThrowIfFailedHot(m_d3dDevice->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&m_commandQueue)));
 	NAME_D3D12_OBJECT(m_commandQueue);
 
 	// Create descriptor heaps for render target views and depth stencil views.
@@ -322,7 +322,7 @@ void DX::DeviceResources::CreateDeviceResources()
 	rtvHeapDesc.NumDescriptors = m_backBufferCount;
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 	//rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-	DX::ThrowIfFailed(m_d3dDevice->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_rtvHeap)));
+	ThrowIfFailedHot(m_d3dDevice->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_rtvHeap)));
 	NAME_D3D12_OBJECT(m_rtvHeap);
 	m_rtvHeap->SetName(L"DeviceResources");
 
@@ -338,7 +338,7 @@ void DX::DeviceResources::CreateDeviceResources()
 
 	for (UINT n = 0; n < m_backBufferCount; n++)
 	{
-		DX::ThrowIfFailed(
+		ThrowIfFailedHot(
 			m_d3dDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&m_commandAllocators[n]))
 		);
 		String^ arg = ref new String(L"Render target ");
@@ -354,7 +354,7 @@ void DX::DeviceResources::CreateDeviceResources()
 	m_commandList->SetName(L"DeviceResources");
 
 	// Create synchronization objects.
-	DX::ThrowIfFailed(m_d3dDevice->CreateFence(m_fenceValues[m_backBufferIndex], D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&m_fence)));
+	ThrowIfFailedHot(m_d3dDevice->CreateFence(m_fenceValues[m_backBufferIndex], D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&m_fence)));
 	m_fenceValues[m_backBufferIndex]++;
 
 	//m_fence->SetName(L"DeviceResources");
@@ -368,7 +368,7 @@ void DX::DeviceResources::CreateDeviceResources()
 	m_fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	if (m_fenceEvent == nullptr)
 	{
-		DX::ThrowIfFailed(HRESULT_FROM_WIN32(GetLastError()));
+		ThrowIfFailedHot(HRESULT_FROM_WIN32(GetLastError()));
 	}
 }
 
@@ -424,7 +424,7 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 		}
 		else
 		{
-			DX::ThrowIfFailed(hr);
+			ThrowIfFailedHot(hr);
 		}
 	}
 	else
@@ -453,7 +453,7 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 
 		// CommandQueue is used instead of the ID3D12device according to the directions
 		// For 12 for xaml
-		DX::ThrowIfFailed(
+		ThrowIfFailedHot(
 			m_dxgiFactory->CreateSwapChainForComposition(
 				GetCommandQueue(),
 				&swapChainDesc,
@@ -464,7 +464,7 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 			CreateDeviceResources();
 			CreateWindowSizeDependentResources();
 		}
-		DX::ThrowIfFailed(swapChain.As(&m_swapChain));
+		ThrowIfFailedHot(swapChain.As(&m_swapChain));
 
 		//////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////
@@ -474,9 +474,9 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 		{
 			// Get backing native interface for SwapChainPanel
 			ComPtr<ISwapChainPanelNative> panelNative;
-			DX::ThrowIfFailed(
+			ThrowIfFailedHot(
 				reinterpret_cast<IUnknown*>(m_swapChainPanel)->QueryInterface(IID_PPV_ARGS(panelNative.GetAddressOf())));
-			DX::ThrowIfFailed(
+			ThrowIfFailedHot(
 				panelNative->SetSwapChain(m_swapChain.Get())
 			);
 
@@ -484,7 +484,7 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 
 		// Ensure that DXGI does not queue more than one frame at a time. This both reduces latency and
 		// ensures that the application will only render after each VSync, minimizing power consumption.
-		//DX::ThrowIfFailed(
+		//ThrowIfFailedHot(
 		//	dxgiDevice->SetMaximumFrameLatency(1)
 		//);
 
@@ -521,7 +521,7 @@ void DX::DeviceResources::CreateWindowSizeDependentResources()
 		throw ref new FailureException();
 	}
 
-	DX::ThrowIfFailed(
+	ThrowIfFailedHot(
 		m_swapChain->SetRotation(displayRotation)
 	);
 
@@ -741,9 +741,9 @@ void DX::DeviceResources::ValidateDevice()
 	DXGI_ADAPTER_DESC previousDesc;
 	{
 		ComPtr<IDXGIAdapter1> previousDefaultAdapter;
-		DX::ThrowIfFailed(m_dxgiFactory->EnumAdapters1(0, &previousDefaultAdapter));
+		ThrowIfFailedHot(m_dxgiFactory->EnumAdapters1(0, &previousDefaultAdapter));
 
-		DX::ThrowIfFailed(previousDefaultAdapter->GetDesc(&previousDesc));
+		ThrowIfFailedHot(previousDefaultAdapter->GetDesc(&previousDesc));
 	}
 
 	// Next, get the information for the current default adapter.
@@ -751,12 +751,12 @@ void DX::DeviceResources::ValidateDevice()
 	DXGI_ADAPTER_DESC currentDesc;
 	{
 		ComPtr<IDXGIFactory4> currentDxgiFactory;
-		DX::ThrowIfFailed(CreateDXGIFactory1(IID_PPV_ARGS(&currentDxgiFactory)));
+		ThrowIfFailedHot(CreateDXGIFactory1(IID_PPV_ARGS(&currentDxgiFactory)));
 
 		ComPtr<IDXGIAdapter1> currentDefaultAdapter;
-		DX::ThrowIfFailed(currentDxgiFactory->EnumAdapters1(0, &currentDefaultAdapter));
+		ThrowIfFailedHot(currentDxgiFactory->EnumAdapters1(0, &currentDefaultAdapter));
 
-		DX::ThrowIfFailed(currentDefaultAdapter->GetDesc(&currentDesc));
+		ThrowIfFailedHot(currentDefaultAdapter->GetDesc(&currentDesc));
 	}
 
 	// If the adapter LUIDs don't match, or if the device reports that it has been removed,
@@ -779,8 +779,8 @@ void DX::DeviceResources::ValidateDevice()
 void DX::DeviceResources::Prepare(D3D12_RESOURCE_STATES beforeState)
 {
 	// Reset command list and allocator.
-	DX::ThrowIfFailed(m_commandAllocators[m_backBufferIndex]->Reset());
-	DX::ThrowIfFailed(m_commandList->Reset(m_commandAllocators[m_backBufferIndex].Get(), nullptr));
+	ThrowIfFailedHot(m_commandAllocators[m_backBufferIndex]->Reset());
+	ThrowIfFailedHot(m_commandList->Reset(m_commandAllocators[m_backBufferIndex].Get(), nullptr));
 
 	if (beforeState != D3D12_RESOURCE_STATE_RENDER_TARGET)
 	{
@@ -807,7 +807,7 @@ void DX::DeviceResources::Present(D3D12_RESOURCE_STATES beforeState)
 	}
 	else
 	{
-		DX::ThrowIfFailed(hr);
+		ThrowIfFailedHot(hr);
 
 		//MoveToNextFrame();
 	}
@@ -875,10 +875,10 @@ void DX::DeviceResources::WaitForGpu() noexcept
 		// Schedule a Signal command in the GPU queue.
 		UINT64 fenceValue = m_fenceValues[m_backBufferIndex];
 		m_fenceValue = fenceValue;
-		DX::ThrowIfFailed(m_commandQueue->Signal(m_fence.Get(), m_fenceValues[m_backBufferIndex]));
+		ThrowIfFailedHot(m_commandQueue->Signal(m_fence.Get(), m_fenceValues[m_backBufferIndex]));
 
 		// Wait until the Signal has been processed.
-		DX::ThrowIfFailed(m_fence->SetEventOnCompletion(m_fenceValues[m_backBufferIndex], m_fenceEvent));
+		ThrowIfFailedHot(m_fence->SetEventOnCompletion(m_fenceValues[m_backBufferIndex], m_fenceEvent));
 		WaitForSingleObjectEx(m_fenceEvent, INFINITE, FALSE);
 
 		// Increment the fence value for the current frame.
@@ -907,12 +907,7 @@ void DX::DeviceResources::RegisterDeviceNotify(IDeviceNotify* deviceNotify)
 void DX::DeviceResources::Trim()
 {
 
-	//ComPtr<IDXGIDevice3> dxgiDevice;
-	//m_d3dDevice.As(&dxgiDevice);
-	//OutputDebugString(L"\n TRIM\n");
-	//dxgiDevice->Trim();
-
-
+	
 }
 
 // Prepare to render the next frame.
@@ -920,7 +915,7 @@ void DX::DeviceResources::MoveToNextFrame()
 {
 	// Schedule a Signal command in the queue.
 	const UINT64 currentFenceValue = m_fenceValues[m_backBufferIndex];
-	DX::ThrowIfFailed(m_commandQueue->Signal(m_fence.Get(), currentFenceValue));
+	ThrowIfFailedHot(m_commandQueue->Signal(m_fence.Get(), currentFenceValue));
 
 	// Advance the frame index.
 	m_backBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
@@ -928,7 +923,7 @@ void DX::DeviceResources::MoveToNextFrame()
 	// Check to see if the next frame is ready to start.
 	if (m_fence->GetCompletedValue() < m_fenceValues[m_backBufferIndex])
 	{
-		DX::ThrowIfFailed(m_fence->SetEventOnCompletion(m_fenceValues[m_backBufferIndex], m_fenceEvent));
+		ThrowIfFailedHot(m_fence->SetEventOnCompletion(m_fenceValues[m_backBufferIndex], m_fenceEvent));
 		//WaitForSingleObjectEx(m_fenceEvent, INFINITE, FALSE);
 	}
 
@@ -1073,6 +1068,6 @@ void DX::DeviceResources::UpdateColorSpace()
 	if (SUCCEEDED(m_swapChain->CheckColorSpaceSupport(colorSpace, &colorSpaceSupport))
 		&& (colorSpaceSupport & DXGI_SWAP_CHAIN_COLOR_SPACE_SUPPORT_FLAG_PRESENT))
 	{
-		DX::ThrowIfFailed(m_swapChain->SetColorSpace1(colorSpace));
+		ThrowIfFailedHot(m_swapChain->SetColorSpace1(colorSpace));
 	}
 }

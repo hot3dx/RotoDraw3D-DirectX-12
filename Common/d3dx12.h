@@ -3391,7 +3391,7 @@ public:
     T* CreateSubobject()
     {
         T* pSubobject = new T(*this);
-        m_OwnedSubobjectHelpers.emplace_back(pSubobject);
+        m_OwnedSubobjectHelpers.push_back(pSubobject);
         return pSubobject;
     }
 
