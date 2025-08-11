@@ -537,7 +537,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::SetLinesObject(XMFLOAT3 mo
 	posY = ref new Platform::Array<float>(1000);
 	posZ = ref new Platform::Array<float>(1000);
 	m_iPointCount = 0;
-	m_iTempGroup = ref new Platform::Array<unsigned int>(1000);
+	m_iTempGroup = ref new Platform::Array<unsigned int>(10000);
 	m_iTempMouseX = ref new Platform::Array<float>(1000);
 	m_iTempMouseY = ref new Platform::Array<float>(1000);
 	m_iTempGroupCount = 0;
@@ -639,7 +639,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::SetCopyLinesObject(unsigne
 	{
 		XMFLOAT3 p = { 0.0f,0.0f,0.0f };
 		DirectX::DXTKXAML12::VertexPositionColor v(p, colors);
-		m_LinePtsList.at(j)->m_lineVerts.push_back(v);
+		m_LinePtsList.at(j)->m_lineVerts.emplace_back(v);
 	}
 
 	for (unsigned int i = 0; i < cnt; ++i)
@@ -685,7 +685,7 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::SetCopyLinesObject(unsigne
 	posY = ref new Platform::Array<float>(1000);
 	posZ = ref new Platform::Array<float>(1000);
 	m_iPointCount = 0;
-	m_iTempGroup = ref new Platform::Array<unsigned int>(1000);
+	m_iTempGroup = ref new Platform::Array<unsigned int>(10000);
 	m_iTempMouseX = ref new Platform::Array<float>(1000);
 	m_iTempMouseY = ref new Platform::Array<float>(1000);
 	m_iTempGroupCount = 0;

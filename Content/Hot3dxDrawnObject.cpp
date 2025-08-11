@@ -96,9 +96,12 @@ void Hot3dxRotoDraw::Hot3dxDrawnObject::Impl::Initialize(
 {
     if (vertices.size() >= USHRT_MAX)
         throw std::exception("Too many vertices for 16-bit index buffer");
+    Hot3dxDrawnObject* h = new Hot3dxDrawnObject();
+    h->GetVerticesI(vertices);
 
     if (indices.size() > UINT32_MAX)
         throw std::exception("Too many indices");
+    h->GetIndicesI(indices);
 
     // Vertex data
     uint64_t sizeInBytes = uint64_t(vertices.size()) * sizeof(vertices[0]);
@@ -571,7 +574,7 @@ Hot3dxRotoDraw::Hot3dxDrawnObject::~Hot3dxDrawnObject()
 
 // Public entrypoints.
 _Use_decl_annotations_
-void Hot3dxRotoDraw::Hot3dxDrawnObject::LoadStaticBuffers(ID3D12Device* device, DirectX::DXTKXAML12::ResourceUploadBatch& resourceUploadBatch)
+void __cdecl Hot3dxRotoDraw::Hot3dxDrawnObject::LoadStaticBuffers(ID3D12Device* device, DirectX::DXTKXAML12::ResourceUploadBatch& resourceUploadBatch)
 {
     pImpl->LoadStaticBuffers(device, resourceUploadBatch);
 }
@@ -660,8 +663,9 @@ std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> Hot3dxRotoDraw::Hot3dxDrawnOb
 
     VertexCollectionColor vertices;
     IndexCollectionColor indices;
+    std::vector<DirectX::XMFLOAT2> textureCoordinates;
 
-    ComputeSphereColor(vertices, indices, diameter, tessellation, rhcoords);
+    ComputeSphereColor(vertices, indices, textureCoordinates, diameter, tessellation, rhcoords);
 
     primitive->pImpl->Initialize(vertices, indices, device);
 
@@ -671,11 +675,12 @@ std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> Hot3dxRotoDraw::Hot3dxDrawnOb
 void Hot3dxRotoDraw::Hot3dxDrawnObject::CreateSphere(
     std::vector<VertexTypePC>& vertices,
     std::vector<uint16_t>& indices,
+    std::vector<XMFLOAT2>& textureCoordinates,
     float diameter,
     size_t tessellation,
     bool rhcoords)
 {
-    ComputeSphereColor(vertices, indices, diameter, tessellation, rhcoords);
+    ComputeSphereColor(vertices, indices, textureCoordinates, diameter, tessellation, rhcoords);
 }
 
 
@@ -695,7 +700,9 @@ std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> Hot3dxRotoDraw::Hot3dxDrawnOb
 
     VertexCollectionColor vertices;
     IndexCollectionColor indices;
-    ComputeGeoSphereColor(vertices, indices, diameter, tessellation, rhcoords);
+    std::vector<DirectX::XMFLOAT2> textureCoordinates;
+
+    ComputeGeoSphereColor(vertices, indices, textureCoordinates, diameter, tessellation, rhcoords);
 
     primitive->pImpl->Initialize(vertices, indices, device);
 
@@ -705,11 +712,12 @@ std::unique_ptr<Hot3dxRotoDraw::Hot3dxDrawnObject> Hot3dxRotoDraw::Hot3dxDrawnOb
 void Hot3dxRotoDraw::Hot3dxDrawnObject::CreateGeoSphere(
     std::vector<VertexTypePC>& vertices,
     std::vector<uint16_t>& indices,
+    std::vector<DirectX::XMFLOAT2>& textureCoordinates,
     float diameter,
     size_t tessellation,
     bool rhcoords)
 {
-    ComputeGeoSphereColor(vertices, indices, diameter, tessellation, rhcoords);
+    ComputeGeoSphereColor(vertices, indices, textureCoordinates, diameter, tessellation, rhcoords);
 }
 
 

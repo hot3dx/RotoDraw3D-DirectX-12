@@ -196,7 +196,7 @@ namespace Hot3dxRotoDraw
 		// on an object - 1.0f is the default
 		float GetUVPercentTextureDimensionSc2() { return m_textureDimensionSc2; }
 		void SetUVPercentTextureDimensionSc2(float textureDimension) { m_textureDimensionSc2 = textureDimension; }
-
+				
 	private:
 		Scenario2_Normal^ _scenario2Page;
 		bool m_bDoFrontFaces;
@@ -215,16 +215,23 @@ namespace Hot3dxRotoDraw
 		float m_textureDimensionSc2;
 	};
 
-	struct MaterialData
-	{
-		Platform::Array<float>^ args1 = ref new Platform::Array<float>(14);
-		unsigned int fCount;
-		Platform::String^ wcfileName = ref new Platform::String();
-		unsigned int nCount;
-		Platform::String^ matName = ref new Platform::String();
-		Platform::String^ nodeName = ref new Platform::String();
-		Platform::String^ effectName = ref new Platform::String();
-	};
+    // Add the correct type specifier for `mapType`. Assuming `mapType` is intended to be a type from the DirectX namespace or a custom type, define it properly.  
+    // If `mapType` is a custom type, ensure it is defined elsewhere in the codebase.  
+    typedef unsigned int mapType; // Example: Define `mapType` as an unsigned int.  
+
+    struct MaterialData  
+    {  
+        Platform::Array<float>^ args1 = ref new Platform::Array<float>(14);  
+        unsigned int fCount;  
+        Platform::String^ wcfileName = ref new Platform::String();  
+        unsigned int nCount;  
+        Platform::String^ matName = ref new Platform::String();  
+        Platform::String^ nodeName = ref new Platform::String();  
+        Platform::String^ effectName = ref new Platform::String();  
+        unsigned int m_illumType;  
+        unsigned int m_mapType; // Correctly defined `mapType`.  
+		float kaR, kaG, kaB, kdR, kdG, kdB, ksR, ksG, ksB, ns, ni, d, tr, tfR, tfG, tfB;
+    };
 
 	ref class MaterialDataVector
 	{
@@ -241,7 +248,7 @@ namespace Hot3dxRotoDraw
 		{
 			return m_materialDataVector.at(n);
 		}
-		void SetMaterialsList(MaterialData d) { m_materialDataVector.push_back(d); }
+		void SetMaterialsList(MaterialData d) { m_materialDataVector.emplace_back(d); }
 
 	private:
 		std::vector<MaterialData> m_materialDataVector;

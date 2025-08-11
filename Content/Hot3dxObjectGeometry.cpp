@@ -25,10 +25,10 @@ namespace DirectX
 
 
         // Collection types used when generating the geometry.
-        inline void index_push_backHot3dx(IndexCollectionColor& indices, size_t value)
+        inline void index_emplace_backHot3dx(IndexCollectionColor& indices, size_t value)
         {
             CheckIndexOverflowHot3dx(value);
-            indices.push_back(static_cast<uint16_t>(value));
+            indices.emplace_back(static_cast<uint16_t>(value));
         }
 
 
@@ -139,9 +139,9 @@ namespace DirectX
                }
 
                size_t vbase = vertices.size();
-               index_push_backHot3dx(indices, vbase);
-               index_push_backHot3dx(indices, vbase + i1);
-               index_push_backHot3dx(indices, vbase + i2);
+               index_emplace_backHot3dx(indices, vbase);
+               index_emplace_backHot3dx(indices, vbase + i1);
+               index_emplace_backHot3dx(indices, vbase + i2);
            }
 
            // Which end of the cylinder is this?
@@ -163,7 +163,7 @@ namespace DirectX
 
                XMVECTOR textureCoordinate = XMVectorMultiplyAdd(XMVectorSwizzle<0, 2, 3, 3>(circleVector), textureScale, g_XMOneHalf);
 
-               vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
+               vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
            }
        }
 
@@ -185,9 +185,9 @@ namespace DirectX
                }
 
                size_t vbase = vertices.size();
-               index_push_backHot3dx(indices, vbase);
-               index_push_backHot3dx(indices, vbase + i1);
-               index_push_backHot3dx(indices, vbase + i2);
+               index_emplace_backHot3dx(indices, vbase);
+               index_emplace_backHot3dx(indices, vbase + i1);
+               index_emplace_backHot3dx(indices, vbase + i2);
            }
 
            // Which end of the cylinder is this?
@@ -219,7 +219,7 @@ namespace DirectX
                XMVECTOR tan = XMVector3Cross(incident, normal);
                Hot3dxRotoDraw::VertexPositionNormalTextureTangent vpntt =
                    Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinate, tan);
-               vertices.push_back(vpntt);
+               vertices.emplace_back(vpntt);
            }
        }
 
@@ -241,9 +241,9 @@ namespace DirectX
                }
 
                size_t vbase = vertices.size();
-               index_push_backHot3dx(indices, vbase);
-               index_push_backHot3dx(indices, vbase + i1);
-               index_push_backHot3dx(indices, vbase + i2);
+               index_emplace_backHot3dx(indices, vbase);
+               index_emplace_backHot3dx(indices, vbase + i1);
+               index_emplace_backHot3dx(indices, vbase + i2);
            }
 
            // Which end of the cylinder is this?
@@ -265,7 +265,7 @@ namespace DirectX
 
                XMVECTOR textureCoordinate = XMVectorMultiplyAdd(XMVectorSwizzle<0, 2, 3, 3>(circleVector), textureScale, g_XMOneHalf);
 
-               vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinate, textureCoordinate));
+               vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinate, textureCoordinate));
            }
        }
 
@@ -314,31 +314,31 @@ void ComputeBoxColor(VertexCollectionColor& vertices, IndexCollectionColor& indi
 
         // Six indices (two triangles) per face.
         size_t vbase = vertices.size();
-        index_push_backHot3dx(indices, vbase + 0);
-        index_push_backHot3dx(indices, vbase + 1);
-        index_push_backHot3dx(indices, vbase + 2);
+        index_emplace_backHot3dx(indices, vbase + 0);
+        index_emplace_backHot3dx(indices, vbase + 1);
+        index_emplace_backHot3dx(indices, vbase + 2);
 
-        index_push_backHot3dx(indices, vbase + 0);
-        index_push_backHot3dx(indices, vbase + 2);
-        index_push_backHot3dx(indices, vbase + 3);
+        index_emplace_backHot3dx(indices, vbase + 0);
+        index_emplace_backHot3dx(indices, vbase + 2);
+        index_emplace_backHot3dx(indices, vbase + 3);
 
        
         // Four vertices per face.
         // (normal - side1 - side2) * tsize // normal // t0
         FXMVECTOR t = XMVectorMultiply(XMVectorSubtract(XMVectorSubtract(normal, side1), side2), tsize);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(t, colorv));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(t, colorv));
 
         // (normal - side1 + side2) * tsize // normal // t1
         FXMVECTOR t1 = XMVectorMultiply(XMVectorAdd(XMVectorSubtract(normal, side1), side2), tsize);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(t1, colorv));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(t1, colorv));
 
         // (normal + side1 + side2) * tsize // normal // t2
         FXMVECTOR t2 = XMVectorMultiply(XMVectorAdd(normal, XMVectorAdd(side1, side2)), tsize);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(t2, colorv));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(t2, colorv));
 
         // (normal + side1 - side2) * tsize // normal // t3
         FXMVECTOR t3 = XMVectorMultiply(XMVectorSubtract(XMVectorAdd(normal, side1), side2), tsize);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(t3, colorv));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(t3, colorv));
     }
 
     // Build RH above
@@ -346,10 +346,11 @@ void ComputeBoxColor(VertexCollectionColor& vertices, IndexCollectionColor& indi
         ReverseWindingHot3dx(indices, vertices);
 }
 
-void ComputeSphereColor(VertexCollectionColor& vertices, IndexCollectionColor& indices, float diameter, size_t tessellation, bool rhcoords)
+void ComputeSphereColor(VertexCollectionColor& vertices, IndexCollectionColor& indices, std::vector<XMFLOAT2>& textureCoordinates, float diameter, size_t tessellation, bool rhcoords)
 {
     vertices.clear();
     indices.clear();
+    textureCoordinates.clear();
     XMFLOAT4 color = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
     FXMVECTOR colorv = XMVectorSet(0.0f, 1.0f, 0.0f, 1.0f);
     if (tessellation < 3)
@@ -385,9 +386,10 @@ void ComputeSphereColor(VertexCollectionColor& vertices, IndexCollectionColor& i
 
             XMVECTOR normal = XMVectorSet(dx, dy, dz, 0);
             XMVECTOR textureCoordinate = XMVectorSet(u, v, 0, 0);
+            textureCoordinates.emplace_back(DirectX::XMFLOAT2(u, v));
 
             FXMVECTOR t = XMVectorScale(normal, radius);
-            vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(t, colorv));
+            vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(t, colorv));
         }
     }
 
@@ -401,13 +403,13 @@ void ComputeSphereColor(VertexCollectionColor& vertices, IndexCollectionColor& i
             size_t nextI = i + 1;
             size_t nextJ = (j + 1) % stride;
 
-            index_push_backHot3dx(indices, i * stride + j);
-            index_push_backHot3dx(indices, nextI * stride + j);
-            index_push_backHot3dx(indices, i * stride + nextJ);
+            index_emplace_backHot3dx(indices, i * stride + j);
+            index_emplace_backHot3dx(indices, nextI * stride + j);
+            index_emplace_backHot3dx(indices, i * stride + nextJ);
 
-            index_push_backHot3dx(indices, i * stride + nextJ);
-            index_push_backHot3dx(indices, nextI * stride + j);
-            index_push_backHot3dx(indices, nextI * stride + nextJ);
+            index_emplace_backHot3dx(indices, i * stride + nextJ);
+            index_emplace_backHot3dx(indices, nextI * stride + j);
+            index_emplace_backHot3dx(indices, nextI * stride + nextJ);
         }
     }
 
@@ -416,10 +418,11 @@ void ComputeSphereColor(VertexCollectionColor& vertices, IndexCollectionColor& i
         ReverseWindingHot3dx(indices, vertices);
 }
 
-void ComputeGeoSphereColor(VertexCollectionColor& vertices, IndexCollectionColor& indices, float diameter, size_t tessellation, bool rhcoords)
+void ComputeGeoSphereColor(VertexCollectionColor& vertices, IndexCollectionColor& indices, std::vector<XMFLOAT2>& textureCoordinates, float diameter, size_t tessellation, bool rhcoords)
 {
     vertices.clear();
     indices.clear();
+    textureCoordinates.clear();
 
     XMFLOAT4 color = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
 
@@ -533,7 +536,7 @@ void ComputeGeoSphereColor(VertexCollectionColor& vertices, IndexCollectionColor
 
                     outIndex = static_cast<uint16_t>(vertexPositions.size());
                     CheckIndexOverflowHot3dx(outIndex);
-                    vertexPositions.push_back(outVertex);
+                    vertexPositions.emplace_back(outVertex);
 
                     // Now add it to the map.
                     auto entry = std::make_pair(edge, outIndex);
@@ -587,7 +590,8 @@ void ComputeGeoSphereColor(VertexCollectionColor& vertices, IndexCollectionColor
         float v = latitude / XM_PI;
 
         auto texcoord = XMVectorSet(1.0f - u, v, 0.0f, 0.0f);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(pos), XMVectorGetY(pos), XMVectorGetZ(pos)), color));
+        textureCoordinates.emplace_back(DirectX::XMFLOAT2(1.0f - u, v));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(pos), XMVectorGetY(pos), XMVectorGetZ(pos)), color));
     }
 
     // There are a couple of fixes to do. One is a texture coordinate wraparound fixup. At some point, there will be
@@ -605,7 +609,7 @@ void ComputeGeoSphereColor(VertexCollectionColor& vertices, IndexCollectionColor
     {
         // This vertex is on the prime meridian if position.x and texcoord.u are both zero (allowing for small epsilon).
         bool isOnPrimeMeridian = XMVector2NearEqual(
-            XMVectorSet(vertices[i].position.x, vertices[i].position.x, 0.0f, 0.0f),
+            XMVectorSet(vertices[i].position.x, textureCoordinates[i].x, 0.0f, 0.0f),
             XMVectorZero(),
             XMVectorSplatEpsilon());
 
@@ -616,8 +620,8 @@ void ComputeGeoSphereColor(VertexCollectionColor& vertices, IndexCollectionColor
 
             // copy this vertex, correct the texture coordinate, and add the vertex
             DirectX::DXTKXAML12::VertexPositionColor v = vertices[i];
-            //v.textureCoordinate.x = 1.0f;
-            vertices.push_back(v);
+            textureCoordinates.emplace_back(DirectX::XMFLOAT2(1.0f, textureCoordinates[i].y));
+            vertices.emplace_back(v);
 
             // Now find all the triangles which contain this vertex and update them if necessary
             for (size_t j = 0; j < indices.size(); j += 3)
@@ -648,14 +652,14 @@ void ComputeGeoSphereColor(VertexCollectionColor& vertices, IndexCollectionColor
                 assert(*triIndex0 == i);
                 assert(*triIndex1 != i && *triIndex2 != i); // assume no degenerate triangles
 
-                const DirectX::DXTKXAML12::VertexPositionColor& v0 = vertices[*triIndex0];
-                const DirectX::DXTKXAML12::VertexPositionColor& v1 = vertices[*triIndex1];
-                const DirectX::DXTKXAML12::VertexPositionColor& v2 = vertices[*triIndex2];
+                //const DirectX::DXTKXAML12::VertexPositionColor& v0 = vertices[*triIndex0];
+                //const DirectX::DXTKXAML12::VertexPositionColor& v1 = vertices[*triIndex1];
+                //const DirectX::DXTKXAML12::VertexPositionColor& v2 = vertices[*triIndex2];
 
                 // check the other two vertices to see if we might need to fix this triangle
 
-                if (abs(v0.position.x - v1.position.x) > 0.5f ||
-                    abs(v0.position.x - v2.position.x) > 0.5f)
+                if (abs(textureCoordinates.at(static_cast<size_t>(*triIndex0)).x - textureCoordinates.at(static_cast<size_t>(*triIndex1)).x) > 0.5f ||
+                    abs(textureCoordinates.at(static_cast<size_t>(*triIndex0)).x - textureCoordinates.at(static_cast<size_t>(*triIndex2)).x) > 0.5f)
                 {
                     // yep; replace the specified index to point to the new, corrected vertex
                     *triIndex0 = static_cast<uint16_t>(newIndex);
@@ -672,6 +676,7 @@ void ComputeGeoSphereColor(VertexCollectionColor& vertices, IndexCollectionColor
     auto fixPole = [&](size_t poleIndex)
     {
         auto& poleVertex = vertices[poleIndex];
+        //auto& poleTexture = textureCoordinates.at(poleIndex);
         bool overwrittenPoleVertex = false; // overwriting the original pole vertex saves us one vertex
 
         for (size_t i = 0; i < indices.size(); i += 3)
@@ -712,10 +717,15 @@ void ComputeGeoSphereColor(VertexCollectionColor& vertices, IndexCollectionColor
             DirectX::DXTKXAML12::VertexPositionColor newPoleVertex = poleVertex;
             newPoleVertex.position.x = (otherVertex0.position.x + otherVertex1.position.x) / 2;
             newPoleVertex.position.y = poleVertex.position.y;
-
+            uint16_t* pNewPoleIndex = pPoleIndex;
+            textureCoordinates.at(*pNewPoleIndex).x = (textureCoordinates.at(*pOtherIndex0).x + textureCoordinates.at(*pOtherIndex1).x) / 2;
+            textureCoordinates.at(*pNewPoleIndex).y = textureCoordinates.at(*pPoleIndex).y;
+           // textureCoordinates.emplace_back((DirectX::XMFLOAT2(textureCoordinates.at(*pNewPoleIndex).x, textureCoordinates.at(*pNewPoleIndex).y)));
             if (!overwrittenPoleVertex)
             {
                 vertices[poleIndex] = newPoleVertex;
+                textureCoordinates.at(poleIndex) = (DirectX::XMFLOAT2(textureCoordinates.at(*pNewPoleIndex).x, textureCoordinates.at(*pNewPoleIndex).y));
+               // textureCoordinates.emplace_back((DirectX::XMFLOAT2(textureCoordinates.at(*pNewPoleIndex).x, textureCoordinates.at(*pNewPoleIndex).y)));
                 overwrittenPoleVertex = true;
             }
             else
@@ -723,7 +733,8 @@ void ComputeGeoSphereColor(VertexCollectionColor& vertices, IndexCollectionColor
                 CheckIndexOverflowHot3dx(vertices.size());
 
                 *pPoleIndex = static_cast<uint16_t>(vertices.size());
-                vertices.push_back(newPoleVertex);
+                vertices.emplace_back(newPoleVertex);
+                textureCoordinates.emplace_back(DirectX::XMFLOAT2(textureCoordinates.at(*pNewPoleIndex-1).x, textureCoordinates.at(*pNewPoleIndex-1).y));
             }
         }
     };
@@ -773,17 +784,17 @@ void ComputeCylinderColor(VertexCollectionColor& vertices, IndexCollectionColor&
         XMVECTOR textureCoordinate = XMLoadFloat(&u);
 
         XMVECTOR t = XMVectorAdd(sideOffset, topOffset);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(t), XMVectorGetY(t), XMVectorGetZ(t)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(t), XMVectorGetY(t), XMVectorGetZ(t)), color));
         t = XMVectorSubtract(sideOffset, topOffset);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(t), XMVectorGetY(t), XMVectorGetZ(t)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(t), XMVectorGetY(t), XMVectorGetZ(t)), color));
 
-        index_push_backHot3dx(indices, i * 2);
-        index_push_backHot3dx(indices, (i * 2 + 2) % (stride * 2));
-        index_push_backHot3dx(indices, i * 2 + 1);
+        index_emplace_backHot3dx(indices, i * 2);
+        index_emplace_backHot3dx(indices, (i * 2 + 2) % (stride * 2));
+        index_emplace_backHot3dx(indices, i * 2 + 1);
 
-        index_push_backHot3dx(indices, i * 2 + 1);
-        index_push_backHot3dx(indices, (i * 2 + 2) % (stride * 2));
-        index_push_backHot3dx(indices, (i * 2 + 3) % (stride * 2));
+        index_emplace_backHot3dx(indices, i * 2 + 1);
+        index_emplace_backHot3dx(indices, (i * 2 + 2) % (stride * 2));
+        index_emplace_backHot3dx(indices, (i * 2 + 3) % (stride * 2));
     }
 
     // Create flat triangle fan caps to seal the top and bottom.
@@ -831,12 +842,12 @@ void ComputeConeColor(VertexCollectionColor& vertices, IndexCollectionColor& ind
         normal = XMVector3Normalize(normal);
 
         // Duplicate the top vertex for distinct normals
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(topOffset), XMVectorGetY(topOffset), XMVectorGetZ(topOffset)), color));
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(pt), XMVectorGetY(pt), XMVectorGetZ(pt)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(topOffset), XMVectorGetY(topOffset), XMVectorGetZ(topOffset)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(pt), XMVectorGetY(pt), XMVectorGetZ(pt)), color));
 
-        index_push_backHot3dx(indices, i * 2);
-        index_push_backHot3dx(indices, (i * 2 + 3) % (stride * 2));
-        index_push_backHot3dx(indices, (i * 2 + 1) % (stride * 2));
+        index_emplace_backHot3dx(indices, i * 2);
+        index_emplace_backHot3dx(indices, (i * 2 + 3) % (stride * 2));
+        index_emplace_backHot3dx(indices, (i * 2 + 1) % (stride * 2));
     }
 
     // Create flat triangle fan caps to seal the bottom.
@@ -888,19 +899,19 @@ void ComputeTorusColor(VertexCollectionColor& vertices, IndexCollectionColor& in
             position = XMVector3Transform(position, transform);
             normal = XMVector3TransformNormal(normal, transform);
 
-            vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
+            vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
 
             // And create indices for two triangles.
             size_t nextI = (i + 1) % stride;
             size_t nextJ = (j + 1) % stride;
 
-            index_push_backHot3dx(indices, i * stride + j);
-            index_push_backHot3dx(indices, i * stride + nextJ);
-            index_push_backHot3dx(indices, nextI * stride + j);
+            index_emplace_backHot3dx(indices, i * stride + j);
+            index_emplace_backHot3dx(indices, i * stride + nextJ);
+            index_emplace_backHot3dx(indices, nextI * stride + j);
 
-            index_push_backHot3dx(indices, i * stride + nextJ);
-            index_push_backHot3dx(indices, nextI * stride + nextJ);
-            index_push_backHot3dx(indices, nextI * stride + j);
+            index_emplace_backHot3dx(indices, i * stride + nextJ);
+            index_emplace_backHot3dx(indices, nextI * stride + nextJ);
+            index_emplace_backHot3dx(indices, nextI * stride + j);
         }
     }
 
@@ -944,21 +955,20 @@ void ComputeTetrahedronColor(VertexCollectionColor& vertices, IndexCollectionCol
         normal = XMVector3Normalize(normal);
 
         size_t base = vertices.size();
-        index_push_backHot3dx(indices, base);
-        index_push_backHot3dx(indices, base + 1);
-        index_push_backHot3dx(indices, base + 2);
-
+        index_emplace_backHot3dx(indices, base);
+        index_emplace_backHot3dx(indices, base + 1);
+        index_emplace_backHot3dx(indices, base + 2);
         // Duplicate vertices to use face normals
         XMVECTOR position = XMVectorScale(verts[v0], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
 
 
         position = XMVectorScale(verts[v1], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
 
 
         position = XMVectorScale(verts[v2], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
 
     }
 
@@ -1012,21 +1022,21 @@ void ComputeOctahedronColor(VertexCollectionColor& vertices, IndexCollectionColo
         normal = XMVector3Normalize(normal);
 
         size_t base = vertices.size();
-        index_push_backHot3dx(indices, base);
-        index_push_backHot3dx(indices, base + 1);
-        index_push_backHot3dx(indices, base + 2);
+        index_emplace_backHot3dx(indices, base);
+        index_emplace_backHot3dx(indices, base + 1);
+        index_emplace_backHot3dx(indices, base + 2);
 
         // Duplicate vertices to use face normals
         XMVECTOR position = XMVectorScale(verts[v0], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
 
 
         position = XMVectorScale(verts[v1], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
 
 
         position = XMVectorScale(verts[v2], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
 
     }
 
@@ -1131,37 +1141,37 @@ void ComputeDodecahedronColor(VertexCollectionColor& vertices, IndexCollectionCo
 
         size_t base = vertices.size();
 
-        index_push_backHot3dx(indices, base);
-        index_push_backHot3dx(indices, base + 1);
-        index_push_backHot3dx(indices, base + 2);
+        index_emplace_backHot3dx(indices, base);
+        index_emplace_backHot3dx(indices, base + 1);
+        index_emplace_backHot3dx(indices, base + 2);
 
-        index_push_backHot3dx(indices, base);
-        index_push_backHot3dx(indices, base + 2);
-        index_push_backHot3dx(indices, base + 3);
+        index_emplace_backHot3dx(indices, base);
+        index_emplace_backHot3dx(indices, base + 2);
+        index_emplace_backHot3dx(indices, base + 3);
 
-        index_push_backHot3dx(indices, base);
-        index_push_backHot3dx(indices, base + 3);
-        index_push_backHot3dx(indices, base + 4);
+        index_emplace_backHot3dx(indices, base);
+        index_emplace_backHot3dx(indices, base + 3);
+        index_emplace_backHot3dx(indices, base + 4);
 
         // Duplicate vertices to use face normals
         XMVECTOR position = XMVectorScale(verts[v0], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
 
 
         position = XMVectorScale(verts[v1], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
 
 
         position = XMVectorScale(verts[v2], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
 
 
         position = XMVectorScale(verts[v3], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
 
 
         position = XMVectorScale(verts[v4], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
 
     }
 
@@ -1235,21 +1245,21 @@ void ComputeIcosahedronColor(VertexCollectionColor& vertices, IndexCollectionCol
         normal = XMVector3Normalize(normal);
 
         size_t base = vertices.size();
-        index_push_backHot3dx(indices, base);
-        index_push_backHot3dx(indices, base + 1);
-        index_push_backHot3dx(indices, base + 2);
+        index_emplace_backHot3dx(indices, base);
+        index_emplace_backHot3dx(indices, base + 1);
+        index_emplace_backHot3dx(indices, base + 2);
 
         // Duplicate vertices to use face normals
         XMVECTOR position = XMVectorScale(verts[v0], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
 
 
         position = XMVectorScale(verts[v1], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
 
 
         position = XMVectorScale(verts[v2], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionColor(XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position)), color));
 
     }
 
@@ -1305,29 +1315,29 @@ void ComputeBoxTangent(VertexCollectionPositionNormalTextureTangent& vertices, I
 
         // Six indices (two triangles) per face.
         size_t vbase = vertices.size();
-        index_push_backHot3dx(indices, vbase + 0);
-        index_push_backHot3dx(indices, vbase + 1);
-        index_push_backHot3dx(indices, vbase + 2);
+        index_emplace_backHot3dx(indices, vbase + 0);
+        index_emplace_backHot3dx(indices, vbase + 1);
+        index_emplace_backHot3dx(indices, vbase + 2);
 
-        index_push_backHot3dx(indices, vbase + 0);
-        index_push_backHot3dx(indices, vbase + 2);
-        index_push_backHot3dx(indices, vbase + 3);
+        index_emplace_backHot3dx(indices, vbase + 0);
+        index_emplace_backHot3dx(indices, vbase + 2);
+        index_emplace_backHot3dx(indices, vbase + 3);
         
         // Four vertices per face.
         // (normal - side1 - side2) * tsize // normal // t0
-        vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent((DirectX::XMVectorSubtract(DirectX::XMVectorSubtract(normal, side1), side2), tsize),
+        vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent((DirectX::XMVectorSubtract(DirectX::XMVectorSubtract(normal, side1), side2), tsize),
             normal, textureCoordinates[0], side1));
        
 
         // (normal - side1 + side2) * tsize // normal // t1
-        vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent((DirectX::XMVectorMultiply(DirectX::XMVectorAdd(DirectX::XMVectorSubtract(normal, side1), side2), tsize)),
+        vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent((DirectX::XMVectorMultiply(DirectX::XMVectorAdd(DirectX::XMVectorSubtract(normal, side1), side2), tsize)),
             normal, textureCoordinates[1], side1));
 
         // (normal + side1 + side2) * tsize // normal // t2
-        vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent((DirectX::XMVectorMultiply(DirectX::XMVectorAdd(normal, DirectX::XMVectorAdd(side1, side2)), tsize)), normal, textureCoordinates[2], side2));
+        vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent((DirectX::XMVectorMultiply(DirectX::XMVectorAdd(normal, DirectX::XMVectorAdd(side1, side2)), tsize)), normal, textureCoordinates[2], side2));
 
         // (normal + side1 - side2) * tsize // normal // t3
-        vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent((DirectX::XMVectorMultiply(DirectX::XMVectorSubtract(DirectX::XMVectorAdd(normal, side1), side2), tsize)), normal, textureCoordinates[3], side2));
+        vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent((DirectX::XMVectorMultiply(DirectX::XMVectorSubtract(DirectX::XMVectorAdd(normal, side1), side2), tsize)), normal, textureCoordinates[3], side2));
     }
 
     // Build RH above
@@ -1396,7 +1406,7 @@ void ComputeSphereTangent(VertexCollectionPositionNormalTextureTangent& vertices
                     XMFLOAT4(XMVectorGetX(tan), XMVectorGetY(tan), XMVectorGetZ(tan), XMVectorGetW(tan)
                     )
                 );
-            vertices.push_back(vpntt);
+            vertices.emplace_back(vpntt);
         }
 
         // Fill the index buffer with triangles joining each pair of latitude rings.
@@ -1409,13 +1419,13 @@ void ComputeSphereTangent(VertexCollectionPositionNormalTextureTangent& vertices
                 size_t nextI = l + 1;
                 size_t nextJ = (j + 1) % stride;
 
-                index_push_backHot3dx(indices, l * stride + j);
-                index_push_backHot3dx(indices, nextI * stride + j);
-                index_push_backHot3dx(indices, l * stride + nextJ);
+                index_emplace_backHot3dx(indices, l * stride + j);
+                index_emplace_backHot3dx(indices, nextI * stride + j);
+                index_emplace_backHot3dx(indices, l * stride + nextJ);
 
-                index_push_backHot3dx(indices, l * stride + nextJ);
-                index_push_backHot3dx(indices, nextI * stride + j);
-                index_push_backHot3dx(indices, nextI * stride + nextJ);
+                index_emplace_backHot3dx(indices, l * stride + nextJ);
+                index_emplace_backHot3dx(indices, nextI * stride + j);
+                index_emplace_backHot3dx(indices, nextI * stride + nextJ);
             }
         }
 
@@ -1543,7 +1553,7 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
 
                     outIndex = static_cast<uint16_t>(vertexPositions.size());
                     CheckIndexOverflowHot3dx(outIndex);
-                    vertexPositions.push_back(outVertex);
+                    vertexPositions.emplace_back(outVertex);
 
                     // Now add it to the map.
                     auto entry = std::make_pair(edge, outIndex);
@@ -1597,7 +1607,7 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
         float v = latitude / XM_PI;
 
         auto texcoord = XMVectorSet(1.0f - u, v, 0.0f, 0.0f);
-
+        
         FXMVECTOR t = XMVectorScale(normal, radius);
         float  x = XMVectorGetX(t);
         float  y = XMVectorGetY(t);
@@ -1616,7 +1626,7 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
             XMFLOAT2(1.0f - u, v), 
             XMFLOAT4(XMVectorGetX(tan), XMVectorGetY(tan), XMVectorGetZ(tan), XMVectorGetW(tan))
         );
-        vertices.push_back(vpntt);
+        vertices.emplace_back(vpntt);
 
     }
 
@@ -1648,7 +1658,7 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
             
             Hot3dxRotoDraw::VertexPositionNormalTextureTangent v = vertices[i];
             //v.textureCoordinate.x = 1.0f;
-            vertices.push_back(v);
+            vertices.emplace_back(v);
 
             // Now find all the triangles which contain this vertex and update them if necessary
             for (size_t j = 0; j < indices.size(); j += 3)
@@ -1754,7 +1764,7 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
                 CheckIndexOverflowHot3dx(vertices.size());
 
                 *pPoleIndex = static_cast<uint16_t>(vertices.size());
-                vertices.push_back(newPoleVertex);
+                vertices.emplace_back(newPoleVertex);
             }
         }
     };
@@ -1801,7 +1811,7 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
                     XMFLOAT2(XMVectorGetX(textureCoordinate), XMVectorGetY(textureCoordinate)),
                     XMFLOAT4()
                 );
-            vertices.push_back(vpntt);
+            vertices.emplace_back(vpntt);
             t = XMVectorSubtract(sideOffset, topOffset);
             Hot3dxRotoDraw::VertexPositionNormalTextureTangent vpntt1 =
                 Hot3dxRotoDraw::VertexPositionNormalTextureTangent(XMFLOAT3(XMVectorGetX(t), XMVectorGetY(t), XMVectorGetZ(t)), 
@@ -1809,15 +1819,15 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
                     XMFLOAT2(XMVectorGetX(textureCoordinate), XMVectorGetY(textureCoordinate)),
                     XMFLOAT4()
                 );
-            vertices.push_back(vpntt1);
+            vertices.emplace_back(vpntt1);
 
-            index_push_backHot3dx(indices, i * 2);
-            index_push_backHot3dx(indices, (i * 2 + 2) % (stride * 2));
-            index_push_backHot3dx(indices, i * 2 + 1);
+            index_emplace_backHot3dx(indices, i * 2);
+            index_emplace_backHot3dx(indices, (i * 2 + 2) % (stride * 2));
+            index_emplace_backHot3dx(indices, i * 2 + 1);
 
-            index_push_backHot3dx(indices, i * 2 + 1);
-            index_push_backHot3dx(indices, (i * 2 + 2) % (stride * 2));
-            index_push_backHot3dx(indices, (i * 2 + 3) % (stride * 2));
+            index_emplace_backHot3dx(indices, i * 2 + 1);
+            index_emplace_backHot3dx(indices, (i * 2 + 2) % (stride * 2));
+            index_emplace_backHot3dx(indices, (i * 2 + 3) % (stride * 2));
         }
 
         // Create flat triangle fan caps to seal the top and bottom.
@@ -1867,14 +1877,14 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
             // Duplicate the top vertex for distinct normals
             Hot3dxRotoDraw::VertexPositionNormalTextureTangent vpntt =
                 Hot3dxRotoDraw::VertexPositionNormalTextureTangent(topOffset, normal, textureCoordinate, GetCircleTangentColor(i, tessellation));
-            vertices.push_back(vpntt);
+            vertices.emplace_back(vpntt);
             Hot3dxRotoDraw::VertexPositionNormalTextureTangent vpntt1 =
                 Hot3dxRotoDraw::VertexPositionNormalTextureTangent(pt, normal, textureCoordinate, GetCircleTangentColor(i, tessellation));
-            vertices.push_back(vpntt1);
+            vertices.emplace_back(vpntt1);
 
-            index_push_backHot3dx(indices, i * 2);
-            index_push_backHot3dx(indices, (i * 2 + 3) % (stride * 2));
-            index_push_backHot3dx(indices, (i * 2 + 1) % (stride * 2));
+            index_emplace_backHot3dx(indices, i * 2);
+            index_emplace_backHot3dx(indices, (i * 2 + 3) % (stride * 2));
+            index_emplace_backHot3dx(indices, (i * 2 + 1) % (stride * 2));
         }
 
         // Create flat triangle fan caps to seal the bottom.
@@ -1927,19 +1937,19 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
                 normal = XMVector3TransformNormal(normal, transform);
 
                 
-                vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinate, GetCircleTangentColor(j, tessellation)));
+                vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinate, GetCircleTangentColor(j, tessellation)));
 
                 // And create indices for two triangles.
                 size_t nextI = (i + 1) % stride;
                 size_t nextJ = (j + 1) % stride;
 
-                index_push_backHot3dx(indices, i * stride + j);
-                index_push_backHot3dx(indices, i * stride + nextJ);
-                index_push_backHot3dx(indices, nextI * stride + j);
+                index_emplace_backHot3dx(indices, i * stride + j);
+                index_emplace_backHot3dx(indices, i * stride + nextJ);
+                index_emplace_backHot3dx(indices, nextI * stride + j);
 
-                index_push_backHot3dx(indices, i * stride + nextJ);
-                index_push_backHot3dx(indices, nextI * stride + nextJ);
-                index_push_backHot3dx(indices, nextI * stride + j);
+                index_emplace_backHot3dx(indices, i * stride + nextJ);
+                index_emplace_backHot3dx(indices, nextI * stride + nextJ);
+                index_emplace_backHot3dx(indices, nextI * stride + j);
             }
         }
 
@@ -1983,24 +1993,24 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
          normal = XMVector3Normalize(normal);
 
          size_t base = vertices.size();
-         index_push_backHot3dx(indices, base);
-         index_push_backHot3dx(indices, base + 1);
-         index_push_backHot3dx(indices, base + 2);
+         index_emplace_backHot3dx(indices, base);
+         index_emplace_backHot3dx(indices, base + 1);
+         index_emplace_backHot3dx(indices, base + 2);
 
          // Duplicate vertices to use face normals
          XMVECTOR position = XMVectorScale(verts[v0], size);
          XMVECTOR tan = XMVector3Cross(normal, position);
-         vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[0], tan));
+         vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[0], tan));
 
 
          position = XMVectorScale(verts[v1], size);
          tan = XMVector3Cross(normal, position);
-         vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[1], tan));
+         vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[1], tan));
 
 
          position = XMVectorScale(verts[v2], size);
          tan = XMVector3Cross(normal, position);
-         vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[2], tan));
+         vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[2], tan));
 
      }
 
@@ -2054,24 +2064,24 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
             normal = XMVector3Normalize(normal);
 
             size_t base = vertices.size();
-            index_push_backHot3dx(indices, base);
-            index_push_backHot3dx(indices, base + 1);
-            index_push_backHot3dx(indices, base + 2);
+            index_emplace_backHot3dx(indices, base);
+            index_emplace_backHot3dx(indices, base + 1);
+            index_emplace_backHot3dx(indices, base + 2);
 
             // Duplicate vertices to use face normals
             XMVECTOR position = XMVectorScale(verts[v0], size);
             XMVECTOR tan = XMVector3Cross(normal, position);
-            vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[v0], tan));
+            vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[v0], tan));
 
 
             position = XMVectorScale(verts[v1], size);
             tan = XMVector3Cross(normal, position);
-            vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[v1], tan));
+            vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[v1], tan));
 
 
             position = XMVectorScale(verts[v2], size);
             tan = XMVector3Cross(normal, position);
-            vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[v2], tan));
+            vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, verts[v2], tan));
 
         }
 
@@ -2083,7 +2093,7 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
         assert(indices.size() == 8 * 3);
     }
 
-    void ComputeDodecahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices,bool rhcoords, float size)
+    void ComputeDodecahedronTangent(VertexCollectionPositionNormalTextureTangent& vertices, IndexCollectionColor& indices, bool rhcoords, float size)
     {
         vertices.clear();
         indices.clear();
@@ -2175,42 +2185,42 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
 
             size_t base = vertices.size();
 
-            index_push_backHot3dx(indices, base);
-            index_push_backHot3dx(indices, base + 1);
-            index_push_backHot3dx(indices, base + 2);
+            index_emplace_backHot3dx(indices, base);
+            index_emplace_backHot3dx(indices, base + 1);
+            index_emplace_backHot3dx(indices, base + 2);
 
-            index_push_backHot3dx(indices, base);
-            index_push_backHot3dx(indices, base + 2);
-            index_push_backHot3dx(indices, base + 3);
+            index_emplace_backHot3dx(indices, base);
+            index_emplace_backHot3dx(indices, base + 2);
+            index_emplace_backHot3dx(indices, base + 3);
 
-            index_push_backHot3dx(indices, base);
-            index_push_backHot3dx(indices, base + 3);
-            index_push_backHot3dx(indices, base + 4);
+            index_emplace_backHot3dx(indices, base);
+            index_emplace_backHot3dx(indices, base + 3);
+            index_emplace_backHot3dx(indices, base + 4);
 
             // Duplicate vertices to use face normals
             XMVECTOR position = XMVectorScale(verts[v0], size);
             XMVECTOR tangent = XMVector3Cross(normal, position);
-            vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinates[0], tangent));
+            vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinates[0], tangent));
 
 
             position = XMVectorScale(verts[v1], size);
             tangent = XMVector3Cross(normal, position);
-            vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinates[1], tangent));
+            vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinates[1], tangent));
 
 
             position = XMVectorScale(verts[v2], size);
             tangent = XMVector3Cross(normal, position);
-            vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinates[2], tangent));
+            vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinates[2], tangent));
 
 
             position = XMVectorScale(verts[v3], size);
             tangent = XMVector3Cross(normal, position);
-            vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinates[3], tangent));
+            vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinates[3], tangent));
 
 
             position = XMVectorScale(verts[v4], size);
             tangent = XMVector3Cross(normal, position);
-            vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinates[4], tangent));
+            vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinates[4], tangent));
 
         }
 
@@ -2291,24 +2301,24 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
             normal = XMVector3Normalize(normal);
 
             size_t base = vertices.size();
-            index_push_backHot3dx(indices, base);
-            index_push_backHot3dx(indices, base + 1);
-            index_push_backHot3dx(indices, base + 2);
+            index_emplace_backHot3dx(indices, base);
+            index_emplace_backHot3dx(indices, base + 1);
+            index_emplace_backHot3dx(indices, base + 2);
 
             // Duplicate vertices to use face normals
             XMVECTOR position = XMVectorScale(verts[v0], size);
             XMVECTOR tangent = XMVector3Cross(normal, position);
-            vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinates[0], tangent));
+            vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinates[0], tangent));
 
 
             position = XMVectorScale(verts[v1], size);
             tangent = XMVector3Cross(normal, position);
-            vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinates[1], tangent));
+            vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinates[1], tangent));
 
 
             position = XMVectorScale(verts[v2], size);
             tangent = XMVector3Cross(normal, position);
-            vertices.push_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinates[2], tangent));
+            vertices.emplace_back(Hot3dxRotoDraw::VertexPositionNormalTextureTangent(position, normal, textureCoordinates[2], tangent));
 
         }
 
@@ -2367,32 +2377,32 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
 
             // Six indices (two triangles) per face.
             size_t vbase = vertices.size();
-            index_push_backHot3dx(indices, vbase + 0);
-            index_push_backHot3dx(indices, vbase + 1);
-            index_push_backHot3dx(indices, vbase + 2);
+            index_emplace_backHot3dx(indices, vbase + 0);
+            index_emplace_backHot3dx(indices, vbase + 1);
+            index_emplace_backHot3dx(indices, vbase + 2);
 
-            index_push_backHot3dx(indices, vbase + 0);
-            index_push_backHot3dx(indices, vbase + 2);
-            index_push_backHot3dx(indices, vbase + 3);
+            index_emplace_backHot3dx(indices, vbase + 0);
+            index_emplace_backHot3dx(indices, vbase + 2);
+            index_emplace_backHot3dx(indices, vbase + 3);
 
 
             // Four vertices per face.
             // (normal - side1 - side2) * tsize // normal // t0
             XMVECTOR t = DirectX::XMVectorMultiply(DirectX::XMVectorSubtract(DirectX::XMVectorSubtract(normal, side1), side2), tsize);
 
-            vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(DirectX::XMVectorSet(DirectX::XMVectorGetX(t), DirectX::XMVectorGetY(t), DirectX::XMVectorGetZ(t), DirectX::XMVectorGetW(t)), textureCoordinates[0], textureCoordinates[0]));
+            vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(DirectX::XMVectorSet(DirectX::XMVectorGetX(t), DirectX::XMVectorGetY(t), DirectX::XMVectorGetZ(t), DirectX::XMVectorGetW(t)), textureCoordinates[0], textureCoordinates[0]));
 
             // (normal - side1 + side2) * tsize // normal // t1
             t = XMVectorMultiply(XMVectorAdd(XMVectorSubtract(normal, side1), side2), tsize);
-            vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(DirectX::XMVectorSet(XMVectorGetX(t), DirectX::XMVectorGetY(t), DirectX::XMVectorGetZ(t), DirectX::XMVectorGetW(t)), textureCoordinates[1], textureCoordinates[1]));
+            vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(DirectX::XMVectorSet(XMVectorGetX(t), DirectX::XMVectorGetY(t), DirectX::XMVectorGetZ(t), DirectX::XMVectorGetW(t)), textureCoordinates[1], textureCoordinates[1]));
 
             // (normal + side1 + side2) * tsize // normal // t2
             t = XMVectorMultiply(XMVectorAdd(normal, XMVectorAdd(side1, side2)), tsize);
-            vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(DirectX::XMVectorSet(DirectX::XMVectorGetX(t), DirectX::XMVectorGetY(t), DirectX::XMVectorGetZ(t), DirectX::XMVectorGetW(t)), textureCoordinates[2], textureCoordinates[2]));
+            vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(DirectX::XMVectorSet(DirectX::XMVectorGetX(t), DirectX::XMVectorGetY(t), DirectX::XMVectorGetZ(t), DirectX::XMVectorGetW(t)), textureCoordinates[2], textureCoordinates[2]));
 
             // (normal + side1 - side2) * tsize // normal // t3
             t = XMVectorMultiply(XMVectorSubtract(XMVectorAdd(normal, side1), side2), tsize);
-            vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(DirectX::XMVectorSet(DirectX::XMVectorGetX(t), DirectX::XMVectorGetY(t), DirectX::XMVectorGetZ(t), DirectX::XMVectorGetW(t)), textureCoordinates[3], textureCoordinates[3]));
+            vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(DirectX::XMVectorSet(DirectX::XMVectorGetX(t), DirectX::XMVectorGetY(t), DirectX::XMVectorGetZ(t), DirectX::XMVectorGetW(t)), textureCoordinates[3], textureCoordinates[3]));
         }
 
         // Build RH above
@@ -2442,7 +2452,7 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
 
                 FXMVECTOR t = XMVectorScale(normal, radius);
 
-                vertices.push_back(
+                vertices.emplace_back(
                     DirectX::DXTKXAML12::VertexPositionDualTexture(XMFLOAT3(DirectX::XMVectorGetX(t), DirectX::XMVectorGetY(t), DirectX::XMVectorGetZ(t)), XMFLOAT2(u, v), XMFLOAT2(u, v))
                 );
             }
@@ -2458,13 +2468,13 @@ void ComputeGeoSphereTangent(VertexCollectionPositionNormalTextureTangent& verti
                 size_t nextI = i + 1;
                 size_t nextJ = (j + 1) % stride;
 
-                index_push_backHot3dx(indices, i * stride + j);
-                index_push_backHot3dx(indices, nextI * stride + j);
-                index_push_backHot3dx(indices, i * stride + nextJ);
+                index_emplace_backHot3dx(indices, i * stride + j);
+                index_emplace_backHot3dx(indices, nextI * stride + j);
+                index_emplace_backHot3dx(indices, i * stride + nextJ);
 
-                index_push_backHot3dx(indices, i * stride + nextJ);
-                index_push_backHot3dx(indices, nextI * stride + j);
-                index_push_backHot3dx(indices, nextI * stride + nextJ);
+                index_emplace_backHot3dx(indices, i * stride + nextJ);
+                index_emplace_backHot3dx(indices, nextI * stride + j);
+                index_emplace_backHot3dx(indices, nextI * stride + nextJ);
             }
         }
 
@@ -2590,7 +2600,7 @@ void ComputeGeoSphereDualTexture(VertexCollectionDualTexture& vertices, IndexCol
 
                     outIndex = static_cast<uint16_t>(vertexPositions.size());
                     CheckIndexOverflowHot3dx(outIndex);
-                    vertexPositions.push_back(outVertex);
+                    vertexPositions.emplace_back(outVertex);
 
                     // Now add it to the map.
                     auto entry = std::make_pair(edge, outIndex);
@@ -2645,7 +2655,7 @@ void ComputeGeoSphereDualTexture(VertexCollectionDualTexture& vertices, IndexCol
 
         auto texcoord = XMVectorSet(1.0f - u, v, 0.0f, 0.0f);
         XMFLOAT2 tex = { 1.0f - u, v };
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(XMFLOAT3(XMVectorGetX(pos), XMVectorGetY(pos), XMVectorGetZ(pos)), tex, tex));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(XMFLOAT3(XMVectorGetX(pos), XMVectorGetY(pos), XMVectorGetZ(pos)), tex, tex));
     }
 
     // There are a couple of fixes to do. One is a texture coordinate wraparound fixup. At some point, there will be
@@ -2675,7 +2685,7 @@ void ComputeGeoSphereDualTexture(VertexCollectionDualTexture& vertices, IndexCol
             // copy this vertex, correct the texture coordinate, and add the vertex
             DirectX::DXTKXAML12::VertexPositionDualTexture v = vertices[i];
             //v.textureCoordinate.x = 1.0f;
-            vertices.push_back(v);
+            vertices.emplace_back(v);
 
             // Now find all the triangles which contain this vertex and update them if necessary
             for (size_t j = 0; j < indices.size(); j += 3)
@@ -2781,7 +2791,7 @@ void ComputeGeoSphereDualTexture(VertexCollectionDualTexture& vertices, IndexCol
                 CheckIndexOverflowHot3dx(vertices.size());
 
                 *pPoleIndex = static_cast<uint16_t>(vertices.size());
-                vertices.push_back(newPoleVertex);
+                vertices.emplace_back(newPoleVertex);
             }
         }
     };
@@ -2821,17 +2831,17 @@ void ComputeCylinderDualTexture(VertexCollectionDualTexture& vertices, IndexColl
         XMVECTOR textureCoordinate = XMLoadFloat(&u);
 
         XMVECTOR t = XMVectorAdd(sideOffset, topOffset);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(t, textureCoordinate, textureCoordinate));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(t, textureCoordinate, textureCoordinate));
         t = XMVectorSubtract(sideOffset, topOffset);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(t, textureCoordinate, textureCoordinate));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(t, textureCoordinate, textureCoordinate));
 
-        index_push_backHot3dx(indices, i * 2);
-        index_push_backHot3dx(indices, (i * 2 + 2) % (stride * 2));
-        index_push_backHot3dx(indices, i * 2 + 1);
+        index_emplace_backHot3dx(indices, i * 2);
+        index_emplace_backHot3dx(indices, (i * 2 + 2) % (stride * 2));
+        index_emplace_backHot3dx(indices, i * 2 + 1);
 
-        index_push_backHot3dx(indices, i * 2 + 1);
-        index_push_backHot3dx(indices, (i * 2 + 2) % (stride * 2));
-        index_push_backHot3dx(indices, (i * 2 + 3) % (stride * 2));
+        index_emplace_backHot3dx(indices, i * 2 + 1);
+        index_emplace_backHot3dx(indices, (i * 2 + 2) % (stride * 2));
+        index_emplace_backHot3dx(indices, (i * 2 + 3) % (stride * 2));
     }
 
     // Create flat triangle fan caps to seal the top and bottom.
@@ -2882,14 +2892,14 @@ void ComputeConeDualTexture(VertexCollectionDualTexture& vertices, IndexCollecti
         // Duplicate the top vertex for distinct normals
         DirectX::DXTKXAML12::VertexPositionDualTexture vpntt =
             DirectX::DXTKXAML12::VertexPositionDualTexture(topOffset, textureCoordinate, textureCoordinate);
-        vertices.push_back(vpntt);
+        vertices.emplace_back(vpntt);
         DirectX::DXTKXAML12::VertexPositionDualTexture vpntt1 =
             DirectX::DXTKXAML12::VertexPositionDualTexture(pt, textureCoordinate, textureCoordinate);
-        vertices.push_back(vpntt1);
+        vertices.emplace_back(vpntt1);
 
-        index_push_backHot3dx(indices, i * 2);
-        index_push_backHot3dx(indices, (i * 2 + 3) % (stride * 2));
-        index_push_backHot3dx(indices, (i * 2 + 1) % (stride * 2));
+        index_emplace_backHot3dx(indices, i * 2);
+        index_emplace_backHot3dx(indices, (i * 2 + 3) % (stride * 2));
+        index_emplace_backHot3dx(indices, (i * 2 + 1) % (stride * 2));
     }
 
     // Create flat triangle fan caps to seal the bottom.
@@ -2942,19 +2952,19 @@ void ComputeTorusDualTexture(VertexCollectionDualTexture& vertices, IndexCollect
             normal = XMVector3TransformNormal(normal, transform);
 
 
-            vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position,textureCoordinate, textureCoordinate));
+            vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position,textureCoordinate, textureCoordinate));
 
             // And create indices for two triangles.
             size_t nextI = (i + 1) % stride;
             size_t nextJ = (j + 1) % stride;
 
-            index_push_backHot3dx(indices, i * stride + j);
-            index_push_backHot3dx(indices, i * stride + nextJ);
-            index_push_backHot3dx(indices, nextI * stride + j);
+            index_emplace_backHot3dx(indices, i * stride + j);
+            index_emplace_backHot3dx(indices, i * stride + nextJ);
+            index_emplace_backHot3dx(indices, nextI * stride + j);
 
-            index_push_backHot3dx(indices, i * stride + nextJ);
-            index_push_backHot3dx(indices, nextI * stride + nextJ);
-            index_push_backHot3dx(indices, nextI * stride + j);
+            index_emplace_backHot3dx(indices, i * stride + nextJ);
+            index_emplace_backHot3dx(indices, nextI * stride + nextJ);
+            index_emplace_backHot3dx(indices, nextI * stride + j);
         }
     }
 
@@ -2999,24 +3009,24 @@ void ComputeTetrahedronDualTexture(VertexCollectionDualTexture& vertices, IndexC
         normal = XMVector3Normalize(normal);
 
         size_t base = vertices.size();
-        index_push_backHot3dx(indices, base);
-        index_push_backHot3dx(indices, base + 1);
-        index_push_backHot3dx(indices, base + 2);
+        index_emplace_backHot3dx(indices, base);
+        index_emplace_backHot3dx(indices, base + 1);
+        index_emplace_backHot3dx(indices, base + 2);
 
         // Duplicate vertices to use face normals
         XMVECTOR position = XMVectorScale(verts[v0], size);
         XMVECTOR tan = XMVector3Cross(normal, position);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, verts[0], verts[0]));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, verts[0], verts[0]));
 
 
         position = XMVectorScale(verts[v1], size);
         tan = XMVector3Cross(normal, position); 
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, verts[1], verts[1]));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, verts[1], verts[1]));
 
 
         position = XMVectorScale(verts[v2], size);
         tan = XMVector3Cross(normal, position); 
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, verts[2], verts[2]));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, verts[2], verts[2]));
 
     }
 
@@ -3071,9 +3081,9 @@ void ComputeOctahedronDualTexture(VertexCollectionDualTexture& vertices, IndexCo
         normal = XMVector3Normalize(normal);
 
         size_t base = vertices.size();
-        index_push_backHot3dx(indices, base);
-        index_push_backHot3dx(indices, base + 1);
-        index_push_backHot3dx(indices, base + 2);
+        index_emplace_backHot3dx(indices, base);
+        index_emplace_backHot3dx(indices, base + 1);
+        index_emplace_backHot3dx(indices, base + 2);
 
 
         // Which end of the cylinder is this?
@@ -3092,17 +3102,17 @@ void ComputeOctahedronDualTexture(VertexCollectionDualTexture& vertices, IndexCo
         // Duplicate vertices to use face normals
         XMVECTOR position = XMVectorScale(verts[v0], size);
         XMVECTOR textureCoordinate = XMVectorMultiplyAdd(XMVectorSwizzle<0, 2, 3, 3>(circleVector), textureScale, g_XMOneHalf);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinate, textureCoordinate));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinate, textureCoordinate));
 
 
         position = XMVectorScale(verts[v1], size);
         textureCoordinate = XMVectorMultiplyAdd(XMVectorSwizzle<0, 2, 3, 3>(circleVector), textureScale, g_XMOneHalf);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinate, textureCoordinate));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinate, textureCoordinate));
 
 
         position = XMVectorScale(verts[v2], size);
         textureCoordinate = XMVectorMultiplyAdd(XMVectorSwizzle<0, 2, 3, 3>(circleVector), textureScale, g_XMOneHalf);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinate, textureCoordinate));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinate, textureCoordinate));
 
     }
 
@@ -3207,37 +3217,37 @@ void ComputeDodecahedronDualTexture(VertexCollectionDualTexture& vertices, Index
 
         size_t base = vertices.size();
 
-        index_push_backHot3dx(indices, base);
-        index_push_backHot3dx(indices, base + 1);
-        index_push_backHot3dx(indices, base + 2);
+        index_emplace_backHot3dx(indices, base);
+        index_emplace_backHot3dx(indices, base + 1);
+        index_emplace_backHot3dx(indices, base + 2);
 
-        index_push_backHot3dx(indices, base);
-        index_push_backHot3dx(indices, base + 2);
-        index_push_backHot3dx(indices, base + 3);
+        index_emplace_backHot3dx(indices, base);
+        index_emplace_backHot3dx(indices, base + 2);
+        index_emplace_backHot3dx(indices, base + 3);
 
-        index_push_backHot3dx(indices, base);
-        index_push_backHot3dx(indices, base + 3);
-        index_push_backHot3dx(indices, base + 4);
+        index_emplace_backHot3dx(indices, base);
+        index_emplace_backHot3dx(indices, base + 3);
+        index_emplace_backHot3dx(indices, base + 4);
 
         // Duplicate vertices to use face normals
         XMVECTOR position = XMVectorScale(verts[v0], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinates[0], textureCoordinates[0]));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinates[0], textureCoordinates[0]));
 
 
         position = XMVectorScale(verts[v1], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinates[1], textureCoordinates[1]));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinates[1], textureCoordinates[1]));
 
 
         position = XMVectorScale(verts[v2], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinates[2], textureCoordinates[2]));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinates[2], textureCoordinates[2]));
 
 
         position = XMVectorScale(verts[v3], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinates[3], textureCoordinates[3]));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinates[3], textureCoordinates[3]));
 
 
         position = XMVectorScale(verts[v4], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinates[4], textureCoordinates[4]));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinates[4], textureCoordinates[4]));
 
     }
 
@@ -3318,21 +3328,21 @@ void ComputeIcosahedronDualTexture(VertexCollectionDualTexture& vertices, IndexC
         normal = XMVector3Normalize(normal);
 
         size_t base = vertices.size();
-        index_push_backHot3dx(indices, base);
-        index_push_backHot3dx(indices, base + 1);
-        index_push_backHot3dx(indices, base + 2);
+        index_emplace_backHot3dx(indices, base);
+        index_emplace_backHot3dx(indices, base + 1);
+        index_emplace_backHot3dx(indices, base + 2);
 
         // Duplicate vertices to use face normals
         XMVECTOR position = XMVectorScale(verts[v0], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinates[0], textureCoordinates[0]));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinates[0], textureCoordinates[0]));
 
 
         position = XMVectorScale(verts[v1], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinates[1], textureCoordinates[1]));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinates[1], textureCoordinates[1]));
 
 
         position = XMVectorScale(verts[v2], size);
-        vertices.push_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinates[2], textureCoordinates[2]));
+        vertices.emplace_back(DirectX::DXTKXAML12::VertexPositionDualTexture(position, textureCoordinates[2], textureCoordinates[2]));
 
     }
 

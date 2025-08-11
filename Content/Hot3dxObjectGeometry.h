@@ -2,7 +2,7 @@
 
 #include "pch.h"
 #include <VertexTypesXaml12.h>
-#include "Common\d3dx12.h"
+#include "Common/d3dx12.h"
 #include <memory>
 #include <vector>
 #include <d3d12.h>
@@ -25,8 +25,8 @@ namespace DirectX
         typedef std::vector<uint16_t> IndexCollectionColor;
 
         void ComputeBoxColor(VertexCollectionColor& vertices, IndexCollectionColor& indices, const XMFLOAT3& size, bool rhcoords);
-        void ComputeSphereColor(VertexCollectionColor& vertices, IndexCollectionColor& indices, float diameter, size_t tessellation, bool rhcoords);
-        void ComputeGeoSphereColor(VertexCollectionColor& vertices, IndexCollectionColor& indices, float diameter, size_t tessellation, bool rhcoords);
+        void ComputeSphereColor(VertexCollectionColor& vertices, IndexCollectionColor& indices, std::vector<DirectX::XMFLOAT2>& textureCoordinates, float diameter, size_t tessellation, bool rhcoords);
+        void ComputeGeoSphereColor(VertexCollectionColor& vertices, IndexCollectionColor& indices, std::vector<DirectX::XMFLOAT2>& textureCoordinates, float diameter, size_t tessellation, bool rhcoords);
         void CreateCylinderCapColor(VertexCollectionColor& vertices,IndexCollectionColor& indices, size_t tessellation, float height, float radius, bool isTop);
         void ComputeCylinderColor(VertexCollectionColor& vertices, IndexCollectionColor& indices, float height, float diameter, size_t tessellation, bool rhcoords);
         void ComputeConeColor(VertexCollectionColor& vertices, IndexCollectionColor& indices, float diameter, float height, size_t tessellation, bool rhcoords);

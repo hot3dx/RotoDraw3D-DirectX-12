@@ -8,6 +8,7 @@
 #include "pch.h"
 #include "Common/DirectXHelper.h"
 #include "Hot3dxRotoDrawSceneRender.h"
+#include "Common/DeviceResources.h"
 
 using Microsoft::WRL::ComPtr;
 using namespace DX;
@@ -80,7 +81,7 @@ namespace Hot3dxRotoDraw
     };
 
 
-Hot3dxRotoDraw::MediaEnginePlayer::MediaEnginePlayer(const std::shared_ptr<DX::DeviceResources>& deviceResources) noexcept :
+Hot3dxRotoDraw::MediaEnginePlayer::MediaEnginePlayer(const std::shared_ptr<DeviceResources>& deviceResources) noexcept :
     m_bkgColor{},
     m_isPlaying(false),
     m_isInfoReady(false),
@@ -99,7 +100,7 @@ Hot3dxRotoDraw::MediaEnginePlayer::~MediaEnginePlayer()
 void Hot3dxRotoDraw::MediaEnginePlayer::Initialize(IDXGIFactory4* dxgiFactory, ID3D12Device* device, DXGI_FORMAT format)
 {
     // Initialize Media Foundation (see Main.cpp for code to handle Windows N Editions)
-    DX::ThrowIfFailed(MFStartup(MF_VERSION));
+    ThrowIfFailedHot(MFStartup(MF_VERSION));
 
     // Create our own device to avoid threading issues
     auto adapterLuid = device->GetAdapterLuid();
@@ -112,7 +113,7 @@ void Hot3dxRotoDraw::MediaEnginePlayer::Initialize(IDXGIFactory4* dxgiFactory, I
         ++adapterIndex)
     {
         DXGI_ADAPTER_DESC1 desc;
-        DX::ThrowIfFailed(adapter->GetDesc1(&desc));
+        ThrowIfFailedHot(adapter->GetDesc1(&desc));
 
         if (desc.AdapterLuid.LowPart == adapterLuid.LowPart
             && desc.AdapterLuid.HighPart == adapterLuid.HighPart)
@@ -136,7 +137,7 @@ void Hot3dxRotoDraw::MediaEnginePlayer::Initialize(IDXGIFactory4* dxgiFactory, I
         }
 
         DXGI_ADAPTER_DESC1 desc;
-        DX::ThrowIfFailed(adapter->GetDesc1(&desc));
+        ThrowIfFailedHot(adapter->GetDesc1(&desc));
 
         if (desc.AdapterLuid.LowPart != adapterLuid.LowPart
             || desc.AdapterLuid.HighPart != adapterLuid.HighPart)
@@ -160,7 +161,7 @@ void Hot3dxRotoDraw::MediaEnginePlayer::Initialize(IDXGIFactory4* dxgiFactory, I
     UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 
 #if defined(_DEBUG)
-    if (DX::SdkLayersAvailableD3D11())
+    if (SdkLayersAvailableD3D11())
     {
         // If the project is in a debug build, enable debugging via SDK Layers with this flag.
         creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
@@ -200,7 +201,7 @@ void Hot3dxRotoDraw::MediaEnginePlayer::Initialize(IDXGIFactory4* dxgiFactory, I
     ComPtr<ID3D11DeviceContext> context;
 
     // Retrieve the adapter specified by the holographic space.
-    DX::ThrowIfFailed(
+    ThrowIfFailedHot(
         dxgiFactory->EnumAdapterByLuid(
             adapterLuid,
             IID_PPV_ARGS(&adapter)
@@ -225,7 +226,7 @@ void Hot3dxRotoDraw::MediaEnginePlayer::Initialize(IDXGIFactory4* dxgiFactory, I
         // If the initialization fails, fall back to the WARP device.
         // For more information on WARP, see:
         // http://go.microsoft.com/fwlink/?LinkId=286690
-        DX::ThrowIfFailed(
+        ThrowIfFailedHot(
             D3D11CreateDevice(
                 nullptr,              // Use the default DXGI adapter for WARP.
                 D3D_DRIVER_TYPE_WARP, // Create a WARP device instead of a hardware device.
@@ -243,17 +244,17 @@ void Hot3dxRotoDraw::MediaEnginePlayer::Initialize(IDXGIFactory4* dxgiFactory, I
 
 
     // Store pointers to the Direct3D device and immediate context.
-    DX::ThrowIfFailed(
+    ThrowIfFailedHot(
         baseDevice.As(&m_device)
     );
 
-    // DX::ThrowIfFailed(
+    // ThrowIfFailedHot(
      //    context.As(&m_d3dContext)
     // );
 
      // Acquire the DXGI interface for the Direct3D device.
     ComPtr<IDXGIDevice3> dxgiDevice;
-    DX::ThrowIfFailed(
+    ThrowIfFailedHot(
         m_device.As(&dxgiDevice)
     );
 
@@ -263,59 +264,59 @@ void Hot3dxRotoDraw::MediaEnginePlayer::Initialize(IDXGIFactory4* dxgiFactory, I
     // Cache the DXGI adapter.
     // This is for the case of no preferred DXGI adapter, or fallback to WARP.
     ComPtr<IDXGIAdapter> dxgiAdapter;
-    DX::ThrowIfFailed(
+    ThrowIfFailedHot(
         dxgiDevice->GetAdapter(&dxgiAdapter)
     );
-    DX::ThrowIfFailed(
+    ThrowIfFailedHot(
         dxgiAdapter.As(&adapter)
     );
 
     ComPtr<ID3D10Multithread> multithreaded;
-    DX::ThrowIfFailed(
+    ThrowIfFailedHot(
         baseDevice->QueryInterface(IID_PPV_ARGS(&multithreaded))
     );
     multithreaded->SetMultithreadProtected(TRUE);
-    DX::ThrowIfFailed(baseDevice.As(&multithreaded));
-    DX::ThrowIfFailed(baseDevice.As(&m_device));
+    ThrowIfFailedHot(baseDevice.As(&multithreaded));
+    ThrowIfFailedHot(baseDevice.As(&m_device));
 
     // Setup Media Engine
     Microsoft::WRL::ComPtr<IMFDXGIDeviceManager> dxgiManager;
     UINT resetToken;
-    DX::ThrowIfFailed(MFCreateDXGIDeviceManager(&resetToken, dxgiManager.GetAddressOf()));
-    DX::ThrowIfFailed(dxgiManager->ResetDevice(m_device.Get(), resetToken));
+    ThrowIfFailedHot(MFCreateDXGIDeviceManager(&resetToken, dxgiManager.GetAddressOf()));
+    ThrowIfFailedHot(dxgiManager->ResetDevice(m_device.Get(), resetToken));
 
     // Create our event callback object.
     ComPtr<MediaEngineNotify> spNotify = new MediaEngineNotify();
     if (spNotify == nullptr)
     {
-        DX::ThrowIfFailed(E_OUTOFMEMORY);
+        ThrowIfFailedHot(E_OUTOFMEMORY);
     }
 
     spNotify->SetCallback(this);
 
     // Set configuration attribiutes.
     ComPtr<IMFAttributes> attributes;
-    DX::ThrowIfFailed(MFCreateAttributes(attributes.GetAddressOf(), 1));
-    DX::ThrowIfFailed(attributes->SetUnknown(MF_MEDIA_ENGINE_DXGI_MANAGER, reinterpret_cast<IUnknown*>(dxgiManager.Get())));
-    DX::ThrowIfFailed(attributes->SetUnknown(MF_MEDIA_ENGINE_CALLBACK, reinterpret_cast<IUnknown*>(spNotify.Get())));
-    DX::ThrowIfFailed(attributes->SetUINT32(MF_MEDIA_ENGINE_VIDEO_OUTPUT_FORMAT, format));
+    ThrowIfFailedHot(MFCreateAttributes(attributes.GetAddressOf(), 1));
+    ThrowIfFailedHot(attributes->SetUnknown(MF_MEDIA_ENGINE_DXGI_MANAGER, reinterpret_cast<IUnknown*>(dxgiManager.Get())));
+    ThrowIfFailedHot(attributes->SetUnknown(MF_MEDIA_ENGINE_CALLBACK, reinterpret_cast<IUnknown*>(spNotify.Get())));
+    ThrowIfFailedHot(attributes->SetUINT32(MF_MEDIA_ENGINE_VIDEO_OUTPUT_FORMAT, format));
 
     // Create MediaEngine.
     ComPtr<IMFMediaEngineClassFactory> mfFactory;
-    DX::ThrowIfFailed(
+    ThrowIfFailedHot(
         CoCreateInstance(CLSID_MFMediaEngineClassFactory,
             nullptr,
             CLSCTX_ALL,
             IID_PPV_ARGS(mfFactory.GetAddressOf())));
 
-    DX::ThrowIfFailed(
+    ThrowIfFailedHot(
         mfFactory->CreateInstance(0,
             attributes.Get(),
             m_mediaEngine.ReleaseAndGetAddressOf()));
 
     // Create MediaEngineEx
-    DX::ThrowIfFailed(m_mediaEngine.As(&m_engineEx));
-    }
+    ThrowIfFailedHot(m_mediaEngine.As(&m_engineEx));
+  }
 }
 
 void Hot3dxRotoDraw::MediaEnginePlayer::Shutdown()
@@ -333,7 +334,7 @@ void Hot3dxRotoDraw::MediaEnginePlayer::Play()
 
     if (m_mediaEngine)
     {
-        DX::ThrowIfFailed(m_mediaEngine->Play());
+        ThrowIfFailedHot(m_mediaEngine->Play());
         m_isPlaying = true;
         m_isFinished = false;
     }
@@ -343,7 +344,7 @@ void Hot3dxRotoDraw::MediaEnginePlayer::SetMuted(bool muted)
 {
     if (m_mediaEngine)
     {
-        DX::ThrowIfFailed(m_mediaEngine->SetMuted(muted));
+        ThrowIfFailedHot(m_mediaEngine->SetMuted(muted));
     }
 }
 
@@ -362,7 +363,7 @@ void Hot3dxRotoDraw::MediaEnginePlayer::SetSource(_In_z_ const wchar_t* sourceUr
 
     if (bstrURL == 0)
     {
-        DX::ThrowIfFailed(E_OUTOFMEMORY);
+        ThrowIfFailedHot(E_OUTOFMEMORY);
     }
 
     wcscpy_s(bstrURL, cchAllocationSize, sourceUri);
@@ -375,7 +376,7 @@ void Hot3dxRotoDraw::MediaEnginePlayer::SetSource(_In_z_ const wchar_t* sourceUr
     {
         HRESULT hr = S_OK;
         hr = m_mediaEngine->SetSource(bstrURL);
-        DX::ThrowIfFailed(hr);
+        ThrowIfFailedHot(hr);
     }
 
 }
@@ -448,7 +449,7 @@ void Hot3dxRotoDraw::MediaEnginePlayer::GetNativeVideoSize(uint32_t& cx, uint32_
     if (m_mediaEngine && m_isInfoReady)
     {
         DWORD x, y;
-        DX::ThrowIfFailed(m_mediaEngine->GetNativeVideoSize(&x, &y));
+        ThrowIfFailedHot(m_mediaEngine->GetNativeVideoSize(&x, &y));
 
         cx = x;
         cy = y;

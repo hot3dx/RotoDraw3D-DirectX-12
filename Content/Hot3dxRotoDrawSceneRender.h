@@ -25,7 +25,6 @@
 #include <PostProcessXaml12.h>
 #include <Audio\AudioXaml12.h>
 #include <Audio\MediaReaderXaml12.h>
-#include <Hot3dxGeometry.h>
 #include <Hot3dx12Rotate.h>
 #include "Hot3dxRotoDrawVariables.h"
 #include <mfapi.h>
@@ -33,6 +32,8 @@
 #include <thread>
 #include <chrono>
 #include <assert.h>
+
+using namespace DX;
 
 namespace Hot3dxRotoDraw
 {
@@ -91,14 +92,24 @@ namespace Hot3dxRotoDraw
 	ref class PtGroups sealed
 	{
 	public:
-		PtGroups();
-		virtual ~PtGroups() { ZeroOutPtList(); }
+		PtGroups(int ptCount);
+		virtual ~PtGroups() { ZeroOutPtList();	}
 		Platform::Array<uint16_t>^ GetPtList() { return m_PtList; }
 		void SetPtList(unsigned int i, uint16_t val) { m_PtList->set(i, val); }
 		uint16_t GetListPt(unsigned int i) { return m_PtList->get(i); }
-		void ZeroOutPtList() { m_PtList->~Array(); }
+		void ZeroOutPtList() {
+			m_ptlistCount = 0; 
+			m_PtList = ref new Platform::Array<uint16_t>(m_ptlistCount);
+		}
+		void SetPtListSize(unsigned int count)
+		{
+			m_ptlistCount = count;
+			m_PtList = ref new Platform::Array<uint16_t>(m_ptlistCount);
+		}
+		
 	private:
-		Platform::Array<uint16_t>^ m_PtList = ref new Platform::Array<uint16_t>(1000);
+		unsigned int m_ptlistCount;
+		Platform::Array<uint16_t>^ m_PtList = ref new Platform::Array<uint16_t>(m_ptlistCount);
 	};
 
 	ref class LinePtGrp sealed
@@ -262,7 +273,7 @@ namespace Hot3dxRotoDraw
 	class MediaEnginePlayer : public IMFNotify
 	{
 	public:
-		MediaEnginePlayer(const std::shared_ptr<DX::DeviceResources>& deviceResources) noexcept;
+		MediaEnginePlayer(const std::shared_ptr<DeviceResources>& deviceResources) noexcept;
 		~MediaEnginePlayer();
 
 		MediaEnginePlayer(const MediaEnginePlayer&) = delete;
@@ -293,7 +304,7 @@ namespace Hot3dxRotoDraw
 	private:
 
 		Microsoft::WRL::ComPtr<ID3D11Device1>       m_device;
-		std::shared_ptr<DX::DeviceResources>          m_deviceResources;
+		std::shared_ptr<DeviceResources>          m_deviceResources;
 		Microsoft::WRL::ComPtr<IMFMediaEngine>      m_mediaEngine;
 		Microsoft::WRL::ComPtr<IMFMediaEngineEx>    m_engineEx;
 
@@ -311,10 +322,10 @@ namespace Hot3dxRotoDraw
 		virtual ~RotoDrawSceneRender();
 
 	internal:
-		RotoDrawSceneRender(const std::shared_ptr<DX::DeviceResources>& deviceResources);
+		RotoDrawSceneRender(const std::shared_ptr<DeviceResources>& deviceResources);
 		void CreateDeviceDependentResources();
 		void CreateWindowSizeDependentResources();
-		void Update(DX::StepTimer const& timer);
+		void Update(StepTimer const& timer);
 		bool RenderPBR(DirectX::XMMATRIX localDrawnObject);
 		bool Render();
 		void Clear();
@@ -453,6 +464,7 @@ namespace Hot3dxRotoDraw
 			case 0:
 			{
 				m_bIsBasicModel = true;
+				m_bIsBasicModelColor = false;
 				m_bIsDualTextureModel = false;
 				m_bIsPBRModel = false;
 				m_bIsVideoTextureModel = false;
@@ -462,6 +474,7 @@ namespace Hot3dxRotoDraw
 			{
 				m_bIsDualTextureModel = true;
 				m_bIsBasicModel = false;
+				m_bIsBasicModelColor = false;
 				m_bIsPBRModel = false;
 				m_bIsVideoTextureModel = false;
 				m_bIsSculptWireframe = false;
@@ -471,12 +484,23 @@ namespace Hot3dxRotoDraw
 				m_bIsPBRModel = true;
 				m_bIsDualTextureModel = false;
 				m_bIsBasicModel = false;
+				m_bIsBasicModelColor = false;
 				m_bIsVideoTextureModel = false;
 				m_bIsSculptWireframe = false;
 			}break;
 			case 3:
 			{
 				m_bIsVideoTextureModel = true;
+				m_bIsBasicModel = false;
+				m_bIsBasicModelColor = false;
+				m_bIsDualTextureModel = false;
+				m_bIsPBRModel = false;
+				m_bIsSculptWireframe = false;
+			}break;
+			case 4:
+			{
+				m_bIsBasicModelColor = true;
+				m_bIsVideoTextureModel = false;
 				m_bIsBasicModel = false;
 				m_bIsDualTextureModel = false;
 				m_bIsPBRModel = false;
@@ -487,23 +511,28 @@ namespace Hot3dxRotoDraw
 				m_bIsSculptWireframe = true;
 				m_bIsVideoTextureModel = false;
 				m_bIsBasicModel = false;
+				m_bIsBasicModelColor = false;
 				m_bIsDualTextureModel = false;
 				m_bIsPBRModel = false;
 			}break;
 			}
 		}
 		void XM_CALLCONV InitDrawnObjectSingleTexture();
+		void XM_CALLCONV InitDrawnObjectPBRFourTextures();// THiCC Engine Type
 		void XM_CALLCONV InitDrawnObjectPBRFiveTextures();
+		void XM_CALLCONV InitDrawnObjectPBRThreeTextures();
 		void XM_CALLCONV InitDrawnObjectDualTexture();
 		void XM_CALLCONV InitDrawnObjectVideoTexture();
 		void XM_CALLCONV InitDrawnObjectSculptWireframe();
+
+		void XM_CALLCONV InitDrawnObjectSingleColor();
 
 		void CheckMaximumPointCount(size_t vectorSize);
 
 		Platform::String^ m_hot3dxDirPath = ref new Platform::String();
 		void CameraReset();
 		void XM_CALLCONV ClearDrawnObject();
-		void ScreenMouse3DWorldAlignment();
+		void ScreenMouse3DWorldAlignment() const;
 		void XM_CALLCONV PointDataValues(unsigned int number, float x, float y, float z);
 		Platform::String^ XM_CALLCONV PointCountString(Platform::String^ m_fontString, Platform::String^ objectString, unsigned int cnt);
 		Platform::String^ XM_CALLCONV ObjectXYZPositionString(Platform::String^ m_fontString, Platform::String^ objectString, float x, float y, float z);
@@ -616,21 +645,13 @@ namespace Hot3dxRotoDraw
 		void SetPointSpace(float dist) { m_fPointSpace = dist; }
 
 		// Draws the single line fro which the object is calculated
-		void IncrementPtGroups() {
-			PtGroups^ ptGroups = ref new PtGroups();
-			m_PtGroupList.push_back(ptGroups);
-		}
-
-		void IncrementLinePtGroups()
-		{
-			LinePtGrp^ lptGroups = ref new LinePtGrp(65);
-			m_LinePtsList.push_back(lptGroups);
-		}
-		void IncrementLinePtGroupsSize(unsigned int sizeOfLine)
-		{
-			LinePtGrp^ lptGroups = ref new LinePtGrp(sizeOfLine);
-			m_LinePtsList.push_back(lptGroups);
-		}
+		void ResizePtGroups(size_t size);
+		void IncrementPtGroups(); 
+		void IncrementLinePtGroups();
+		void IncrementLinePtGroupsSize(unsigned int sizeOfLine);
+		
+			
+		
 		
 		uint16_t XM_CALLCONV DrawObjectPoints(uint16_t n);
 		void XM_CALLCONV DrawObjectPointsTop();
@@ -644,9 +665,9 @@ namespace Hot3dxRotoDraw
 		float GetMouseHeightRatio() const { return m_drawMouseHeightRatio; }
 		void MouseWidthHeightRatioOutput() const
 		{
-			TCHAR dest[100];
-			const TCHAR* str = { L"W: %.6f H: %.6f\n" };
-			StringCbPrintf(dest, 100, str, GetMouseWidthRatio(), GetMouseHeightRatio());
+			//TCHAR dest[100];
+			//const TCHAR* str = { L"W: %.6f H: %.6f\n" };
+			//StringCbPrintf(dest, 100, str, GetMouseWidthRatio(), GetMouseHeightRatio());
 			//OutputDebugString(dest);
 		}
 		// .txt and .hbin file readers
@@ -788,10 +809,14 @@ namespace Hot3dxRotoDraw
 		void XM_CALLCONV EndpointSphereBottomRightFaces(unsigned int secondFromEndGroupPoints);
 		void XM_CALLCONV MidSphereLesserLatitudeTopLeftFaces(unsigned int groupNum, unsigned int firstGroupPoints, unsigned int secondGroupPoints);
 		void XM_CALLCONV MidSphereGreaterLatitudeTopLeftFaces(unsigned int groupNum, unsigned int firstGroupPoints, unsigned int secondGroupPoints);
+		void XM_CALLCONV CalculateSphereDifLensLinesMeshFaces(unsigned int groupNum, unsigned int firstGroupPoints, unsigned int secondGroupPoints);
+		void XM_CALLCONV CalculateDifLensLinesMeshFacesSphere(unsigned int groupNum, unsigned int firstGroupPoints, unsigned int secondGroupPoints);
+		
 		
 
 		// Calculates Texture Coordinates for whole object
-		void XM_CALLCONV GetUVPercent(float dimension);
+		void XM_CALLCONV GetUVPercent(float dimension, size_t count);
+		void XM_CALLCONV GetUVPercentMySphere(float dimension, unsigned int ptCount);
 		//void XM_CALLCONV GetUVPercentTop();
 		float* XM_CALLCONV GetU(XMVECTOR v, Platform::Array<float>^ box);
 		// Needed to Get DirectXPage^
@@ -832,7 +857,7 @@ namespace Hot3dxRotoDraw
 		Platform::Array<unsigned int>^ m_iTempGroup = ref new Platform::Array<unsigned int>(10000);
 		Platform::Array<float>^ m_iTempMouseX = ref new Platform::Array<float>(10000);
 		Platform::Array<float>^ m_iTempMouseY = ref new Platform::Array<float>(10000);
-		
+		//std::unique_ptr<Hot3dxRotoDraw::PtGroups^>** m_PtGroupList;
 		std::vector<Hot3dxRotoDraw::PtGroups^> m_PtGroupList;
 		std::vector<LinePtGrp^> m_LinePtsList; 
 		uint16_t m_iTotalLinePointsCount;
@@ -850,12 +875,12 @@ namespace Hot3dxRotoDraw
 		std::vector<uint16_t> indices;
 		std::vector<float> textureU;
 		std::vector<float> textureV;
+		std::vector<XMFLOAT2> textureCoordinates;
 		//unsigned int m_iTextureUVCount;
 
-		Platform::Array<unsigned int>^ m_vSphereGroupsSizes = ref new Platform::Array<unsigned int>(1000);
+		Platform::Array<unsigned int>^ m_vSphereGroupsSizes = ref new Platform::Array<unsigned int>(100);
 		size_t faceCnt = 0;
 		size_t faceIndiceCnt = 0;
-
 		unsigned int m_iTempGroupCount;
 		unsigned int m_iGroupCount;
 		std::vector<XMFLOAT3> pos;
@@ -881,10 +906,10 @@ namespace Hot3dxRotoDraw
 		static const UINT c_alignedConstantBufferSize = (sizeof(ModelViewProjectionConstantBuffer) + 255) & ~255;
 
 		// Cached pointer to device resources.
-		std::shared_ptr<DX::DeviceResources> m_sceneDeviceResources;
+		std::shared_ptr<DeviceResources> m_sceneDeviceResources;
 
 		// Rendering loop timer.
-		DX::StepTimer                               m_timer;
+		StepTimer                               m_timer;
 
 
 		ModelViewProjectionConstantBuffer					m_constantBufferData;
@@ -951,6 +976,7 @@ namespace Hot3dxRotoDraw
 		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_shapeDrawnObjectTex;
 		std::unique_ptr<DirectX::DXTKXAML12::GeometricPrimitive>                            m_shapeDrawnObjectVideoTex;
 		std::unique_ptr<Hot3dxDrawnObject>                                                  m_shapeDrawnObjectSculpt;
+		std::unique_ptr<Hot3dxDrawnObject>                                                  m_shapeDrawnObjectColor;
 		std::unique_ptr<DirectX::DXTKXAML12::PrimitiveBatch<Hot3dxRotoDraw::VertexPositionNormalTextureTangent>> m_shapeDrawnObjectPBR;
 		//std::shared_ptr<DirectX::DXTKXAML12::ResourceUploadBatch>                           m_resourceUploadDrawnObject;
 		std::unique_ptr<DirectX::DXTKXAML12::GraphicsMemory>                                m_graphicsMemoryDrawnObject;
@@ -1004,7 +1030,7 @@ namespace Hot3dxRotoDraw
 			DirectX::DXTKXAML12::ResourceUploadBatch& resourceUpload,
 			_In_z_ const wchar_t* szFileName,
 			_Outptr_ ID3D12Resource** texture, Platform::String^ msgType, Platform::String^ message);
-
+		 
 		Platform::String^ m_selTexFrontPath;
 		Platform::String^ m_selTexBackPath;
 
@@ -1115,9 +1141,9 @@ namespace Hot3dxRotoDraw
 		Platform::Array<float>^ posYCopy4 = ref new Platform::Array<float>(200);
 		Platform::Array<float>^ posZCopy4 = ref new Platform::Array<float>(200);
 
-		Platform::Array<float>^ posXTemp = ref new Platform::Array<float>(1000);
-		Platform::Array<float>^ posYTemp = ref new Platform::Array<float>(1000);
-		Platform::Array<float>^ posZTemp = ref new Platform::Array<float>(1000);
+		Platform::Array<float>^ posXTemp = ref new Platform::Array<float>(10000);
+		Platform::Array<float>^ posYTemp = ref new Platform::Array<float>(10000);
+		Platform::Array<float>^ posZTemp = ref new Platform::Array<float>(10000);
 
 		unsigned int m_iTempPointCount = 0;
 
@@ -1207,7 +1233,10 @@ namespace Hot3dxRotoDraw
 		void CalculateSphereVPCYAxis(float camradius, float camrotation);
 		internal:
 		void InitSphereVB2(float m_camradius, float m_camrotation);
-
+		void InitSphere();
+		void InitSphereGeo(float diameter, size_t tesselation);
+		void InitLatLongSphere(float diameter, size_t tesselation);
+		void InitBasicEffectSphere();
 		bool m_bArrayInit;
 
 		//////////// PBREffect ////////
@@ -1249,6 +1278,7 @@ namespace Hot3dxRotoDraw
 			bool m_bIsBasicModel = false;
 			bool m_bIsDualTextureModel = false;
 			bool m_bIsVideoTextureModel = false;
+			bool m_bIsBasicModelColor = false;
 			bool m_bIsPlayer = false;
 			bool m_bIsSculptWireframe = false;
 

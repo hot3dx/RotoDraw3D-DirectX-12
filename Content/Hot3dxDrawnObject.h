@@ -12,10 +12,11 @@
 #include "pch.h"
 #include <VertexTypesXaml12.h>
 #include "Hot3dxVertexTypes.h"
-#include "Common\d3dx12.h"
+#include "Common/d3dx12.h"
 #include <d3d12.h>
 #include <memory>
 #include <vector>
+#include "Hot3dxObjectGeometry.h"
 
 using namespace DirectX;
 using namespace DirectX::DXTKXAML12;
@@ -31,6 +32,7 @@ namespace Hot3dxRotoDraw {
             class Hot3dxDrawnObject
             {
             public:
+                
                 Hot3dxDrawnObject(Hot3dxDrawnObject const&) = delete;
                 Hot3dxDrawnObject& operator= (Hot3dxDrawnObject const&) = delete;
 
@@ -57,8 +59,8 @@ namespace Hot3dxRotoDraw {
 
                 static void __cdecl CreateCube(std::vector<VertexTypePC>& vertices, std::vector<uint16_t>& indices, float size = 1, bool rhcoords = true);
                 static void __cdecl CreateBox(std::vector<VertexTypePC>& vertices, std::vector<uint16_t>& indices, const XMFLOAT3& size, bool rhcoords = true);
-                static void __cdecl CreateSphere(std::vector<VertexTypePC>& vertices, std::vector<uint16_t>& indices, float diameter = 1, size_t tessellation = 16, bool rhcoords = true);
-                static void __cdecl CreateGeoSphere(std::vector<VertexTypePC>& vertices, std::vector<uint16_t>& indices, float diameter = 1, size_t tessellation = 3, bool rhcoords = true);
+                static void __cdecl CreateSphere(std::vector<VertexTypePC>& vertices, std::vector<uint16_t>& indices, std::vector<XMFLOAT2>& textureCoordinates, float diameter = 1, size_t tessellation = 16, bool rhcoords = true);
+                static void __cdecl CreateGeoSphere(std::vector<VertexTypePC>& vertices, std::vector<uint16_t>& indices, std::vector<XMFLOAT2>& textureCoordinates, float diameter = 1, size_t tessellation = 3, bool rhcoords = true);
                 static void __cdecl CreateCylinder(std::vector<VertexTypePC>& vertices, std::vector<uint16_t>& indices, float height = 1, float diameter = 1, size_t tessellation = 32, bool rhcoords = true);
                 static void __cdecl CreateCone(std::vector<VertexTypePC>& vertices, std::vector<uint16_t>& indices, float diameter = 1, float height = 1, size_t tessellation = 32, bool rhcoords = true);
                 static void __cdecl CreateTorus(std::vector<VertexTypePC>& vertices, std::vector<uint16_t>& indices, float diameter = 1, float thickness = 0.333f, size_t tessellation = 32, bool rhcoords = true);
@@ -82,6 +84,11 @@ namespace Hot3dxRotoDraw {
                 // Draw the primitive.
                 void __cdecl Draw(_In_ ID3D12GraphicsCommandList* commandList) const;
 
+                const VertexCollectionColor  m_vertices;
+                const IndexCollectionColor   m_indices;
+                VertexCollectionColor  GetVerticesI(VertexCollectionColor v) const { return v; }
+                IndexCollectionColor   GetIndicesI(IndexCollectionColor i) const { return i; }
+                
             private:
                 //
                 Hot3dxDrawnObject() noexcept(false);
@@ -89,6 +96,7 @@ namespace Hot3dxRotoDraw {
                 class Impl;
 
                 std::unique_ptr<Impl> pImpl;
+               
             };
 
             
