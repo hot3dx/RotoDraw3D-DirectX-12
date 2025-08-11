@@ -1,3 +1,21 @@
+# 8-11-25 CoPilot Helped and I have made a lot of changes.It is ridiculously faster as I removed a lot of push_back() and replaced them with self devised formulas for object vertices and indices counts so that is a lot faster.
+
+I got the formula for the Latitudinal Sphere much more correct for a rounder sphere object, yes facing it was hell but I finally figuredit out for most float whole numbers. 9 radius and 7 point spacing does not work. 9, 15 9,13 9,11 9,9 down to 9,5 work so do many even numbers not just odd numbers.
+
+Thanks to CoPilot help the swapchainpanel drawing surface screen is perfectly stable. And the start up textures should load every time as for adding other textures from the pictures library it should work, will it? We hope so.
+
+ScreenGrab seems to work well for .png, .dds, jpg, .bmp, and .gif sometimes. Textextures can also be rectangular.
+
+I have done some work on the DirectXToolkitXaml12 and it works very well. I always use it separate from a project but it can be added directly to a project
+
+Visual Studio 17.6.14 was used.
+
+Windows build 26100
+
+If you wish you can back Rotodraw3D up to something earlier like build 19041 but the tools are 143.
+
+I will move on to Xaml WinRT most likely here shortly, I have a base program that is C++23 I made today so. I shall upload the latest version of the DirectXXamlToolkit12. That will be made in WinRT to I think but maybe not. I shall attempt to publish this on the Microsoft Store maybe it will be there, maybe not
+
 # 6-2-2023 PBREFFECT Drawing completely fixed and operational. Cannot ScreenGrab in PBR Emmisive texture added and EffectInfo and EffectFactory
 
 #  5-31-2023 fixed PBREffect crash. Added using VeretexTypePNTT
