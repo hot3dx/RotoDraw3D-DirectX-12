@@ -8,6 +8,7 @@
 
 #include "pch.h"
 #include "ObjMaterialFile.h"
+#include "ObjOfstream.h"
 
 using namespace Platform;
 using namespace Hot3dxRotoDraw;
@@ -77,6 +78,7 @@ Platform::String^ XM_CALLCONV Hot3dxRotoDraw::Obj3DMaterialFile::WriteObj3DMater
 	m_ptStr = m_ptStr->Concat(m_ptStr, L"\n");
 	return m_ptStr;
 }
+
 
 // illum specifies illumination 0 relies on Kd values 0-10 default is 1 Ambient On
 Platform::String^ XM_CALLCONV Hot3dxRotoDraw::Obj3DMaterialFile::WriteObj3DMaterialIllumData(unsigned int n)

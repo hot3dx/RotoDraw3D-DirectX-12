@@ -1,4 +1,3 @@
-//--------------------------------------------------------------------------------------
 // File: Obj3DMaterialFile.h
 //
 // Copyright (c) Jeff Kubitz - hot3dx. All rights reserved.
@@ -23,15 +22,15 @@ namespace Hot3dxRotoDraw
 		Obj3DMaterialFile(Platform::String^ filename, unsigned int materialCount);
 		Platform::String^ XM_CALLCONV WriteObj3DMaterialHeaderData(unsigned int index, Platform::String^ objectName);
 		Platform::String^ XM_CALLCONV WriteObj3DMaterialListData(
-			Platform::String^ effectName, 
-			unsigned int illumType, 
-			Platform::String^ Node, 
-			Platform::String^ ColorType, 
+			Platform::String^ effectName,
+			unsigned int illumType,
+			Platform::String^ Node,
+			Platform::String^ ColorType,
 			Platform::String^ filename,
 			unsigned int MaterialDataIndex,
 			Hot3dxRotoDraw::MaterialDataVector^ list);
 		Platform::String^ XM_CALLCONV WriteObj3DMaterialNameTypeData(Platform::String^ Node, Platform::String^ materialType);
-		Platform::String^ XM_CALLCONV WriteObj3DMaterialIllumData(unsigned int n); 
+		Platform::String^ XM_CALLCONV WriteObj3DMaterialIllumData(unsigned int n);
 		Platform::String^ XM_CALLCONV WriteObj3DMaterialKaData(float r, float g, float b);
 		Platform::String^ XM_CALLCONV WriteObj3DMaterialKdData(float r, float g, float b);
 		Platform::String^ XM_CALLCONV WriteObj3DMaterialKsData(float r, float g, float b);
@@ -39,7 +38,7 @@ namespace Hot3dxRotoDraw
 		Platform::String^ XM_CALLCONV WriteObj3DMaterialNiData(float a);
 		Platform::String^ XM_CALLCONV WriteObj3DMaterialDData(float a);
 		Platform::String^ XM_CALLCONV WriteObj3DMaterialFileNameData(Platform::String^ type, Platform::String^ filename);
-		
+
 
 	private:
 
