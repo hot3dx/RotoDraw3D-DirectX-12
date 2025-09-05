@@ -1,3 +1,5 @@
+# The Current MAIN is not working if it is download to another directory other than DRIVE:\Hot3dxRotoDraw, remember the DirectXToolKitXaml12.lib is required and installed on the same drive as Hot3dxRotoDDraw, otherwise you will have to change the settings - the reason it does not work is because of S(Shortcut)/ Macro and other MAcros that need to be changed...
+
 # 8-11-25 CoPilot Helped and I have made a lot of changes.It is ridiculously faster as I removed a lot of push_back() and replaced them with self devised formulas for object vertices and indices counts so that is a lot faster.
 
 I got the formula for the Latitudinal Sphere much more correct for a rounder sphere object, yes facing it was hell but I finally figuredit out for most float whole numbers. 9 radius and 7 point spacing does not work. 9, 15 9,13 9,11 9,9 down to 9,5 work so do many even numbers not just odd numbers.
