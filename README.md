@@ -1,4 +1,4 @@
-# The Current MAIN is not working if it is download to another directory other than DRIVE:\Hot3dxRotoDraw, remember the DirectXToolKitXaml12.lib is required and installed on the same drive as Hot3dxRotoDDraw, otherwise you will have to change the settings - the reason it does not work is because of S(Shortcut)/ Macro and other MAcros that need to be changed...
+# If The Current MAIN is not working ... copy the contents where the solution and project are to the closest directory to the drive
 
 # 8-11-25 CoPilot Helped and I have made a lot of changes.It is ridiculously faster as I removed a lot of push_back() and replaced them with self devised formulas for object vertices and indices counts so that is a lot faster.
 
