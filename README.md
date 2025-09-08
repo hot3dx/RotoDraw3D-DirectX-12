@@ -1,4 +1,4 @@
-# If The Current MAIN is not working ... copy the contents where the solution and project are to the closest directory to the drive
+# 09-08-2025 All is Fixed Pictures can be chosen from the Users/Pictures Library
 
 # 8-11-25 CoPilot Helped and I have made a lot of changes.It is ridiculously faster as I removed a lot of push_back() and replaced them with self devised formulas for object vertices and indices counts so that is a lot faster.
 
@@ -161,3 +161,4 @@ Added - Resize including monitor, resultion, pix per inch change, switches acros
       - New or clear button allows another new object to be drawn
       - A lot of try catches for accidental clicks
       - Under the current Solution setup the DirectXToolkitXaml12 is in the $(RootDir)\ Hot3dxRotoDraw can be in any sub-directory
+
