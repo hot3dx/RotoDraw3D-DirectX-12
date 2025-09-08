@@ -15,6 +15,9 @@ namespace Windows {
                 ref class StackPanel;
                 ref class TextBlock;
                 ref class TextBox;
+                ref class Image;
+                ref class CheckBox;
+                ref class Button;
             }
         }
     }
@@ -23,7 +26,7 @@ namespace Windows {
 namespace Hot3dxRotoDraw
 {
     [::Windows::Foundation::Metadata::WebHostHidden]
-    partial ref class Scenario11_GridorPic : public ::Windows::UI::Xaml::Controls::Page, 
+    partial ref class Scenario13_ScreenGrab : public ::Windows::UI::Xaml::Controls::Page, 
         public ::Windows::UI::Xaml::Markup::IComponentConnector,
         public ::Windows::UI::Xaml::Markup::IComponentConnector2
     {
@@ -39,14 +42,23 @@ namespace Hot3dxRotoDraw
     private:
         bool _contentLoaded;
     
-        class Scenario11_GridorPic_obj1_Bindings;
+        class Scenario13_ScreenGrab_obj1_Bindings;
     
         private: ::Windows::UI::Xaml::Controls::Grid^ RootGrid;
         private: ::Windows::UI::Xaml::Controls::StackPanel^ HeaderPanel;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ IDC_DESCRIPTION_STATIC;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ m_gridorPicText;
-        private: ::Windows::UI::Xaml::Controls::TextBox^ m_gridorPicTextBox;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ m_gridorPicFilesText;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ m_screenGrabText;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ m_screenGrabTextBox;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ m_screenGrabFilesText;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ m_screenGrabFilesTextBox;
+        private: ::Windows::UI::Xaml::Controls::Image^ ScreenGrabImage1;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_SCREENGRAB_DDS_CHECKBOX;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_SCREENGRAB_BMP_CHECKBOX;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_SCREENGRAB_PNG_CHECKBOX;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_SCREENGRAB_JPG_CHECKBOX;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_SCREENGRAB_TIFF_CHECKBOX;
+        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_SCREENGRAB_GIF_CHECKBOX;
+        private: ::Windows::UI::Xaml::Controls::Button^ ScreenGrabButton;
     };
 }
 

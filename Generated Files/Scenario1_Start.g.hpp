@@ -180,7 +180,7 @@ void ::Hot3dxRotoDraw::Scenario1_Start::UnloadObject(::Windows::UI::Xaml::Depend
 {
     if (unloadableObject != nullptr)
     {
-        // Scenario1_Start.xaml line 49
+        // Scenario1_Start.xaml line 48
         if (unloadableObject == this->SoundFile1)
         {
             this->DisconnectUnloadedObject(13);
@@ -193,7 +193,7 @@ void ::Hot3dxRotoDraw::Scenario1_Start::DisconnectUnloadedObject(int connectionI
 {
     switch(connectionId)
     {
-        case 13: // Scenario1_Start.xaml line 49
+        case 13: // Scenario1_Start.xaml line 48
         {
             this->SoundFile1 = nullptr;
             break;

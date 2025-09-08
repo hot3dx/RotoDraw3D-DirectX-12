@@ -13,11 +13,10 @@ namespace Windows {
             namespace Controls {
                 ref class Grid;
                 ref class TextBox;
-                ref class TextBlock;
                 ref class Button;
+                ref class TextBlock;
                 ref class Slider;
                 ref class ListBox;
-                ref class Image;
                 ref class ListBoxItem;
             }
         }
@@ -48,18 +47,6 @@ namespace Hot3dxRotoDraw
         private: ::Windows::UI::Xaml::Controls::Grid^ RootGrid;
         private: ::Windows::UI::Xaml::Controls::TextBox^ IDC_PALETTE_FILE_NAME_EDIT;
         private: ::Windows::UI::Xaml::Controls::TextBox^ textBox;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ filePath1TextBlock;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ textureFileTextBlock1;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ filePath2TextBlock;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ textureFileTextBlock2;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ filePath3TextBlock;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ textureFileTextBlock3;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ filePath4TextBlock;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ textureFileTextBlock4;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ filePath5TextBlock;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ textureFileTextBlock5;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ filePath6TextBlock;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ textureFileTextBlock6;
         private: ::Windows::UI::Xaml::Controls::Button^ IDC_CREATE_PALETTE_BUTTON;
         private: ::Windows::UI::Xaml::Controls::Button^ IDC_OPEN_PALETTE_BUTTON;
         private: ::Windows::UI::Xaml::Controls::Button^ IDC_ADD_MATERIAL_BUTTON;
@@ -88,18 +75,6 @@ namespace Hot3dxRotoDraw
         private: ::Windows::UI::Xaml::Controls::TextBlock^ IDC_D3DMATERIAL_DISPLAY;
         private: ::Windows::UI::Xaml::Controls::Button^ ID_COLOR_ADD_BUTTON;
         private: ::Windows::UI::Xaml::Controls::Slider^ scrollBar;
-        private: ::Windows::UI::Xaml::Controls::Image^ TextureImage1;
-        private: ::Windows::UI::Xaml::Controls::Image^ TextureImage2;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_TEXTURE_IMAGE1_BUTTON;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_TEXTURE_IMAGE2_BUTTON;
-        private: ::Windows::UI::Xaml::Controls::Image^ TextureRMAImage3;
-        private: ::Windows::UI::Xaml::Controls::Image^ TextureEMMisiveImage4;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_TEXTURE_RMA_IMAGE3_BUTTON;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_TEXTURE_EMMISIVE_IMAGE4_BUTTON;
-        private: ::Windows::UI::Xaml::Controls::Image^ TextureRadianceImage5;
-        private: ::Windows::UI::Xaml::Controls::Image^ TextureIrradianceImage6;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_TEXTURE_RADIANCE_IMAGE5_BUTTON;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_TEXTURE_IRRADIANCE_IMAGE6_BUTTON;
         private: ::Windows::UI::Xaml::Controls::ListBoxItem^ v0;
         private: ::Windows::UI::Xaml::Controls::ListBoxItem^ v1;
         private: ::Windows::UI::Xaml::Controls::ListBoxItem^ v2;

@@ -53,95 +53,11 @@ void ::Hot3dxRotoDraw::Scenario11_GridorPic::Connect(int __connectionId, ::Platf
     case 6:
         {
             this->m_gridorPicTextBox = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->m_gridorPicTextBox))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario11_GridorPic::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario11_GridorPic::GridorPicTextBox_TextChanged);
         }
         break;
     case 7:
         {
             this->m_gridorPicFilesText = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
-        }
-        break;
-    case 8:
-        {
-            this->m_gridorPicFilesTextBox = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->m_gridorPicFilesTextBox))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario11_GridorPic::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario11_GridorPic::GridorPicFilesTextBox_TextChanged);
-        }
-        break;
-    case 9:
-        {
-            this->PicTextureImage1 = safe_cast<::Windows::UI::Xaml::Controls::Image^>(__target);
-        }
-        break;
-    case 10:
-        {
-            this->IDC_GRID_OR_PIC_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_GRID_OR_PIC_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario11_GridorPic::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario11_GridorPic::IDC_GRID_OR_PIC_CHECKBOX_Checked);
-        }
-        break;
-    case 11:
-        {
-            this->IDC_PIC_TEXTURE_IMAGE1_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_PIC_TEXTURE_IMAGE1_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario11_GridorPic::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario11_GridorPic::IDC_PIC_TEXTURE_IMAGE1_BUTTON_Click);
-        }
-        break;
-    case 12:
-        {
-            this->IDC_SHOW_BACKGROUND_PIC_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_SHOW_BACKGROUND_PIC_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario11_GridorPic::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario11_GridorPic::IDC_SHOW_BACKGROUND_PIC_BUTTON_Click);
-        }
-        break;
-    case 13:
-        {
-            this->IDC_PIC_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_PIC_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario11_GridorPic::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario11_GridorPic::IDC_PIC_CHECKBOX_Checked);
-        }
-        break;
-    case 14:
-        {
-            this->IDC_SCREENGRAB_DDS_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_SCREENGRAB_DDS_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario11_GridorPic::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario11_GridorPic::IDC_SCREENGRAB_DDS_CHECKBOX_Checked);
-        }
-        break;
-    case 15:
-        {
-            this->IDC_SCREENGRAB_BMP_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_SCREENGRAB_BMP_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario11_GridorPic::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario11_GridorPic::IDC_SCREENGRAB_BMP_CHECKBOX_Checked);
-        }
-        break;
-    case 16:
-        {
-            this->IDC_SCREENGRAB_PNG_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_SCREENGRAB_PNG_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario11_GridorPic::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario11_GridorPic::IDC_SCREENGRAB_PNG_CHECKBOX_Checked);
-        }
-        break;
-    case 17:
-        {
-            this->IDC_SCREENGRAB_JPG_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_SCREENGRAB_JPG_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario11_GridorPic::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario11_GridorPic::IDC_SCREENGRAB_JPG_CHECKBOX_Checked);
-        }
-        break;
-    case 18:
-        {
-            this->IDC_SCREENGRAB_TIFF_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_SCREENGRAB_TIFF_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario11_GridorPic::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario11_GridorPic::IDC_SCREENGRAB_TIFF_CHECKBOX_Checked);
-        }
-        break;
-    case 19:
-        {
-            this->IDC_SCREENGRAB_GIF_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_SCREENGRAB_GIF_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario11_GridorPic::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario11_GridorPic::IDC_SCREENGRAB_GIF_CHECKBOX_Checked);
         }
         break;
     }

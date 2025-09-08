@@ -14,11 +14,14 @@
 #include "DirectXPage.xaml.h"
 #include "Scenario10_Sculpt.xaml.h"
 #include "Scenario11_GridorPic.xaml.h"
+#include "Scenario12_Translate.xaml.h"
+#include "Scenario13_ScreenGrab.xaml.h"
 #include "Scenario1_Start.xaml.h"
 #include "Scenario2_Normal.xaml.h"
 #include "Scenario3_FileIO.xaml.h"
 #include "Scenario4_MySettings.xaml.h"
 #include "Scenario5_MatsTexs.xaml.h"
+#include "Scenario5_Tex.xaml.h"
 #include "Scenario6_ColorPicker.xaml.h"
 #include "Scenario7_SphereDraw.xaml.h"
 #include "Scenario8_Help.xaml.h"
@@ -29,11 +32,14 @@
 #include "DirectXPage.g.hpp"
 #include "Scenario10_Sculpt.g.hpp"
 #include "Scenario11_GridorPic.g.hpp"
+#include "Scenario12_Translate.g.hpp"
+#include "Scenario13_ScreenGrab.g.hpp"
 #include "Scenario1_Start.g.hpp"
 #include "Scenario2_Normal.g.hpp"
 #include "Scenario3_FileIO.g.hpp"
 #include "Scenario4_MySettings.g.hpp"
 #include "Scenario5_MatsTexs.g.hpp"
+#include "Scenario5_Tex.g.hpp"
 #include "Scenario6_ColorPicker.g.hpp"
 #include "Scenario7_SphereDraw.g.hpp"
 #include "Scenario8_Help.g.hpp"
@@ -188,7 +194,7 @@ const TypeInfo TypeInfos[] =
     //   3
     L"Hot3dxRotoDraw.DirectXPage", L"",
     &ActivateType<::Hot3dxRotoDraw::DirectXPage>, nullptr, nullptr, nullptr,
-    6, // Windows.UI.Xaml.Controls.Page
+    7, // Windows.UI.Xaml.Controls.Page
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
@@ -200,139 +206,160 @@ const TypeInfo TypeInfos[] =
     TypeInfo_Flags_IsSystemType | TypeInfo_Flags_None,
     -1,
     //   5
-    L"Hot3dxRotoDraw.ContentDialog1", L"",
-    nullptr, nullptr, nullptr, nullptr,
-    21, // Windows.UI.Xaml.Controls.ContentDialog
+    L"Hot3dxRotoDraw.Scenario5_Tex", L"",
+    &ActivateType<::Hot3dxRotoDraw::Scenario5_Tex>, nullptr, nullptr, nullptr,
+    7, // Windows.UI.Xaml.Controls.Page
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
     //   6
+    L"Hot3dxRotoDraw.ContentDialog1", L"",
+    nullptr, nullptr, nullptr, nullptr,
+    24, // Windows.UI.Xaml.Controls.ContentDialog
+    0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
+    TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
+    -1,
+    //   7
     L"Windows.UI.Xaml.Controls.Page", L"",
     nullptr, nullptr, nullptr, nullptr,
     -1,
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
     TypeInfo_Flags_IsSystemType | TypeInfo_Flags_None,
     -1,
-    //   7
+    //   8
     L"Hot3dxRotoDraw.Scenario8_Help", L"",
     &ActivateType<::Hot3dxRotoDraw::Scenario8_Help>, nullptr, nullptr, nullptr,
-    6, // Windows.UI.Xaml.Controls.Page
-    0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
-    TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
-    -1,
-    //   8
-    L"Hot3dxRotoDraw.Scenario1_Start", L"",
-    &ActivateType<::Hot3dxRotoDraw::Scenario1_Start>, nullptr, nullptr, nullptr,
-    6, // Windows.UI.Xaml.Controls.Page
+    7, // Windows.UI.Xaml.Controls.Page
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
     //   9
-    L"Hot3dxRotoDraw.Scenario2_Normal", L"",
-    &ActivateType<::Hot3dxRotoDraw::Scenario2_Normal>, nullptr, nullptr, nullptr,
-    6, // Windows.UI.Xaml.Controls.Page
+    L"Hot3dxRotoDraw.Scenario1_Start", L"",
+    &ActivateType<::Hot3dxRotoDraw::Scenario1_Start>, nullptr, nullptr, nullptr,
+    7, // Windows.UI.Xaml.Controls.Page
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
     //  10
-    L"Hot3dxRotoDraw.Scenario3_FileIO", L"",
-    &ActivateType<::Hot3dxRotoDraw::Scenario3_FileIO>, nullptr, nullptr, nullptr,
-    6, // Windows.UI.Xaml.Controls.Page
+    L"Hot3dxRotoDraw.Scenario2_Normal", L"",
+    &ActivateType<::Hot3dxRotoDraw::Scenario2_Normal>, nullptr, nullptr, nullptr,
+    7, // Windows.UI.Xaml.Controls.Page
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
     //  11
-    L"Hot3dxRotoDraw.Scenario9_Rotate", L"",
-    &ActivateType<::Hot3dxRotoDraw::Scenario9_Rotate>, nullptr, nullptr, nullptr,
-    6, // Windows.UI.Xaml.Controls.Page
+    L"Hot3dxRotoDraw.Scenario3_FileIO", L"",
+    &ActivateType<::Hot3dxRotoDraw::Scenario3_FileIO>, nullptr, nullptr, nullptr,
+    7, // Windows.UI.Xaml.Controls.Page
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
     //  12
-    L"Hot3dxRotoDraw.Scenario10_Sculpt", L"",
-    &ActivateType<::Hot3dxRotoDraw::Scenario10_Sculpt>, nullptr, nullptr, nullptr,
-    6, // Windows.UI.Xaml.Controls.Page
+    L"Hot3dxRotoDraw.Scenario9_Rotate", L"",
+    &ActivateType<::Hot3dxRotoDraw::Scenario9_Rotate>, nullptr, nullptr, nullptr,
+    7, // Windows.UI.Xaml.Controls.Page
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
     //  13
+    L"Hot3dxRotoDraw.Scenario10_Sculpt", L"",
+    &ActivateType<::Hot3dxRotoDraw::Scenario10_Sculpt>, nullptr, nullptr, nullptr,
+    7, // Windows.UI.Xaml.Controls.Page
+    0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
+    TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
+    -1,
+    //  14
     L"Windows.UI.Xaml.DependencyObject", L"",
     nullptr, nullptr, nullptr, nullptr,
     -1,
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
     TypeInfo_Flags_IsSystemType | TypeInfo_Flags_None,
     -1,
-    //  14
+    //  15
     L"Hot3dxRotoDraw.Scenario5_MatsTexs", L"",
     &ActivateType<::Hot3dxRotoDraw::Scenario5_MatsTexs>, nullptr, nullptr, nullptr,
-    6, // Windows.UI.Xaml.Controls.Page
-    0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
-    TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
-    -1,
-    //  15
-    L"Hot3dxRotoDraw.Scenario11_GridorPic", L"",
-    &ActivateType<::Hot3dxRotoDraw::Scenario11_GridorPic>, nullptr, nullptr, nullptr,
-    6, // Windows.UI.Xaml.Controls.Page
+    7, // Windows.UI.Xaml.Controls.Page
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
     //  16
-    L"Hot3dxRotoDraw.Scenario4_MySettings", L"",
-    &ActivateType<::Hot3dxRotoDraw::Scenario4_MySettings>, nullptr, nullptr, nullptr,
-    6, // Windows.UI.Xaml.Controls.Page
+    L"Hot3dxRotoDraw.Scenario11_GridorPic", L"",
+    &ActivateType<::Hot3dxRotoDraw::Scenario11_GridorPic>, nullptr, nullptr, nullptr,
+    7, // Windows.UI.Xaml.Controls.Page
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
     //  17
-    L"Hot3dxRotoDraw.Scenario7_SphereDraw", L"",
-    &ActivateType<::Hot3dxRotoDraw::Scenario7_SphereDraw>, nullptr, nullptr, nullptr,
-    6, // Windows.UI.Xaml.Controls.Page
+    L"Hot3dxRotoDraw.Scenario12_Translate", L"",
+    &ActivateType<::Hot3dxRotoDraw::Scenario12_Translate>, nullptr, nullptr, nullptr,
+    7, // Windows.UI.Xaml.Controls.Page
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
     //  18
+    L"Hot3dxRotoDraw.Scenario4_MySettings", L"",
+    &ActivateType<::Hot3dxRotoDraw::Scenario4_MySettings>, nullptr, nullptr, nullptr,
+    7, // Windows.UI.Xaml.Controls.Page
+    0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
+    TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
+    -1,
+    //  19
+    L"Hot3dxRotoDraw.Scenario7_SphereDraw", L"",
+    &ActivateType<::Hot3dxRotoDraw::Scenario7_SphereDraw>, nullptr, nullptr, nullptr,
+    7, // Windows.UI.Xaml.Controls.Page
+    0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
+    TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
+    -1,
+    //  20
     L"Windows.UI.Xaml.Controls.UserControl", L"",
     nullptr, nullptr, nullptr, nullptr,
     -1,
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
     TypeInfo_Flags_IsSystemType | TypeInfo_Flags_None,
     -1,
-    //  19
-    L"Hot3dxRotoDraw.Scenario6_ColorPicker", L"",
-    &ActivateType<::Hot3dxRotoDraw::Scenario6_ColorPicker>, nullptr, nullptr, nullptr,
-    6, // Windows.UI.Xaml.Controls.Page
+    //  21
+    L"Hot3dxRotoDraw.Scenario13_ScreenGrab", L"",
+    &ActivateType<::Hot3dxRotoDraw::Scenario13_ScreenGrab>, nullptr, nullptr, nullptr,
+    7, // Windows.UI.Xaml.Controls.Page
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
     TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
     -1,
-    //  20
+    //  22
+    L"Hot3dxRotoDraw.Scenario6_ColorPicker", L"",
+    &ActivateType<::Hot3dxRotoDraw::Scenario6_ColorPicker>, nullptr, nullptr, nullptr,
+    7, // Windows.UI.Xaml.Controls.Page
+    0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
+    TypeInfo_Flags_IsLocalType | TypeInfo_Flags_None,
+    -1,
+    //  23
     L"Microsoft.UI.Xaml.Controls.IconSource", L"",
     nullptr, nullptr, nullptr, nullptr,
-    13, // Windows.UI.Xaml.DependencyObject
+    14, // Windows.UI.Xaml.DependencyObject
     0, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
     TypeInfo_Flags_IsBindable | TypeInfo_Flags_None,
     -1,
-    //  21
+    //  24
     L"Windows.UI.Xaml.Controls.ContentDialog", L"",
     nullptr, nullptr, nullptr, nullptr,
     -1,
     1, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
     TypeInfo_Flags_IsSystemType | TypeInfo_Flags_None,
     -1,
-    //  22
+    //  25
     L"Windows.UI.Xaml.Controls.ContentControl", L"",
     nullptr, nullptr, nullptr, nullptr,
     -1,
     1, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
     TypeInfo_Flags_IsSystemType | TypeInfo_Flags_None,
     -1,
-    //  23
+    //  26
     L"Microsoft.UI.Xaml.Controls.TreeViewNode", L"",
     &ActivateType<::Microsoft::UI::Xaml::Controls::TreeViewNode>, nullptr, nullptr, nullptr,
-    13, // Windows.UI.Xaml.DependencyObject
+    14, // Windows.UI.Xaml.DependencyObject
     1, 0, -1, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
     TypeInfo_Flags_IsBindable | TypeInfo_Flags_None,
     -1,
-    //  24
+    //  27
     L"Windows.Foundation.Collections.IVector`1<Microsoft.UI.Xaml.Controls.TreeViewNode>", L"",
     nullptr, &CollectionAdd<::Windows::Foundation::Collections::IVector<::Microsoft::UI::Xaml::Controls::TreeViewNode^>, ::Microsoft::UI::Xaml::Controls::TreeViewNode^>, nullptr, nullptr,
     -1,
@@ -377,60 +404,60 @@ const UINT TypeInfoLookup[] = {
       3,   //  26
       4,   //  27
       5,   //  28
-      5,   //  29
-      8,   //  30
-      9,   //  31
-     12,   //  32
-     14,   //  33
-     15,   //  34
-     15,   //  35
-     18,   //  36
-     20,   //  37
-     21,   //  38
-     22,   //  39
-     24,   //  40
-     24,   //  41
-     24,   //  42
-     24,   //  43
-     24,   //  44
-     24,   //  45
-     24,   //  46
-     24,   //  47
-     24,   //  48
-     24,   //  49
-     24,   //  50
-     24,   //  51
-     24,   //  52
-     24,   //  53
-     24,   //  54
-     24,   //  55
-     24,   //  56
-     24,   //  57
-     24,   //  58
-     24,   //  59
-     24,   //  60
-     24,   //  61
-     24,   //  62
-     24,   //  63
-     24,   //  64
-     24,   //  65
-     24,   //  66
-     24,   //  67
-     24,   //  68
-     24,   //  69
-     24,   //  70
-     24,   //  71
-     24,   //  72
-     24,   //  73
-     24,   //  74
-     24,   //  75
-     24,   //  76
-     24,   //  77
-     24,   //  78
-     24,   //  79
-     24,   //  80
-     24,   //  81
-     25,   //  82
+      6,   //  29
+      9,   //  30
+     10,   //  31
+     13,   //  32
+     15,   //  33
+     16,   //  34
+     16,   //  35
+     20,   //  36
+     23,   //  37
+     24,   //  38
+     25,   //  39
+     27,   //  40
+     27,   //  41
+     27,   //  42
+     27,   //  43
+     27,   //  44
+     27,   //  45
+     27,   //  46
+     27,   //  47
+     27,   //  48
+     27,   //  49
+     27,   //  50
+     27,   //  51
+     27,   //  52
+     27,   //  53
+     27,   //  54
+     27,   //  55
+     27,   //  56
+     27,   //  57
+     27,   //  58
+     27,   //  59
+     27,   //  60
+     27,   //  61
+     27,   //  62
+     27,   //  63
+     27,   //  64
+     27,   //  65
+     27,   //  66
+     27,   //  67
+     27,   //  68
+     27,   //  69
+     27,   //  70
+     27,   //  71
+     27,   //  72
+     27,   //  73
+     27,   //  74
+     27,   //  75
+     27,   //  76
+     27,   //  77
+     27,   //  78
+     27,   //  79
+     27,   //  80
+     27,   //  81
+     28,   //  82
 };
 
 const TypeInfo* GetTypeInfo(::Platform::String^ typeName)
@@ -495,7 +522,7 @@ const MemberInfo MemberInfos[] =
     L"Children",
     &GetReferenceTypeMember_Children<::Microsoft::UI::Xaml::Controls::TreeViewNode>,
     nullptr,
-    24, // Windows.Foundation.Collections.IVector`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
+    27, // Windows.Foundation.Collections.IVector`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
     -1,
     true,  false, false,
     //   5 - Microsoft.UI.Xaml.Controls.TreeViewNode.Depth
@@ -516,7 +543,7 @@ const MemberInfo MemberInfos[] =
     L"Parent",
     &GetReferenceTypeMember_Parent<::Microsoft::UI::Xaml::Controls::TreeViewNode>,
     nullptr,
-    23, // Microsoft.UI.Xaml.Controls.TreeViewNode
+    26, // Microsoft.UI.Xaml.Controls.TreeViewNode
     -1,
     true,  false, false,
 };

@@ -47,64 +47,95 @@ void ::Hot3dxRotoDraw::Scenario7_SphereDraw::Connect(int __connectionId, ::Platf
         break;
     case 5:
         {
-            this->m_SphereRadius = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+            this->DrawLatitudinalSphereButton = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->DrawLatitudinalSphereButton))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario7_SphereDraw::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario7_SphereDraw::DrawSphereButton_Click);
         }
         break;
     case 6:
+        {
+            this->PointSpacing = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+        }
+        break;
+    case 7:
+        {
+            this->m_SphereRadius = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+        }
+        break;
+    case 8:
         {
             this->m_SphereRadiusTextBox = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->m_SphereRadiusTextBox))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario7_SphereDraw::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario7_SphereDraw::SphereRadiusTextBox_TextChanged);
         }
         break;
-    case 7:
-        {
-            this->PointSpacing = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
-        }
-        break;
-    case 8:
+    case 9:
         {
             this->m_PointSpaceTextBox = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->m_PointSpaceTextBox))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario7_SphereDraw::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario7_SphereDraw::PointSpacingTextBox_TextChanged);
         }
         break;
-    case 9:
-        {
-            this->DrawSphereButton = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->DrawSphereButton))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario7_SphereDraw::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario7_SphereDraw::DrawSphereButton_Click);
-        }
-        break;
     case 10:
         {
-            this->VideoTextureImage1 = safe_cast<::Windows::UI::Xaml::Controls::Image^>(__target);
+            this->DrawComputeGeoSphereButton = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->DrawComputeGeoSphereButton))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario7_SphereDraw::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario7_SphereDraw::DrawGeoSphereButton_Click);
         }
         break;
     case 11:
         {
-            this->m_videoFilesTextBox = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
+            this->DiameterGeoSphere = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
     case 12:
         {
-            this->IDC_VIDEO_TEXTURE_IMAGE1_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_VIDEO_TEXTURE_IMAGE1_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario7_SphereDraw::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario7_SphereDraw::IDC_VIDEO_TEXTURE_IMAGE1_BUTTON_Click);
+            this->TesselationGeoSphere = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
     case 13:
         {
-            this->IDC_SHOW_VIDEO_BUTTON = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->IDC_SHOW_VIDEO_BUTTON))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario7_SphereDraw::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario7_SphereDraw::IDC_SHOW_VIDEO_BUTTON_Click);
+            this->DiameterGeoSphereTextBox = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->DiameterGeoSphereTextBox))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario7_SphereDraw::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario7_SphereDraw::DiameterGeoSphereTextBox_TextChanged);
         }
         break;
     case 14:
         {
-            this->IDC_VIDEO_CHECKBOX = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(this->IDC_VIDEO_CHECKBOX))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario7_SphereDraw::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario7_SphereDraw::IDC_VIDEO_CHECKBOX_Checked);
+            this->TesselationGeoTextBox = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->TesselationGeoTextBox))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario7_SphereDraw::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario7_SphereDraw::TesselationGeoTextBox_TextChanged);
+        }
+        break;
+    case 15:
+        {
+            this->DrawComputeLongSphereButton = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->DrawComputeLongSphereButton))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario7_SphereDraw::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario7_SphereDraw::DrawLongitudeLatitudeSphereButton_Click);
+        }
+        break;
+    case 16:
+        {
+            this->DiameterSphere = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+        }
+        break;
+    case 17:
+        {
+            this->TesselstionSphere = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+        }
+        break;
+    case 18:
+        {
+            this->DiameterSphereTextBox = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->DiameterSphereTextBox))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario7_SphereDraw::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario7_SphereDraw::DrawLongitudeLatitudeDiameterTextBox_TextChanged);
+        }
+        break;
+    case 19:
+        {
+            this->TesselationSphereTextBox = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->TesselationSphereTextBox))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario7_SphereDraw::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario7_SphereDraw::TesselationSphereTextBox_TextChanged);
         }
         break;
     }

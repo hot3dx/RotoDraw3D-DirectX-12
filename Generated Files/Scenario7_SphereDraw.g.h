@@ -14,10 +14,8 @@ namespace Windows {
                 ref class Grid;
                 ref class StackPanel;
                 ref class TextBlock;
-                ref class TextBox;
                 ref class Button;
-                ref class Image;
-                ref class CheckBox;
+                ref class TextBox;
             }
         }
     }
@@ -47,16 +45,21 @@ namespace Hot3dxRotoDraw
         private: ::Windows::UI::Xaml::Controls::Grid^ RootGrid;
         private: ::Windows::UI::Xaml::Controls::StackPanel^ HeaderPanel;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ IDC_DESCRIPTION_STATIC;
+        private: ::Windows::UI::Xaml::Controls::Button^ DrawLatitudinalSphereButton;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ PointSpacing;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ m_SphereRadius;
         private: ::Windows::UI::Xaml::Controls::TextBox^ m_SphereRadiusTextBox;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ PointSpacing;
         private: ::Windows::UI::Xaml::Controls::TextBox^ m_PointSpaceTextBox;
-        private: ::Windows::UI::Xaml::Controls::Button^ DrawSphereButton;
-        private: ::Windows::UI::Xaml::Controls::Image^ VideoTextureImage1;
-        private: ::Windows::UI::Xaml::Controls::TextBox^ m_videoFilesTextBox;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_VIDEO_TEXTURE_IMAGE1_BUTTON;
-        private: ::Windows::UI::Xaml::Controls::Button^ IDC_SHOW_VIDEO_BUTTON;
-        private: ::Windows::UI::Xaml::Controls::CheckBox^ IDC_VIDEO_CHECKBOX;
+        private: ::Windows::UI::Xaml::Controls::Button^ DrawComputeGeoSphereButton;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ DiameterGeoSphere;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ TesselationGeoSphere;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ DiameterGeoSphereTextBox;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ TesselationGeoTextBox;
+        private: ::Windows::UI::Xaml::Controls::Button^ DrawComputeLongSphereButton;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ DiameterSphere;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ TesselstionSphere;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ DiameterSphereTextBox;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ TesselationSphereTextBox;
     };
 }
 

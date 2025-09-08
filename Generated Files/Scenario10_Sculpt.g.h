@@ -17,6 +17,7 @@ namespace Windows {
                 ref class CheckBox;
                 ref class TextBox;
                 ref class Slider;
+                ref class Button;
             }
         }
     }
@@ -67,18 +68,22 @@ namespace Hot3dxRotoDraw
         private: ::Windows::UI::Xaml::Controls::TextBlock^ m_selectedPoint;
         private: ::Windows::UI::Xaml::Controls::Slider^ slider_SelectedPoint;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ RotateXTextBlock;
-        private: ::Windows::UI::Xaml::Controls::TextBox^ GRIDCAM_XROTATE_EDIT;
-        private: ::Windows::UI::Xaml::Controls::Slider^ slider_RotateXGridCam;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ X_VALUE_VERTEX_EDIT;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ X_VERTEX_EDIT_Copy;
+        private: ::Windows::UI::Xaml::Controls::Slider^ slider_SculptX;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ RotateYTextBlock;
-        private: ::Windows::UI::Xaml::Controls::TextBox^ GRIDCAM_YROTATE_EDIT;
-        private: ::Windows::UI::Xaml::Controls::Slider^ slider_RotateYGridCam;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ Y_VALUE_VERTEX_EDIT;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ Y_VERTEX_EDIT_Copy;
+        private: ::Windows::UI::Xaml::Controls::Slider^ slider_SculptY;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ RotateZTextBlock;
-        private: ::Windows::UI::Xaml::Controls::TextBox^ GRIDCAM_ZROTATE_EDIT;
-        private: ::Windows::UI::Xaml::Controls::Slider^ slider_RotateZGridCam;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ Z_VALUE_VERTEX_EDIT;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ Z_VERTEX_EDIT_Copy;
+        private: ::Windows::UI::Xaml::Controls::Slider^ slider_SculptZ;
         private: ::Windows::UI::Xaml::Controls::TextBox^ m_sculptTextBox;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ m_sculptFilesText;
         private: ::Windows::UI::Xaml::Controls::TextBox^ m_sculptFilesTextBox;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ IDC_DESCRIPTION_STATIC;
+        private: ::Windows::UI::Xaml::Controls::Button^ SetButton;
     };
 }
 

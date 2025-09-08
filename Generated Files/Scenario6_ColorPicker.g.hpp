@@ -52,22 +52,22 @@ public:
     {
         switch(__connectionId)
         {
-            case 9: // Scenario6_ColorPicker.xaml line 92
+            case 9: // Scenario6_ColorPicker.xaml line 91
                 this->obj9 = safe_cast<::Windows::UI::Xaml::Media::SolidColorBrush^>(__target);
                 break;
-            case 10: // Scenario6_ColorPicker.xaml line 83
+            case 10: // Scenario6_ColorPicker.xaml line 82
                 this->obj10 = safe_cast<::Windows::UI::Xaml::Media::SolidColorBrush^>(__target);
                 break;
-            case 12: // Scenario6_ColorPicker.xaml line 69
+            case 12: // Scenario6_ColorPicker.xaml line 68
                 this->obj12 = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
                 break;
-            case 13: // Scenario6_ColorPicker.xaml line 71
+            case 13: // Scenario6_ColorPicker.xaml line 70
                 this->obj13 = safe_cast<::Windows::UI::Xaml::Controls::CheckBox^>(__target);
                 break;
-            case 17: // Scenario6_ColorPicker.xaml line 39
+            case 17: // Scenario6_ColorPicker.xaml line 38
                 this->obj17 = safe_cast<::Windows::UI::Xaml::Controls::ColorPicker^>(__target);
                 break;
-            case 19: // Scenario6_ColorPicker.xaml line 56
+            case 19: // Scenario6_ColorPicker.xaml line 55
                 this->obj19 = safe_cast<::Windows::UI::Xaml::Media::SolidColorBrush^>(__target);
                 break;
         }
@@ -75,47 +75,47 @@ public:
 
     void Disable(int lineNumber, int columnNumber)
     {
-        if (lineNumber == 92 && columnNumber == 46)
+        if (lineNumber == 91 && columnNumber == 46)
         {
             isobj9ColorDisabled = true;
         }
-        else if (lineNumber == 83 && columnNumber == 46)
+        else if (lineNumber == 82 && columnNumber == 46)
         {
             isobj10ColorDisabled = true;
         }
-        else if (lineNumber == 70 && columnNumber == 37)
+        else if (lineNumber == 69 && columnNumber == 37)
         {
             isobj12IsEnabledDisabled = true;
         }
-        else if (lineNumber == 72 && columnNumber == 37)
+        else if (lineNumber == 71 && columnNumber == 37)
         {
             isobj13IsEnabledDisabled = true;
         }
-        else if (lineNumber == 41 && columnNumber == 17)
+        else if (lineNumber == 40 && columnNumber == 17)
         {
             isobj17IsColorSliderVisibleDisabled = true;
         }
-        else if (lineNumber == 42 && columnNumber == 17)
+        else if (lineNumber == 41 && columnNumber == 17)
         {
             isobj17IsColorChannelTextInputVisibleDisabled = true;
         }
-        else if (lineNumber == 43 && columnNumber == 17)
+        else if (lineNumber == 42 && columnNumber == 17)
         {
             isobj17IsHexInputVisibleDisabled = true;
         }
-        else if (lineNumber == 44 && columnNumber == 17)
+        else if (lineNumber == 43 && columnNumber == 17)
         {
             isobj17IsAlphaEnabledDisabled = true;
         }
-        else if (lineNumber == 45 && columnNumber == 17)
+        else if (lineNumber == 44 && columnNumber == 17)
         {
             isobj17IsAlphaSliderVisibleDisabled = true;
         }
-        else if (lineNumber == 46 && columnNumber == 17)
+        else if (lineNumber == 45 && columnNumber == 17)
         {
             isobj17IsAlphaTextInputVisibleDisabled = true;
         }
-        else if (lineNumber == 56 && columnNumber == 42)
+        else if (lineNumber == 55 && columnNumber == 42)
         {
             isobj19ColorDisabled = true;
         }
@@ -206,17 +206,17 @@ private:
     {
         if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
         {
-            // Scenario6_ColorPicker.xaml line 92
+            // Scenario6_ColorPicker.xaml line 91
             if (!isobj9ColorDisabled)
             {
                 Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this->obj9, obj);
             }
-            // Scenario6_ColorPicker.xaml line 83
+            // Scenario6_ColorPicker.xaml line 82
             if (!isobj10ColorDisabled)
             {
                 Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this->obj10, obj);
             }
-            // Scenario6_ColorPicker.xaml line 56
+            // Scenario6_ColorPicker.xaml line 55
             if (!isobj19ColorDisabled)
             {
                 Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this->obj19, obj);
@@ -248,17 +248,17 @@ private:
     {
         if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
         {
-            // Scenario6_ColorPicker.xaml line 69
+            // Scenario6_ColorPicker.xaml line 68
             if (!isobj12IsEnabledDisabled)
             {
                 Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this->obj12, obj);
             }
-            // Scenario6_ColorPicker.xaml line 71
+            // Scenario6_ColorPicker.xaml line 70
             if (!isobj13IsEnabledDisabled)
             {
                 Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this->obj13, obj);
             }
-            // Scenario6_ColorPicker.xaml line 39
+            // Scenario6_ColorPicker.xaml line 38
             if (!isobj17IsAlphaEnabledDisabled)
             {
                 Set_Windows_UI_Xaml_Controls_ColorPicker_IsAlphaEnabled(this->obj17, obj);
@@ -290,7 +290,7 @@ private:
     {
         if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
         {
-            // Scenario6_ColorPicker.xaml line 39
+            // Scenario6_ColorPicker.xaml line 38
             if (!isobj17IsColorSliderVisibleDisabled)
             {
                 Set_Windows_UI_Xaml_Controls_ColorPicker_IsColorSliderVisible(this->obj17, obj);
@@ -322,7 +322,7 @@ private:
     {
         if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
         {
-            // Scenario6_ColorPicker.xaml line 39
+            // Scenario6_ColorPicker.xaml line 38
             if (!isobj17IsColorChannelTextInputVisibleDisabled)
             {
                 Set_Windows_UI_Xaml_Controls_ColorPicker_IsColorChannelTextInputVisible(this->obj17, obj);
@@ -354,7 +354,7 @@ private:
     {
         if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
         {
-            // Scenario6_ColorPicker.xaml line 39
+            // Scenario6_ColorPicker.xaml line 38
             if (!isobj17IsHexInputVisibleDisabled)
             {
                 Set_Windows_UI_Xaml_Controls_ColorPicker_IsHexInputVisible(this->obj17, obj);
@@ -386,7 +386,7 @@ private:
     {
         if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
         {
-            // Scenario6_ColorPicker.xaml line 39
+            // Scenario6_ColorPicker.xaml line 38
             if (!isobj17IsAlphaSliderVisibleDisabled)
             {
                 Set_Windows_UI_Xaml_Controls_ColorPicker_IsAlphaSliderVisible(this->obj17, obj);
@@ -418,7 +418,7 @@ private:
     {
         if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
         {
-            // Scenario6_ColorPicker.xaml line 39
+            // Scenario6_ColorPicker.xaml line 38
             if (!isobj17IsAlphaTextInputVisibleDisabled)
             {
                 Set_Windows_UI_Xaml_Controls_ColorPicker_IsAlphaTextInputVisible(this->obj17, obj);

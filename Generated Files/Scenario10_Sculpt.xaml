@@ -2,8 +2,7 @@
     x:Class="Hot3dxRotoDraw.Scenario10_Sculpt"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Hot3dxRotoDraw"
-    xmlns:controls="Windows.UI.Xaml.Controls"
+    xmlns:local="Hot3dxRotoDraw"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
@@ -42,25 +41,31 @@
             <TextBlock x:ConnectionId='23' x:Name="m_selectedPoint" Text="Point Selected 0" TextWrapping="Wrap"  Margin="5,15,0,0" Width="90" Height="30" FontSize="12" FontWeight="Bold" HorizontalAlignment="Left"/>
             <Slider x:ConnectionId='24' x:Name="slider_SelectedPoint" Width="360" Value="0" Maximum="359" Margin="80,-30,0,0"                                                />
             <TextBlock x:ConnectionId='25' x:Name="RotateXTextBlock" Text="X:"  Margin="5,5,0,0" Width="10" HorizontalAlignment="Left" FontSize="12" FontWeight="Bold"/>
-            <TextBox x:ConnectionId='26' x:Name="GRIDCAM_XROTATE_EDIT" HorizontalAlignment="Center" Margin="-80,-15,0,0" Text="0.0" VerticalAlignment="Top" Width="112"                                                 BorderBrush="#FFF36A0B" InputScope="Number"/>
-            <Slider x:ConnectionId='27' x:Name="slider_RotateXGridCam" Width="360" Value="1" Maximum="359" Margin="-90,0,0,0"                                             />
-            <TextBlock x:ConnectionId='28' x:Name="RotateYTextBlock" Text="Y:"  Margin="5,10,0,0" Width="10" HorizontalAlignment="Left" FontSize="12" FontWeight="Bold"/>
-            <TextBox x:ConnectionId='29' x:Name="GRIDCAM_YROTATE_EDIT" HorizontalAlignment="Center" Margin="-80,-20,0,0" Text="0.0" VerticalAlignment="Top" Width="112"                                                 BorderBrush="#FFF36A0B" InputScope="Number"/>
-            <Slider x:ConnectionId='30' x:Name="slider_RotateYGridCam" Width="360" Value="1" Maximum="359"  Margin="-90,0,0,0"                                             />
-            <TextBlock x:ConnectionId='31' x:Name="RotateZTextBlock" Text="Z:"  Margin="5,10,0,0" Width="10" HorizontalAlignment="Left" FontSize="12" FontWeight="Bold"/>
-            <TextBox x:ConnectionId='32' x:Name="GRIDCAM_ZROTATE_EDIT" HorizontalAlignment="Center" Margin="-80,-20,0,0" Text="0.0" VerticalAlignment="Top" Width="112"                                                 BorderBrush="#FFF36A0B" InputScope="Number"/>
-            <Slider x:ConnectionId='33' x:Name="slider_RotateZGridCam" Width="360" Value="1" Maximum="359"  Margin="-90,0,0,0"                                             />
+            <TextBox x:ConnectionId='26' x:Name="X_VALUE_VERTEX_EDIT" HorizontalAlignment="Center" Margin="-80,-15,0,0" Text="0.0" VerticalAlignment="Top" Width="112"                                               BorderBrush="#FFF36A0B" InputScope="Number"/>
+            <TextBox x:ConnectionId='27' x:Name="X_VERTEX_EDIT_Copy" Text="0.0" Width="112" Margin="0,-30,100,0" HorizontalAlignment="Right"  VerticalAlignment="Top"                                         BorderBrush="#FFF36A0B" InputScope="Number"/>
+            <Slider x:ConnectionId='28' x:Name="slider_SculptX" Width="360" Maximum="5" Minimum="-5" Value="0" LargeChange="1" StepFrequency="0.01" SmallChange="0.01" Margin="-90,0,0,0"                                           />
+            <TextBlock x:ConnectionId='29' x:Name="RotateYTextBlock" Text="Y:"  Margin="5,10,0,0" Width="10" HorizontalAlignment="Left" FontSize="12" FontWeight="Bold"/>
+            <TextBox x:ConnectionId='30' x:Name="Y_VALUE_VERTEX_EDIT" HorizontalAlignment="Center" Margin="-80,-20,0,0" Text="0.0" VerticalAlignment="Top" Width="112"                                               BorderBrush="#FFF36A0B" InputScope="Number"/>
+            <TextBox x:ConnectionId='31' x:Name="Y_VERTEX_EDIT_Copy" Text="0.0" Width="112" Margin="0,-30,100,0" HorizontalAlignment="Right"  VerticalAlignment="Top"                                         BorderBrush="#FFF36A0B" InputScope="Number"/>
+            <Slider x:ConnectionId='32' x:Name="slider_SculptY" Width="360" Maximum="5" Minimum="-5" Value="0" LargeChange="1" StepFrequency="0.01" SmallChange="0.01"  Margin="-90,0,0,0"                                           />
+            <TextBlock x:ConnectionId='33' x:Name="RotateZTextBlock" Text="Z:"  Margin="5,10,0,0" Width="10" HorizontalAlignment="Left" FontSize="12" FontWeight="Bold"/>
+            <TextBox x:ConnectionId='34' x:Name="Z_VALUE_VERTEX_EDIT" HorizontalAlignment="Center" Margin="-80,-20,0,0" Text="0.0" VerticalAlignment="Top" Width="112"                                               BorderBrush="#FFF36A0B" InputScope="Number"/>
+            <TextBox x:ConnectionId='35' x:Name="Z_VERTEX_EDIT_Copy" Text="0.0" Width="112" Margin="0,-30,100,0" HorizontalAlignment="Right"  VerticalAlignment="Top"                                         BorderBrush="#FFF36A0B" InputScope="Number"/>
+            <Slider x:ConnectionId='36' x:Name="slider_SculptZ" Width="360" Maximum="5" Minimum="-5" Value="0" LargeChange="1" StepFrequency="0.01" SmallChange="0.01"  Margin="-90,0,0,0"                                           />
 
 
-            <TextBox x:ConnectionId='34' x:Name="m_sculptTextBox" Text="Sculpt Topics" TextWrapping="Wrap"  Margin="0,5,0,0" RenderTransformOrigin="0.455,-1.562"                                         Height="20"/>
-            <TextBlock x:ConnectionId='35' x:Name="m_sculptFilesText" HorizontalAlignment="Left" Margin="0,5,0,0" TextWrapping="Wrap" Text="Sculpt Files"/>
-            <TextBox x:ConnectionId='36' x:Name="m_sculptFilesTextBox" Text="Sculpt Files" TextWrapping="Wrap" RenderTransformOrigin="0.455,-1.562"                                              Height="20"/>
-            <TextBlock x:ConnectionId='37' x:Name="IDC_DESCRIPTION_STATIC" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Sculpt Data Area" VerticalAlignment="Top" RenderTransformOrigin="0.667,-11.258" TextDecorations="Underline"/>
+            <TextBox x:ConnectionId='37' x:Name="m_sculptTextBox" Text="Sculpt Topics" TextWrapping="Wrap"  Margin="0,5,0,0" RenderTransformOrigin="0.455,-1.562"                                         Height="24" FontSize="9"/>
+            <TextBlock x:ConnectionId='38' x:Name="m_sculptFilesText" HorizontalAlignment="Left" Margin="0,5,0,0" TextWrapping="Wrap" Text="Sculpt Files"/>
+            <TextBox x:ConnectionId='39' x:Name="m_sculptFilesTextBox" Text="Sculpt Files" TextWrapping="Wrap" RenderTransformOrigin="0.455,-1.562"                                              Height="24" FontSize="8"/>
+            <TextBlock x:ConnectionId='40' x:Name="IDC_DESCRIPTION_STATIC" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Sculpt Data Area" VerticalAlignment="Top" RenderTransformOrigin="0.667,-11.258" TextDecorations="Underline"/>
+            <Button x:ConnectionId='41' x:Name="SetButton" Content="Set" HorizontalAlignment="Left" Margin="130,-577,0,0" Width="85" VerticalAlignment="Top" FontSize="12" Height="27"                        />
 
 
 
         </StackPanel>
     </Grid>
 </Page>
+
+
 
 

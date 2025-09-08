@@ -15,6 +15,8 @@ namespace Windows {
                 ref class StackPanel;
                 ref class TextBlock;
                 ref class TextBox;
+                ref class Slider;
+                ref class Button;
             }
         }
     }
@@ -23,7 +25,7 @@ namespace Windows {
 namespace Hot3dxRotoDraw
 {
     [::Windows::Foundation::Metadata::WebHostHidden]
-    partial ref class Scenario11_GridorPic : public ::Windows::UI::Xaml::Controls::Page, 
+    partial ref class Scenario12_Translate : public ::Windows::UI::Xaml::Controls::Page, 
         public ::Windows::UI::Xaml::Markup::IComponentConnector,
         public ::Windows::UI::Xaml::Markup::IComponentConnector2
     {
@@ -39,14 +41,23 @@ namespace Hot3dxRotoDraw
     private:
         bool _contentLoaded;
     
-        class Scenario11_GridorPic_obj1_Bindings;
+        class Scenario12_Translate_obj1_Bindings;
     
         private: ::Windows::UI::Xaml::Controls::Grid^ RootGrid;
-        private: ::Windows::UI::Xaml::Controls::StackPanel^ HeaderPanel;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ IDC_DESCRIPTION_STATIC;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ m_gridorPicText;
-        private: ::Windows::UI::Xaml::Controls::TextBox^ m_gridorPicTextBox;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ m_gridorPicFilesText;
+        private: ::Windows::UI::Xaml::Controls::StackPanel^ panel;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ IDC_DESCRIPTION4_STATIC;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ IDC_XTRANSLATE_STATIC;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ IDC_XTRANSLATE_EDIT;
+        private: ::Windows::UI::Xaml::Controls::Slider^ XTranslateSlider;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ IDC_YTRANSLATE_STATIC;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ IDC_YTRANSLATE_EDIT;
+        private: ::Windows::UI::Xaml::Controls::Slider^ YTranslateSlider;
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ IDC_ZTRANSLATE_STATIC;
+        private: ::Windows::UI::Xaml::Controls::TextBox^ IDC_ZTRANSLATE_EDIT;
+        private: ::Windows::UI::Xaml::Controls::Slider^ ZTranslateSlider;
+        private: ::Windows::UI::Xaml::Controls::Button^ IDC_Settings_BUTTON2;
+        private: ::Windows::UI::Xaml::Controls::Button^ IDC_Settings_BUTTON1;
+        private: ::Windows::UI::Xaml::Controls::Button^ IDC_Settings_BUTTON3;
     };
 }
 

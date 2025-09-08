@@ -182,78 +182,106 @@ void ::Hot3dxRotoDraw::Scenario10_Sculpt::Connect(int __connectionId, ::Platform
         break;
     case 26:
         {
-            this->GRIDCAM_XROTATE_EDIT = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->GRIDCAM_XROTATE_EDIT))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario10_Sculpt::GRIDCAM_X_ROTATE_EDIT_TextChanged);
+            this->X_VALUE_VERTEX_EDIT = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->X_VALUE_VERTEX_EDIT))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario10_Sculpt::X_VALUE_VERTEX_EDIT_TextChanged);
         }
         break;
     case 27:
         {
-            this->slider_RotateXGridCam = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::Slider^>(this->slider_RotateXGridCam))->ValueChanged += ref new ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^))&Scenario10_Sculpt::ROTATE_X_GridCam_ValueChanged);
+            this->X_VERTEX_EDIT_Copy = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->X_VERTEX_EDIT_Copy))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario10_Sculpt::X_VERTEX_EDIT_TextChanged);
         }
         break;
     case 28:
         {
-            this->RotateYTextBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+            this->slider_SculptX = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Slider^>(this->slider_SculptX))->ValueChanged += ref new ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^))&Scenario10_Sculpt::slider_SculptX_ValueChanged);
         }
         break;
     case 29:
         {
-            this->GRIDCAM_YROTATE_EDIT = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->GRIDCAM_YROTATE_EDIT))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario10_Sculpt::GRIDCAM_Y_ROTATE_EDIT_TextChanged);
+            this->RotateYTextBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
     case 30:
         {
-            this->slider_RotateYGridCam = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::Slider^>(this->slider_RotateYGridCam))->ValueChanged += ref new ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^))&Scenario10_Sculpt::ROTATE_Y_GridCam_ValueChanged);
+            this->Y_VALUE_VERTEX_EDIT = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->Y_VALUE_VERTEX_EDIT))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario10_Sculpt::Y_VALUE_VERTEX_EDIT_TextChanged);
         }
         break;
     case 31:
         {
-            this->RotateZTextBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+            this->Y_VERTEX_EDIT_Copy = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->Y_VERTEX_EDIT_Copy))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario10_Sculpt::Y_VERTEX_EDIT_TextChanged);
         }
         break;
     case 32:
         {
-            this->GRIDCAM_ZROTATE_EDIT = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->GRIDCAM_ZROTATE_EDIT))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario10_Sculpt::GRIDCAM_Z_ROTATE_EDIT_TextChanged);
+            this->slider_SculptY = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Slider^>(this->slider_SculptY))->ValueChanged += ref new ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^))&Scenario10_Sculpt::slider_SculptY_ValueChanged);
         }
         break;
     case 33:
         {
-            this->slider_RotateZGridCam = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
-            (safe_cast<::Windows::UI::Xaml::Controls::Slider^>(this->slider_RotateZGridCam))->ValueChanged += ref new ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
-                (::Platform::Object^, ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^))&Scenario10_Sculpt::ROTATE_Z_GridCam_ValueChanged);
+            this->RotateZTextBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
     case 34:
+        {
+            this->Z_VALUE_VERTEX_EDIT = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->Z_VALUE_VERTEX_EDIT))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario10_Sculpt::Z_VALUE_VERTEX_EDIT_TextChanged);
+        }
+        break;
+    case 35:
+        {
+            this->Z_VERTEX_EDIT_Copy = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->Z_VERTEX_EDIT_Copy))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario10_Sculpt::Z_VERTEX_EDIT_TextChanged);
+        }
+        break;
+    case 36:
+        {
+            this->slider_SculptZ = safe_cast<::Windows::UI::Xaml::Controls::Slider^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Slider^>(this->slider_SculptZ))->ValueChanged += ref new ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^))&Scenario10_Sculpt::slider_SculptZ_ValueChanged);
+        }
+        break;
+    case 37:
         {
             this->m_sculptTextBox = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->m_sculptTextBox))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario10_Sculpt::SculptTextBox_TextChanged);
         }
         break;
-    case 35:
+    case 38:
         {
             this->m_sculptFilesText = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
         }
         break;
-    case 36:
+    case 39:
         {
             this->m_sculptFilesTextBox = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(__target);
             (safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(this->m_sculptFilesTextBox))->TextChanged += ref new ::Windows::UI::Xaml::Controls::TextChangedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
                 (::Platform::Object^, ::Windows::UI::Xaml::Controls::TextChangedEventArgs^))&Scenario10_Sculpt::SculptFilesTextBox_TextChanged);
         }
         break;
-    case 37:
+    case 40:
         {
             this->IDC_DESCRIPTION_STATIC = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+        }
+        break;
+    case 41:
+        {
+            this->SetButton = safe_cast<::Windows::UI::Xaml::Controls::Button^>(__target);
+            (safe_cast<::Windows::UI::Xaml::Controls::Button^>(this->SetButton))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::Hot3dxRotoDraw::Scenario10_Sculpt::*)
+                (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&Scenario10_Sculpt::SetButton_Click);
         }
         break;
     }
