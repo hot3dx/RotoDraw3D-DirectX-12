@@ -33,6 +33,11 @@ namespace DX
         }
     }
 
+    inline Windows::Storage::StorageFolder^ GetAppDataLocalFolder()
+    {
+        return Windows::Storage::ApplicationData::Current->LocalFolder;
+    }
+
     inline Platform::String^ GetProgramDirPathDXP()
     {
         Platform::String^ s = ref new Platform::String( Windows::ApplicationModel::Package::Current->InstalledPath->Data());
