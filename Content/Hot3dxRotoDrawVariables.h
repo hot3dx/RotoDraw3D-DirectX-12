@@ -765,7 +765,7 @@ namespace Hot3dxRotoDraw
 		void SetThumbnailPicDXP1(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail) { m_thumbnailPicDXP1 = thumbnail; }
 		Windows::Storage::FileProperties::StorageItemThumbnail^ GetThumbnailVideoDXP1() { return m_thumbnailVideoDXP1; }
 		void SetThumbnailVideoDXP(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail) { m_thumbnailVideoDXP1 = thumbnail; }
-		BitmapImage^ GetBitmapImagePicDXP1() { return bitmapImageDXP1; }
+		BitmapImage^ GetBitmapImagePicDXP1() { return bitmapImagePicDXP; }
 		void SetbitmapImagePicDXP1(Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail)
 		{
 			bitmapImagePicDXP = ref new BitmapImage();
