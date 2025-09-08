@@ -187,5 +187,18 @@ namespace Hot3dxRotoDraw
         void SetTexturePicParameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message);
         void SetTextureVideoParameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message);
 
+        Platform::String^ ToLower(Platform::String^ input);
+
+        bool EndsWithEqual(Platform::String^ input, const std::wstring& extension);
+
+        bool EndsWithCompare(Platform::String^ input, const std::wstring& extension);
+
+        void InitializeAppFoldersSc5(Platform::String^ sourcefilePath, Platform::String^ fileName, unsigned int parameterID);
+
+        void CopyTextureToLocalFolderSc5(Platform::String^ sourcefilePath, Platform::String^ fileName, unsigned int parameterID);
+
+        void textureFileTextBlock1_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+
+        unsigned int m_uiParameterID;
      };
 }
