@@ -34,7 +34,7 @@
     <DebuggerRequireAuthentication>Universal</DebuggerRequireAuthentication>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DebuggerMachineName>LAPTOP-7QJLQ3D0</DebuggerMachineName>
+    <DebuggerMachineName>LAPTOP-HOT3DX-LENOVO6978</DebuggerMachineName>
     <DebuggerFlavor>AppHostLocalDebugger</DebuggerFlavor>
     <DebuggerRequireAuthentication>Universal</DebuggerRequireAuthentication>
   </PropertyGroup>

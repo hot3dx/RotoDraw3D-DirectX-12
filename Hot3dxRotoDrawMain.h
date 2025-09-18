@@ -64,7 +64,7 @@ namespace Hot3dxRotoDraw
 
 		// Accessors
 
-		RotoDrawSceneRender^ GetSceneRenderer() { return m_sceneRenderer; }
+		Hot3dxRotoDraw::RotoDrawSceneRender^ GetSceneRenderer() { return m_sceneRenderer; }
 		void SetSceneRenderer() {
 			m_sceneRenderer = ref new RotoDrawSceneRender(m_deviceResources);
 		}

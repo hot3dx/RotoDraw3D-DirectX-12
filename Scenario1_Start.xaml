@@ -13,7 +13,7 @@
     x:Class="Hot3dxRotoDraw.Scenario1_Start"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="Hot3dxRotoDraw"
+    xmlns:local="using:Hot3dxRotoDraw"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
@@ -26,7 +26,7 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"  MaxHeight="50"/>
         </Grid.RowDefinitions>
-        <StackPanel x:Name="HeaderPanel" Margin="0,0,0,0" HorizontalAlignment="Left" Height="600" Width="400" VerticalAlignment="Center" Background="LightGreen">
+        <StackPanel x:Name="HeaderPanel" Margin="0,0,0,0" HorizontalAlignment="Left" Height="600" Width="400" VerticalAlignment="Center" Background="DarkGreen">
             <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
             <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap" Text="Settings to Initialize Sound and the 3D World" FontSize="13.333"/>
 
@@ -39,7 +39,7 @@
              In this case, reference the labeling TextBlocks to have the accessible names set 
              on the ComboBoxes and Sliders. -->
             <!--StackPanel Height="500"  Grid.Row ="1"-->
-            <StackPanel HorizontalAlignment="Left" Height="437" Margin="0,0,0,0" Width="395" RequestedTheme="Default" Background="LightGreen" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Left" Height="437" Margin="0,0,0,0" Width="395" RequestedTheme="Default" Background="DarkGreen" Grid.Row="1">
                 <Button Content="Play" Click="PlayButton_Click" Margin="190,50,0,0" Width="47" VerticalAlignment="Top"/>
                 <Button Content="Stop" Click="StopButton_Click" Margin="190,20,0,0" Width="50" VerticalAlignment="Top"/>
                 <TextBox x:Name="txtContentProps" Grid.Row="3" HorizontalAlignment="Center" Width="376" Height="50"  Margin="0,10,0,0" TextWrapping="Wrap" FocusVisualPrimaryBrush="#FFBCF5BC" FocusVisualSecondaryBrush="#FFBCF5BC" RequestedTheme="Light" />

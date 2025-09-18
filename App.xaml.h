@@ -13,8 +13,8 @@
 
 #pragma once
 
-#include "Generated Files\App.g.h"
-#include "Generated Files\DirectXPage.g.h"
+#include "Generated Files/App.g.h"
+#include "Generated Files/DirectXPage.g.h"
 #include "DirectXPage.xaml.h"
 #include "Common\DeviceResources.h"
 #include "Hot3dxRotoDrawMain.h"

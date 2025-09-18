@@ -10,7 +10,7 @@
 
   <Identity
     Publisher="CN=D712F736-962E-4231-828C-430EEDF684FB"
-    Version="1.0.45.0"  Name="38359Hot3dx-JeffKubitz.RotoDraw3DDirectX12"/>
+    Version="1.0.46.0"  Name="38359Hot3dx-JeffKubitz.RotoDraw3DDirectX12"/>
 
   <mp:PhoneIdentity PhoneProductId="767dcdc5-94b9-4177-983f-30ba25adfdab" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
   
@@ -92,5 +92,8 @@
     <uap6:Capability Name="graphicsCapture"/>
     <uap:Capability Name="picturesLibrary"/>
     <uap:Capability Name="videosLibrary"/>
+    <uap:Capability Name="documentsLibrary"/>
+    <uap:Capability Name="removableStorage"/>
+    <uap:Capability Name="musicLibrary"/>
   </Capabilities>
 </Package>

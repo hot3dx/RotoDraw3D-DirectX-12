@@ -13,14 +13,14 @@
     x:Class="Hot3dxRotoDraw.Scenario5_MatsTexs"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="Hot3dxRotoDraw"
+    xmlns:local="using:Hot3dxRotoDraw"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,0,0" Height="950" Width="500">
     <GridView VerticalAlignment="Top" HorizontalAlignment="Left">
-        <Grid x:Name="RootGrid" Margin="0,0,0,-49" CanBeScrollAnchor="True" Height="950" Width="500" HorizontalAlignment="Center" Background="LightGreen">
+        <Grid x:Name="RootGrid" Margin="0,0,0,-49" CanBeScrollAnchor="True" Height="950" Width="500" HorizontalAlignment="Center" Background="DarkGreen">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="5"/>

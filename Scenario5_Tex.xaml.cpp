@@ -57,15 +57,10 @@ Hot3dxRotoDraw::Scenario5_Tex::Scenario5_Tex() : _rootPage(DirectXPage::Current)
 	Scenario5TexVars^ vars = _rootPage->m_Scene5TexVars;
 	_rootPage->m_Scene5TexVars->SetScenario5TexPage(this);
 
-	//if (_rootPage->GetGridPicTextureImageFileDXP()->Data())
-	//	wcfileName = ref new Platform::String(_rootPage->GetGridPicTextureImageFileDXP()->Data());
-
 	IDC_GRID_OR_PIC_CHECKBOX->IsChecked::set(true);
-	//IDC_GRID_OR_PIC_CHECKBOX->SetValue(IDC_GRID_OR_PIC_CHECKBOX->IsCheckedProperty,
-	//	IDC_GRID_OR_PIC_CHECKBOX->IsChecked);
+	
 	IDC_PIC_CHECKBOX->IsChecked::set(false);
-	//IDC_PIC_CHECKBOX->SetValue(IDC_PIC_CHECKBOX->IsCheckedProperty,
-	//	IDC_PIC_CHECKBOX->IsChecked);
+	
 	vars->SetGridChecked(true);
 	vars->SetPicChecked(false);
 
@@ -530,16 +525,16 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadChosenImage1()
 			{
 				if (thumbnail != nullptr)
 				{
-					this->SetTexture1Parameters(file, this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadChosen1 TextureImage1: "));
+					this->SetTexture1Parameters(file, this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file LoadChosen TextureImage1: "));
 				}
 				else
 				{
-					this->_rootPage->NotifyUser("Error opening file LoadChosen1", NotifyType::ErrorMessage);
+					this->_rootPage->NotifyUser("Error opening file LoadChosen1 ", NotifyType::ErrorMessage);
 				}
 			});
 	}
 	else {
-		this->_rootPage->NotifyUser("Error opening file LoadChosen1", NotifyType::ErrorMessage);
+		this->_rootPage->NotifyUser("Error opening file LoadChosen1 ", NotifyType::ErrorMessage);
 	}
 
 
@@ -984,7 +979,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUri2(Platform::String^ image
 				if (file)
 				{
 					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
-					unsigned int size = static_cast<unsigned int>(this->TextureImage1->ActualHeight);
+					unsigned int size = static_cast<unsigned int>(this->TextureImage2->ActualHeight);
 					ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
 					Platform::String^ thumbnailModeName = thumbnailMode.ToString();
 					bool fastThumbnail = false;
@@ -1000,7 +995,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUri2(Platform::String^ image
 						{
 							if (thumbnail != nullptr)
 							{
-								_this->SetTexture2Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage1 TextureImage1: "));
+								_this->SetTexture2Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage2 TextureImage2: "));
 							}
 							else
 							{
@@ -1023,7 +1018,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUri3(Platform::String^ image
 				if (file)
 				{
 					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
-					unsigned int size = static_cast<unsigned int>(this->TextureImage1->ActualHeight);
+					unsigned int size = static_cast<unsigned int>(this->TextureRMAImage3->ActualHeight);
 					ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
 					Platform::String^ thumbnailModeName = thumbnailMode.ToString();
 					bool fastThumbnail = false;
@@ -1039,7 +1034,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUri3(Platform::String^ image
 						{
 							if (thumbnail != nullptr)
 							{
-								_this->SetTexture3Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage1 TextureImage1: "));
+								_this->SetTexture3Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage3 TextureRMAImage3: "));
 							}
 							else
 							{
@@ -1063,7 +1058,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUri4(Platform::String^ image
 				if (file)
 				{
 					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
-					unsigned int size = static_cast<unsigned int>(this->TextureImage1->ActualHeight);
+					unsigned int size = static_cast<unsigned int>(this->TextureEMMisiveImage4->ActualHeight);
 					ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
 					Platform::String^ thumbnailModeName = thumbnailMode.ToString();
 					bool fastThumbnail = false;
@@ -1079,7 +1074,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUri4(Platform::String^ image
 						{
 							if (thumbnail != nullptr)
 							{
-								_this->SetTexture4Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage4 TextureImage4: "));
+								_this->SetTexture4Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage4 TextureEMMisiveImage4: "));
 							}
 							else
 							{
@@ -1103,7 +1098,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUri5(Platform::String^ image
 				if (file)
 				{
 					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
-					unsigned int size = static_cast<unsigned int>(this->TextureImage1->ActualHeight);
+					unsigned int size = static_cast<unsigned int>(this->TextureRadianceImage5->ActualHeight);
 					ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
 					Platform::String^ thumbnailModeName = thumbnailMode.ToString();
 					bool fastThumbnail = false;
@@ -1142,7 +1137,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUri6(Platform::String^ image
 				if (file)
 				{
 					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
-					unsigned int size = static_cast<unsigned int>(this->TextureImage1->ActualHeight);
+					unsigned int size = static_cast<unsigned int>(this->TextureIrradianceImage6->ActualHeight);
 					ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
 					Platform::String^ thumbnailModeName = thumbnailMode.ToString();
 					bool fastThumbnail = false;
@@ -1181,7 +1176,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUriPic(Platform::String^ ima
 				if (file)
 				{
 					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
-					unsigned int size = static_cast<unsigned int>(this->TextureImage1->ActualHeight);
+					unsigned int size = static_cast<unsigned int>(this->PicTextureImage2->ActualHeight);
 					ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
 					Platform::String^ thumbnailModeName = thumbnailMode.ToString();
 					bool fastThumbnail = false;
@@ -1220,7 +1215,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::LoadDefaultImageUriVideo(Platform::String^ i
 				if (file)
 				{
 					Scenario5TexVars^ vars = this->_rootPage->m_Scene5TexVars;
-					unsigned int size = static_cast<unsigned int>(this->TextureImage1->ActualHeight);
+					unsigned int size = static_cast<unsigned int>(this->VideoTextureImage2->ActualHeight);
 					ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
 					Platform::String^ thumbnailModeName = thumbnailMode.ToString();
 					bool fastThumbnail = false;
@@ -1317,7 +1312,6 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureImage4_Loaded(Platform::Object^ sende
 void Hot3dxRotoDraw::Scenario5_Tex::TextureImage5_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	Uri^ uri = TextureRadianceImage5->BaseUri;
-
 
 }
 
@@ -2193,45 +2187,22 @@ void Hot3dxRotoDraw::Scenario5_Tex::SetTexture1Parameters(
 		// _this is null, cannot safely dereference
 		if (_rootPage)
 		{
-			_rootPage->NotifyUser("Error: Null object in SetTexture1Parameters (_this is null)", NotifyType::ErrorMessage);
+			_rootPage->NotifyUser("Error: Null object in SetTexture2Parameters (_this is null)", NotifyType::ErrorMessage);
 		}
 		return;
 	}
-	if (!file || !thumbnail || !_this->TextureImage1 || !_this->filePath1TextBlock)
-	{
-		if (_this->_rootPage)
-		{
-			this->_rootPage->NotifyUser("Error: Null object in SetTexture1Parameters", NotifyType::ErrorMessage);
-		}
-		return;
-	}
-
 	Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
 	vars->SetFile1(file);
 	vars->SetTextureImage1File(file->Path);
-	_this->_rootPage->SetTextureImage1NameDXP(file->Path);
 	_this->_rootPage->SetTextureImage1FileDXP(file->Path);
+	_this->_rootPage->SetTextureImage1NameDXP(file->Name);
 	vars->SetTextureImage1File(file->Path);
 	vars->SetThumbnailDXP1(thumbnail);
-
 	DisplayResult(_this->TextureImage1, _this->filePath1TextBlock, thumbnailModeName, file, thumbnail, false);
-
-	auto bitmapImage = vars->GetBitmapImageDXP1();
-	auto thumb = vars->GetThumbnailDXP1();
-	if (bitmapImage && thumb)
-	{
-		bitmapImage->SetSource(thumb);
-	}
-	else
-	{
-		if (_this->_rootPage)
-		{
-			_this->_rootPage->NotifyUser("Error: BitmapImage or Thumbnail is null", NotifyType::ErrorMessage);
-		}
-	}
-
+	vars->SetbitmapImageDXP1(vars->GetThumbnailDXP1());
+	vars->GetBitmapImageDXP1()->SetSource(vars->GetThumbnailDXP1());
 	_this->_rootPage->NotifyUser(message + file->Name, NotifyType::StatusMessage);
-	_this->textureFileTextBlock1->Text = file->Name;
+	_this->textureFileTextBlock1->Text = file->Path;
 }
 
 void Hot3dxRotoDraw::Scenario5_Tex::SetTexture2Parameters(Windows::Storage::StorageFile^ file, Hot3dxRotoDraw::Scenario5_Tex^ _this, Windows::Storage::FileProperties::StorageItemThumbnail^ thumbnail, Platform::String^ thumbnailModeName, Platform::String^ message)
@@ -2389,7 +2360,14 @@ void Hot3dxRotoDraw::Scenario5_Tex::SetTexturePicParameters(Windows::Storage::St
 		}
 		return;
 	}
-	
+	if (!file || !thumbnail || !_this->PicTextureImage2 || !_this->filePathPic1TextBlock)
+	{
+		if (_this->_rootPage)
+		{
+			_rootPage->NotifyUser("Error: Null object in SetTexturePicParameters", NotifyType::ErrorMessage);
+		}
+		return;
+	}
 
 	Hot3dxRotoDraw::Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
 	vars->SetFilePic1(file);
@@ -2399,6 +2377,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::SetTexturePicParameters(Windows::Storage::St
 	vars->SetTextureImagePic1File(file->Path);
 	vars->SetThumbnailPicDXP1(thumbnail);
 	_this->DisplayResult(_this->PicTextureImage2, _this->filePathPic1TextBlock, thumbnailModeName, file, thumbnail, false);
+	vars->SetThumbnailPicDXP1(thumbnail);
 	vars->SetbitmapImagePicDXP1(vars->GetThumbnailPicDXP1());
 	vars->GetBitmapImagePicDXP1()->SetSource(vars->GetThumbnailPicDXP1());
 	//_this->_rootPage->NotifyUser("Opened file " + file->Name, NotifyType::StatusMessage);
@@ -2664,5 +2643,5 @@ void Hot3dxRotoDraw::Scenario5_Tex::CopyTextureToLocalFolderSc5(Platform::String
 
 void Hot3dxRotoDraw::Scenario5_Tex::textureFileTextBlock1_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
-
+	_rootPage->SetTextureImage1NameDXP(ref new Platform::String(filePath1TextBlock->Text->Data()));
 }

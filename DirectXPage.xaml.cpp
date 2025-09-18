@@ -7,7 +7,7 @@
 #include "DirectXPage.xaml.h"
 #include "OmnidirectionalSound.h"
 #include "ContentDialog1.xaml.h"
-#include <\DirectXToolKitXaml12\Graphics\ScreenGrabXaml12.h>
+#include <..\DirectXToolKitXaml12\Graphics\ScreenGrabXaml12.h>
 #include <guiddef.h>
 
 using namespace Hot3dxRotoDraw;
@@ -84,9 +84,10 @@ Hot3dxRotoDraw::DirectXPage::DirectXPage() :
 	m_bDirPathFound(false)
 {
 	InitializeComponent();
-
+	
+	
 	DirectXPage::Current = this;
-
+	InitializeAppFolders();
 	m_deviceResources = std::make_shared<DeviceResources>();
 	m_deviceResources->SetSwapChainPanel(swapChainPanel);
 	m_main = std::unique_ptr<Hot3dxRotoDrawMain>(new Hot3dxRotoDrawMain(m_deviceResources));
@@ -203,7 +204,99 @@ Hot3dxRotoDraw::DirectXPage::DirectXPage() :
 	m_coreInput->Dispatcher->StopProcessEvents();
 }
 
-// Saves the current state of the app for suspend and terminate events.
+	void Hot3dxRotoDraw::DirectXPage::InitializeAppFolders()
+	{
+		
+		auto localFolder = GetAppDataLocalFolder(); //Windows::Storage::ApplicationData::Current->LocalFolder;
+			
+			auto texturesFolder = concurrency::create_task(
+				localFolder->CreateFolderAsync(
+					L"Hot3dxRotoDraw3D\\Textures",
+					Windows::Storage::CreationCollisionOption::OpenIfExists)).then([this](StorageFolder^ folder) {
+						// Folder created or opened
+						// Continue app initialization
+						this->CopyTextureToLocalFolder(L"fire.dds");
+						this->CopyTextureToLocalFolder(L"sphere.png");
+						this->CopyTextureToLocalFolder(L"Toyrobot_RMA.DDS");
+						this->CopyTextureToLocalFolder(L"Toyrobot_Normal.DDS");
+						this->CopyTextureToLocalFolder(L"ATRIUM_R.DDS");
+						this->CopyTextureToLocalFolder(L"ATRIUM_IR.DDS");
+						this->CopyTextureToLocalFolder(L"tree01S.dds");
+						this->CopyTextureToLocalFolder(L"SampleVideo.mp4");
+						this->CopyTextureToLocalFolder("WHITE_CUBEMAP_IR.DDS");
+						this->CopyTextureToLocalFolder("WHITE_CUBEMAP_R.DDS");
+						});
+
+			// You can now safely load textures from texturesFolder
+		
+	}
+
+	void Hot3dxRotoDraw::DirectXPage::CopyTextureToLocalFolder(Platform::String^ fileName)
+	{
+		// 1. Get source file from app package
+		Platform::String^ filen = ref new Platform::String(L"ms-appx:///Assets/Textures/");
+		Platform::String^ fn = ref new Platform::String(fileName->Data());
+		filen = filen->Concat(filen, fn);
+		// Create the URI	
+		auto srcUri = ref new Windows::Foundation::Uri(filen);
+		concurrency::create_task(Windows::Storage::StorageFile::GetFileFromApplicationUriAsync(srcUri))
+			.then([this, fileName](Windows::Storage::StorageFile^ srcFile) {
+			
+			// If the file could not be found, GetFileFromApplicationUriAsync will raise an exception.
+			if (srcFile) {
+				Platform::String^ f = ref new Platform::String(L"\nSource file found. ");
+				f = f->Concat(f, fileName);
+				f = f->Concat(f, L"  GetFileFromApplicationUriAsync(srcUri)\n");
+				OutputDebugString(f->Data());// GetFileFromApplicationUriAsync(srcUri))\n");//throw ref new Platform::Exception(E_FAIL, L"Source file not found.");
+			}
+			else {
+				Platform::String^ f = ref new Platform::String(L"\nSource file not found. ");
+				f = f->Concat(f, fileName);
+				f = f->Concat(f, L"  GetFileFromApplicationUriAsync(srcUri)\n");
+				OutputDebugString(f->Data());//throw ref new Platform::Exception(E_FAIL, L"Source file not found.");
+			}
+				
+			DirectXPage^ _this = this;
+			auto localFolder = GetAppDataLocalFolder(); //Windows::Storage::ApplicationData::Current->LocalFolder;
+			// localFolder->Path; // for setting breakpoint
+			// 2. Get destination folder (create if it doesn't exist)
+			Platform::String^ destFolderPath = ref new Platform::String(localFolder->Path->Data());
+			Platform::String^ destFolderPath2 = ref new Platform::String(L"Hot3dxRotoDraw3D\\Textures");
+			return concurrency::create_task(localFolder->CreateFolderAsync(
+				destFolderPath2,
+				Windows::Storage::CreationCollisionOption::OpenIfExists
+			)).then([srcFile, fileName](Windows::Storage::StorageFolder^ destFolder) {
+				if (destFolder)
+				{
+					OutputDebugString(L"\n Destination Folder Created or Opened\n");
+				}
+				else
+				{
+					OutputDebugString(L"\n Destination Folder NOT Created or Opened\n");
+				}
+				return srcFile->CopyAsync(destFolder, fileName, Windows::Storage::NameCollisionOption::ReplaceExisting);
+				});
+			}).then([this](Windows::Storage::StorageFile^ copiedFile) {
+			if (copiedFile)
+			{
+				// Success
+				// NotifyUser("Copied: " + copiedFile->Path, NotifyType::StatusMessage);
+				//this->NotifyUser(L"File Copied to App Folder", NotifyType::StatusMessage);
+				OutputDebugString(L"File Copied to App Folder");
+			}
+			}).then([this](concurrency::task<void> t) {
+				
+			try { t.get(); }
+			catch (Platform::Exception^ ex) {
+				Platform::String^ f = L"\nCatch Source file not found. \n";
+				if (!f) OutputDebugString(f->Data());//throw ref new Platform::Exception(E_FAIL, L"Source file not found.");
+				//this->NotifyUser("Error: " + ex->Message, NotifyType::ErrorMessage);
+			}
+	
+				});
+	}
+
+	// Saves the current state of the app for suspend and terminate events.
 void Hot3dxRotoDraw::DirectXPage::SaveInternalState(IPropertySet^ state)
 {
 	critical_section::scoped_lock lock(m_main->GetCriticalSection());

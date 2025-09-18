@@ -41,12 +41,12 @@ Hot3dxRotoDraw::Scenario1_Start::Scenario1_Start() : _rootPage(DirectXPage::Curr
     Scenario5Vars^ vars = _rootPage->m_Scene5Vars;
     if (vars->GetBitmapImageDXP1())
     {
-        // loads chosen top left texture imagefire.dds
+        // loads chosen top left texture image
         LoadChosenSound1();
     }
     else
     {
-        LoadDefaultSound1(L"Assets\\Textures\\fire.dds");
+        LoadDefaultSound1(L"Assets\\Audiorezout_Entering.mp3");
 
     }
 }

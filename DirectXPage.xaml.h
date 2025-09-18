@@ -48,6 +48,8 @@ namespace Hot3dxRotoDraw
 		DirectXPage();
 		virtual ~DirectXPage();
 
+		void InitializeAppFolders();
+		void CopyTextureToLocalFolder(Platform::String^ fileName);
 		void SaveInternalState(Windows::Foundation::Collections::IPropertySet^ state);
 		void LoadInternalState(Windows::Foundation::Collections::IPropertySet^ state);
 		void AudioInitialize();
@@ -118,6 +120,7 @@ namespace Hot3dxRotoDraw
 		bool GetTopOrLeftCheckedDXP() { return m_Scene2Vars->GetTopOrLeftChecked(); }
 		void SetTopOrLeftCheckedDXP(bool b) {
 			m_Scene2Vars->SetTopOrLeftChecked(b);
+			
 			if (m_main->GetSceneRenderer()->GetIsYAxis())
 			{
 				m_main->GetSceneRenderer()->EndTopPointYAxis();
@@ -126,6 +129,8 @@ namespace Hot3dxRotoDraw
 			{
 				m_main->GetSceneRenderer()->EndLeftPointsXAxis();
 			}
+			
+		//	m_main->GetSceneRenderer()->EndBeginPointXorYAxis2();
 		}
 		bool GetBottomOrRightCheckedDXP() { return m_Scene2Vars->GetBottomOrRightChecked(); }
 		void SetBottomOrRightCheckedDXP(bool b) {
@@ -342,7 +347,8 @@ namespace Hot3dxRotoDraw
 		
 
 		internal:
-		
+		inline RotoDrawSceneRender^ GetSceneRendererDXP() { return m_main->GetSceneRenderer(); }
+		inline std::shared_ptr<DeviceResources>  GetDeviceResources() {	return m_deviceResources;		}
 		std::vector<DirectX::DXTKXAML12::VertexPositionColor> GetVerticesDXP() { return m_main->GetSceneRenderer()->GetVertices(); }
 		std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> GetVertexesDXP() { return m_main->GetSceneRenderer()->GetVertexes(); }
 		std::vector<uint16_t> GetIndices() { return m_main->GetSceneRenderer()->GetIndices(); }

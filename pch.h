@@ -78,27 +78,28 @@ using namespace Windows::UI::Xaml;
 using namespace Windows::Foundation;
 using namespace DirectX;
 
-#include <AudioFileReaderXaml12.h>
-#include <XAudio2HelpersXaml12.h>
+#include <D:/DirectXToolKitXaml12/Audio/AudioFileReaderXaml12.h>
+#include <D:/DirectXToolKitXaml12/Audio/XAudio2HelpersXaml12.h>
 #include "OmnidirectionalSound.h"
 #include "CardioidSound.h"
 #include "CustomDecay.h"
-#include <AudioXaml12.h>
-#include <CommonStatesXaml12.h>
-#include <DirectXHelpersXaml12.h>
-#include <DDSTextureLoaderXaml12.h>
-#include <DescriptorHeapXaml12.h>
-#include <EffectsXaml12.h>
-#include <GeometricPrimitiveXaml12.h>
-#include <GraphicsMemoryXaml12.h>
-#include <ModelXaml12.h>
-#include <PrimitiveBatchXaml12.h>
-#include <MyResourceUploadBatchXaml12.h>
-#include <RenderTargetStateXaml12.h>
-#include <SimpleMathXaml12.h>
-#include <SpriteBatchXaml12.h>
-#include <SpriteFontXaml12.h> 
-#include <VertexTypesXaml12.h>
+#include <D:/DirectXToolKitXaml12/Audio/AudioXaml12.h>
+#include <D:/DirectXToolKitXaml12/Graphics/CommonStatesXaml12.h>
+#include <D:/DirectXToolKitXaml12/Graphics/DirectXHelpersXaml12.h>
+#include <D:/DirectXToolKitXaml12/Graphics/DDSTextureLoaderXaml12.h>
+#include <D:/DirectXToolKitXaml12/Graphics/DescriptorHeapXaml12.h>
+#include <D:/DirectXToolKitXaml12/Graphics/EffectsXaml12.h>
+#include <D:/DirectXToolKitXaml12/Graphics/GeometricPrimitiveXaml12.h>
+#include <D:/DirectXToolKitXaml12/Graphics/GraphicsMemoryXaml12.h>
+#include <D:/DirectXToolKitXaml12/Graphics/ModelXaml12.h>
+#include <D:/DirectXToolKitXaml12/Graphics/PrimitiveBatchXaml12.h>
+#include <D:/DirectXToolKitXaml12/Graphics/MyResourceUploadBatchXaml12.h>
+#include <D:/DirectXToolKitXaml12/Graphics/RenderTargetStateXaml12.h>
+#include <D:/DirectXToolKitXaml12/Graphics/SimpleMathXaml12.h>
+#include <D:/DirectXToolKitXaml12/Graphics/SpriteBatchXaml12.h>
+#include <D:/DirectXToolKitXaml12/Graphics/SpriteFontXaml12.h> 
+#include <D:/DirectXToolKitXaml12/Graphics/VertexTypesXaml12.h>
+#include <D:/DirectXToolKitXaml12/Graphics/WICTextureLoaderXaml12.h>
 
 using namespace DirectX::DXTKXAML12;
 
