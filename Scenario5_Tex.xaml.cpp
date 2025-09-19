@@ -1421,6 +1421,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureImage1_Tapped(Platform::Object^ sende
 				Scenario5_Tex^ _this = this;
 				Windows::Storage::StorageFolder^ folder = KnownFolders::PicturesLibrary;
 				Windows::System::User^ user = Windows::System::User::GetDefault();
+				/*
 				concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
 					.then([_this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
 						{
@@ -1440,9 +1441,29 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureImage1_Tapped(Platform::Object^ sende
 								}
 								auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 									{
-										if (thumbnail != nullptr)
+				*/
+				concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
+					.then([_this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
+						{
+							if (file)
+							{
+								ThumbnailMode innerThumbnailMode = ThumbnailMode::SingleItem;
+								Platform::String^ innerThumbnailModeName = innerThumbnailMode.ToString();
+								bool innerFastThumbnail = false;
+								ThumbnailOptions innerThumbnailOptions;
+
+								if (size > 0)
+								{
+									innerFastThumbnail = false;
+									innerThumbnailOptions = ThumbnailOptions::UseCurrentScale;
+								}
+								auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(innerThumbnailMode, size, innerThumbnailOptions))
+									.then([_this, file, innerThumbnailMode, innerThumbnailModeName, innerThumbnailOptions, innerFastThumbnail, size](StorageItemThumbnail^ thumbnail)
 										{
-											_this->SetTexture1Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage1 TextureImage1: "));
+			
+								        if (thumbnail != nullptr)
+										{
+											_this->SetTexture1Parameters(file, _this, thumbnail, innerThumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage1 TextureImage1: "));
 										}
 										else
 										{
@@ -1494,7 +1515,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureImage2_Tapped(Platform::Object^ sende
 				Scenario5_Tex^ _this = this;
 				Windows::Storage::StorageFolder^ folder = KnownFolders::PicturesLibrary;
 				Windows::System::User^ user = Windows::System::User::GetDefault();
-				concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
+				/* concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
 					.then([_this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
 						{
 							if (file)
@@ -1513,9 +1534,28 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureImage2_Tapped(Platform::Object^ sende
 								}
 								auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 									{
+				*/
+				concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
+					.then([_this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
+						{
+							if (file)
+							{
+								ThumbnailMode innerThumbnailMode = ThumbnailMode::SingleItem;
+								Platform::String^ innerThumbnailModeName = innerThumbnailMode.ToString();
+								bool innerFastThumbnail = false;
+								ThumbnailOptions innerThumbnailOptions;
+
+								if (size > 0)
+								{
+									innerFastThumbnail = false;
+									innerThumbnailOptions = ThumbnailOptions::UseCurrentScale;
+								}
+								auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(innerThumbnailMode, size, innerThumbnailOptions))
+									.then([_this, file, innerThumbnailMode, innerThumbnailModeName, innerThumbnailOptions, innerFastThumbnail, size](StorageItemThumbnail^ thumbnail)
+										{
 										if (thumbnail != nullptr)
 										{
-											_this->SetTexture2Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage2 TextureImage2: "));
+											_this->SetTexture2Parameters(file, _this, thumbnail, innerThumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage2 TextureImage2: "));
 										}
 										else
 										{
@@ -1569,7 +1609,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureRMAImage3_Tapped(Platform::Object^ se
 				Scenario5_Tex^ _this = this;
 				Windows::Storage::StorageFolder^ folder = KnownFolders::PicturesLibrary;
 				Windows::System::User^ user = Windows::System::User::GetDefault();
-				concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
+				/* concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
 					.then([_this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
 						{
 							if (file)
@@ -1588,9 +1628,28 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureRMAImage3_Tapped(Platform::Object^ se
 								}
 								auto task3 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 									{
+					*/
+				concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
+					.then([_this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
+						{
+							if (file)
+							{
+								ThumbnailMode innerThumbnailMode = ThumbnailMode::SingleItem;
+								Platform::String^ innerThumbnailModeName = innerThumbnailMode.ToString();
+								bool innerFastThumbnail = false;
+								ThumbnailOptions innerThumbnailOptions;
+
+								if (size > 0)
+								{
+									innerFastThumbnail = false;
+									innerThumbnailOptions = ThumbnailOptions::UseCurrentScale;
+								}
+								auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(innerThumbnailMode, size, innerThumbnailOptions))
+									.then([_this, file, innerThumbnailMode, innerThumbnailModeName, innerThumbnailOptions, innerFastThumbnail, size](StorageItemThumbnail^ thumbnail)
+										{
 										if (thumbnail != nullptr)
 										{
-											_this->SetTexture3Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage3 TextureImage3: "));
+											_this->SetTexture3Parameters(file, _this, thumbnail, innerThumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage3 TextureImage3: "));
 										}
 										else
 										{
@@ -1643,7 +1702,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureEMMisiveImage4_Tapped(Platform::Objec
 				Scenario5_Tex^ _this = this;
 				Windows::Storage::StorageFolder^ folder = KnownFolders::PicturesLibrary;
 				Windows::System::User^ user = Windows::System::User::GetDefault();
-				concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
+				/* concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
 					.then([_this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
 						{
 							if (file)
@@ -1662,9 +1721,28 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureEMMisiveImage4_Tapped(Platform::Objec
 								}
 								auto task4 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 									{
+									*/
+				concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
+					.then([_this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
+						{
+							if (file)
+							{
+								ThumbnailMode innerThumbnailMode = ThumbnailMode::SingleItem;
+								Platform::String^ innerThumbnailModeName = innerThumbnailMode.ToString();
+								bool innerFastThumbnail = false;
+								ThumbnailOptions innerThumbnailOptions;
+
+								if (size > 0)
+								{
+									innerFastThumbnail = false;
+									innerThumbnailOptions = ThumbnailOptions::UseCurrentScale;
+								}
+								auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(innerThumbnailMode, size, innerThumbnailOptions))
+									.then([_this, file, innerThumbnailMode, innerThumbnailModeName, innerThumbnailOptions, innerFastThumbnail, size](StorageItemThumbnail^ thumbnail)
+										{
 										if (thumbnail != nullptr)
 										{
-											_this->SetTexture4Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage4 TextureImage4: "));
+											_this->SetTexture4Parameters(file, _this, thumbnail, innerThumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage4 TextureImage4: "));
 										}
 										else
 										{
@@ -1717,7 +1795,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureRadianceImage5_Tapped(Platform::Objec
 				Scenario5_Tex^ _this = this;
 				Windows::Storage::StorageFolder^ folder = KnownFolders::PicturesLibrary;
 				Windows::System::User^ user = Windows::System::User::GetDefault();
-				concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
+				/*  concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
 					.then([_this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
 						{
 							if (file)
@@ -1736,9 +1814,28 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureRadianceImage5_Tapped(Platform::Objec
 								}
 								auto task5 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 									{
+								*/
+									concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
+									.then([_this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
+										{
+											if (file)
+											{
+												ThumbnailMode innerThumbnailMode = ThumbnailMode::SingleItem;
+												Platform::String^ innerThumbnailModeName = innerThumbnailMode.ToString();
+												bool innerFastThumbnail = false;
+												ThumbnailOptions innerThumbnailOptions;
+
+												if (size > 0)
+												{
+													innerFastThumbnail = false;
+													innerThumbnailOptions = ThumbnailOptions::UseCurrentScale;
+												}
+												auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(innerThumbnailMode, size, innerThumbnailOptions))
+													.then([_this, file, innerThumbnailMode, innerThumbnailModeName, innerThumbnailOptions, innerFastThumbnail, size](StorageItemThumbnail^ thumbnail)
+														{
 										if (thumbnail != nullptr)
 										{
-											_this->SetTexture5Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage5 TextureImage5: "));
+											_this->SetTexture5Parameters(file, _this, thumbnail, innerThumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage5 TextureImage5: "));
 										}
 										else
 										{
@@ -1791,7 +1888,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureIrradianceImage6_Tapped(Platform::Obj
 				Scenario5_Tex^ _this = this;
 				Windows::Storage::StorageFolder^ folder = KnownFolders::PicturesLibrary;
 				Windows::System::User^ user = Windows::System::User::GetDefault();
-				concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
+				/* concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
 					.then([_this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
 						{
 							if (file)
@@ -1810,9 +1907,28 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureIrradianceImage6_Tapped(Platform::Obj
 								}
 								auto task6 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 									{
+										*/
+											concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
+											.then([_this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
+												{
+													if (file)
+													{
+														ThumbnailMode innerThumbnailMode = ThumbnailMode::SingleItem;
+														Platform::String^ innerThumbnailModeName = innerThumbnailMode.ToString();
+														bool innerFastThumbnail = false;
+														ThumbnailOptions innerThumbnailOptions;
+
+														if (size > 0)
+														{
+															innerFastThumbnail = false;
+															innerThumbnailOptions = ThumbnailOptions::UseCurrentScale;
+														}
+														auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(innerThumbnailMode, size, innerThumbnailOptions))
+															.then([_this, file, innerThumbnailMode, innerThumbnailModeName, innerThumbnailOptions, innerFastThumbnail, size](StorageItemThumbnail^ thumbnail)
+																{
 										if (thumbnail != nullptr)
 										{
-											_this->SetTexture6Parameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage6 TextureImage6: "));
+											_this->SetTexture6Parameters(file, _this, thumbnail, innerThumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage6 TextureImage6: "));
 										}
 										else
 										{
@@ -2008,7 +2124,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::PicTextureImage2_Tapped(Platform::Object^ se
 				Scenario5_Tex^ _this = this;
 				Windows::Storage::StorageFolder^ folder = KnownFolders::PicturesLibrary;
 				Windows::System::User^ user = Windows::System::User::GetDefault();
-				concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
+				/* concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
 					.then([_this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
 						{
 							if (file)
@@ -2027,9 +2143,28 @@ void Hot3dxRotoDraw::Scenario5_Tex::PicTextureImage2_Tapped(Platform::Object^ se
 								}
 								auto task6 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 									{
+								*/
+				concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
+					.then([_this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
+						{
+							if (file)
+							{
+								ThumbnailMode innerThumbnailMode = ThumbnailMode::SingleItem;
+								Platform::String^ innerThumbnailModeName = innerThumbnailMode.ToString();
+								bool innerFastThumbnail = false;
+								ThumbnailOptions innerThumbnailOptions;
+
+								if (size > 0)
+								{
+									innerFastThumbnail = false;
+									innerThumbnailOptions = ThumbnailOptions::UseCurrentScale;
+								}
+								auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(innerThumbnailMode, size, innerThumbnailOptions))
+									.then([_this, file, innerThumbnailMode, innerThumbnailModeName, innerThumbnailOptions, innerFastThumbnail, size](StorageItemThumbnail^ thumbnail)
+										{
 										if (thumbnail != nullptr)
 										{
-											_this->SetTexturePicParameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage7 TextureImage7: "));
+											_this->SetTexturePicParameters(file, _this, thumbnail, innerThumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImage7 TextureImage7: "));
 										}
 										else
 										{
@@ -2077,7 +2212,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::VideoTextureImage2_Tapped(Platform::Object^ 
 				Scenario5_Tex^ _this = this;
 				Windows::Storage::StorageFolder^ folder = KnownFolders::PicturesLibrary;
 				Windows::System::User^ user = Windows::System::User::GetDefault();
-				concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
+				/* concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
 					.then([_this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
 						{
 							if (file)
@@ -2096,9 +2231,28 @@ void Hot3dxRotoDraw::Scenario5_Tex::VideoTextureImage2_Tapped(Platform::Object^ 
 								}
 								auto task6 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(thumbnailMode, size, thumbnailOptions)).then([_this, file, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](StorageItemThumbnail^ thumbnail)
 									{
+									*/
+				concurrency::create_task(file->GetFileFromPathForUserAsync(user, file->Path))
+					.then([_this, thumbnailMode, thumbnailModeName, thumbnailOptions, fastThumbnail, size](Windows::Storage::StorageFile^ file)
+						{
+							if (file)
+							{
+								ThumbnailMode innerThumbnailMode = ThumbnailMode::SingleItem;
+								Platform::String^ innerThumbnailModeName = innerThumbnailMode.ToString();
+								bool innerFastThumbnail = false;
+								ThumbnailOptions innerThumbnailOptions;
+
+								if (size > 0)
+								{
+									innerFastThumbnail = false;
+									innerThumbnailOptions = ThumbnailOptions::UseCurrentScale;
+								}
+								auto task2 = concurrency::create_task(file->GetScaledImageAsThumbnailAsync(innerThumbnailMode, size, innerThumbnailOptions))
+									.then([_this, file, innerThumbnailMode, innerThumbnailModeName, innerThumbnailOptions, innerFastThumbnail, size](StorageItemThumbnail^ thumbnail)
+										{
 										if (thumbnail != nullptr)
 										{
-											_this->SetTextureVideoParameters(file, _this, thumbnail, thumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImageVideo TextureImageVideo: "));
+											_this->SetTextureVideoParameters(file, _this, thumbnail, innerThumbnailModeName, ref new Platform::String(L"Opened file  LoadDefaultImageVideo TextureImageVideo: "));
 										}
 										else
 										{
@@ -2446,7 +2600,7 @@ Platform::String^ Hot3dxRotoDraw::Scenario5_Tex::ToLower(Platform::String^ input
 
 	// Transform to lowercase using std::transform and std::towlower
 	std::transform(wstr.begin(), wstr.end(), wstr.begin(), [](wchar_t c) {
-		return std::tolower(c);
+		return std::towlower(c);
 		});
 
 	// Convert back to Platform::String
