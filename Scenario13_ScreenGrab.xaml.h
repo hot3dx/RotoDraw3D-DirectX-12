@@ -29,6 +29,11 @@ namespace Hot3dxRotoDraw
         static Scenario13_ScreenGrab^ Current;
         Platform::String^ wcfileName;
         void SetAllUnChecked();
+
+        
+        unsigned int GetChosenFileType(){ return m_chosenFileType;}
+        void SetChosenFileType(unsigned int fileType) { m_chosenFileType = fileType; }
+
     private:
 
         DirectXPage^ _rootPage;
@@ -52,12 +57,10 @@ namespace Hot3dxRotoDraw
         void IDC_SCREENGRAB_DDS_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void IDC_SCREENGRAB_BMP_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void IDC_SCREENGRAB_PNG_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        //void IDC_SCREENGRAB_ICO_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void IDC_SCREENGRAB_JPG_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        void IDC_SCREENGRAB_TIFF_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void IDC_SCREENGRAB_GIF_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        //void IDC_SCREENGRAB_WMP_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 
+                
     protected:
         virtual void OnNavigatedTo(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e) override;
 
@@ -68,7 +71,24 @@ namespace Hot3dxRotoDraw
         
         void ScreenGrabFilesTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
         void ScreenGrabTextBox_TextChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::TextChangedEventArgs^ e);
+
+    protected private:
+
+        // Descriptors
+        enum class SG13FileTypeDescriptors
+        {
+            BMP = 0,
+            JPG = 1,
+            PNG = 2,
+            GIF = 3,
+            DDS = 4,
+            UNCHOSEN = 5
+        } SG13FileTypeDescriptors;
+
+        unsigned int m_chosenFileType;
+        
     };
+
 
 
 }

@@ -271,18 +271,23 @@ void Hot3dxRotoDraw::Scenario1_Start::UpdateContentProps(Platform::String^ str)
             [this, text]()
             {
                 Windows::UI::Xaml::Media::SolidColorBrush^ brush;
-        txtContentProps->Text = text;
+                txtContentProps->Text = text;
 
-       // if (("" == text) && (m_ContentType == ContentType::ContentTypeFile))
-        //{
-            brush = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::ColorHelper::FromArgb(0xCC, 0xFF, 0x00, 0x00));
-        //}
-       // else
-        //{
-            brush = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::ColorHelper::FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                // if (("" == text) && (m_ContentType == ContentType::ContentTypeFile))
+                 //{
+                brush = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::ColorHelper::FromArgb(0xCC, 0xFF, 0x00, 0x00));
+                //}
+               // else
+                //{
+                brush = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::ColorHelper::FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
        // }
 
         txtContentProps->Background = brush;
             }));
     }
+}
+
+void Hot3dxRotoDraw::Scenario1_Start::StatusBlock_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+
 }

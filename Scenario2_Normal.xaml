@@ -20,14 +20,14 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid x:Name="RootGrid" Margin="0,0,0,0">
+    <Grid x:Name="RootGrid" Margin="0,0,0,0" FocusVisualPrimaryBrush="#FF190202">
         <Grid.RowDefinitions>
-            <RowDefinition Height="670"/>
+            <RowDefinition Height="705"/>
             <RowDefinition Height="0"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"  MaxHeight="50"/>
         </Grid.RowDefinitions>
-        <StackPanel x:Name="HeaderPanel"  HorizontalAlignment="Left" Height="867" Width="400" VerticalAlignment="Bottom" Background="LightGreen" Margin="0,0,0,134" Grid.RowSpan="3">
+        <StackPanel x:Name="HeaderPanel"  HorizontalAlignment="Left" Height="701" Width="400" VerticalAlignment="Bottom" Background="DarkGreen">
             <TextBlock Text="Description:" Style="{StaticResource SampleHeaderTextStyle}"/>
             <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap" Text="Settings of drawing variables" FontSize="13.333"/>
 
@@ -35,10 +35,10 @@
             <!-- Status Block for providing messages to the user.  Use the
              NotifyUser() method to populate the message -->
             <Border x:Name="ErrorBorder" Background="Red" Grid.Row="2"/>
-            <TextBlock x:Name="StatusBlock" Grid.Row="2" Margin="12, 0, 12, 0" Visibility="Collapsed"/>
+            <TextBlock x:Name="StatusBlock" Grid.Row="2" Margin="12, 0, 12, 0" Visibility="Collapsed" />
 
 
-            <StackPanel x:Name="left" HorizontalAlignment="Left" Height="383" Margin="0,0,0,0" VerticalAlignment="Top" Width="133" RequestedTheme="Default" Background="LightGreen" Grid.Row="1">
+            <StackPanel x:Name="left" HorizontalAlignment="Left" Height="396" Margin="0,0,0,0" Width="133" RequestedTheme="Default" Background="DarkGreen" Grid.Row="1">
                 <Rectangle x:Name="IDC_CLIP_STATIC2" Height="52" Width="110" Margin="0,10,0,0" HorizontalAlignment="Center" RenderTransformOrigin="5.459,0.029" 
                            StrokeThickness="1"
                            Stroke="{ThemeResource TextControlBorderBrush}" RadiusX="0" RadiusY="0">
@@ -46,8 +46,8 @@
                         <SolidColorBrush Color="MediumAquamarine" />
                     </Rectangle.Fill>
                 </Rectangle>
-                <Button x:Name="IDC_CLEAR_BUTTON" Content="New or Clear" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="110" Click="IDC_CLEAR_BUTTON_Click" Background="#332BD8E0" BorderBrush="#FFFF6E00"/>
-                <Button x:Name="CursorLockResetButton" Content="Cursor Lock Reset" FontSize="5" Margin="0,5,0,0" HorizontalAlignment="Center" Click="CursorLockResetButton_Click"/>
+                <Button x:Name="IDC_CLEAR_BUTTON" Content="New or Clear" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="110" ToolTipService.ToolTip="Resets for a new object draw" Click="IDC_CLEAR_BUTTON_Click" Background="#332BD8E0" BorderBrush="#FFFF6E00"/>
+                <Button x:Name="CursorLockResetButton" Content="Cursor Lock Reset" FontSize="8" Margin="0,5,0,0" HorizontalAlignment="Center" ToolTipService.ToolTip="Resets a disappeared cursor but sometimes does not allow all functions" Click="CursorLockResetButton_Click" BorderBrush="#FFEA0B5C"/>
                 <TextBlock x:Name="IDC_Advanced_STATIC" HorizontalAlignment="Center" Margin="0,5,0,0" TextWrapping="Wrap" Text="Advanced" VerticalAlignment="Top" RenderTransformOrigin="0.667,-11.258" TextDecorations="Underline" FontSize="12"/>
                 <CheckBox x:Name="IDC_FIRST_TO_LAST_CHECKBOX" IsChecked="True" Content="First to Last" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Background="#FFF36A0B" Click="IDC_FIRST_TO_LAST_CHECKBOX_Checked" ToolTipService.ToolTip="Not used - draw in either direction"/>
                 <TextBlock x:Name="IDC_X_OR_Y_AXIS_STATIC" HorizontalAlignment="Center" Margin="0,5,0,0" TextWrapping="Wrap" Text="Checked Y Axis Draw Unchecked = X Axis" VerticalAlignment="Top" RenderTransformOrigin="0.667,-11.258" TextDecorations="Underline" FontSize="12"/>
@@ -57,20 +57,18 @@
                 <CheckBox x:Name="IDC_BOTTOM_OR_RIGHT_CHECKBOX" Content="Bottom or Right" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Click="IDC_BOTTOM_OR_RIGHT_CHECKBOX_Checked" Background="#FFF36A0B" ToolTipService.ToolTip="Puts a bottom centerpoint and connects with faces"/>
 
             </StackPanel>
-            <StackPanel HorizontalAlignment="Right" Height="383" Margin="0,-383,135,0" VerticalAlignment="Top" Width="130" RequestedTheme="Light" Background="#FF3AA03A">
+            <StackPanel HorizontalAlignment="Right" Height="394" Margin="0,-393,135,0" Width="130" RequestedTheme="Light" Background="#FF3AA03A" BorderBrush="#FFE4144D">
                 <Button x:Name="IDC_SET_COLORS_BUTTON" Content="1) Set Colors" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" RenderTransformOrigin="0.906,1.984" Height="52" Width="110" BorderBrush="#FFE4144D" Click="IDC_SET_COLORS_BUTTON_Click"/>
                 <TextBlock x:Name="IDC_FACES_STATIC"  Text="2) Faces" HorizontalAlignment="Center" VerticalAlignment="Top" Width="67" TextDecorations="Underline" FocusVisualPrimaryBrush="#FF159B15"/>
                 <CheckBox x:Name="IDC_EXTERIOR_FACES_CHECKBOX" Content="Exterior" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="1.91,0.484" Width="110" Margin="0,0,0,0" Background="#FF159B15" IsChecked="True"  Click="IDC_EXTERIOR_FACES_CHECKBOX_Checked"/>
                 <CheckBox x:Name="IDC_INTERIOR_FACES_CHECKBOX" Content="Interior" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,0,0,0" RenderTransformOrigin="1.91,0.484" Width="110" Background="#FF159B15" Click="IDC_INTERIOR_FACES_CHECKBOX_Checked"/>
-                <Button x:Name="IDC_COPY_FLIP_BUTTON" Content="3) Copy Flip Pts" HorizontalAlignment="Center" Height="30" Margin="0,10,0,0" VerticalAlignment="Top" Width="110" BorderBrush="#FFE4144D" Click="IDC_COPY_FLIP_BUTTON_Click" FontSize="12" ToolTipService.ToolTip="Flips a copy of the points across the axis" ToolTipService.Placement="Mouse"/>
-                <Button x:Name="IDC_SET_POINTS_BUTTON" Content="4) Set Points" HorizontalAlignment="Center" Height="30" Margin="0,10,0,0" VerticalAlignment="Top" Width="110" BorderBrush="#FFE4144D" Click="IDC_SET_POINTS_BUTTON_Click" FontSize="12"/>
+                <Button x:Name="IDC_COPY_FLIP_BUTTON" Content="3) Copy Flip Pts" HorizontalAlignment="Center" Height="30" Margin="0,10,0,0" VerticalAlignment="Top" Width="110" BorderBrush="#FFE4144D" Click="IDC_COPY_FLIP_BUTTON_Click" FontSize="12" ToolTipService.ToolTip="Flips a copy of the points across the axis" ToolTipService.Placement="Mouse" Background="#33EDE510"/>
+                <Button x:Name="IDC_SET_POINTS_BUTTON" Content="4) Set Points" HorizontalAlignment="Center" Height="30" Margin="0,10,0,0" VerticalAlignment="Top" Width="110" BorderBrush="#FFE4144D" Click="IDC_SET_POINTS_BUTTON_Click" FontSize="12" Background="#33EFE708"/>
                 <TextBlock x:Name="IDC_ROTATION_STATIC" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" Text="Rotation Degrees before next Line Drawn. 360/deg = Number of Lines" VerticalAlignment="Top" Width="110" TextDecorations="Underline" FontSize="12"/>
-                <TextBox x:Name="IDC_ROTATION_EDIT" HorizontalAlignment="Center" Margin="0,10,0,0" Text="50" VerticalAlignment="Top" Width="112" TextChanged="IDC_ROTATION_EDIT_TextChanged" BorderBrush="#FFF36A0B" InputScope="Number" IsTextPredictionEnabled="False" ToolTipService.ToolTip="360 / number equals lines drawn" FontSize="12"/>
-                <Button x:Name="SAVE_PTS_button" Content="Copy Line Pts" Margin="5,1,0,0" FontSize="6" Height="19" Width="60"  Background="LightGreen" ToolTipService.ToolTip="Saves Copy of Single Drawn Line" Click="SAVE_PTS_button_Click"/>
-                <Button x:Name="PUT_COPY_PTS_button" Content="Put Line Pts" Margin="70,-20,5,0" FontSize="6" Height="19" Width="56"  Background="LightGreen" ToolTipService.ToolTip="Puts or places line on new screen" Click="PUT_COPY_PTS_button_Click"/>
-                <Button x:Name="CLEAR_COPED_PTS_button" Content="Clear Copy Line Pts" Margin="30,1,0,0" FontSize="6" Height="19" Width="80"  Background="LightGreen" ToolTipService.ToolTip="Clears the copied line buffer" Click="CLEAR_COPED_PTS_button_Click"/>
+                <TextBox x:Name="IDC_ROTATION_EDIT" HorizontalAlignment="Center" Margin="0,5,0,0" Text="50" VerticalAlignment="Top" Width="112" TextChanged="IDC_ROTATION_EDIT_TextChanged" BorderBrush="#66000000" InputScope="Number" IsTextPredictionEnabled="False" ToolTipService.ToolTip="360 / number equals lines drawn" FontSize="12"/>
+                <Button x:Name="CLEAR_COPED_PTS_button" Content="Clear Copy Line Pts" Margin="5,10,0,0" FontSize="10" Height="30" Width="120"  Background="#FFEFE60C" ToolTipService.ToolTip="Clears the copied line buffer" Click="CLEAR_COPED_PTS_button_Click" BorderBrush="#FFF36A0B"/>
             </StackPanel>
-            <StackPanel HorizontalAlignment="Right" Height="383" Margin="0,-383,0,0" VerticalAlignment="Top" Width="130" RequestedTheme="Light" Background="#FF38C838">
+            <StackPanel HorizontalAlignment="Right" Height="395" Margin="0,-395,0,0" Width="130" RequestedTheme="Light" Background="#FF38C838">
                 <TextBlock x:Name="m_RastDescTextBlock" Text="Rasterizer Description View Choice" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" FontSize="12" />
                 <ComboBox x:Name="RasterDescComboBox" Header="Solid or Wireframe" PlaceholderText="CullNone" HorizontalAlignment="Left"  Margin="5,20,0,0" Width="120"  IsDropDownOpen="True" FontSize="12" SelectionChanged="RasterDescComboBox_SelectionChanged"
                      AutomationProperties.LabeledBy="{Binding ElementName=m_RastDescTextBlock}">
@@ -98,22 +96,23 @@
                     <x:String>Video Texture Effect</x:String>
                     <x:String>Basic Effect Color</x:String>
                 </ComboBox>
-                <CheckBox x:Name="IDC_COLOR_ONLY_NO_TEXTURE_CHECKBOX" Content="Color Only No Texture" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="IDC_COLOR_ONLY_NO_TEXTURE_CHECKBOX_Checked" Background="#FFF36A0B"/>
+                <Button x:Name="SAVE_PTS_button_Copy" Content="Copy Line Pts" FontSize="9" Height="30" Width="100" Margin="0,10,0,0" HorizontalAlignment="Center" Background="#FFD2E61D" ToolTipService.ToolTip="Saves Copy of Single Drawn Line" Click="SAVE_PTS_button_Click" BorderBrush="#FFE4144D"/>
+                <Button x:Name="PUT_COPY_PTS_button_Copy" Content="Put Line Pts" FontSize="9" Height="30" Width="100" Margin="0,10,0,0" HorizontalAlignment="Center"   Background="#FFF0F11A" ToolTipService.ToolTip="Puts or places line on new screen" Click="PUT_COPY_PTS_button_Click" BorderBrush="#FFE4144D"/>
             </StackPanel>
             <StackPanel>
-                <TextBlock x:Name="IDC_POINT_SPACE_STATIC" HorizontalAlignment="Left" Margin="10,15,0,0" TextWrapping="Wrap" Text="Point Spacing 0.300000" VerticalAlignment="Top" Width="187" AutomationProperties.HelpText="Sets the Distance between points. The larger the spacing the less points in your line" AutomationProperties.Name="IDC_POINT_SPACE_STATIC"/>
-                <TextBox x:Name="PointSpacingTextBox" HorizontalAlignment="Right" Margin="0,-15,50,0" Text="0.300000f" VerticalAlignment="Top" Width="112" TextChanged="PointSpacingTextBox_TextChanged" BorderBrush="#FFF36A0B" IsTextPredictionEnabled="False" InputScope="Number"/>
+                <TextBlock x:Name="IDC_POINT_SPACE_STATIC" HorizontalAlignment="Left" Margin="10,25,0,0" TextWrapping="Wrap" Text="Point Spacing 0.300000" Width="187" AutomationProperties.HelpText="Sets the Distance between points. The larger the spacing the less points in your line" AutomationProperties.Name="IDC_POINT_SPACE_STATIC"/>
+                <TextBox x:Name="PointSpacingTextBox" HorizontalAlignment="Right" Margin="0,-15,50,0" Text="0.300000f" Width="112" TextChanged="PointSpacingTextBox_TextChanged" BorderBrush="#66000000" IsTextPredictionEnabled="False" InputScope="Number" Background="#66FFFFFF" Foreground="#FFFBFAFA" FocusVisualPrimaryBrush="#FF1B0101"/>
                 <Slider x:Name="IDC_SLIDER" Margin="10,0,10,0" Background="#FFCD33E4" BorderBrush="#FFD41414" Foreground="#FF842D91" ValueChanged="IDC_SLIDER_ValueChanged" Maximum="1000.0" Minimum="0.05" Value="30.000000" LargeChange="1.0" StepFrequency="0.01" ToolTipService.ToolTip="Changes Point Spacing distance"/>
                 <TextBlock x:Name="IDC_PARTIAL_ROTATE_STATIC" HorizontalAlignment="Left" Margin="10,15,0,0" TextWrapping="Wrap" Text="Full 360 Degree Object" Width="146" AutomationProperties.HelpText="Sets the number of degrees such as semicircle or quarter circle" AutomationProperties.Name="IDC_PARTIAL_ROTATE_STATIC"/>
-                <TextBox x:Name="PartialRotateTextBox" HorizontalAlignment="Left" Margin="175,-35,50,0" Text="0.0f" Width="65" TextChanged="PartialRotateTextBox_TextChanged" BorderBrush="#FFF36A0B" InputScope="Number"  IsTextPredictionEnabled="False" FontSize="12"/>
+                <TextBox x:Name="PartialRotateTextBox" HorizontalAlignment="Left" Margin="175,-35,50,0" Text="0.0f" Width="65" TextChanged="PartialRotateTextBox_TextChanged" BorderBrush="#66000000" InputScope="Number"  IsTextPredictionEnabled="False" FontSize="14" Background="#66FFFFFF" Foreground="#FFFBFAFA" FocusVisualPrimaryBrush="#FF130101"/>
                 <CheckBox x:Name="IDC_CLOSED_OR_OPEN_CHECKBOX" Content="Closed or Open" HorizontalAlignment="Right" Margin="0,-45,20,0" FontSize="12" IsChecked="True" AutomationProperties.HelpText="Adds a flat closed surface or an open curve" Click="IDC_CLOSED_OR_OPEN_CHECKBOX_Checked" ToolTipService.ToolTip="If unchecked the object is an open curve"/>
                 <Slider x:Name="IDC_PARTIAL_ROTATE_SLIDER" Margin="10,0,10,0" Background="#FFCD33E4" BorderBrush="#FFD41414" Foreground="#FF842D91" ValueChanged="IDC_PARTIAL_ROTATE_SLIDER_ValueChanged" Maximum="120" Minimum="0" Value="1" LargeChange="1" StepFrequency="1" ToolTipService.ToolTip="The higher the number the more slices subtracted from end" AutomationProperties.HelpText="The higher the number the more slices subtracted from end"/>
-                <Slider x:Name="IDC_TEXTURE_UV_SLIDER" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="100" ValueChanged="IDC_TEXTURE_UV_SLIDER_ValueChanged"  Maximum="50.0" Minimum="1.0" Value="1.0" LargeChange="1.0" StepFrequency="1.0" ToolTipService.ToolTip="Causes Texture to multiply like bricks on the wall"  AutomationProperties.HelpText="Causes Texture to multiply like bricks on the wall"/>
-                <CheckBox x:Name="IDC_HORIZONTAL_LINE_checkBox" Content="line Across" HorizontalAlignment="Left" Margin="120,-35,0,0" VerticalAlignment="Top" Width="100" ToolTipService.ToolTip="While Checked Line is straight across" IsChecked="False" Click="IDC_HORIZONTAL_LINE_checkBox_Click"/>
-                <CheckBox x:Name="IDC_VERTICAL_LINE_checkBox" Content="Line Up/Down" HorizontalAlignment="Left" Margin="245,-35,0,0" VerticalAlignment="Top" Width="100" ToolTipService.ToolTip="While Checked Line is straight up/down" IsChecked="False" Click="IDC_VERTICAL_LINE_checkBox_Click"/>
-                <CheckBox x:Name="IDC_45_DEGREE_LINE_Checkbox" Content="45 degree Line" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="100" ToolTipService.ToolTip="While Checked Line is straight up/down" IsChecked="False" Click="IDC_45_DEGREE_LINE_Checkbox_Click"/>
+                <Slider x:Name="IDC_TEXTURE_UV_SLIDER" HorizontalAlignment="Left" Margin="10,10,0,0" Width="100" ValueChanged="IDC_TEXTURE_UV_SLIDER_ValueChanged"  Maximum="50.0" Minimum="1.0" Value="1.0" LargeChange="1.0" StepFrequency="1.0" ToolTipService.ToolTip="Causes Texture to multiply like bricks on the wall"  AutomationProperties.HelpText="Causes Texture to multiply like bricks on the wall"/>
+                <CheckBox x:Name="IDC_HORIZONTAL_LINE_checkBox" Content="line Across" HorizontalAlignment="Left" Margin="120,-35,0,0" Width="100" ToolTipService.ToolTip="While Checked Line is straight across" IsChecked="False" Click="IDC_HORIZONTAL_LINE_checkBox_Click"/>
+                <CheckBox x:Name="IDC_VERTICAL_LINE_checkBox" Content="Line Up/Down" HorizontalAlignment="Left" Margin="245,-35,0,0" Width="100" ToolTipService.ToolTip="While Checked Line is straight up/down" IsChecked="False" Click="IDC_VERTICAL_LINE_checkBox_Click"/>
+                <CheckBox x:Name="IDC_45_DEGREE_LINE_Checkbox" Content="45 degree Line" HorizontalAlignment="Left" Margin="10,10,0,0" Width="100" ToolTipService.ToolTip="While Checked Line is straight up/down" IsChecked="False" Click="IDC_45_DEGREE_LINE_Checkbox_Click"/>
                 <TextBlock x:Name="IDC_RADIUS_LINE_CENTER_textBlock" Text="Last Point" HorizontalAlignment="Left" Margin="140,-22,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="14" Width="40" FontSize="9" FocusVisualPrimaryBrush="#FF66B366" ToolTipService.ToolTip="If checked draw 45 degree line from last point"/>
-                <CheckBox x:Name="IDC_ARC_RADIUS_LINE_checkBox" Content="DrawArc Radius" HorizontalAlignment="Left" Margin="190,-30,0,0" VerticalAlignment="Top" Width="130" ToolTipService.ToolTip="While Checked Line is straight up/down" IsChecked="False" Click="IDC_ARC_RADIUS_LINE_checkBox_Click"/>
+                <CheckBox x:Name="IDC_ARC_RADIUS_LINE_checkBox" Content="DrawArc Radius" HorizontalAlignment="Left" Margin="190,-30,0,0" Width="130" ToolTipService.ToolTip="While Checked Line is straight up/down" IsChecked="False" Click="IDC_ARC_RADIUS_LINE_checkBox_Click"/>
                 <TextBlock x:Name="IDC_ARC_RADIUS_CENTER_textBlock" HorizontalAlignment="Left" Margin="330,-30,0,0" Text="Center of Arc" TextWrapping="NoWrap" Height="10" Width="60" FontSize="9" FocusVisualPrimaryBrush="#FF66B366" ToolTipService.ToolTip="If checked Right click to set center point from last point"/>
             </StackPanel>
         </StackPanel>

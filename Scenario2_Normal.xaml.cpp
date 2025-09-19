@@ -482,14 +482,14 @@ void Hot3dxRotoDraw::Scenario2_Normal::SetEffectDescComboBox(unsigned int val)
 void Hot3dxRotoDraw::Scenario2_Normal::IDC_COLOR_ONLY_NO_TEXTURE_CHECKBOX_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
     Scenario2Vars^ vars = _rootPage->m_Scene2Vars;
-    if (IDC_COLOR_ONLY_NO_TEXTURE_CHECKBOX->IsChecked->Value)
+    /* if (IDC_COLOR_ONLY_NO_TEXTURE_CHECKBOX->IsChecked->Value)
     {
         m_bColorOnlyNoTexture = true;
     }
     else {
         m_bColorOnlyNoTexture = false;
     }
-
+    */
     vars->SetColorOnlyNoTexture(m_bColorOnlyNoTexture);
     _rootPage->NotifyUser("Color Only No Texture Draw Object Picked", NotifyType::StatusMessage);
 }

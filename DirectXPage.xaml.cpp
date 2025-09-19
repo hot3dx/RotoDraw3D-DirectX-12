@@ -247,13 +247,13 @@ Hot3dxRotoDraw::DirectXPage::DirectXPage() :
 				Platform::String^ f = ref new Platform::String(L"\nSource file found. ");
 				f = f->Concat(f, fileName);
 				f = f->Concat(f, L"  GetFileFromApplicationUriAsync(srcUri)\n");
-				OutputDebugString(f->Data());// GetFileFromApplicationUriAsync(srcUri))\n");//throw ref new Platform::Exception(E_FAIL, L"Source file not found.");
+				//OutputDebugString(f->Data());// GetFileFromApplicationUriAsync(srcUri))\n");//throw ref new Platform::Exception(E_FAIL, L"Source file not found.");
 			}
 			else {
 				Platform::String^ f = ref new Platform::String(L"\nSource file not found. ");
 				f = f->Concat(f, fileName);
 				f = f->Concat(f, L"  GetFileFromApplicationUriAsync(srcUri)\n");
-				OutputDebugString(f->Data());//throw ref new Platform::Exception(E_FAIL, L"Source file not found.");
+				//OutputDebugString(f->Data());//throw ref new Platform::Exception(E_FAIL, L"Source file not found.");
 			}
 				
 			DirectXPage^ _this = this;
@@ -268,11 +268,11 @@ Hot3dxRotoDraw::DirectXPage::DirectXPage() :
 			)).then([srcFile, fileName](Windows::Storage::StorageFolder^ destFolder) {
 				if (destFolder)
 				{
-					OutputDebugString(L"\n Destination Folder Created or Opened\n");
+					//OutputDebugString(L"\n Destination Folder Created or Opened\n");
 				}
 				else
 				{
-					OutputDebugString(L"\n Destination Folder NOT Created or Opened\n");
+					//OutputDebugString(L"\n Destination Folder NOT Created or Opened\n");
 				}
 				return srcFile->CopyAsync(destFolder, fileName, Windows::Storage::NameCollisionOption::ReplaceExisting);
 				});
@@ -282,15 +282,15 @@ Hot3dxRotoDraw::DirectXPage::DirectXPage() :
 				// Success
 				// NotifyUser("Copied: " + copiedFile->Path, NotifyType::StatusMessage);
 				//this->NotifyUser(L"File Copied to App Folder", NotifyType::StatusMessage);
-				OutputDebugString(L"File Copied to App Folder");
+				//OutputDebugString(L"File Copied to App Folder");
 			}
 			}).then([this](concurrency::task<void> t) {
 				
 			try { t.get(); }
 			catch (Platform::Exception^ ex) {
 				Platform::String^ f = L"\nCatch Source file not found. \n";
-				if (!f) OutputDebugString(f->Data());//throw ref new Platform::Exception(E_FAIL, L"Source file not found.");
-				//this->NotifyUser("Error: " + ex->Message, NotifyType::ErrorMessage);
+				if (!f) //OutputDebugString(f->Data());//throw ref new Platform::Exception(E_FAIL, L"Source file not found.");
+					this->NotifyUser("Error: " + ex->Message, NotifyType::ErrorMessage);
 			}
 	
 				});
@@ -365,7 +365,7 @@ void Hot3dxRotoDraw::DirectXPage::UpdateStatus(String^ strMessage, NotifyType ty
 	switch (type)
 	{
 	case NotifyType::StatusMessage:
-		StatusBorder->Background = ref new SolidColorBrush(Windows::UI::Colors::GreenYellow);
+		StatusBorder->Background = ref new SolidColorBrush(Windows::UI::Colors::DarkBlue);
 		break;
 	case NotifyType::ErrorMessage:
 		StatusBorder->Background = ref new SolidColorBrush(Windows::UI::Colors::Red);
@@ -444,44 +444,56 @@ void Hot3dxRotoDraw::DirectXPage::ScreenGrabDXP()
 		FileSavePicker^ pick = ref new  FileSavePicker();
 		pick->SuggestedStartLocation = PickerLocationId::ComputerFolder;
 
-		auto plainTextExtensions = ref new Platform::Collections::Vector<Platform::String^>();
-		Platform::String^ type = ref new Platform::String(L"Windows Bitmap");
-		plainTextExtensions->Append(".bmp");
-		pick->FileTypeChoices->Insert(type, plainTextExtensions);
-
-		auto plainTextExtensions1 = ref new Platform::Collections::Vector<Platform::String^>();
-		Platform::String^ type1 = ref new Platform::String(L"PNG");
-		plainTextExtensions1->Append(".png");
-		pick->FileTypeChoices->Insert(type1, plainTextExtensions1);
-
-		auto plainTextExtensions2 = ref new Platform::Collections::Vector<Platform::String^>();
-		Platform::String^ type2 = ref new Platform::String(L"JPEG");
-		plainTextExtensions2->Append(".jpg");
-		pick->FileTypeChoices->Insert(type2, plainTextExtensions2);
-
-		auto plainTextExtensions3 = ref new Platform::Collections::Vector<Platform::String^>();
-		Platform::String^ type3 = ref new Platform::String(L"TIFF");
-		plainTextExtensions3->Append(".tiff");
-		pick->FileTypeChoices->Insert(type3, plainTextExtensions3);
-
-		auto plainTextExtensions4 = ref new Platform::Collections::Vector<Platform::String^>();
-		Platform::String^ type4 = ref new Platform::String(L"GIF");
-		plainTextExtensions4->Append(".gif");
-		pick->FileTypeChoices->Insert(type4, plainTextExtensions4);
-
-		auto plainTextExtensions5 = ref new Platform::Collections::Vector<Platform::String^>();
-		Platform::String^ type6 = ref new Platform::String(L"Direct Draw Surface");
-		plainTextExtensions5->Append(".dds");
-		pick->FileTypeChoices->Insert(type6, plainTextExtensions5);
+		DirectX::DXTKXAML12::ScreenGrab^ grab = ref new DirectX::DXTKXAML12::ScreenGrab();
+		
+		unsigned int fileType = m_Scene13Vars->GetScenario13Page()->GetChosenFileType();
+		switch (fileType)
+		{
+		case 0:
+		{
+			auto plainTextExtensions = ref new Platform::Collections::Vector<Platform::String^>();
+			Platform::String^ type = ref new Platform::String(L"Windows Bitmap");
+			plainTextExtensions->Append(".bmp");
+			pick->FileTypeChoices->Insert(type, plainTextExtensions);
+		}break;
+		case 1:
+		{
+			auto plainTextExtensions2 = ref new Platform::Collections::Vector<Platform::String^>();
+			Platform::String^ type2 = ref new Platform::String(L"JPEG");
+			plainTextExtensions2->Append(".jpg");
+			pick->FileTypeChoices->Insert(type2, plainTextExtensions2);
+		}break;
+		case 2:
+		{
+			auto plainTextExtensions1 = ref new Platform::Collections::Vector<Platform::String^>();
+			Platform::String^ type1 = ref new Platform::String(L"PNG");
+			plainTextExtensions1->Append(".png");
+			pick->FileTypeChoices->Insert(type1, plainTextExtensions1);
+		}break;
+		case 3:
+		{
+			auto plainTextExtensions4 = ref new Platform::Collections::Vector<Platform::String^>();
+			Platform::String^ type4 = ref new Platform::String(L"GIF");
+			plainTextExtensions4->Append(".gif");
+			pick->FileTypeChoices->Insert(type4, plainTextExtensions4);
+		}break;
+		case 4:
+		{
+			auto plainTextExtensions5 = ref new Platform::Collections::Vector<Platform::String^>();
+			Platform::String^ type6 = ref new Platform::String(L"Direct Draw Surface");
+			plainTextExtensions5->Append(".dds");
+			pick->FileTypeChoices->Insert(type6, plainTextExtensions5);
+		}break;
+		} // EO SWITCH
 
 		pick->SuggestedFileName = ref new Platform::String(L"RotoDrawScreenShot");
 		
 		m_bIsScreenGrabInProgress = true;
-		create_task(pick->PickSaveFileAsync()).then([this](StorageFile^ file)
+		create_task(pick->PickSaveFileAsync()).then([this, grab, fileType](StorageFile^ file)
 			{
 				
 
-				DirectX::DXTKXAML12::ScreenGrab^ grab = ref new DirectX::DXTKXAML12::ScreenGrab();
+				
 				HRESULT hr = S_OK;
 				if (file != nullptr)
 				{
@@ -510,9 +522,25 @@ void Hot3dxRotoDraw::DirectXPage::ScreenGrabDXP()
 							setCustomProps,
 							forceSRGB
 						);
-						
+
 					}break;
 					case 1:
+					{
+						guidContainerFormat = GUID_ContainerFormatJpeg;
+						hr = grab->SaveWICTextureToFile(
+							m_deviceResources->GetCommandQueue(),
+							m_deviceResources->GetRenderTarget(),
+							guidContainerFormat,
+							file,
+							beforeState,
+							afterState,
+							targetFormat,
+							setCustomProps,
+							forceSRGB
+						);
+
+					}break;
+					case 2:
 					{
 						guidContainerFormat = GUID_ContainerFormatPng;
 						//hr = grab->SaveTextureToPngFile(ID3D12CommandQueue * pCommandQ, ID3D12Resource * pSource, Windows::Storage::StorageFile ^ file, D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState)
@@ -527,59 +555,9 @@ void Hot3dxRotoDraw::DirectXPage::ScreenGrabDXP()
 							setCustomProps,
 							forceSRGB
 						);
-						
-					}break;
-					case 2:
-					{
-						guidContainerFormat = GUID_ContainerFormatIco;
-						hr = grab->SaveWICTextureToFile(
-							m_deviceResources->GetCommandQueue(),
-							m_deviceResources->GetRenderTarget(),
-							guidContainerFormat,
-							file,
-							beforeState,
-							afterState,
-							targetFormat,
-							setCustomProps,
-							forceSRGB
-						);
-						
+
 					}break;
 					case 3:
-					{
-						guidContainerFormat = GUID_ContainerFormatJpeg;
-						hr = grab->SaveWICTextureToFile(
-							m_deviceResources->GetCommandQueue(),
-							m_deviceResources->GetRenderTarget(),
-							guidContainerFormat,
-							file,
-							beforeState,
-							afterState,
-							targetFormat,
-							setCustomProps,
-							forceSRGB
-						);
-						
-					}break;
-					case 4:
-					{
-						forceSRGB = true;
-						guidContainerFormat = GUID_ContainerFormatTiff;
-						hr = grab->SaveWICTextureToFile(
-							m_deviceResources->GetCommandQueue(),
-							m_deviceResources->GetRenderTarget(),
-							guidContainerFormat,
-							file,
-							beforeState,
-							afterState,
-							targetFormat,
-							setCustomProps,
-							forceSRGB
-						);
-						
-						
-					}break;
-					case 5:
 					{
 						guidContainerFormat = GUID_ContainerFormatGif;
 						hr = grab->SaveWICTextureToFile(
@@ -593,24 +571,10 @@ void Hot3dxRotoDraw::DirectXPage::ScreenGrabDXP()
 							setCustomProps,
 							forceSRGB
 						);
-						
+
 					}	break;
-					case 6:
-					{
-						guidContainerFormat = GUID_ContainerFormatWmp;
-						hr = grab->SaveWICTextureToFile(
-							m_deviceResources->GetCommandQueue(),
-							m_deviceResources->GetRenderTarget(),
-							guidContainerFormat,
-							file,
-							beforeState,
-							afterState,
-							targetFormat,
-							setCustomProps,
-							forceSRGB);
-						
-					}break;
-					default:
+
+					case 4:
 					{
 						guidContainerFormat = GUID_ContainerFormatDds;
 						hr = grab->SaveDDSTextureToFile(
@@ -619,11 +583,14 @@ void Hot3dxRotoDraw::DirectXPage::ScreenGrabDXP()
 							file,
 							beforeState,
 							afterState);
-						
-					}break;
 
-						
+					}break;
+					default:
+					{
+						NotifyUser(L"No File Extnsion was chosen", NotifyType::ErrorMessage);
+						return;
 					}
+					} // EO SWITCH
 					/*
 					if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET) {
 						HRESULT reason = m_deviceResources->GetD3DDevice()->GetDeviceRemovedReason();
@@ -645,7 +612,7 @@ void Hot3dxRotoDraw::DirectXPage::ScreenGrabDXP()
 				m_Scene13Vars->GetScenario13Page()->SetAllUnChecked();
 			}).then([this](task<void> previousTask) {
 				
-				OutputDebugString(L"\n\nMaybe it worked, maybe not.\n");
+				//OutputDebugString(L"\n\nMaybe it worked, maybe not.\n");
 				this->m_bIsScreenGrabInProgress = false;
 				
 				

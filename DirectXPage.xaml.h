@@ -347,7 +347,11 @@ namespace Hot3dxRotoDraw
 		
 
 		internal:
-		inline RotoDrawSceneRender^ GetSceneRendererDXP() { return m_main->GetSceneRenderer(); }
+
+		inline RotoDrawSceneRender^ GetSceneRendererDXP() {
+			m_sceneRendererDXP = m_main->GetSceneRenderer(); 
+			return m_sceneRendererDXP;
+		}
 		inline std::shared_ptr<DeviceResources>  GetDeviceResources() {	return m_deviceResources;		}
 		std::vector<DirectX::DXTKXAML12::VertexPositionColor> GetVerticesDXP() { return m_main->GetSceneRenderer()->GetVertices(); }
 		std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> GetVertexesDXP() { return m_main->GetSceneRenderer()->GetVertexes(); }
@@ -623,7 +627,7 @@ namespace Hot3dxRotoDraw
 		{
 			Platform::String^ get()
 			{
-				return "Kubed3D Hot3dx Maker2 12";
+				return "Hot3dx RotoDraw3D DirectX 12";
 			}
 		}
 
@@ -654,5 +658,7 @@ namespace Hot3dxRotoDraw
 		float                           _radiusDXP = 2.0f;            // Radius of the orbit
 		float                           _heightDXP = 0;               // Height at which the sound is orbiting (0 for centered around listener's head, +ve for above and -ve for below)
 		float                           _angularVelocityDXP = 0;      // Speed of orbit, default is stationary
+
+		RotoDrawSceneRender^ m_sceneRendererDXP = nullptr;
 	};
 }

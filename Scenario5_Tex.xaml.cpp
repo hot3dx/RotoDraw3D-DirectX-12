@@ -1427,7 +1427,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::TextureImage1_Tapped(Platform::Object^ sende
 							if (file)
 							{
 								//Scenario5TexVars^ vars = _this->_rootPage->m_Scene5TexVars;
-								unsigned int size = static_cast<unsigned int>(_this->TextureImage1->ActualHeight);
+								//unsigned int size = static_cast<unsigned int>(_this->TextureImage1->ActualHeight);
 								ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
 								Platform::String^ thumbnailModeName = thumbnailMode.ToString();
 								bool fastThumbnail = false;
@@ -2054,14 +2054,9 @@ void Hot3dxRotoDraw::Scenario5_Tex::VideoTextureImage2_Tapped(Platform::Object^ 
 {
 	FileOpenPicker^ openPicker = ref new FileOpenPicker();
 	openPicker->ViewMode = PickerViewMode::Thumbnail;
-	openPicker->SuggestedStartLocation = PickerLocationId::PicturesLibrary;// KnownFolders::PicturesLibrary
-	openPicker->FileTypeFilter->Append(".jpg");
-	openPicker->FileTypeFilter->Append(".jpeg");
-	openPicker->FileTypeFilter->Append(".png");
-	openPicker->FileTypeFilter->Append(".dds");
-	openPicker->FileTypeFilter->Append(".bmp");
-	openPicker->FileTypeFilter->Append(".tga");
-
+	openPicker->SuggestedStartLocation = PickerLocationId::VideosLibrary;// KnownFolders::PicturesLibrary
+	openPicker->FileTypeFilter->Append(".mp4"); 
+	
 	ThumbnailMode thumbnailMode = ThumbnailMode::SingleItem;
 	String^ thumbnailModeName = thumbnailMode.ToString();
 	bool fastThumbnail = false;
@@ -2107,12 +2102,12 @@ void Hot3dxRotoDraw::Scenario5_Tex::VideoTextureImage2_Tapped(Platform::Object^ 
 										}
 										else
 										{
-											_this->_rootPage->NotifyUser("Image6 not found in App Package! Error opening file LoadDefaultImageVideo ", NotifyType::ErrorMessage);
+											_this->_rootPage->NotifyUser(L"Image6 not found in App Package! Error opening file LoadDefaultImageVideo ", NotifyType::ErrorMessage);
 										}
 									});
 							}
 							else {
-								_this->_rootPage->NotifyUser("ImageVideo not found in app package!", NotifyType::ErrorMessage);
+								_this->_rootPage->NotifyUser(L"ImageVideo not found in app package!", NotifyType::ErrorMessage);
 							}
 
 						});
@@ -2512,13 +2507,13 @@ void Hot3dxRotoDraw::Scenario5_Tex::CopyTextureToLocalFolderSc5(Platform::String
 			Platform::String^ f = ref new Platform::String(L"\nSource file found. ");
 			f = f->Concat(f, fileName);
 			f = f->Concat(f, L"  GetFileFromApplicationUriAsync(srcUri)\n");
-			OutputDebugString(f->Data());
+			//OutputDebugString(f->Data());
 		}
 		else {
 			Platform::String^ f = ref new Platform::String(L"\nSource file not found. ");
 			f = f->Concat(f, fileName);
 			f = f->Concat(f, L"  GetFileFromApplicationUriAsync(srcUri)\n");
-			OutputDebugString(f->Data());
+			//OutputDebugString(f->Data());
 		}
 
 		Scenario5_Tex^ _this = this;
@@ -2533,11 +2528,11 @@ void Hot3dxRotoDraw::Scenario5_Tex::CopyTextureToLocalFolderSc5(Platform::String
 		)).then([srcFile, fileName](Windows::Storage::StorageFolder^ destFolder) {
 			if (destFolder)
 			{
-				OutputDebugString(L"\n Destination Folder Created or Opened\n");
+				//OutputDebugString(L"\n Destination Folder Created or Opened\n");
 			}
 			else
 			{
-				OutputDebugString(L"\n Destination Folder NOT Created or Opened\n");
+				//OutputDebugString(L"\n Destination Folder NOT Created or Opened\n");
 			}
 			return srcFile->CopyAsync(destFolder, fileName, Windows::Storage::NameCollisionOption::ReplaceExisting);
 			});
@@ -2547,7 +2542,7 @@ void Hot3dxRotoDraw::Scenario5_Tex::CopyTextureToLocalFolderSc5(Platform::String
 					// Success
 					// NotifyUser("Copied: " + copiedFile->Path, NotifyType::StatusMessage);
 					//this->NotifyUser(L"File Copied to App Folder", NotifyType::StatusMessage);
-					OutputDebugString(L"File Copied to App Folder");
+					//OutputDebugString(L"File Copied to App Folder");
 					Scenario5_Tex^ _this = this;
 
 					if (copiedFile)
@@ -2633,7 +2628,9 @@ void Hot3dxRotoDraw::Scenario5_Tex::CopyTextureToLocalFolderSc5(Platform::String
 					catch (Platform::Exception^ ex) {
 #ifdef DEBUG
 						Platform::String^ f = L"\nCatch Source file not found. \n";
-						if (!f) OutputDebugString(f->Data());//throw ref new Platform::Exception(E_FAIL, L"Source file not found.");
+						if (!f) {
+							//OutputDebugString(f->Data());//throw ref new Platform::Exception(E_FAIL, L"Source file not found.");
+						}
 #endif
 						this->_rootPage->NotifyUser("Error: Catch Source file not found. " + ex->Message, NotifyType::ErrorMessage);
 					}

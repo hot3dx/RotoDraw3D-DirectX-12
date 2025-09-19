@@ -75,6 +75,7 @@ namespace Hot3dxRotoDraw
         
 
         void UpdateContentProps(Platform::String^ str);
+        void StatusBlock_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
     };
 }
 
