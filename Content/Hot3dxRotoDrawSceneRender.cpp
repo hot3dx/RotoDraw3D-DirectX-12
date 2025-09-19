@@ -67,6 +67,7 @@ using namespace Windows::UI::Xaml::Navigation;
 Platform::String^ AngleKey = "Angle";
 Platform::String^ TrackingKey = "Tracking";
 
+//Hot3dxRotoDraw::Hot3dxRotoDrawObjectData(){}
 Hot3dxRotoDraw::PtGroups::PtGroups(int ptCount) : m_ptlistCount(ptCount) {}
 
 Hot3dxRotoDraw::LinePtGrp::LinePtGrp(unsigned int arraySize) :
@@ -1209,11 +1210,12 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndTopPointYAxis()
 	if (m_iPointCount > 0)
 	{
 		XMFLOAT3 m_topEndPoint = XMFLOAT3(0.0f, posY->get(0), 0.0f);
-
+		m_VectorBeginPoint = { m_topEndPoint, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f) };
+		
 		unsigned int i = m_iPointCount;
-		for (i; i > 0;i--) 
+		for (i; i > 0;i--)
 		{
-			XMFLOAT3 pt = XMFLOAT3(posX->get(i - 1), posY->get(i-1), posZ->get(i - 1));
+			XMFLOAT3 pt = XMFLOAT3(posX->get(i - 1), posY->get(i - 1), posZ->get(i - 1));
 			posX->set(i, pt.x);// posCursor.x;
 			posY->set(i, pt.y);// posCursor.y;
 			posZ->set(i, pt.z);// posCursor.z;
@@ -1227,11 +1229,55 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndTopPointYAxis()
 	}
 }
 
+void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndBeginPointXorYAxis2()
+{
+	Hot3dxRotoDraw::DirectXPage^ page = m_vars->GetDXPage();
+	if (m_iPointCount > 0)
+	{
+		Windows::UI::Color color = page->GetFrontColorDXP();
+		float alpha = (float)(color.A * 0.00390625f);
+		float r = (float)(color.R * 0.00390625f);
+		float g = (float)(color.G * 0.00390625f);
+		float b = (float)(color.B * 0.00390625f);
+		DirectX::DXTKXAML12::VertexPositionColor vpc;
+
+		// set the begin point for the line
+
+		if (m_bIsYAxis)
+		{
+			vpc = { XMFLOAT3(0.0F, posY->get(0), 0.0F), XMFLOAT4(r,g,b,alpha) };
+			m_VectorBeginPoint = vpc;
+		}
+		else
+		{ 
+			vpc = { XMFLOAT3(posX->get(0), 0.0F, 0.0F), XMFLOAT4(r,g,b,alpha) };
+			m_VectorBeginPoint = vpc;
+		}
+
+		IsDrawBeginPoint = true;
+		//m_iPointCount++;
+		unsigned int i = m_iPointCount-1;
+		for (i; i > 0; i--)
+		{
+			XMFLOAT3 pt = XMFLOAT3(posX->get(i), posY->get(i), posZ->get(i));
+			posX->set(i, pt.x);// posCursor.x;
+			posY->set(i, pt.y);// posCursor.y;
+			posZ->set(i, pt.z);// posCursor.z;
+		}
+//		m_iPointCount++;
+	}
+	else
+	{ 
+		page->NotifyUser("No points to draw line, you must draw a line first", NotifyType::ErrorMessage);
+	}
+}
+
 void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndBottomPointYAxis()
 {
 	if (m_iPointCount > 0)
 	{
 		XMFLOAT3 m_bottomEndPoint = XMFLOAT3(0.0f, posY->get(m_iPointCount - 1), 0.0f);
+		m_VectorEndPoint = { m_bottomEndPoint, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f) };
 		m_iPointCount++;
 		posX->set(m_iPointCount - 1, m_bottomEndPoint.x);// posCursor.x;
 		posY->set(m_iPointCount - 1, m_bottomEndPoint.y);// posCursor.y;
@@ -1243,12 +1289,23 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndLeftPointsXAxis()
 {
 	if (m_iPointCount > 0)
 	{
-		XMFLOAT3 m_leftEndPoint = XMFLOAT3(posX->get(0), 0.0f, 0.0f);
+		XMFLOAT3 m_topEndPoint = XMFLOAT3(posX->get(0), 0.0f, 0.0f);
+		m_VectorBeginPoint = { m_topEndPoint, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f) };
 
-		posX->set(0, m_leftEndPoint.x);// posCursor.x;
-		posY->set(0, m_leftEndPoint.y);// posCursor.y;
-		posZ->set(0, m_leftEndPoint.z);// posCursor.z;
+		unsigned int i = m_iPointCount;
+		for (i; i > 0; i--)
+		{
+			XMFLOAT3 pt = XMFLOAT3(posX->get(i - 1), posY->get(i - 1), posZ->get(i - 1));
+			posX->set(i, pt.x);// posCursor.x;
+			posY->set(i, pt.y);// posCursor.y;
+			posZ->set(i, pt.z);// posCursor.z;
+		}
+		m_iPointCount++;
+		posX->set(0, m_topEndPoint.x);// posCursor.x;
+		posY->set(0, m_topEndPoint.y);// posCursor.y;
+		posZ->set(0, m_topEndPoint.z);// posCursor.z;
 	}
+
 }
 
 void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndRightPointsXAxis()
@@ -1256,7 +1313,8 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::EndRightPointsXAxis()
 	if (m_iPointCount > 0)
 	{
 		XMFLOAT3 m_rightEndPoint = XMFLOAT3(posX->get(m_iPointCount - 1), 0.0f, 0.0f);
-
+		m_VectorEndPoint = { m_rightEndPoint, XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f) };
+		m_iPointCount++;
 		posX->set(m_iPointCount - 1, m_rightEndPoint.x);// posCursor.x;
 		posY->set(m_iPointCount - 1, m_rightEndPoint.y);// posCursor.y;
 		posZ->set(m_iPointCount - 1, m_rightEndPoint.z);// posCursor.z;
@@ -1467,7 +1525,13 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::MakeBox(XMFLOAT3* copier, 
 void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::SetPoints()
 {
 	//m_loadingDrawnObjectComplete = false;
-	
+	if(m_iPointCount == 0)
+	{
+		Hot3dxRotoDraw::DirectXPage^ page = m_vars->GetDXPage();
+		page->NotifyUser("No points to draw, you must draw a line first", NotifyType::ErrorMessage);
+		return;
+	}
+
 	// Register our SwapChainPanel to get independent input pointer events
 	auto drawItemHandler = ref new WorkItemHandler([this](IAsyncAction^ action)
 		{
@@ -1476,26 +1540,28 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::SetPoints()
 				if (page->GetTopOrLeftChecked() == true
 					&& page->GetBottomOrRightChecked() == true)
 				{
-					DrawObjectPointsTopBottom();
+					DrawObjectPointsTopBottom2();
 					CalculateMeshFacesTopBottom();
 				}
 				else if (page->GetTopOrLeftChecked() == true
 					&& page->GetBottomOrRightChecked() == false)
 				{
-					DrawObjectPointsTop();
+					IsDrawBeginPoint = true;
+					DrawObjectPointsTop2();
 					EndpointTopLeftFaces();
+					
 				}
 				else if (page->GetTopOrLeftChecked() == false
 					&& page->GetBottomOrRightChecked() == true)
 				{
-					DrawObjectPointsBottom();
+					DrawObjectPointsBottom2();
 					EndpointBottomRightFaces();
 				}
 
 				else if (page->GetTopOrLeftChecked() == false
 					&& page->GetBottomOrRightChecked() == false)
 				{
-					DrawObjectPoints(0);
+					DrawObjectPoints2(0);
 					CalculateMeshFaces();
 				}
 				m_loadingDrawnObjectComplete = false;
@@ -2384,8 +2450,8 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::GetUVPercent(float dimensi
 	textureU.resize(count);
 	textureV.resize(count);
 	
-	float g = dimension / static_cast<float>(m_iGroupCount -1);
-	float p = dimension / static_cast<float>(m_iPointCount -1);
+	float g = dimension / static_cast<float>(m_iGroupCount);
+	float p = dimension / static_cast<float>(m_iPointCount);
 	float pt = 0.0f;
 	float gt = dimension;
 	size_t k = 0;
@@ -2401,6 +2467,11 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::GetUVPercent(float dimensi
 	{
 		for (unsigned int j = 0; j < m_iPointCount; j++)
 		{
+			if (k > textureU.size() - 1)
+			{
+				textureU.push_back(gt);
+				textureV.push_back(pt);
+			}
 			textureU.at(k) = gt;
 			textureV.at(k) = pt;
 			k++;
@@ -2411,6 +2482,11 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::GetUVPercent(float dimensi
 	}
 	if (m_iEndPointTwoCount == 1)
 	{
+		if (k > textureU.size() - 1)
+		{
+			textureU.push_back(gt);
+			textureV.push_back(pt);
+		}
 		textureU.at(k) = gt;
 		textureV.at(k) = pt;
 		k++;
@@ -2513,6 +2589,7 @@ float* XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::GetU(XMVECTOR v, Platfor
 
 void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridPicRectangle()
 {
+	DirectXPage^ page = m_vars->GetDXPage();
 	m_bIsPlayer=false;
 	m_sharedVideoTexture = nullptr;
 	m_videoWidth = 0;
@@ -2535,8 +2612,21 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::DrawGridPicRectangle()
 	DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadGridPic = new DirectX::DXTKXAML12::ResourceUploadBatch(m_sceneDeviceResources->GetD3DDevice());
 	m_resourceUploadGridPic->BeginXaml();
 
-		LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadGridPic, m_textureImagePic1File->Data(), &m_texturePic2, GetMsgTypes(0), GetMessages(0));
-	
+	HRESULT HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadGridPic, m_textureImagePic1File->Data(), &m_texturePic2, GetMsgTypes(0), GetMessages(0));
+	if (HR == S_OK)
+	{
+		Platform::String^ msg = L"Successfully Loaded: ";
+		msg = msg->Concat(msg, m_textureImagePic1File);
+		page->NotifyUser(msg, NotifyType::StatusMessage);
+
+	}
+	else
+	{
+		Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image Pic1 Only the Pictures Library can be used Select Images at this time ";
+		msg = msg->Concat(msg, m_textureImagePic1File);
+		page->NotifyUser(msg, NotifyType::ErrorMessage);
+		return;
+	}
 	DirectX::DXTKXAML12::CreateShaderResourceView(m_sceneDeviceResources->GetD3DDevice(), m_texturePic2.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::GridPicTexture)), false);
 
 	RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());

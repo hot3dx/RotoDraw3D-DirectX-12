@@ -23,8 +23,8 @@
 #include <SpriteFontXaml12.h>
 #include <Hot3dxCamera.h>
 #include <PostProcessXaml12.h>
-#include <Audio\AudioXaml12.h>
-#include <Audio\MediaReaderXaml12.h>
+#include <AudioXaml12.h>
+#include <MediaReaderXaml12.h>
 #include <Hot3dx12Rotate.h>
 #include "Hot3dxRotoDrawVariables.h"
 #include <mfapi.h>
@@ -89,11 +89,171 @@ namespace Hot3dxRotoDraw
 
 	};
 
+	// Forward declaration for C++/CX ref class
+	ref class PtGroups;
+
+	ref class Hot3dxRotoDrawObjectData sealed
+	{
+		
+	public:
+		virtual ~Hot3dxRotoDrawObjectData(){
+			m_PtGroupList.clear();
+			m_verticesMapped.clear();
+			m_bodyLineVertices.clear();
+			m_bodyLineIndices.clear();
+		}
+
+	internal:
+		Hot3dxRotoDrawObjectData(){
+			pointCount = 0;
+			groupCount = 0;
+			illumType = 0;
+			materialAmbient = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
+			materialColor = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
+			materialAlpha = 1.0f;
+			materialSpecular = 0.0f;
+			materialShininess = 0.0f;
+			materialReflectance = 0.0f;
+			materialRefract = 0.0f;
+			materialRefractIndex = 1.0f;
+			materialEmissive = 0.0f;
+			materialMetallic = 0.0f;
+			materialRoughness = 1.0f;
+			materialAO = 1.0f;
+			materialDual = 0.0f;
+			materialDualBlend = 0.5f;
+			materialDualMix = 1.0f;
+			materialNormalMap = 1.0f;
+			materialAlphaClip = 0.5f;
+			materialCubeMap = 1.0f;
+			materialVideoMap = 1.0f;
+			materialTilingU = 1.0f;
+			materialTilingV = 1.0f;
+			materialOffsetU = 0.0f;
+			materialOffsetV = 0.0f;
+			materialTwoSided = false;
+			materialUseTexture = false;
+			materialUseNormal = false;
+			materialUseMetallic = false;
+			materialUseRoughness = false;
+		}
+		
+		
+		// Accessors
+		std::vector<PtGroups^> GetPtGroupsList() { return m_PtGroupList; }
+		void SetPtGroupsList(PtGroups^ ptg) { m_PtGroupList.emplace_back(ptg); }
+
+		std::vector<VertexPositionColor> GetVertices() const { return m_verticesMapped; }
+		void SetVertices(std::vector<VertexPositionColor> verts) { m_verticesMapped = verts; }
+
+		std::vector<VertexPosition> GetBodyLineVertices() const { return m_bodyLineVertices; }
+		void SetBodyLineVertices(std::vector<VertexPosition> verts) { m_bodyLineVertices = verts; }
+		std::vector<uint16_t> GetBodyLineIndices() const { return m_bodyLineIndices; }
+		void SetBodyLineIndices(std::vector<uint16_t> inds) { m_bodyLineIndices = inds; }
+		
+		
+		bool GetIsVectorBeginPointSet() const { return IsVectorBeginPointSet; }
+		void SetIsVectorBeginPointSet(bool b) { IsVectorBeginPointSet = b; }
+		bool GetIsVectorEndPointSet() const { return IsVectorEndPointSet; }
+		void SetIsVectorEndPointSet(bool b) { IsVectorEndPointSet = b; }
+
+
+		VertexPositionColor GetVectorBeginPoint() const { return m_VectorBeginPoint; }
+		void SetVectorBeginPoint(VertexPositionColor vpc) { m_VectorBeginPoint = vpc; }
+		VertexPositionColor GetVectorEndPoint() const { return m_VectorEndPoint; }
+		void SetVectorEndPoint(VertexPositionColor vpc) { m_VectorEndPoint = vpc; }
+
+	private:
+
+		Platform::String^ objectName;
+		Platform::String^ effectName;
+		Platform::String^ textureImageFile;
+		Platform::String^ textureNormalFile;
+		Platform::String^ textureMetallicFile;
+		Platform::String^ textureRoughnessFile;
+		Platform::String^ textureAOFile;
+		Platform::String^ textureEmissiveFile;
+		Platform::String^ textureDualFile;
+		Platform::String^ textureAlphaFile;
+		Platform::String^ textureCubeFile;
+		Platform::String^ textureDualCubeFile;
+		Platform::String^ textureVideoFile;
+		Platform::String^ nodeName;
+		Platform::String^ materialName;
+		Platform::String^ fileName;
+		Platform::String^ filePath;
+		Platform::String^ fileSaveAsName;
+		Platform::String^ fileSaveAsMtlName;
+		Platform::String^ fileSaveAsObj3DandMtlName;
+		Platform::String^ fileSaveAsObj3DandMtlPath;
+		Platform::String^ fileSaveAsObj3DandMtlFullName;
+		Platform::String^ fileSaveAsObj3DandMtlMtlName;
+		Platform::String^ fileSaveAsObj3DandMtlObjName;
+		Platform::String^ fileSaveAsObj3DandMtlEffectName;
+		Platform::String^ fileSaveAsObj3DandMtlTextureName;
+
+		unsigned int pointCount;
+		unsigned int groupCount;
+		std::vector<DirectX::DXTKXAML12::VertexPositionNormalTexture> vertexes;
+		std::vector<uint16_t> indices;
+		void** nodes;
+
+		// Material properties
+		unsigned int m_MaterialId;
+		unsigned int illumType;
+		DirectX::XMFLOAT3 materialAmbient;
+
+		DirectX::XMFLOAT3 materialColor;
+		float materialAlpha;
+		float materialSpecular;
+		float materialShininess;
+		float materialReflectance;
+		float materialRefract;
+		float materialRefractIndex;
+		float materialEmissive;
+		float materialMetallic;
+		float materialRoughness;
+		float materialAO;
+		float materialDual;
+		float materialDualBlend;
+		float materialDualMix;
+		float materialNormalMap;
+		float materialAlphaClip;
+		float materialCubeMap;
+		float materialVideoMap;
+		float materialTilingU;
+		float materialTilingV;
+		float materialOffsetU;
+		float materialOffsetV;
+		bool materialTwoSided;
+		bool materialUseTexture;
+		bool materialUseNormal;
+		bool materialUseMetallic;
+		bool materialUseRoughness;
+
+		// For drawing points the body of the point list and any enpoints
+		std::vector<VertexPositionColor> m_verticesMapped;
+
+		// For drawing lines the body of the line list
+
+		std::vector<VertexPosition> m_bodyLineVertices;
+		std::vector<uint16_t> m_bodyLineIndices;
+		// For drawing vectors for the begin and end points
+
+		bool IsVectorBeginPointSet = false;
+		bool IsVectorEndPointSet = false;
+		VertexPositionColor m_VectorBeginPoint;
+		VertexPositionColor m_VectorEndPoint;
+		std::vector<PtGroups^> m_PtGroupList;
+	};
+
 	ref class PtGroups sealed
 	{
 	public:
+		virtual ~PtGroups() { ZeroOutPtList(); }
+	internal:
 		PtGroups(int ptCount);
-		virtual ~PtGroups() { ZeroOutPtList();	}
+		
 		Platform::Array<uint16_t>^ GetPtList() { return m_PtList; }
 		void SetPtList(unsigned int i, uint16_t val) { m_PtList->set(i, val); }
 		uint16_t GetListPt(unsigned int i) { return m_PtList->get(i); }
@@ -107,9 +267,12 @@ namespace Hot3dxRotoDraw
 			m_PtList = ref new Platform::Array<uint16_t>(m_ptlistCount);
 		}
 		
+
 	private:
+		// For drawing points the body of the point list
 		unsigned int m_ptlistCount;
 		Platform::Array<uint16_t>^ m_PtList = ref new Platform::Array<uint16_t>(m_ptlistCount);
+
 	};
 
 	ref class LinePtGrp sealed
@@ -362,6 +525,7 @@ namespace Hot3dxRotoDraw
 
 		// Centered End Points Top and Bottom X Axis
 		void XM_CALLCONV EndTopPointYAxis();
+		void XM_CALLCONV EndBeginPointXorYAxis2();
 		void XM_CALLCONV EndBottomPointYAxis();
 		// Centered End Points Left and Right Y Axis
 		void XM_CALLCONV EndLeftPointsXAxis();
@@ -649,9 +813,11 @@ namespace Hot3dxRotoDraw
 		void IncrementPtGroups(); 
 		void IncrementLinePtGroups();
 		void IncrementLinePtGroupsSize(unsigned int sizeOfLine);
-		
-			
-		
+
+		uint16_t DrawObjectPoints2(uint16_t n);
+		void XM_CALLCONV DrawObjectPointsTop2();
+		void XM_CALLCONV DrawObjectPointsBottom2();
+		void XM_CALLCONV DrawObjectPointsTopBottom2();
 		
 		uint16_t XM_CALLCONV DrawObjectPoints(uint16_t n);
 		void XM_CALLCONV DrawObjectPointsTop();
@@ -796,6 +962,42 @@ namespace Hot3dxRotoDraw
 		float GetUVPercentTextureDimension() const { return m_textureDimension; }
 		void SetUVPercentTextureDimension(float textureDimension) { m_textureDimension = textureDimension; }
 
+		// Textures D3D12Resource Get
+		ID3D12Resource* Getm_texture1() { return m_texture1.Get(); }
+		ID3D12Resource* Getm_texture2() const { return m_texture2.Get(); }
+		ID3D12Resource* Getm_DrawnMeshTexture1() const { return m_DrawnMeshTexture1.Get(); }
+		ID3D12Resource* Getm_DrawnMeshTexture2() const { return m_DrawnMeshTexture2.Get(); }
+		ID3D12Resource* Getm_PBRTexture1() const { return m_PBRTexture1.Get(); }
+		ID3D12Resource* Getm_PBRTexture2() const { return m_PBRTexture2.Get(); }
+		ID3D12Resource* Getm_radianceIBL() const { return m_radianceIBL.Get(); }
+		ID3D12Resource* Getm_irradianceIBL() const { return m_irradianceIBL.Get(); }
+		ID3D12Resource* Getm_NormalTexture() const { return m_NormalTexture.Get(); }
+		ID3D12Resource* Getm_RMATexture() const { return m_RMATexture.Get(); }
+		ID3D12Resource* Getm_EmissiveTexture() const { return m_EmissiveTexture.Get(); }
+		ID3D12Resource* Getm_DiffuseTexture() const { return m_DiffuseTexture.Get(); }
+		ID3D12Resource* Getm_texturePic2() const { return m_texturePic2.Get(); }
+		// Video texture
+		ID3D12Resource* Getm_videoTexture() const { return m_videoTexture.Get(); }
+
+		// Textures D3D12Resource Get
+		void Setm_texture1(ID3D12Resource* tex) { m_texture1 = tex; }
+		void Setm_texture2(ID3D12Resource* tex) { m_texture2 = tex; }
+
+		void Setm_DrawnMeshTexture1(ID3D12Resource* tex) { m_DrawnMeshTexture1 = tex; }
+		void Setm_DrawnMeshTexture2(ID3D12Resource* tex) { m_DrawnMeshTexture2 = tex; }
+		void Setm_PBRTexture1(ID3D12Resource* tex) { m_PBRTexture1 = tex; }
+		void Setm_PBRTexture2(ID3D12Resource* tex) { m_PBRTexture2 = tex; }
+		void Setm_radianceIBL(ID3D12Resource* tex) { m_radianceIBL = tex; }
+		void Setm_irradianceIBL(ID3D12Resource* tex) { m_irradianceIBL = tex; }
+		void Setm_NormalTexture(ID3D12Resource* tex) { m_NormalTexture = tex; }
+		void Setm_RMATexture(ID3D12Resource* tex) { m_RMATexture = tex; }
+		void Setm_EmissiveTexture(ID3D12Resource* tex) { m_EmissiveTexture = tex; }
+		void Setm_DiffuseTexture(ID3D12Resource* tex) { m_DiffuseTexture = tex; }
+		void Setm_texturePic2(ID3D12Resource* tex) { m_texturePic2 = tex; }
+
+		// Video texture
+		void Setm_videoTexture(ID3D12Resource* tex) { m_videoTexture = tex; }
+
 	private:
 
 		// Calculates the faces of a mesh
@@ -821,6 +1023,7 @@ namespace Hot3dxRotoDraw
 		float* XM_CALLCONV GetU(XMVECTOR v, Platform::Array<float>^ box);
 		// Needed to Get DirectXPage^
 		Hot3dxRotoDrawVariables^ m_vars;
+		
 		
 
 	protected private:
@@ -859,6 +1062,7 @@ namespace Hot3dxRotoDraw
 		Platform::Array<float>^ m_iTempMouseY = ref new Platform::Array<float>(10000);
 		//std::unique_ptr<Hot3dxRotoDraw::PtGroups^>** m_PtGroupList;
 		std::vector<Hot3dxRotoDraw::PtGroups^> m_PtGroupList;
+		Hot3dxRotoDrawObjectData^ m_drawnObjectData;
 		std::vector<LinePtGrp^> m_LinePtsList; 
 		uint16_t m_iTotalLinePointsCount;
 		std::vector< DirectX::DXTKXAML12::VertexPositionColor> lineGridVertices1;
@@ -1002,8 +1206,10 @@ namespace Hot3dxRotoDraw
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_NormalTexture;
 		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_RMATexture;
 		std::vector<mybyte> fileData1;
-		Microsoft::WRL::ComPtr<ID3D12Resource> m_DrawnMeshTexture1;
-		Microsoft::WRL::ComPtr<ID3D12Resource> m_DrawnMeshTexture2;
+		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_DrawnMeshTexture1;
+		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_DrawnMeshTexture2;
+		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_EmissiveTexture;
+		Microsoft::WRL::ComPtr<ID3D12Resource>                                  m_DiffuseTexture;
 		Platform::String^ m_textureImage1File = ref new Platform::String();
 		Platform::String^ m_textureImage2File = ref new Platform::String();
 		Platform::String^ m_textureImage3File = ref new Platform::String();
@@ -1362,6 +1568,12 @@ namespace Hot3dxRotoDraw
 			std::vector<BYTE>									m_pixelShaderPBR;
 			D3D12_VERTEX_BUFFER_VIEW							m_vertexBufferView;
 			D3D12_INDEX_BUFFER_VIEW								m_indexBufferView;
+
+			// Test for implementation of Hot3dxDrawnObjectData class
+			DirectX::DXTKXAML12::VertexPositionColor m_VectorBeginPoint;
+			DirectX::DXTKXAML12::VertexPositionColor m_VectorEndPoint;
+			bool IsDrawBeginPoint;
+			bool IsDrawEndPoint;
 	};
 }
 

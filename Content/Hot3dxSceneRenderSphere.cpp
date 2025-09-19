@@ -16,15 +16,20 @@ Hot3dxRotoDraw::CCameraXYMoveRotation::~CCameraXYMoveRotation() {}
 //void   Hot3dxRotoDraw::CCameraXYMoveRotation::MoveRotateCameraAny(float x, float y, float z) {}
 void OutputGroupIdandCount(int id, size_t count)
 {
+	if (id > -1 && count > -1) {}
+#ifdef DEBUG
 	 OutputDebugString(L"\n GroupId: ");
 	 OutputDebugString(std::to_wstring(id).c_str());
 	 OutputDebugString(L"Group Count: ");
 	 OutputDebugString(std::to_wstring(count).c_str());
 	 OutputDebugString(L"\n");
+#endif DEBUG
 }
 
 void OutputFloat3(DirectX::DXTKXAML12::VertexPositionColor vpc)
 {
+	if (vpc.position.x != -9999999.000000F) {}
+#ifdef DEBUG	
 	OutputDebugString(L"\n x: ");
 	OutputDebugString(std::to_wstring(vpc.position.x).c_str());
 	OutputDebugString(L", y: ");
@@ -32,6 +37,7 @@ void OutputFloat3(DirectX::DXTKXAML12::VertexPositionColor vpc)
 	OutputDebugString(L", z: ");
 	OutputDebugString(std::to_wstring(vpc.position.z).c_str());
 	OutputDebugString(L"\n\n");
+#endif
 }
 
 void Hot3dxRotoDraw::RotoDrawSceneRender::CalculateSphereVPCXAxis(float camradius, float camrotation)
@@ -2046,6 +2052,7 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::InitSphere()
 		{
 			return;
 		}
+		DirectXPage^ page = m_vars->GetDXPage();
 
 		m_DrawnMeshTexture1.Reset();
 		m_shapeDrawnObjectEffect.reset();// = nullptr;
@@ -2120,8 +2127,21 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::InitSphere()
 
 		*/ //Works
 
-		LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1, GetMsgTypes(0), GetMessages(0));
+		HRESULT HR =LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1, GetMsgTypes(0), GetMessages(0));
+		if (HR == S_OK)
+		{
+			Platform::String^ msg = L"Successfully Loaded: ";
+			msg = msg->Concat(msg, m_textureImage1File);
+			page->NotifyUser(msg, NotifyType::StatusMessage);
 
+		}
+		else
+		{
+			Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 1 Only the Pictures Library can be used Select Images at this time ";
+			msg = msg->Concat(msg, m_textureImage1File);
+			page->NotifyUser(msg, NotifyType::ErrorMessage);
+			return;
+		}
 		// If there is a failure here it is because the open file dialog is not in the project directory
 		DirectX::DXTKXAML12::CreateShaderResourceView(device, m_DrawnMeshTexture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture1)));
 
@@ -2270,8 +2290,21 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::InitBasicEffectSphere()
 
 		*/ //Works
 
-		LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1, GetMsgTypes(0), GetMessages(0));
+		HRESULT HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1, GetMsgTypes(0), GetMessages(0));
+		if (HR == S_OK)
+		{
+			Platform::String^ msg = L"Successfully Loaded: ";
+			msg = msg->Concat(msg, m_textureImage1File);
+			page->NotifyUser(msg, NotifyType::StatusMessage);
 
+		}
+		else
+		{
+			Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 1 Only the Pictures Library can be used Select Images at this time ";
+			msg = msg->Concat(msg, m_textureImage1File);
+			page->NotifyUser(msg, NotifyType::ErrorMessage);
+			return;
+		}
 		// If there is a failure here it is because the open file dialog is not in the project directory
 		DirectX::DXTKXAML12::CreateShaderResourceView(device, m_DrawnMeshTexture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture1)));
 

@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "Hot3dxRotoDrawSceneRender.h"
 #include "Common\DirectXHelper.h"
+#include "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/shared/intsafe.h"
+#include "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/shared/winerror.h"
 
 using namespace Hot3dxRotoDraw;
-using namespace Hot3dx;
+//using namespace Hot3dx;
 
 using namespace DX;
 using namespace Concurrency;
@@ -21,12 +23,21 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectSingleTextu
 		{
 			return;
 		}
+		DirectXPage^ page = m_vars->GetDXPage();
+		// Clear any previous objects
 
 		m_DrawnMeshTexture1.Reset();
 		m_shapeDrawnObjectEffect.reset();// = nullptr;
 		m_shapeDrawnObjectTex.reset();// = nullptr;
 
 		size_t cnt = vertices.size();
+
+		if (cnt < 1)
+		{
+			Platform::String^ msg = L"<New or Clear> There are no points for the Object. Draw a line first InitSingleTexture";
+			page->NotifyUser(msg, NotifyType::ErrorMessage);
+			return;
+		}
 		DirectX::DXTKXAML12::VertexPositionColor* vpc = vertices.data();
 		// Makes the Box Frame Dimensions float* box is created 
 		InitDimensionsBox();
@@ -50,20 +61,24 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectSingleTextu
 		// Begin Resource Upload
 		m_resourceUploadDrawnObject->BeginXaml();
 		
-		// Load shaders asynchronously.
-		/* //Works
-		Concurrency::task createLoadTask = ReadDataAsync(L"\\Assets\\Textures\\Marble.DDS").then([this](std::vector<mybyte>& fileData) {
-			fileData1 = fileData;
-			});
-		if (fileData1.size() >= 1)
+
+		HRESULT HR = 
+			LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1, GetMsgTypes(0), GetMessages(0));
+		
+		if (HR == S_OK)
 		{
+			Platform::String^ msg = L"Successfully Loaded: ";
+			msg = msg->Concat(msg, m_textureImage1File);
+			page->NotifyUser(msg, NotifyType::StatusMessage);
 			
 		}
-
-		*/ //Works
-					
-			LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1, GetMsgTypes(0), GetMessages(0));
-			
+		else
+		{
+			Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 1 Only the Pictures Library can be used Select Images at this time ";
+			msg = msg->Concat(msg, m_textureImage1File);
+			page->NotifyUser(msg, NotifyType::ErrorMessage);
+			return;
+		} 
 		// If there is a failure here it is because the open file dialog is not in the project directory
 		DirectX::DXTKXAML12::CreateShaderResourceView(device, m_DrawnMeshTexture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture1)));
 			
@@ -102,7 +117,13 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectSingleTextu
 			m_shapeDrawnObjectEffect = std::make_unique<BasicEffect>(device, EffectFlags::PerPixelLighting | EffectFlags::Texture, pdSDOE);
 			//m_shapeDrawnObjectEffect = std::make_unique<BasicEffect>(device, EffectFlags::PerPixelLighting | EffectFlags::Texture, pdAlphaSDOE);
 			//m_shapeDrawnObjectEffect = std::make_unique<BasicEffect>(device, EffectFlags::VertexColor, pdVPC);
-
+			if (!m_shapeDrawnObjectEffect)
+			{
+				Platform::String^ msg = L"<New or Clear> Failed to create Basic Effect ";
+				//msg = msg->Concat(msg, m_textureImage1File);
+				page->NotifyUser(msg, NotifyType::ErrorMessage);
+				return;
+			}
 			m_shapeDrawnObjectEffect->EnableDefaultLighting();
 			m_shapeDrawnObjectEffect->SetDiffuseColor(XMVECTOR{ 1.0f,1.0f ,1.0f,1.0f });
 			m_shapeDrawnObjectEffect->SetTexture(m_resourceDescriptors->GetGpuHandle(size_t(Descriptors::DrawnObjectTexture1)), GetWrapType(m_states.get(), m_iSamplIndexWrap));
@@ -139,6 +160,9 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRFourText
 			return;
 		}
 
+		DirectXPage^ page = m_vars->GetDXPage();
+
+		// Clear any previous objects
 		m_DrawnMeshTexture1.Reset();
 		m_DrawnMeshTexture2.Reset();
 		m_PBRTexture1.Reset();
@@ -178,12 +202,67 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRFourText
 		DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadDrawnObject = new DirectX::DXTKXAML12::ResourceUploadBatch(device);
 		m_resourceUploadDrawnObject->BeginXaml();
 
-		LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_PBRTexture1, GetMsgTypes(0), GetMessages(0));
-		LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage2File->Data(), &m_PBRTexture2, GetMsgTypes(0), GetMessages(0));
-		LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage5File->Data(), &m_radianceIBL, GetMsgTypes(0), GetMessages(0));
-		LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage6File->Data(), &m_irradianceIBL, GetMsgTypes(0), GetMessages(0));
+		HRESULT HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_PBRTexture1, GetMsgTypes(0), GetMessages(0));
+		if (HR == S_OK)
+		{
+			Platform::String^ msg = L"Successfully Loaded: ";
+			msg = msg->Concat(msg, m_textureImage1File);
+			page->NotifyUser(msg, NotifyType::StatusMessage);
 
+		}
+		else
+		{
+			Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 1 Only the Pictures Library can be used Select Images at this time ";
+			msg = msg->Concat(msg, m_textureImage1File);
+			page->NotifyUser(msg, NotifyType::ErrorMessage);
+			return;
+		}
+		HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage2File->Data(), &m_PBRTexture2, GetMsgTypes(0), GetMessages(0));
+		if (HR == S_OK)
+		{
+			Platform::String^ msg = L"Successfully Loaded: ";
+			msg = msg->Concat(msg, m_textureImage2File);
+			page->NotifyUser(msg, NotifyType::StatusMessage);
 
+		}
+		else
+		{
+			Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 2 Only the Pictures Library can be used Select Images at this time ";
+			msg = msg->Concat(msg, m_textureImage2File);
+			page->NotifyUser(msg, NotifyType::ErrorMessage);
+			return;
+		}
+		HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage5File->Data(), &m_radianceIBL, GetMsgTypes(0), GetMessages(0));
+		if (HR == S_OK)
+		{
+			Platform::String^ msg = L"Successfully Loaded: ";
+			msg = msg->Concat(msg, m_textureImage5File);
+			page->NotifyUser(msg, NotifyType::StatusMessage);
+
+		}
+		else
+		{
+			Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 5 Only the Pictures Library can be used Select Images at this time ";
+			msg = msg->Concat(msg, m_textureImage5File);
+			page->NotifyUser(msg, NotifyType::ErrorMessage);
+			return;
+		}
+		HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage6File->Data(), &m_irradianceIBL, GetMsgTypes(0), GetMessages(0));
+
+		if (HR == S_OK)
+		{
+			Platform::String^ msg = L"Successfully Loaded: ";
+			msg = msg->Concat(msg, m_textureImage6File);
+			page->NotifyUser(msg, NotifyType::StatusMessage);
+
+		}
+		else
+		{
+			Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 6 Only the Pictures Library can be used Select Images at this time ";
+			msg = msg->Concat(msg, m_textureImage6File);
+			page->NotifyUser(msg, NotifyType::ErrorMessage);
+			return;
+		}
 		//} // If there is a failure here it is because the open file dialog is not in the project directory
 		//Push mesh texture to resource stores
 		DirectX::DXTKXAML12::CreateShaderResourceView(device, m_PBRTexture1.Get(), m_resDescPile->GetCpuHandle(size_t(PBRDescriptors::PicTex)));
@@ -311,6 +390,8 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRFiveText
 			return;
 		}
 		
+		DirectXPage^ page = m_vars->GetDXPage();
+		// Clear any previous objects
 		m_DrawnMeshTexture1.Reset();
 		m_DrawnMeshTexture2.Reset();
 		m_PBRTexture1.Reset();//  = nullptr;
@@ -346,19 +427,102 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRFiveText
 
 		// Set the descriptor heaps
 		//m_hot3dxDrawnObjectPBR = Hot3dxDrawnObject::CreateCustom(vertices, indices, device);// works no texture coords
-		//m_hot3dxDrawnObjectPBR = Hot3dxDrawnObject::CreateCustomTangent(verticesPBR, indices, device);
+		
 		m_hot3dxDrawnObjectPBR = Hot3dxDrawnObject::CreateDrawnObjectTangent(verticesPBR, indices, device);// fixed - oh yeah baby
 		
 			DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadDrawnObject = new DirectX::DXTKXAML12::ResourceUploadBatch(device);
 			m_resourceUploadDrawnObject->BeginXaml();
 			
-			    LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_PBRTexture1, GetMsgTypes(0), GetMessages(0));
-				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage2File->Data(), &m_PBRTexture2, GetMsgTypes(0), GetMessages(0));
-				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage4File->Data(), &m_NormalTexture, GetMsgTypes(0), GetMessages(0));
-				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage3File->Data(), &m_RMATexture, GetMsgTypes(0), GetMessages(0));
-				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage5File->Data(), &m_radianceIBL, GetMsgTypes(0), GetMessages(0));
-				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage6File->Data(), &m_irradianceIBL, GetMsgTypes(0), GetMessages(0));
-				
+			HRESULT HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_PBRTexture1, GetMsgTypes(0), GetMessages(0));
+			if (HR == S_OK)
+			{
+				Platform::String^ msg = L"Successfully Loaded: ";
+				msg = msg->Concat(msg, m_textureImage1File);
+				page->NotifyUser(msg, NotifyType::StatusMessage);
+
+			}
+			else
+			{
+				Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 1 Only the Pictures Library can be used Select Images at this time ";
+				msg = msg->Concat(msg, m_textureImage1File);
+				page->NotifyUser(msg, NotifyType::ErrorMessage);
+				return;
+			}
+			HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage2File->Data(), &m_PBRTexture2, GetMsgTypes(0), GetMessages(0));
+			if (HR == S_OK)
+			{
+				Platform::String^ msg = L"Successfully Loaded: ";
+				msg = msg->Concat(msg, m_textureImage2File);
+				page->NotifyUser(msg, NotifyType::StatusMessage);
+
+			}
+			else
+			{
+				Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 2 Only the Pictures Library can be used Select Images at this time ";
+				msg = msg->Concat(msg, m_textureImage2File);
+				page->NotifyUser(msg, NotifyType::ErrorMessage);
+				return;
+			}
+			HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage4File->Data(), &m_NormalTexture, GetMsgTypes(0), GetMessages(0));
+			if (HR == S_OK)
+			{
+				Platform::String^ msg = L"Successfully Loaded: ";
+				msg = msg->Concat(msg, m_textureImage4File);
+				page->NotifyUser(msg, NotifyType::StatusMessage);
+
+			}
+			else
+			{
+				Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 4 Only the Pictures Library can be used Select Images at this time ";
+				msg = msg->Concat(msg, m_textureImage4File);
+				page->NotifyUser(msg, NotifyType::ErrorMessage);
+				return;
+			}
+			HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage3File->Data(), &m_RMATexture, GetMsgTypes(0), GetMessages(0));
+			if (HR == S_OK)
+			{
+				Platform::String^ msg = L"Successfully Loaded: ";
+				msg = msg->Concat(msg, m_textureImage3File);
+				page->NotifyUser(msg, NotifyType::StatusMessage);
+
+			}
+			else
+			{
+				Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 3 Only the Pictures Library can be used Select Images at this time ";
+				msg = msg->Concat(msg, m_textureImage3File);
+				page->NotifyUser(msg, NotifyType::ErrorMessage);
+				return;
+			}
+			HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage5File->Data(), &m_radianceIBL, GetMsgTypes(0), GetMessages(0));
+			if (HR == S_OK)
+			{
+				Platform::String^ msg = L"Successfully Loaded: ";
+				msg = msg->Concat(msg, m_textureImage5File);
+				page->NotifyUser(msg, NotifyType::StatusMessage);
+
+			}
+			else
+			{
+				Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 5 Only the Pictures Library can be used Select Images at this time ";
+				msg = msg->Concat(msg, m_textureImage5File);
+				page->NotifyUser(msg, NotifyType::ErrorMessage);
+				return;
+			}
+			HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage6File->Data(), &m_irradianceIBL, GetMsgTypes(0), GetMessages(0));
+			if (HR == S_OK)
+			{
+				Platform::String^ msg = L"Successfully Loaded: ";
+				msg = msg->Concat(msg, m_textureImage6File);
+				page->NotifyUser(msg, NotifyType::StatusMessage);
+
+			}
+			else
+			{
+				Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 6 Only the Pictures Library can be used Select Images at this time ";
+				msg = msg->Concat(msg, m_textureImage6File);
+				page->NotifyUser(msg, NotifyType::ErrorMessage);
+				return;
+			}
 			
 			//} // If there is a failure here it is because the open file dialog is not in the project directory
 			//Push mesh texture to resource stores
@@ -497,7 +661,8 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRThreeTex
 		{
 			return;
 		}
-
+		DirectXPage^ page = m_vars->GetDXPage();
+		// Clears Ojects
 		m_DrawnMeshTexture1.Reset();
 		m_DrawnMeshTexture2.Reset();
 		m_PBRTexture1.Reset();//  = nullptr;
@@ -538,26 +703,61 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRThreeTex
 		DirectX::DXTKXAML12::ResourceUploadBatch* m_resourceUploadDrawnObject = new DirectX::DXTKXAML12::ResourceUploadBatch(device);
 		m_resourceUploadDrawnObject->BeginXaml();
 
-		LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_PBRTexture1, GetMsgTypes(0), GetMessages(0));
-		//LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage2File->Data(), &m_PBRTexture2, GetMsgTypes(0), GetMessages(0));
-		LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage4File->Data(), &m_NormalTexture, GetMsgTypes(0), GetMessages(0));
-		LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage3File->Data(), &m_RMATexture, GetMsgTypes(0), GetMessages(0));
-		
+		HRESULT HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_PBRTexture1, GetMsgTypes(0), GetMessages(0));
+		if (HR == S_OK)
+		{
+			Platform::String^ msg = L"Successfully Loaded: ";
+			msg = msg->Concat(msg, m_textureImage1File);
+			page->NotifyUser(msg, NotifyType::StatusMessage);
+
+		}
+		else
+		{
+			Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 1 Only the Pictures Library can be used Select Images at this time ";
+			msg = msg->Concat(msg, m_textureImage1File);
+			page->NotifyUser(msg, NotifyType::ErrorMessage);
+			return;
+		} 
+		HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage4File->Data(), &m_NormalTexture, GetMsgTypes(0), GetMessages(0));
+		if (HR == S_OK)
+		{
+			Platform::String^ msg = L"Successfully Loaded: ";
+			msg = msg->Concat(msg, m_textureImage4File);
+			page->NotifyUser(msg, NotifyType::StatusMessage);
+
+		}
+		else
+		{
+			Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 1 Only the Pictures Library can be used Select Images at this time ";
+			msg = msg->Concat(msg, m_textureImage4File);
+			page->NotifyUser(msg, NotifyType::ErrorMessage);
+			return;
+		}
+		 HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage3File->Data(), &m_RMATexture, GetMsgTypes(0), GetMessages(0));
+		 if (HR == S_OK)
+		 {
+			 Platform::String^ msg = L"Successfully Loaded: ";
+			 msg = msg->Concat(msg, m_textureImage3File);
+			 page->NotifyUser(msg, NotifyType::StatusMessage);
+
+		 }
+		 else
+		 {
+			 Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 3 Only the Pictures Library can be used Select Images at this time ";
+			 msg = msg->Concat(msg, m_textureImage3File);
+			 page->NotifyUser(msg, NotifyType::ErrorMessage);
+			 return;
+		 }
 
 		//} // If there is a failure here it is because the open file dialog is not in the project directory
 		//Push mesh texture to resource stores
 		DirectX::DXTKXAML12::CreateShaderResourceView(device, m_PBRTexture1.Get(), m_resDescPile->GetCpuHandle(size_t(PBRDescriptors::PicTex)));
 		//Push mesh texture to resource stores
-		//DirectX::DXTKXAML12::CreateShaderResourceView(device, m_PBRTexture2.Get(), m_resDescPile->GetCpuHandle(size_t(PBRDescriptors::PicTex2)));
-		//Push rma texture to resource stores
 		DirectX::DXTKXAML12::CreateShaderResourceView(device, m_RMATexture.Get(), m_resDescPile->GetCpuHandle(size_t(PBRDescriptors::RMATex)));
 		//Push normal texture to resource stores
 		DirectX::DXTKXAML12::CreateShaderResourceView(device, m_NormalTexture.Get(), m_resDescPile->GetCpuHandle(size_t(PBRDescriptors::NormalTex)));
 		//Push radiance texture to resource stores
-		//DirectX::DXTKXAML12::CreateShaderResourceView(device, m_radianceIBL.Get(), m_resDescPile->GetCpuHandle(size_t(PBRDescriptors::RadianceTex)), false);
-		//Push irradiance texture to resource stores
-		//DirectX::DXTKXAML12::CreateShaderResourceView(device, m_irradianceIBL.Get(), m_resDescPile->GetCpuHandle(size_t(PBRDescriptors::IrradianceTex)), false);
-
+		
 		RenderTargetState rtState(m_sceneDeviceResources->GetBackBufferFormat(), m_sceneDeviceResources->GetDepthBufferFormat());
 		// Each effect object must be proceeded by its own 
 		// EffectPipelineStateDescription pd 
@@ -607,7 +807,13 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectPBRThreeTex
 
 
 		m_shapeDrawnObjectPBREffect = std::make_unique<DirectX::DXTKXAML12::PBREffect>(device, EffectFlags::Texture, pdPBR, true, true);// , true);// , true);
-
+		if (!m_shapeDrawnObjectPBREffect)
+		{
+			Platform::String^ msg = L"<New or Clear> Load a new texture. PBR5 Failed to Create Object Effect.";
+			msg = msg->Concat(msg, m_textureImage1File);
+			page->NotifyUser(msg, NotifyType::ErrorMessage);
+			return;
+		}
 
 		//m_shapeDrawnObjectPBREffect = std::make_unique<DirectX::DXTKXAML12::PBREffect>(device, EffectFlags::None, pdAlphaPBR);
 
@@ -680,6 +886,9 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectDualTexture
 			return;
 		}
 
+		DirectXPage^ page = m_vars->GetDXPage();
+
+		// Clears Ojects
 		m_DrawnMeshTexture1.Reset();// = nullptr;
 		m_DrawnMeshTexture2.Reset();// = nullptr;
 		m_dualTextureEffect.reset();// = nullptr;
@@ -720,9 +929,36 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectDualTexture
 			// Begin Resource Upload
 			m_resourceUploadDrawnObject->BeginXaml();
 
-			    LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1, GetMsgTypes(0), GetMessages(0));
-				LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage2File->Data(), &m_DrawnMeshTexture2, GetMsgTypes(0), GetMessages(0));
-				
+			HRESULT HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1, GetMsgTypes(0), GetMessages(0));
+			if (HR == S_OK)
+			{
+				Platform::String^ msg = L"Successfully Loaded: ";
+				msg = msg->Concat(msg, m_textureImage1File);
+				page->NotifyUser(msg, NotifyType::StatusMessage);
+
+			}
+			else
+			{
+				Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 1 Only the Pictures Library can be used Select Images at this time ";
+				msg = msg->Concat(msg, m_textureImage1File);
+				page->NotifyUser(msg, NotifyType::ErrorMessage);
+				return;
+			} 
+			HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage2File->Data(), &m_DrawnMeshTexture2, GetMsgTypes(0), GetMessages(0));
+			if (HR == S_OK)
+			{
+				Platform::String^ msg = L"Successfully Loaded: ";
+				msg = msg->Concat(msg, m_textureImage2File);
+				page->NotifyUser(msg, NotifyType::StatusMessage);
+
+			}
+			else
+			{
+				Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 2 Only the Pictures Library can be used Select Images at this time ";
+				msg = msg->Concat(msg, m_textureImage2File);
+				page->NotifyUser(msg, NotifyType::ErrorMessage);
+				return;
+			}
 			// If there is a failure here it is because the open file dialog is not in the project directory
 
 			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_DrawnMeshTexture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture1)));
@@ -748,6 +984,13 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectDualTexture
 				);
 
 				m_dualTextureEffect = std::make_unique<DirectX::DXTKXAML12::DualTextureEffect>(device, EffectFlags::VertexColor || EffectFlags::Fog, pd);
+				if (!m_dualTextureEffect)
+				{
+					Platform::String^ msg = L"<New or Clear> Load a new texture  from the Pictures Library. Dual Texture Effect Failed to Create ";
+					msg = msg->Concat(msg, m_textureImage1File);
+					page->NotifyUser(msg, NotifyType::ErrorMessage);
+					return;
+				}
 				m_dualTextureEffect->SetAlpha(1.0f);
 				float a = 1.0f;
 				float r = 1.0f;
@@ -895,13 +1138,11 @@ void XM_CALLCONV Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectVideoTextur
 					m_player = std::make_unique<Hot3dxRotoDraw::MediaEnginePlayer>(m_sceneDeviceResources);
 					m_player->Initialize(m_sceneDeviceResources->GetDXGIFactory(), device, DXGI_FORMAT_B8G8R8A8_UNORM);
 
-					//Scenario7Vars^ vars7 = m_vars->GetDXPage()->m_Scene7Vars;
-					//m_textureImageVideoFile = ref new Platform::String(vars7->GetVideoTextureImage1File()->Data());
 					Scenario5TexVars^ vars = m_vars->GetDXPage()->m_Scene5TexVars;
 					m_textureImageVideo2File = ref new Platform::String(vars->GetTextureImageVideo1File()->Data());
 					Uri^ uri = ref new Uri(m_textureImageVideo2File);
 					Windows::Media::Core::MediaSource^ source = Windows::Media::Core::MediaSource::CreateFromUri(uri);
-					m_player->SetSource(m_textureImageVideo2File->Data());//uri->DisplayUri->Data());// 
+					m_player->SetSource(m_textureImageVideo2File->Data());
 					
 					while (!m_player->IsInfoReady())
 					{
@@ -991,6 +1232,9 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectSculptWireframe()
 		{
 			return;
 		}
+
+		DirectXPage^ page = m_vars->GetDXPage();
+
 		m_shapeDrawnObjectEffectSculpt = nullptr;
 		m_shapeDrawnObjectSculpt = nullptr;
 
@@ -1008,8 +1252,22 @@ void Hot3dxRotoDraw::RotoDrawSceneRender::InitDrawnObjectSculptWireframe()
 			// Begin Resource Upload
 			m_resourceUploadDrawnObject->BeginXaml();
 
-			LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1, GetMsgTypes(0), GetMessages(0));
+			HRESULT HR = LoadDDSOrWicTextureFile(m_sceneDeviceResources->GetD3DDevice(), *m_resourceUploadDrawnObject, m_textureImage1File->Data(), &m_DrawnMeshTexture1, GetMsgTypes(0), GetMessages(0));
 			// If there is a failure here it is because the open file dialog is not in the project directory
+			if (HR == S_OK)
+			{
+				Platform::String^ msg = L"Successfully Loaded: ";
+				msg = msg->Concat(msg, m_textureImage1File);
+				page->NotifyUser(msg, NotifyType::StatusMessage);
+
+			}
+			else
+			{
+				Platform::String^ msg = L"<New or Clear> Load a new texture. Failed to load Texture Image 1 Only the Pictures Library can be used Select Images at this time ";
+				msg = msg->Concat(msg, m_textureImage1File);
+				page->NotifyUser(msg, NotifyType::ErrorMessage);
+				return;
+			}
 
 			DirectX::DXTKXAML12::CreateShaderResourceView(device, m_DrawnMeshTexture1.Get(), m_resourceDescriptors->GetCpuHandle(size_t(Descriptors::DrawnObjectTexture1)));
 
