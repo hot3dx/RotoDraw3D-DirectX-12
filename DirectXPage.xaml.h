@@ -627,7 +627,7 @@ namespace Hot3dxRotoDraw
 		{
 			Platform::String^ get()
 			{
-				return "Hot3dx RotoDraw3D DirectX 12";
+				return "Hot3dxSymmetry3D in DirectX 12";
 			}
 		}
 

@@ -15,7 +15,7 @@
   <mp:PhoneIdentity PhoneProductId="767dcdc5-94b9-4177-983f-30ba25adfdab" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
   
   <Properties>
-    <DisplayName>RotoDraw 3D DirectX 12</DisplayName>
+    <DisplayName>Hot3dxSymmetry3D</DisplayName>
     <PublisherDisplayName>Hot3dx - Jeff Kubitz</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -33,10 +33,10 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="Hot3dxRotoDraw.App">
       <uap:VisualElements
-        DisplayName="RotoDraw 3D DirectX 12"
+        DisplayName="Hot3dxSymmetry3D"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="Hot3dxRotoDraw app"
+        Description="Hot3dxSymmetry3D application:  Draw One Line - is useful for fast creation of symmetrical 360 degree and less degrees of symmetrical slices, like pieces of a pie are missing but on purpose! An excellent developer tool that shortens the Sculpt time in Visual Studio 3D Modeller, Blender, Paint 3D, 3D Viewer, and more.  Save in Mtl/Obj file format"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />

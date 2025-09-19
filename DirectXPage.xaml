@@ -106,7 +106,7 @@
                  (If the Image conveyed useful information we'd not use AccessibilityView, but instead provide a localized 
                  name for the Image to convey its purpose.) -->
                     <Image x:Name="Hot3dxLogo" Stretch="None" Source="Assets/MakerC1.ico" Margin="0,15,0,0" AutomationProperties.AccessibilityView="Raw" />
-                    <TextBlock x:Name="Header" Text="Hot3dx RotoDraw3D DirectX12 Xaml Drawing Tools" Style="{StaticResource TagLineTextStyle}" Margin="50,15,0,0" Foreground="White" />
+                    <TextBlock x:Name="Header" Text="Hot3dxSymmetry3D DirectX12 Xaml Drawing Tools" Style="{StaticResource TagLineTextStyle}" Margin="50,15,0,0" Foreground="White" />
                 </StackPanel>
             </Grid>
         </StackPanel>
