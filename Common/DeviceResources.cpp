@@ -226,7 +226,7 @@ void DX::DeviceResources::CreateDeviceResources()
 		{
 			m_options &= ~c_AllowTearing;
 #ifdef _DEBUG
-			OutputDebugStringA("WARNING: Variable refresh rate displays not supported");
+			///OutputDebugStringA("WARNING: Variable refresh rate displays not supported");
 #endif
 		}
 	}
