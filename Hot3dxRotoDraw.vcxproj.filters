@@ -350,46 +350,7 @@
     <Image Include="Assets\Textures\CHARACTER_BABY_MARIO.PNG">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\Textures\gamepad.dds">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Textures\gi_flag.DDS">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Textures\GOLD_512x512.jpg">
-      <Filter>Assets</Filter>
-    </Image>
     <Image Include="Assets\Textures\HorseSwirl.dds">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Textures\ida.dds">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Textures\Image.dds">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Textures\irishexa32.dds">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Textures\kittens.dds">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Textures\LabelBase.dds">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Textures\Labels.dds">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Textures\Lightmap.dds">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Textures\lion.DDS">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Textures\lion_normal.DDS">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Textures\LobbyCube.dds">
       <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\Textures\Marble.dds">
@@ -404,22 +365,10 @@
     <Image Include="Assets\Textures\scanner.dds">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\Textures\terrain.dds">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Textures\TileGrid.dds">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Textures\ToyRobot_BaseColor.dds">
-      <Filter>Assets</Filter>
-    </Image>
     <Image Include="Assets\Textures\tree02S.dds">
       <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\Textures\tree35S.dds">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Textures\white.DDS">
       <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\Textures\ATRIUM_IR.dds">
@@ -437,16 +386,22 @@
     <Image Include="Assets\Textures\sphere.png">
       <Filter>Assets</Filter>
     </Image>
+    <Image Include="Assets\Textures\tree01S.dds">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\seafloor.dds">
+      <Filter>Assets</Filter>
+    </Image>
     <Image Include="Assets\Textures\Toyrobot_Normal.DDS">
       <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\Textures\Toyrobot_RMA.DDS">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\Textures\tree01S.dds">
+    <Image Include="Assets\Textures\WHITE_CUBEMAP_IR.DDS">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Assets\seafloor.dds">
+    <Image Include="Assets\Textures\WHITE_CUBEMAP_R.DDS">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>
@@ -483,14 +438,14 @@
       <Filter>Content</Filter>
     </None>
     <None Include="Package.StoreAssociation.xml" />
-    <None Include="Help\HelpSettingDialog.htm">
-      <Filter>Help</Filter>
-    </None>
     <None Include="packages.config" />
     <None Include="cpp.hint" />
     <None Include="Certificate1341389885.cer" />
     <None Include="Hot3dxJeffKubitz1341389885DER.pfx" />
     <None Include="Certificate1341389885.pfx" />
+    <None Include="Help\HelpSettingDialog.htm">
+      <Filter>Help</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\musicmono_adpcm.wav">

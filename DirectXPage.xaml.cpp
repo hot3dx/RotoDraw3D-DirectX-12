@@ -223,8 +223,8 @@ Hot3dxRotoDraw::DirectXPage::DirectXPage() :
 						this->CopyTextureToLocalFolder(L"ATRIUM_IR.DDS");
 						this->CopyTextureToLocalFolder(L"tree01S.dds");
 						this->CopyTextureToLocalFolder(L"SampleVideo.mp4");
-						//this->CopyTextureToLocalFolder("WHITE_CUBEMAP_IR.DDS");
-						//this->CopyTextureToLocalFolder("WHITE_CUBEMAP_R.DDS");
+						this->CopyTextureToLocalFolder("WHITE_CUBEMAP_IR.DDS");
+						this->CopyTextureToLocalFolder("WHITE_CUBEMAP_R.DDS");
 						});
 
 			// You can now safely load textures from texturesFolder
