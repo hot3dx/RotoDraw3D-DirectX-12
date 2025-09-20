@@ -223,8 +223,8 @@ Hot3dxRotoDraw::DirectXPage::DirectXPage() :
 						this->CopyTextureToLocalFolder(L"ATRIUM_IR.DDS");
 						this->CopyTextureToLocalFolder(L"tree01S.dds");
 						this->CopyTextureToLocalFolder(L"SampleVideo.mp4");
-						this->CopyTextureToLocalFolder("WHITE_CUBEMAP_IR.DDS");
-						this->CopyTextureToLocalFolder("WHITE_CUBEMAP_R.DDS");
+						//this->CopyTextureToLocalFolder("WHITE_CUBEMAP_IR.DDS");
+						//this->CopyTextureToLocalFolder("WHITE_CUBEMAP_R.DDS");
 						});
 
 			// You can now safely load textures from texturesFolder
@@ -280,8 +280,8 @@ Hot3dxRotoDraw::DirectXPage::DirectXPage() :
 			if (copiedFile)
 			{
 				// Success
-				// NotifyUser("Copied: " + copiedFile->Path, NotifyType::StatusMessage);
-				//this->NotifyUser(L"File Copied to App Folder", NotifyType::StatusMessage);
+				this->NotifyUser("Copied: " + copiedFile->Path, NotifyType::StatusMessage);
+				this->NotifyUser(L"File Copied to App Folder", NotifyType::StatusMessage);
 				//OutputDebugString(L"File Copied to App Folder");
 			}
 			}).then([this](concurrency::task<void> t) {
@@ -1537,7 +1537,7 @@ void Hot3dxRotoDraw::DirectXPage::IDC_CLEAR_BUTTON_Click(Platform::Object^ sende
 void Hot3dxRotoDraw::DirectXPage::MyFilePathDXP(Platform::String^ image)
 {
 		Platform::String^ imageName = ref new Platform::String(image->Data());
-		Platform::String^ aPath = ref new Platform::String(L"ms-appx:///Assets/");
+		Platform::String^ aPath = ref new Platform::String(L"ms-appx:///Assets/Textures/");
 		aPath = aPath->Concat(aPath, imageName);
 
 		Uri^ uri = ref new Uri(aPath);
