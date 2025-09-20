@@ -1,3 +1,10 @@
+9-20-25 There is no longer any need to copy files into an x64/x86 Debug or Release Assets or Texture Folder: Folder Creation on installation now happens!
+
+More Error Catches occur and the Scenarios(Dialog Panels) are now easier to read
+
+DrawFunctions2, Top, Bottom, TopBottom along with CalculateMeshFaces() Endpoint(), etc have removed all duplicate vertex and face creation for a smoother draw, Init function
+
+Just in case:
 # If The Current MAIN is not working ... copy the contents where the solution and project are to the closest directory to the drive
 
 # 8-11-25 CoPilot Helped and I have made a lot of changes.It is ridiculously faster as I removed a lot of push_back() and replaced them with self devised formulas for object vertices and indices counts so that is a lot faster.
@@ -161,3 +168,4 @@ Added - Resize including monitor, resultion, pix per inch change, switches acros
       - New or clear button allows another new object to be drawn
       - A lot of try catches for accidental clicks
       - Under the current Solution setup the DirectXToolkitXaml12 is in the $(RootDir)\ Hot3dxRotoDraw can be in any sub-directory
+
