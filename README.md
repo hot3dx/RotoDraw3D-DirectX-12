@@ -1,3 +1,6 @@
+# 9-22-2025 Available on the Microsoft Store as Hot3DXSymmetry3D #
+
+
 9-20-25 There is no longer any need to copy files into an x64/x86 Debug or Release Assets or Texture Folder: Folder Creation on installation now happens!
 
 More Error Catches occur and the Scenarios(Dialog Panels) are now easier to read
@@ -168,4 +171,5 @@ Added - Resize including monitor, resultion, pix per inch change, switches acros
       - New or clear button allows another new object to be drawn
       - A lot of try catches for accidental clicks
       - Under the current Solution setup the DirectXToolkitXaml12 is in the $(RootDir)\ Hot3dxRotoDraw can be in any sub-directory
+
 
